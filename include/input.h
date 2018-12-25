@@ -1,0 +1,16 @@
+#ifndef _INPUT_H
+#define _INPUT_H
+
+#define INPUT_JOY_SENSE		10
+
+void init_input(void);
+
+void update_input(void);
+
+unsigned int get_fire_input_1(void);
+
+unsigned int get_dir_input_1(
+	unsigned int *dir
+	);
+
+#endif
