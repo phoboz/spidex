@@ -28,6 +28,7 @@
 // after each reset, the cartridge title is shown and then main() is called
 // ---------------------------------------------------------------------------
 
+extern const signed char web[];
 struct player player;
 
 int main(void)
@@ -39,8 +40,10 @@ int main(void)
 	while(1)
 	{
 		move_player(&player);
-
 		Wait_Recal();
+		Intensity_1F();
+		draw_synced_list_c(web, 0, 0, 0x80, 0x80);
+		Intensity_5F();
 		draw_player(&player);
 	};
 	

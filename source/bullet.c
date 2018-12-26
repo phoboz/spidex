@@ -78,12 +78,12 @@ void move_bullet(
 		bullet->obj.y += bullet->dy;
 		bullet->obj.x += bullet->dx;
 
-		if (bullet->obj.y < -100 || bullet->obj.y > 100)
+		if (bullet->obj.y < BULLET_MIN_Y || bullet->obj.y > BULLET_MAX_Y)
 		{
 			bullet->active = 0;
 		}
 
-		if (bullet->obj.x < -100 || bullet->obj.x > 100)
+		if (bullet->obj.x < BULLET_MIN_X || bullet->obj.x > BULLET_MAX_X)
 		{
 			bullet->active = 0;
 		}

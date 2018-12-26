@@ -4,7 +4,7 @@
 #include "character.h"
 #include "bullet.h"
 
-#define PLAYER_SCALE			0x60
+#define PLAYER_SCALE			0x40
 #define PLAYER_SPEED			3
 #define PLAYER_ANIM_TRESHOLD	4
 #define PLAYER_MAX_FRAMES		2

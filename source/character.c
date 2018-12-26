@@ -92,6 +92,26 @@ void move_character(
 			break;
 	}
 
+	if (ch->obj.y < CHARACTER_MIN_Y)
+	{
+		ch->obj.y = CHARACTER_MIN_Y;
+	}
+
+	if (ch->obj.y > CHARACTER_MAX_Y)
+	{
+		ch->obj.y = CHARACTER_MAX_Y;
+	}
+
+	if (ch->obj.x < CHARACTER_MIN_X)
+	{
+		ch->obj.x = CHARACTER_MIN_X;
+	}
+
+	if (ch->obj.x > CHARACTER_MAX_X)
+	{
+		ch->obj.x = CHARACTER_MAX_X;
+	}
+
 	if (++ch->counter >= ch->treshold) {
 		ch->counter = 0;
 		if (++ch->frame >= ch->max_frames) {

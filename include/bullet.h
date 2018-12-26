@@ -3,6 +3,11 @@
 
 #include "object.h"
 
+#define BULLET_MIN_Y	-124
+#define BULLET_MAX_Y	 124
+#define BULLET_MIN_X	-118
+#define BULLET_MAX_X	 118
+
 struct bullet {
 	struct object obj;
 	unsigned int active;

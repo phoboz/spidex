@@ -3,6 +3,11 @@
 
 #include "object.h"
 
+#define CHARACTER_MIN_Y	-108
+#define CHARACTER_MAX_Y	 108
+#define CHARACTER_MIN_X	-108
+#define CHARACTER_MAX_X	 108
+
 struct character {
 	struct object obj;
 	signed int move_speed;
