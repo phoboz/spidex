@@ -14,12 +14,26 @@ void init_flyer(
 	signed int x,
 	unsigned int scale,
 	signed int speed,
-	unsigned int treshold,
+	unsigned int num_steps,
+	const struct flyer_path *path,
 	unsigned int max_frames,
+	unsigned int treshold,
 	const signed char **shapes
 	)
 {
+	static unsigned int start_step = 0;
+/*
+	if (++start_step >= num_steps)
+	{
+		start_step = 0;
+	}
+*/
 	init_character(&flyer->ch, y, x, scale, speed, treshold, max_frames, shapes);
+
+	flyer->counter		= 0;
+	flyer->step_counter	= start_step;
+	flyer->num_steps		= num_steps;
+	flyer->path			= path;
 }
 
 void set_dir_flyer(
@@ -42,9 +56,23 @@ void move_flyer(
 {
 	animate_character(&flyer->ch);
 
+	if (++flyer->counter >= flyer->path[flyer->step_counter].treshold)
+	{
+		flyer->counter = 0;
+		set_dir_flyer(flyer, flyer->path[flyer->step_counter].dir);
+		if (++flyer->step_counter >= flyer->num_steps)
+		{
+			flyer->step_counter = 0;
+		}
+	}
+
 	if (move_character(&flyer->ch))
 	{
-		set_dir_flyer(flyer, flyer->ch.dir + 1);
+		if (++flyer->step_counter >= flyer->num_steps)
+		{
+			flyer->step_counter = 0;
+		}
+		set_dir_flyer(flyer, flyer->path[flyer->step_counter].dir);
 	}
 }
 

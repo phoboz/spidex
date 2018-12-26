@@ -3,9 +3,18 @@
 
 #include "character.h"
 
+struct flyer_path {
+	unsigned int treshold;
+	unsigned int dir;
+};
+
 struct flyer
 {
 	struct character ch;
+	unsigned int counter;
+	unsigned int step_counter;
+	unsigned int num_steps;
+	const struct flyer_path *path;
 };
 
 void init_flyer(
@@ -14,8 +23,10 @@ void init_flyer(
 	signed int x,
 	unsigned int scale,
 	signed int speed,
-	unsigned int treshold,
+	unsigned int num_steps,
+	const struct flyer_path *path,
 	unsigned int max_frames,
+	unsigned int treshold,
 	const signed char **shapes
 	);
 
