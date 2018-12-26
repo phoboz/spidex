@@ -22,18 +22,20 @@ void init_flyer(
 	)
 {
 	static unsigned int start_step = 0;
-/*
+
 	if (++start_step >= num_steps)
 	{
 		start_step = 0;
 	}
-*/
+
 	init_character(&flyer->ch, y, x, scale, speed, treshold, max_frames, shapes);
 
 	flyer->counter		= 0;
 	flyer->step_counter	= start_step;
 	flyer->num_steps		= num_steps;
 	flyer->path			= path;
+
+	set_dir_flyer(flyer, flyer->path[flyer->step_counter].dir);
 }
 
 void set_dir_flyer(
