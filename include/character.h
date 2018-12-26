@@ -8,7 +8,8 @@
 #define CHARACTER_MIN_X	 -84
 #define CHARACTER_MAX_X	  84
 
-struct character {
+struct character
+{
 	struct object obj;
 	signed int move_speed;
 	unsigned int dir;
@@ -35,6 +36,10 @@ void init_character(
 void set_dir_character(
 	struct character *ch,
 	unsigned int dir
+	);
+
+void animate_character(
+	struct character *ch
 	);
 
 void move_character(

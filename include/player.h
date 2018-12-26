@@ -13,7 +13,8 @@
 #define PLAYER_BULLET_SPEED		5
 
 
-struct player {
+struct player
+{
 	struct character ch;
 	unsigned int fire_dir;
 	unsigned int counter;

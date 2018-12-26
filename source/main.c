@@ -16,6 +16,7 @@
 #include <vectrex.h>
 #include "input.h"
 #include "player.h"
+#include "flyer.h"
 #include "draw.h"
 
 // ---------------------------------------------------------------------------
@@ -28,23 +29,48 @@
 // after each reset, the cartridge title is shown and then main() is called
 // ---------------------------------------------------------------------------
 
+#define MAX_FLYERS 2
+
 extern const signed char web[];
+extern const signed char *fly[];
+
 struct player player;
+struct flyer flyer[MAX_FLYERS];
 
 int main(void)
 {
+	unsigned int i;
+
 	init_input();
 
 	init_player(&player, 0, 0);
 
+	for (i = 0; i < MAX_FLYERS; i++)
+	{
+		init_flyer(&flyer[i], 40, (signed int) i * 40, 0x40, 3, 2, 2, fly);
+	}
+
 	while(1)
 	{
 		move_player(&player);
+
+		for (i = 0; i < MAX_FLYERS; i++)
+		{
+			move_flyer(&flyer[i]);
+		}
+
 		Wait_Recal();
+
 		Intensity_1F();
 		draw_synced_list_c(web, 0, 0, 0x80, 0x80);
+
 		Intensity_5F();
 		draw_player(&player);
+
+		for (i = 0; i < MAX_FLYERS; i++)
+		{
+			draw_flyer(&flyer[i]);
+		}
 	};
 	
 	// if return value is <= 0, then a warm reset will be performed,

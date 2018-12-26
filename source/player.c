@@ -99,6 +99,7 @@ void move_player(
 		if (trigger)
 		{
 			set_dir_character(&player->ch, dir);
+			animate_character(&player->ch);
 			move_character(&player->ch);
 		}
 	}

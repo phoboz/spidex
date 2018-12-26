@@ -8,7 +8,8 @@
 #define BULLET_MIN_X	 -96
 #define BULLET_MAX_X	  96
 
-struct bullet {
+struct bullet
+{
 	struct object obj;
 	unsigned int active;
 	signed int dy;

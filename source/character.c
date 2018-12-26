@@ -44,6 +44,18 @@ void set_dir_character(
 	ch->dir = dir;
 }
 
+void animate_character(
+	struct character *ch
+	)
+{
+	if (++ch->counter >= ch->treshold) {
+		ch->counter = 0;
+		if (++ch->frame >= ch->max_frames) {
+			ch->frame = 0;
+		}
+	}
+}
+
 void move_character(
 	struct character *ch
 	)

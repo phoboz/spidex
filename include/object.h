@@ -11,7 +11,8 @@
 #define DIR_LEFT			6
 #define DIR_DOWN_LEFT		7
 
-struct object {
+struct object
+{
 	signed int y, x;
 	unsigned int scale;
 	const signed char *shape;
