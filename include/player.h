@@ -5,7 +5,7 @@
 #include "bullet.h"
 
 #define PLAYER_SCALE			0x40
-#define PLAYER_SPEED			3
+#define PLAYER_SPEED			4
 #define PLAYER_ANIM_TRESHOLD	2
 #define PLAYER_MAX_FRAMES		2
 #define PLAYER_MAX_BULLETS		3

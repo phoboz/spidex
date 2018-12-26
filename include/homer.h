@@ -25,7 +25,9 @@ void set_dir_homer(
 	);
 
 void move_homer(
-	struct homer *homer
+	struct homer *homer,
+	signed int dest_y,
+	signed int dest_x
 	);
 
 void draw_homer(

@@ -64,7 +64,7 @@ int main(void)
 
 	for (i = 0; i < MAX_HOMERS; i++)
 	{
-		init_homer(&homer[i], -40, (signed int) i * 40, 0x40, 2, 2, 3, bug);
+		init_homer(&homer[i], -40, (signed int) i * 40, 0x40, 1, 2, 3, bug);
 	}
 
 	while(1)
@@ -78,7 +78,7 @@ int main(void)
 
 		for (i = 0; i < MAX_HOMERS; i++)
 		{
-			move_homer(&homer[i]);
+			move_homer(&homer[i], player.ch.obj.y, player.ch.obj.x);
 		}
 
 		Wait_Recal();
