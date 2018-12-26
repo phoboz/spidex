@@ -38,7 +38,7 @@ void set_dir_character(
 	unsigned int dir
 	);
 
-void animate_character(
+unsigned int animate_character(
 	struct character *ch
 	);
 

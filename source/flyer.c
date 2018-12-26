@@ -56,25 +56,28 @@ void move_flyer(
 	struct flyer *flyer
 	)
 {
-	animate_character(&flyer->ch);
-
-	if (++flyer->counter >= flyer->path[flyer->step_counter].treshold)
+	if (flyer->ch.obj.active)
 	{
-		flyer->counter = 0;
-		set_dir_flyer(flyer, flyer->path[flyer->step_counter].dir);
-		if (++flyer->step_counter >= flyer->num_steps)
-		{
-			flyer->step_counter = 0;
-		}
-	}
+		animate_character(&flyer->ch);
 
-	if (move_character(&flyer->ch))
-	{
-		if (++flyer->step_counter >= flyer->num_steps)
+		if (++flyer->counter >= flyer->path[flyer->step_counter].treshold)
 		{
-			flyer->step_counter = 0;
+			flyer->counter = 0;
+			set_dir_flyer(flyer, flyer->path[flyer->step_counter].dir);
+			if (++flyer->step_counter >= flyer->num_steps)
+			{
+				flyer->step_counter = 0;
+			}
 		}
-		set_dir_flyer(flyer, flyer->path[flyer->step_counter].dir);
+
+		if (move_character(&flyer->ch))
+		{
+			if (++flyer->step_counter >= flyer->num_steps)
+			{
+				flyer->step_counter = 0;
+			}
+			set_dir_flyer(flyer, flyer->path[flyer->step_counter].dir);
+		}
 	}
 }
 

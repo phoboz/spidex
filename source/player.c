@@ -33,7 +33,7 @@ void init_player(
 	player->counter = 0;
 
 	for (i = 0; i < PLAYER_MAX_BULLETS; i++) {
-		player->bullet[i].active = 0;
+		player->bullet[i].obj.active = 0;
 	}
 }
 
@@ -76,7 +76,7 @@ void move_player(
 				player->counter = 0;
 				for (i = 0; i < PLAYER_MAX_BULLETS; i++)
 				{
-					if (!player->bullet[i].active)
+					if (!player->bullet[i].obj.active)
 					{
 						init_bullet(
 							&player->bullet[i],
@@ -120,7 +120,7 @@ void draw_player(
 
 	for (i = 0; i < PLAYER_MAX_BULLETS; i++)
 	{
-		if (player->bullet[i].active)
+		if (player->bullet[i].obj.active)
 		{
 			draw_object(&player->bullet[i].obj);
 		}

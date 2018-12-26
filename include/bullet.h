@@ -11,7 +11,6 @@
 struct bullet
 {
 	struct object obj;
-	unsigned int active;
 	signed int dy;
 	signed int dx;
 };

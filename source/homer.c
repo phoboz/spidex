@@ -42,45 +42,50 @@ void move_homer(
 	signed int dest_x
 	)
 {
-	signed int src_y = homer->ch.obj.y;
-	signed int src_x = homer->ch.obj.x;
+	signed int src_y;
+	signed int src_x;
 
-	animate_character(&homer->ch);
+	if (homer->ch.obj.active)
+	{
+		src_y = homer->ch.obj.y;
+		src_x = homer->ch.obj.x;
 
-	if (src_y < dest_y && src_x < dest_x)
-	{
-		set_dir_homer(homer, DIR_UP_RIGHT);
-	}
-	else if (src_y < dest_y && src_x == dest_x)
-	{
-		set_dir_homer(homer, DIR_UP);
-	}
-	else if (src_y < dest_y && src_x > dest_x)
-	{
-		set_dir_homer(homer, DIR_UP_LEFT);
-	}
-	else if (src_y == dest_y && src_x < dest_x)
-	{
-		set_dir_homer(homer, DIR_RIGHT);
-	}
-	else if (src_y == dest_y && src_x > dest_x)
-	{
-		set_dir_homer(homer, DIR_LEFT);
-	}
-	else if (src_y > dest_y && src_x < dest_x)
-	{
-		set_dir_homer(homer, DIR_DOWN_RIGHT);
-	}
-	else if (src_y > dest_y && src_x == dest_x)
-	{
-		set_dir_homer(homer, DIR_DOWN);
-	}
-	else if (src_y > dest_y && src_x > dest_x)
-	{
-		set_dir_homer(homer, DIR_DOWN_LEFT);
-	}
+		if (src_y < dest_y && src_x < dest_x)
+		{
+			set_dir_homer(homer, DIR_UP_RIGHT);
+		}
+		else if (src_y < dest_y && src_x == dest_x)
+		{
+			set_dir_homer(homer, DIR_UP);
+		}
+		else if (src_y < dest_y && src_x > dest_x)
+		{
+			set_dir_homer(homer, DIR_UP_LEFT);
+		}
+		else if (src_y == dest_y && src_x < dest_x)
+		{
+			set_dir_homer(homer, DIR_RIGHT);
+		}
+		else if (src_y == dest_y && src_x > dest_x)
+		{
+			set_dir_homer(homer, DIR_LEFT);
+		}
+		else if (src_y > dest_y && src_x < dest_x)
+		{
+			set_dir_homer(homer, DIR_DOWN_RIGHT);
+		}
+		else if (src_y > dest_y && src_x == dest_x)
+		{
+			set_dir_homer(homer, DIR_DOWN);
+		}
+		else if (src_y > dest_y && src_x > dest_x)
+		{
+			set_dir_homer(homer, DIR_DOWN_LEFT);
+		}
 
-	move_character(&homer->ch);
+		animate_character(&homer->ch);
+		move_character(&homer->ch);
+	}
 }
 
 void draw_homer(

@@ -13,6 +13,7 @@
 
 struct object
 {
+	unsigned int active;
 	signed int y, x;
 	unsigned int scale;
 	const signed char *shape;

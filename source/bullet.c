@@ -19,8 +19,6 @@ void init_bullet(
 {
 	init_object(&bullet->obj, y, x, scale, shape);
 
-	bullet->active = 1;
-
 	switch (dir) {
 		case DIR_DOWN:
 			bullet->dy = -speed;
@@ -73,19 +71,19 @@ void move_bullet(
 	struct bullet *bullet
 	)
 {
-	if (bullet->active)
+	if (bullet->obj.active)
 	{
 		bullet->obj.y += bullet->dy;
 		bullet->obj.x += bullet->dx;
 
 		if (bullet->obj.y < BULLET_MIN_Y || bullet->obj.y > BULLET_MAX_Y)
 		{
-			bullet->active = 0;
+			bullet->obj.active = 0;
 		}
 
 		if (bullet->obj.x < BULLET_MIN_X || bullet->obj.x > BULLET_MAX_X)
 		{
-			bullet->active = 0;
+			bullet->obj.active = 0;
 		}
 	}
 }
@@ -94,10 +92,7 @@ void draw_bullet(
 	struct bullet *bullet
 	)
 {
-	if (bullet->active)
-	{
-		draw_object(&bullet->obj);
-	}
+	draw_object(&bullet->obj);
 }
 
 // ***************************************************************************

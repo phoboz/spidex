@@ -17,6 +17,8 @@ void init_object(
 	const signed char *shape
 	)
 {
+	obj->active = 1;
+
 	obj->y = y;
 	obj->x = x;
 
@@ -28,7 +30,10 @@ void draw_object(
 	struct object *obj
 	)
 {
-	draw_synced_list_c(obj->shape, obj->y, obj->x, OBJECT_MOVE_SCALE, obj->scale);
+	if (obj->active)
+	{
+		draw_synced_list_c(obj->shape, obj->y, obj->x, OBJECT_MOVE_SCALE, obj->scale);
+	}
 }
 
 // ***************************************************************************
