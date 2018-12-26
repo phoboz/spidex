@@ -56,10 +56,11 @@ void animate_character(
 	}
 }
 
-void move_character(
+unsigned int move_character(
 	struct character *ch
 	)
 {
+	unsigned int stopped = 0;
 	signed int speed = ch->move_speed;
 
 	switch (ch->dir)
@@ -107,29 +108,28 @@ void move_character(
 	if (ch->obj.y < CHARACTER_MIN_Y)
 	{
 		ch->obj.y = CHARACTER_MIN_Y;
+		stopped = 1;
 	}
 
 	if (ch->obj.y > CHARACTER_MAX_Y)
 	{
 		ch->obj.y = CHARACTER_MAX_Y;
+		stopped = 1;
 	}
 
 	if (ch->obj.x < CHARACTER_MIN_X)
 	{
 		ch->obj.x = CHARACTER_MIN_X;
+		stopped = 1;
 	}
 
 	if (ch->obj.x > CHARACTER_MAX_X)
 	{
 		ch->obj.x = CHARACTER_MAX_X;
+		stopped = 1;
 	}
 
-	if (++ch->counter >= ch->treshold) {
-		ch->counter = 0;
-		if (++ch->frame >= ch->max_frames) {
-			ch->frame = 0;
-		}
-	}
+	return stopped;
 }
 
 void draw_character(

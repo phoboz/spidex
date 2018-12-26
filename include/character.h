@@ -42,7 +42,7 @@ void animate_character(
 	struct character *ch
 	);
 
-void move_character(
+unsigned int move_character(
 	struct character *ch
 	);
 

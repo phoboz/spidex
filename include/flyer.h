@@ -19,6 +19,11 @@ void init_flyer(
 	const signed char **shapes
 	);
 
+void set_dir_flyer(
+	struct flyer *flyer,
+	unsigned int dir
+	);
+
 void move_flyer(
 	struct flyer *flyer
 	);

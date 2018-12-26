@@ -47,7 +47,7 @@ int main(void)
 
 	for (i = 0; i < MAX_FLYERS; i++)
 	{
-		init_flyer(&flyer[i], 40, (signed int) i * 40, 0x40, 3, 2, 2, fly);
+		init_flyer(&flyer[i], 40, (signed int) i * 40, 0x40, 1, 2, 2, fly);
 	}
 
 	while(1)
