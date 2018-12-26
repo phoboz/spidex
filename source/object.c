@@ -28,7 +28,7 @@ void draw_object(
 	struct object *obj
 	)
 {
-	draw_synced_list_c(obj->shape, obj->y, obj->x, 0x60, obj->scale);
+	draw_synced_list_c(obj->shape, obj->y, obj->x, OBJECT_MOVE_SCALE, obj->scale);
 }
 
 // ***************************************************************************

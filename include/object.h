@@ -1,6 +1,7 @@
 #ifndef _OBJECT_H
 #define _OBJECT_H
 
+#define OBJECT_MOVE_SCALE	0x80
 #define DIR_DOWN			0
 #define DIR_DOWN_RIGHT		1
 #define DIR_RIGHT			2
