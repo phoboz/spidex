@@ -17,6 +17,7 @@
 #include "input.h"
 #include "player.h"
 #include "flyer.h"
+#include "homer.h"
 #include "draw.h"
 
 // ---------------------------------------------------------------------------
@@ -30,12 +31,13 @@
 // ---------------------------------------------------------------------------
 
 #define MAX_FLYERS 2
+#define MAX_HOMERS 1
 
 extern const signed char web[];
 extern const signed char *fly[];
+extern const signed char *bug[];
 
 struct player player;
-struct flyer flyer[MAX_FLYERS];
 const struct flyer_path path[] =
 {
 	/* treshold		dir */
@@ -44,6 +46,8 @@ const struct flyer_path path[] =
 	{12,				DIR_LEFT},
 	{12,				DIR_UP}
 };
+struct flyer flyer[MAX_FLYERS];
+struct homer homer[MAX_HOMERS];
 
 int main(void)
 {
@@ -58,6 +62,11 @@ int main(void)
 		init_flyer(&flyer[i], 40, (signed int) i * 40, 0x40, 1, 4, path, 2, 2, fly);
 	}
 
+	for (i = 0; i < MAX_HOMERS; i++)
+	{
+		init_homer(&homer[i], -40, (signed int) i * 40, 0x40, 2, 2, 3, bug);
+	}
+
 	while(1)
 	{
 		move_player(&player);
@@ -65,6 +74,11 @@ int main(void)
 		for (i = 0; i < MAX_FLYERS; i++)
 		{
 			move_flyer(&flyer[i]);
+		}
+
+		for (i = 0; i < MAX_HOMERS; i++)
+		{
+			move_homer(&homer[i]);
 		}
 
 		Wait_Recal();
@@ -78,6 +92,11 @@ int main(void)
 		for (i = 0; i < MAX_FLYERS; i++)
 		{
 			draw_flyer(&flyer[i]);
+		}
+
+		for (i = 0; i < MAX_HOMERS; i++)
+		{
+			draw_homer(&homer[i]);
 		}
 	};
 	
