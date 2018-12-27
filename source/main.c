@@ -17,6 +17,7 @@
 #include "input.h"
 #include "player.h"
 #include "enemy.h"
+#include "wave.h"
 #include "draw.h"
 
 // ---------------------------------------------------------------------------
@@ -34,23 +35,8 @@
 #define MAX_ENEMIES (MAX_FLYERS + MAX_HOMERS)
 
 extern const signed char web[];
-extern const signed char *fly[];
-extern const signed char *bug[];
-extern const signed char *bee[];
 
 struct player player;
-const struct enemy_path path[] =
-{
-	/* treshold		dir */
-	{3,				DIR_DOWN},
-	{3,				DIR_DOWN_RIGHT},
-	{3,				DIR_RIGHT},
-	{3,				DIR_UP_RIGHT},
-	{3,				DIR_UP},
-	{3,				DIR_UP_LEFT},
-	{3,				DIR_LEFT},
-	{3,				DIR_DOWN_LEFT}
-};
 struct enemy enemy[MAX_ENEMIES];
 
 int main(void)
@@ -63,7 +49,7 @@ int main(void)
 
 	for (i = 0; i < MAX_FLYERS; i++)
 	{
-		init_enemy(&enemy[i], 40, (signed int) i * 40, &enemy_races[0], 8, path);
+		init_enemy(&enemy[i], 40, (signed int) i * 40, &enemy_races[0], enemy_paths[1].num_steps, enemy_paths[1].path);
 	}
 
 	for (i = 0; i < MAX_HOMERS; i++)
