@@ -63,12 +63,12 @@ int main(void)
 
 	for (i = 0; i < MAX_FLYERS; i++)
 	{
-		init_enemy(&enemy[i], 40, (signed int) i * 40, 9, 9, 0x40, ENEMY_TYPE_FLYER, 1, 8, path, 2, 2, bee);
+		init_enemy(&enemy[i], 40, (signed int) i * 40, &enemy_races[0], 8, path);
 	}
 
 	for (i = 0; i < MAX_HOMERS; i++)
 	{
-		init_enemy(&enemy[i+MAX_FLYERS], -40, (signed int) i * 40, 12, 12, 0x40, ENEMY_TYPE_HOMER, 1, 0, 0, 2, 3, bug);
+		init_enemy(&enemy[i+MAX_FLYERS], -40, (signed int) i * 40, &enemy_races[1], 0, 0);
 	}
 
 	while(1)

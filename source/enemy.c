@@ -7,21 +7,24 @@
 
 // ---------------------------------------------------------------------------
 
+extern const signed char *fly[];
+extern const signed char *bug[];
+extern const signed char *bee[];
+
+const struct enemy_race enemy_races[] =
+{
+	/*	h	w	scale	type				speed	max_frames	treshold		shapes	*/
+	{	9,	9,	0x40,	ENEMY_TYPE_FLYER,	1,		2,			2,			bee		},
+	{	12,	12,	0x40,	ENEMY_TYPE_HOMER,	1,		2,			3,			bug		}
+};
 
 void init_enemy(
 	struct enemy *enemy,
 	signed int y,
 	signed int x,
-	signed int h,
-	signed int w,
-	unsigned int scale,
-	unsigned int type,
-	signed int speed,
+	const struct enemy_race *race, 
 	unsigned int num_steps,
-	const struct enemy_path *path,
-	unsigned int max_frames,
-	unsigned int treshold,
-	const signed char **shapes
+	const struct enemy_path *path
 	)
 {
 	static unsigned int start_step = 0;
@@ -31,9 +34,20 @@ void init_enemy(
 		start_step = 0;
 	}
 
-	init_character(&enemy->ch, y, x, h, w, scale, speed, treshold, max_frames, shapes);
+	init_character(
+		&enemy->ch,
+		y,
+		x,
+		race->h,
+		race->w,
+		race->scale,
+		race->speed,
+		race->treshold,
+		race->max_frames,
+		race->shapes
+		);
 
-	enemy->type			= type;
+	enemy->type			= race->type;
 	enemy->counter		= 0;
 	enemy->step_counter	= start_step;
 	enemy->num_steps		= num_steps;

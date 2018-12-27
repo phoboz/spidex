@@ -25,20 +25,24 @@ struct enemy
 	unsigned int stop_counter;
 };
 
+struct enemy_race {
+	signed int h;
+	signed int w;
+	unsigned int scale;
+	unsigned int type;
+	signed int speed;
+	unsigned int max_frames;
+	unsigned int treshold;
+	const signed char **shapes;
+};
+
 void init_enemy(
 	struct enemy *enemy,
 	signed int y,
 	signed int x,
-	signed int h,
-	signed int w,
-	unsigned int scale,
-	unsigned int type,
-	signed int speed,
+	const struct enemy_race *race, 
 	unsigned int num_steps,
-	const struct enemy_path *path,
-	unsigned int max_frames,
-	unsigned int treshold,
-	const signed char **shapes
+	const struct enemy_path *path
 	);
 
 void set_dir_enemy(
@@ -59,5 +63,7 @@ void hit_enemy(
 void draw_enemy(
 	struct enemy *enemy
 	);
+
+extern const struct enemy_race enemy_races[];
 
 #endif
