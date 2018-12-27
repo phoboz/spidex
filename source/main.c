@@ -42,10 +42,14 @@ struct player player;
 const struct enemy_path path[] =
 {
 	/* treshold		dir */
-	{12,				DIR_RIGHT},
-	{12,				DIR_DOWN},
-	{12,				DIR_LEFT},
-	{12,				DIR_UP}
+	{3,				DIR_DOWN},
+	{3,				DIR_DOWN_RIGHT},
+	{3,				DIR_RIGHT},
+	{3,				DIR_UP_RIGHT},
+	{3,				DIR_UP},
+	{3,				DIR_UP_LEFT},
+	{3,				DIR_LEFT},
+	{3,				DIR_DOWN_LEFT}
 };
 struct enemy enemy[MAX_ENEMIES];
 
@@ -59,7 +63,7 @@ int main(void)
 
 	for (i = 0; i < MAX_FLYERS; i++)
 	{
-		init_enemy(&enemy[i], 40, (signed int) i * 40, 9, 9, 0x40, ENEMY_TYPE_FLYER, 1, 4, path, 2, 2, bee);
+		init_enemy(&enemy[i], 40, (signed int) i * 40, 9, 9, 0x40, ENEMY_TYPE_FLYER, 1, 8, path, 2, 2, bee);
 	}
 
 	for (i = 0; i < MAX_HOMERS; i++)

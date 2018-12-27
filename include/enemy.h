@@ -6,6 +6,8 @@
 #define ENEMY_TYPE_FLYER	1
 #define ENEMY_TYPE_HOMER	2
 
+#define ENEMY_STOP_TRESHOLD	3
+
 struct enemy_path {
 	unsigned int treshold;
 	unsigned int dir;
@@ -19,6 +21,8 @@ struct enemy
 	unsigned int step_counter;
 	unsigned int num_steps;
 	const struct enemy_path *path;
+	unsigned int stopped;
+	unsigned int stop_counter;
 };
 
 void init_enemy(

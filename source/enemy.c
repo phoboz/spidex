@@ -39,6 +39,9 @@ void init_enemy(
 	enemy->num_steps		= num_steps;
 	enemy->path			= path;
 
+	enemy->stopped		= 0;
+	enemy->stop_counter	= 0;
+
 	set_dir_enemy(enemy, enemy->path[enemy->step_counter].dir);
 }
 
@@ -139,18 +142,29 @@ void move_enemy(
 {
 	if (enemy->ch.obj.active)
 	{
-		switch (enemy->type)
+		if (enemy->stopped)
 		{
-			case ENEMY_TYPE_FLYER:
-				move_flyer_enemy(enemy);
-				break;
+			if (++enemy->stop_counter >= ENEMY_STOP_TRESHOLD)
+			{
+				enemy->stop_counter = 0;
+				enemy->stopped = 0;
+			}
+		}
+		else
+		{
+			switch (enemy->type)
+			{
+				case ENEMY_TYPE_FLYER:
+					move_flyer_enemy(enemy);
+					break;
 
-			case ENEMY_TYPE_HOMER:
-				move_homer_enemy(enemy, dest_y, dest_x);
-				break;
+				case ENEMY_TYPE_HOMER:
+					move_homer_enemy(enemy, dest_y, dest_x);
+					break;
 
-			default:
-				break;
+				default:
+					break;
+			}
 		}
 	}
 }
@@ -162,6 +176,7 @@ void hit_enemy(
 	if (enemy->type == ENEMY_TYPE_HOMER)
 	{
 		retreat_character(&enemy->ch);
+		enemy->stopped = 1;
 	}
 	else
 	{

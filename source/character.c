@@ -143,7 +143,7 @@ void retreat_character(
 	struct character *ch
 	)
 {
-	signed int speed = ch->move_speed << 2;
+	signed int speed = ch->move_speed << 1;
 
 	switch (ch->dir)
 	{
