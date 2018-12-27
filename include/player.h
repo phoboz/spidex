@@ -43,7 +43,7 @@ void move_player(
 	struct player *player
 	);
 
-unsigned int hit_by_enemy_player(
+unsigned int interaction_enemies_player(
 	struct player *player,
 	unsigned int num_enemies,
 	struct enemy *enemies

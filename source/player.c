@@ -117,13 +117,13 @@ void move_player(
 	}
 }
 
-unsigned int hit_by_enemy_player(
+unsigned int interaction_enemies_player(
 	struct player *player,
 	unsigned int num_enemies,
 	struct enemy *enemies
 	)
 {
-	unsigned int i;
+	unsigned int i, j;
 	unsigned int result = 0;
 
 	for (i = 0; i < num_enemies; i++)
@@ -131,7 +131,20 @@ unsigned int hit_by_enemy_player(
 		if (hit_object(&player->ch.obj, &enemies[i].ch.obj))
 		{
 			player->ch.obj.active = 0;
-			result = 1;
+		}
+
+		for (j = 0; j < PLAYER_MAX_BULLETS; j++)
+		{
+			if (player->bullet[j].obj.active)
+			{
+				if (hit_object(&player->bullet[j].obj, &enemies[i].ch.obj))
+				{
+					player->bullet[j].obj.active = 0;
+					enemies[i].ch.obj.active = 0;
+					result = 1 + i;
+					break;
+				}
+			}
 		}
 	}
 

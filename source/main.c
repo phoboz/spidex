@@ -76,7 +76,7 @@ int main(void)
 			move_enemy(&enemy[i], player.ch.obj.y, player.ch.obj.x);
 		}
 
-		hit_by_enemy_player(&player, MAX_ENEMIES, enemy);
+		interaction_enemies_player(&player, MAX_ENEMIES, enemy);
 
 		Wait_Recal();
 
