@@ -16,8 +16,7 @@
 #include <vectrex.h>
 #include "input.h"
 #include "player.h"
-#include "flyer.h"
-#include "homer.h"
+#include "enemy.h"
 #include "draw.h"
 
 // ---------------------------------------------------------------------------
@@ -32,13 +31,14 @@
 
 #define MAX_FLYERS 2
 #define MAX_HOMERS 1
+#define MAX_ENEMIES (MAX_FLYERS + MAX_HOMERS)
 
 extern const signed char web[];
 extern const signed char *fly[];
 extern const signed char *bug[];
 
 struct player player;
-const struct flyer_path path[] =
+const struct enemy_path path[] =
 {
 	/* treshold		dir */
 	{12,				DIR_RIGHT},
@@ -46,8 +46,7 @@ const struct flyer_path path[] =
 	{12,				DIR_LEFT},
 	{12,				DIR_UP}
 };
-struct flyer flyer[MAX_FLYERS];
-struct homer homer[MAX_HOMERS];
+struct enemy enemy[MAX_ENEMIES];
 
 int main(void)
 {
@@ -59,26 +58,21 @@ int main(void)
 
 	for (i = 0; i < MAX_FLYERS; i++)
 	{
-		init_flyer(&flyer[i], 40, (signed int) i * 40, 0x40, 1, 4, path, 2, 2, fly);
+		init_enemy(&enemy[i], 40, (signed int) i * 40, 0x40, ENEMY_TYPE_FLYER, 1, 4, path, 2, 2, fly);
 	}
 
 	for (i = 0; i < MAX_HOMERS; i++)
 	{
-		init_homer(&homer[i], -40, (signed int) i * 40, 0x40, 1, 2, 3, bug);
+		init_enemy(&enemy[i+MAX_FLYERS], -40, (signed int) i * 40, 0x40, ENEMY_TYPE_HOMER, 1, 0, 0, 2, 3, bug);
 	}
 
 	while(1)
 	{
 		move_player(&player);
 
-		for (i = 0; i < MAX_FLYERS; i++)
+		for (i = 0; i < MAX_ENEMIES; i++)
 		{
-			move_flyer(&flyer[i]);
-		}
-
-		for (i = 0; i < MAX_HOMERS; i++)
-		{
-			move_homer(&homer[i], player.ch.obj.y, player.ch.obj.x);
+			move_enemy(&enemy[i], player.ch.obj.y, player.ch.obj.x);
 		}
 
 		Wait_Recal();
@@ -89,14 +83,9 @@ int main(void)
 		Intensity_5F();
 		draw_player(&player);
 
-		for (i = 0; i < MAX_FLYERS; i++)
+		for (i = 0; i < MAX_ENEMIES; i++)
 		{
-			draw_flyer(&flyer[i]);
-		}
-
-		for (i = 0; i < MAX_HOMERS; i++)
-		{
-			draw_homer(&homer[i]);
+			draw_enemy(&enemy[i]);
 		}
 	};
 	
