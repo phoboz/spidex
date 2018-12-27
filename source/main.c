@@ -59,12 +59,12 @@ int main(void)
 
 	for (i = 0; i < MAX_FLYERS; i++)
 	{
-		init_enemy(&enemy[i], 40, (signed int) i * 40, 0x40, ENEMY_TYPE_FLYER, 1, 4, path, 2, 2, bee);
+		init_enemy(&enemy[i], 40, (signed int) i * 40, 9, 9, 0x40, ENEMY_TYPE_FLYER, 1, 4, path, 2, 2, bee);
 	}
 
 	for (i = 0; i < MAX_HOMERS; i++)
 	{
-		init_enemy(&enemy[i+MAX_FLYERS], -40, (signed int) i * 40, 0x40, ENEMY_TYPE_HOMER, 1, 0, 0, 2, 3, bug);
+		init_enemy(&enemy[i+MAX_FLYERS], -40, (signed int) i * 40, 12, 12, 0x40, ENEMY_TYPE_HOMER, 1, 0, 0, 2, 3, bug);
 	}
 
 	while(1)
@@ -75,6 +75,8 @@ int main(void)
 		{
 			move_enemy(&enemy[i], player.ch.obj.y, player.ch.obj.x);
 		}
+
+		hit_by_enemy_player(&player, MAX_ENEMIES, enemy);
 
 		Wait_Recal();
 

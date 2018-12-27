@@ -12,6 +12,8 @@ void init_enemy(
 	struct enemy *enemy,
 	signed int y,
 	signed int x,
+	signed int h,
+	signed int w,
 	unsigned int scale,
 	unsigned int type,
 	signed int speed,
@@ -29,7 +31,7 @@ void init_enemy(
 		start_step = 0;
 	}
 
-	init_character(&enemy->ch, y, x, scale, speed, treshold, max_frames, shapes);
+	init_character(&enemy->ch, y, x, h, w, scale, speed, treshold, max_frames, shapes);
 
 	enemy->type			= type;
 	enemy->counter		= 0;

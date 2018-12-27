@@ -11,6 +11,8 @@ void init_character(
 	struct character *ch,
 	signed int y,
 	signed int x,
+	signed int h,
+	signed int w,
 	unsigned int scale,
 	signed int speed,
 	unsigned int treshold,
@@ -18,7 +20,7 @@ void init_character(
 	const signed char **shapes
 	)
 {
-	init_object(&ch->obj, y, x, scale, shapes[0]);
+	init_object(&ch->obj, y, x, h, w, scale, shapes[0]);
 
 	ch->dir 			= DIR_DOWN;
 	ch->move_speed	= speed;

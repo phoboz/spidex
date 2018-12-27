@@ -19,6 +19,8 @@ void init_bullet(
 	struct bullet *bullet,
 	signed int y,
 	signed int x,
+	signed int h,
+	signed int w,
 	unsigned int dir,
 	signed int speed,
 	unsigned int scale,

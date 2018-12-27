@@ -2,12 +2,18 @@
 #define _PLAYER_H
 
 #include "character.h"
+#include "enemy.h"
 #include "bullet.h"
 
+#define PLAYER_HEIGHT			14
+#define PLAYER_WIDTH			13
 #define PLAYER_SCALE			0x40
 #define PLAYER_SPEED			4
 #define PLAYER_ANIM_TRESHOLD	2
 #define PLAYER_MAX_FRAMES		2
+
+#define PLAYER_BULLET_HEIGHT	8
+#define PLAYER_BULLET_WIDTH		8
 #define PLAYER_MAX_BULLETS		3
 #define PLAYER_FIRE_THRESHOLD	8
 #define PLAYER_BULLET_SPEED		5
@@ -35,6 +41,12 @@ void set_dir_player(
 
 void move_player(
 	struct player *player
+	);
+
+unsigned int hit_by_enemy_player(
+	struct player *player,
+	unsigned int num_enemies,
+	struct enemy *enemies
 	);
 
 void draw_player(

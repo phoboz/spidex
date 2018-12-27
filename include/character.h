@@ -26,6 +26,8 @@ void init_character(
 	struct character *ch,
 	signed int y,
 	signed int x,
+	signed int h,
+	signed int w,
 	unsigned int scale,
 	signed int speed,
 	unsigned int treshold,

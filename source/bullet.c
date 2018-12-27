@@ -11,13 +11,15 @@ void init_bullet(
 	struct bullet *bullet,
 	signed int y,
 	signed int x,
+	signed int h,
+	signed int w,
 	unsigned int dir,
 	signed int speed,
 	unsigned int scale,
 	const signed char *shape
 	)
 {
-	init_object(&bullet->obj, y, x, scale, shape);
+	init_object(&bullet->obj, y, x, h, w, scale, shape);
 
 	switch (dir) {
 		case DIR_DOWN:

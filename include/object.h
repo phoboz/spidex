@@ -15,6 +15,8 @@ struct object
 {
 	unsigned int active;
 	signed int y, x;
+	signed int h, w;
+	signed int h_2, w_2;
 	unsigned int scale;
 	const signed char *shape;
 };
@@ -24,8 +26,15 @@ void init_object(
 	struct object *obj,
 	signed int y,
 	signed int x,
+	signed int h,
+	signed int w,
 	unsigned int scale,
 	const signed char *shape
+	);
+
+unsigned int hit_object(
+	struct object *obj1,
+	struct object *obj2
 	);
 
 void draw_object(

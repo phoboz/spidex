@@ -23,6 +23,8 @@ void init_player(
 		&player->ch,
 		y,
 		x,
+		PLAYER_HEIGHT,
+		PLAYER_WIDTH,
 		PLAYER_SCALE,
 		PLAYER_SPEED,
 		PLAYER_ANIM_TRESHOLD,
@@ -82,6 +84,8 @@ void move_player(
 							&player->bullet[i],
 							player->ch.obj.y,
 							player->ch.obj.x,
+							PLAYER_BULLET_HEIGHT,
+							PLAYER_BULLET_WIDTH,
 							player->fire_dir,
 							PLAYER_BULLET_SPEED,
 							PLAYER_SCALE,
@@ -108,6 +112,27 @@ void move_player(
 	{
 		move_bullet(&player->bullet[i]);
 	}
+}
+
+unsigned int hit_by_enemy_player(
+	struct player *player,
+	unsigned int num_enemies,
+	struct enemy *enemies
+	)
+{
+	unsigned int i;
+	unsigned int result = 0;
+
+	for (i = 0; i < num_enemies; i++)
+	{
+		if (hit_object(&player->ch.obj, &enemies[i].ch.obj))
+		{
+			player->ch.obj.active = 0;
+			result = 1;
+		}
+	}
+
+	return result;
 }
 
 void draw_player(

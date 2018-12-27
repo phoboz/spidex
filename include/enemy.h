@@ -25,6 +25,8 @@ void init_enemy(
 	struct enemy *enemy,
 	signed int y,
 	signed int x,
+	signed int h,
+	signed int w,
 	unsigned int scale,
 	unsigned int type,
 	signed int speed,
