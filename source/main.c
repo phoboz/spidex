@@ -36,6 +36,7 @@
 extern const signed char web[];
 extern const signed char *fly[];
 extern const signed char *bug[];
+extern const signed char *bee[];
 
 struct player player;
 const struct enemy_path path[] =
@@ -58,7 +59,7 @@ int main(void)
 
 	for (i = 0; i < MAX_FLYERS; i++)
 	{
-		init_enemy(&enemy[i], 40, (signed int) i * 40, 0x40, ENEMY_TYPE_FLYER, 1, 4, path, 2, 2, fly);
+		init_enemy(&enemy[i], 40, (signed int) i * 40, 0x40, ENEMY_TYPE_FLYER, 1, 4, path, 2, 2, bee);
 	}
 
 	for (i = 0; i < MAX_HOMERS; i++)
