@@ -30,9 +30,7 @@
 // after each reset, the cartridge title is shown and then main() is called
 // ---------------------------------------------------------------------------
 
-#define MAX_FLYERS 2
-#define MAX_HOMERS 1
-#define MAX_ENEMIES (MAX_FLYERS + MAX_HOMERS)
+#define MAX_ENEMIES 3
 
 extern const signed char web[];
 
@@ -47,14 +45,16 @@ int main(void)
 
 	init_player(&player, 0, 0);
 
-	for (i = 0; i < MAX_FLYERS; i++)
+	for (i = 0; i < waves[0].num_elements; i++)
 	{
-		init_enemy(&enemy[i], 40, (signed int) i * 40, &enemy_races[0], enemy_paths[1].num_steps, enemy_paths[1].path);
-	}
-
-	for (i = 0; i < MAX_HOMERS; i++)
-	{
-		init_enemy(&enemy[i+MAX_FLYERS], -40, (signed int) i * 40, &enemy_races[1], 0, 0);
+		init_enemy(
+			&enemy[i],
+			waves[0].elements[i].y,
+			waves[0].elements[i].x,
+			&enemy_races[waves[0].elements[i].race_index],
+			enemy_paths[waves[0].elements[i].path_index].num_steps,
+			enemy_paths[waves[0].elements[i].path_index].path
+			);
 	}
 
 	while(1)

@@ -6,6 +6,10 @@
 #define ENEMY_TYPE_FLYER	1
 #define ENEMY_TYPE_HOMER	2
 
+#define ENEMY_RACE_FLY		0
+#define ENEMY_RACE_BEE		1
+#define ENEMY_RACE_BUG		2
+
 #define ENEMY_STOP_TRESHOLD	3
 
 struct enemy_path {
