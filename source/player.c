@@ -140,7 +140,7 @@ unsigned int interaction_enemies_player(
 				if (hit_object(&player->bullet[j].obj, &enemies[i].ch.obj))
 				{
 					player->bullet[j].obj.active = 0;
-					enemies[i].ch.obj.active = 0;
+					hit_enemy(&enemies[i]);
 					result = 1 + i;
 					break;
 				}

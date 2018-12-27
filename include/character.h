@@ -48,6 +48,10 @@ unsigned int move_character(
 	struct character *ch
 	);
 
+void retreat_character(
+	struct character *ch
+	);
+
 void draw_character(
 	struct character *ch
 	);

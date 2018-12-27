@@ -155,6 +155,20 @@ void move_enemy(
 	}
 }
 
+void hit_enemy(
+	struct enemy *enemy
+	)
+{
+	if (enemy->type == ENEMY_TYPE_HOMER)
+	{
+		retreat_character(&enemy->ch);
+	}
+	else
+	{
+		enemy->ch.obj.active = 0;
+	}
+}
+
 void draw_enemy(
 	struct enemy *enemy
 	)

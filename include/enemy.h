@@ -48,6 +48,10 @@ void move_enemy(
 	signed int dest_x
 	);
 
+void hit_enemy(
+	struct enemy *enemy
+	);
+
 void draw_enemy(
 	struct enemy *enemy
 	);
