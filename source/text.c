@@ -7,6 +7,7 @@
 
 // ---------------------------------------------------------------------------
 
+static const unsigned long text_muls[] = { 100, 10, 1 };
 static char text_buffer[4];
 
 static void itoa(
@@ -15,7 +16,6 @@ static void itoa(
 	)
 {
 	unsigned int i, d;
-	unsigned long muls[] = { 100, 10, 1 };
 
 	if (number > 999)
 	{
@@ -25,10 +25,10 @@ static void itoa(
 	for (i = 0; i < 3; i++)
 	{
 		d = 0;
-		while (number >= muls[i])
+		while (number >= text_muls[i])
 		{
 			d++;
-			number -= muls[i];
+			number -= text_muls[i];
 		}
 
 		text[i] = d + '0';
@@ -43,6 +43,7 @@ void print_3digit_number(
 	)
 {
 	itoa(number, text_buffer);
+	Vec_Text_Width = 64;
 	Print_Str_d(y, x, text_buffer);
 }
 
