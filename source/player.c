@@ -32,7 +32,8 @@ void init_player(
 		spider
 		);
 
-	player->counter = 0;
+	player->score		= 0;
+	player->counter	= 0;
 
 	for (i = 0; i < PLAYER_MAX_BULLETS; i++) {
 		player->bullet[i].obj.active = 0;
@@ -151,6 +152,24 @@ unsigned int interaction_enemies_player(
 	}
 
 	return result;
+}
+
+void interaction_food_player(
+	struct player *player,
+	unsigned int num_food,
+	struct food *food
+	)
+{
+	unsigned int i;
+
+	for (i = 0; i < num_food; i++)
+	{
+		if (hit_object(&player->ch.obj, &food[i].obj))
+		{
+			food[i].obj.active = 0;
+			player->score++;
+		}
+	}
 }
 
 void draw_player(

@@ -3,6 +3,7 @@
 
 #include "character.h"
 #include "enemy.h"
+#include "food.h"
 #include "bullet.h"
 
 #define PLAYER_HEIGHT			14
@@ -22,6 +23,7 @@
 struct player
 {
 	struct character ch;
+	unsigned long score;
 	unsigned int fire_dir;
 	unsigned int counter;
 	struct bullet bullet[PLAYER_MAX_BULLETS];
@@ -47,6 +49,12 @@ unsigned int interaction_enemies_player(
 	struct player *player,
 	unsigned int num_enemies,
 	struct enemy *enemies
+	);
+
+void interaction_food_player(
+	struct player *player,
+	unsigned int num_food,
+	struct food *food
 	);
 
 void draw_player(

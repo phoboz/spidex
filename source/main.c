@@ -70,6 +70,11 @@ int main(void)
 			move_enemy(&enemy[i], player.ch.obj.y, player.ch.obj.x);
 		}
 
+		for (i = 0; i < MAX_FOOD; i++)
+		{
+			move_food(&food[i]);
+		}
+
 		enemy_id = interaction_enemies_player(&player, MAX_ENEMIES, enemy);
 		if (enemy_id)
 		{
@@ -86,6 +91,8 @@ int main(void)
 				}
 			}
 		}
+
+		interaction_food_player(&player, MAX_FOOD, food);
 
 		Wait_Recal();
 

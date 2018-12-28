@@ -28,6 +28,20 @@ void init_food(
 	init_object(&food->obj, y, x, FOOD_HEIGHT, FOOD_WIDTH, FOOD_SCALE, food_shape);
 }
 
+void move_food(
+	struct food *food
+	)
+{
+	if (food->obj.active)
+	{
+		if (++food->counter >= FOOD_TRESHOLD)
+		{
+			food->counter = 0;
+			food->obj.active = 0;
+		}
+	}
+}
+
 void draw_food(
 	struct food *food
 	)
