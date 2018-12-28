@@ -19,14 +19,14 @@ const struct enemy_path square_path[] =
 const struct enemy_path circular_path[] =
 {
 	/* treshold		dir */
-	{6,				DIR_DOWN},
-	{6,				DIR_DOWN_RIGHT},
-	{6,				DIR_RIGHT},
-	{6,				DIR_UP_RIGHT},
-	{6,				DIR_UP},
-	{6,				DIR_UP_LEFT},
-	{6,				DIR_LEFT},
-	{6,				DIR_DOWN_LEFT}
+	{12,				DIR_DOWN},
+	{12,				DIR_DOWN_RIGHT},
+	{12,				DIR_RIGHT},
+	{12,				DIR_UP_RIGHT},
+	{12,				DIR_UP},
+	{12,				DIR_UP_LEFT},
+	{12,				DIR_LEFT},
+	{12,				DIR_DOWN_LEFT}
 };
 
 
@@ -39,17 +39,82 @@ const struct path_element enemy_paths[] =
 
 const struct wave_element wave_1[] =
 {
-	/*	y		x		race_index		path_index	*/
-	{	40,		40,		ENEMY_RACE_FLY,	0		},
-	{	40,		80,		ENEMY_RACE_BEE,	1		},
-	{	-40,		0,		ENEMY_RACE_BUG,	0		}
+	/*	treshold		y		x		race_index		path_index	*/
+	{	0,			40,		40,		ENEMY_RACE_FLY,	0		},
+	{	80,			40,		-40,		ENEMY_RACE_FLY,	0		},
+	{	80,			-40,		-40,		ENEMY_RACE_FLY,	0		},
+	{	80,			-40,		40,		ENEMY_RACE_FLY,	0		},
+	{	80,			40,		80,		ENEMY_RACE_BEE,	1		},
+	{	120,			-40,		0,		ENEMY_RACE_BUG,	0		}
 };
 
-const struct wave waves[] =
+const struct wave_def waves[] =
 {
 	/*	num_elmts		wave_elmts	*/
-	{	3,			wave_1		}
+	{	6,			wave_1		}
 };
+
+void init_wave(
+	struct wave *wave
+	)
+{
+	wave->wave_index =		0;
+	wave->counter =		0;
+	wave->element_index =	0;
+	wave->retry =			0;
+}
+
+unsigned int move_wave(
+	struct wave *wave,
+	unsigned int num_enemies,
+	struct enemy *enemies
+	)
+{
+	unsigned int i;
+	unsigned int treshold;
+
+	treshold = waves[wave->wave_index].elements[wave->element_index].treshold;
+
+	if (wave->retry || ++wave->counter >= treshold)
+	{
+		wave->counter = 0;
+
+		wave->retry = 1;
+		for (i = 0; i < num_enemies; i++)
+		{
+			if (!enemies[i].ch.obj.active)
+			{
+				init_enemy(
+					&enemies[i],
+					waves[wave->wave_index].elements[wave->element_index].y,
+					waves[wave->wave_index].elements[wave->element_index].x,
+					&enemy_races[waves[wave->wave_index].elements[wave->element_index].race_index],
+					enemy_paths[waves[wave->wave_index].elements[wave->element_index].path_index].num_steps,
+					enemy_paths[waves[wave->wave_index].elements[wave->element_index].path_index].path
+					);
+				wave->retry = 0;
+				break;
+			}
+		}
+
+		if (wave->retry)
+		{
+			return 0;
+		}
+
+
+		if (++wave->element_index >= waves[wave->wave_index].num_elements)
+		{
+			wave->element_index = 0;
+			if (++wave->wave_index >= MAX_WAVES)
+			{
+				wave->wave_index = 0;
+			}
+		}
+	}
+
+	return 1;
+}
 
 // ***************************************************************************
 // end of file

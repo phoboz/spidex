@@ -38,6 +38,7 @@
 extern const signed char web[];
 
 struct player player;
+struct wave wave;
 struct enemy enemy[MAX_ENEMIES];
 struct food food[MAX_FOOD];
 
@@ -48,8 +49,10 @@ int main(void)
 
 	init_input();
 
+	init_wave(&wave);
 	init_player(&player, 0, 0);
 
+#if 0
 	for (i = 0; i < waves[0].num_elements; i++)
 	{
 		init_enemy(
@@ -61,9 +64,12 @@ int main(void)
 			enemy_paths[waves[0].elements[i].path_index].path
 			);
 	}
+#endif
 
 	while(1)
 	{
+		move_wave(&wave, MAX_ENEMIES, enemy);
+
 		move_player(&player);
 
 		for (i = 0; i < MAX_ENEMIES; i++)
