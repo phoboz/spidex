@@ -13,10 +13,10 @@ extern const signed char *bee[];
 
 const struct enemy_race enemy_races[] =
 {
-	/*	h	w	scale	type				speed	max_frames	treshold		shapes	*/
-	{	7,	7,	0x40,	ENEMY_TYPE_FLYER,	1,		2,			1,			fly		},
-	{	10,	10,	0x40,	ENEMY_TYPE_FLYER,	1,		2,			2,			bee		},
-	{	12,	12,	0x40,	ENEMY_TYPE_HOMER,	1,		2,			3,			bug		}
+	/*	h	w	scale	type				speed	num_hits		treshold		shapes	*/
+	{	7,	7,	0x40,	ENEMY_TYPE_FLYER,	1,		1,			1,			fly		},
+	{	10,	10,	0x40,	ENEMY_TYPE_FLYER,	1,		5,			2,			bee		},
+	{	12,	12,	0x40,	ENEMY_TYPE_HOMER,	1,		-1,			3,			bug		}
 };
 
 void init_enemy(
@@ -44,11 +44,12 @@ void init_enemy(
 		race->scale,
 		race->speed,
 		race->treshold,
-		race->max_frames,
+		2,
 		race->shapes
 		);
 
 	enemy->type			= race->type;
+	enemy->num_hits		= race->num_hits;
 	enemy->counter		= 0;
 	enemy->step_counter	= start_step;
 	enemy->num_steps		= num_steps;
@@ -184,19 +185,28 @@ void move_enemy(
 	}
 }
 
-void hit_enemy(
+unsigned int hit_enemy(
 	struct enemy *enemy
 	)
 {
-	if (enemy->type == ENEMY_TYPE_HOMER)
+	unsigned int result = 0;
+
+	if (enemy->num_hits > 0)
+	{
+		if (--enemy->num_hits == 0)
+		{
+			enemy->ch.obj.active = 0;
+			result = 1;
+		}
+	}
+
+	if (enemy->ch.obj.active)
 	{
 		retreat_character(&enemy->ch);
 		enemy->stopped = 1;
 	}
-	else
-	{
-		enemy->ch.obj.active = 0;
-	}
+
+	return result;
 }
 
 void draw_enemy(

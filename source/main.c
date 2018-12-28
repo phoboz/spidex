@@ -17,6 +17,7 @@
 #include "input.h"
 #include "player.h"
 #include "enemy.h"
+#include "food.h"
 #include "wave.h"
 #include "draw.h"
 
@@ -30,16 +31,19 @@
 // after each reset, the cartridge title is shown and then main() is called
 // ---------------------------------------------------------------------------
 
-#define MAX_ENEMIES 3
+#define MAX_ENEMIES	3
+#define MAX_FOOD		5
 
 extern const signed char web[];
 
 struct player player;
 struct enemy enemy[MAX_ENEMIES];
+struct food food[MAX_FOOD];
 
 int main(void)
 {
 	unsigned int i;
+	unsigned int enemy_id;
 
 	init_input();
 
@@ -66,7 +70,22 @@ int main(void)
 			move_enemy(&enemy[i], player.ch.obj.y, player.ch.obj.x);
 		}
 
-		interaction_enemies_player(&player, MAX_ENEMIES, enemy);
+		enemy_id = interaction_enemies_player(&player, MAX_ENEMIES, enemy);
+		if (enemy_id)
+		{
+			for (i = 0; i < MAX_FOOD; i++)
+			{
+				if (!food[i].obj.active)
+				{
+					init_food(
+						&food[i],
+						enemy[enemy_id - 1].ch.obj.y,
+						enemy[enemy_id - 1].ch.obj.x
+						);
+					break;
+				}
+			}
+		}
 
 		Wait_Recal();
 
@@ -79,6 +98,11 @@ int main(void)
 		for (i = 0; i < MAX_ENEMIES; i++)
 		{
 			draw_enemy(&enemy[i]);
+		}
+
+		for (i = 0; i < MAX_FOOD; i++)
+		{
+			draw_food(&food[i]);
 		}
 	};
 	

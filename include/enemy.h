@@ -21,6 +21,7 @@ struct enemy
 {
 	struct character ch;
 	unsigned int type;
+	signed int num_hits;
 	unsigned int counter;
 	unsigned int step_counter;
 	unsigned int num_steps;
@@ -35,7 +36,7 @@ struct enemy_race {
 	unsigned int scale;
 	unsigned int type;
 	signed int speed;
-	unsigned int max_frames;
+	signed int num_hits;
 	unsigned int treshold;
 	const signed char **shapes;
 };
@@ -60,7 +61,7 @@ void move_enemy(
 	signed int dest_x
 	);
 
-void hit_enemy(
+unsigned int hit_enemy(
 	struct enemy *enemy
 	);
 
