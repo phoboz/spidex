@@ -20,6 +20,7 @@
 #include "food.h"
 #include "wave.h"
 #include "draw.h"
+#include "text.h"
 
 // ---------------------------------------------------------------------------
 // cold reset: the vectrex logo is shown, all ram data is cleared
@@ -95,6 +96,9 @@ int main(void)
 		interaction_food_player(&player, MAX_FOOD, food);
 
 		Wait_Recal();
+
+		Intensity_5F();
+		print_3digit_number(127, -24, player.score);
 
 		Intensity_1F();
 		draw_synced_list_c(web, 0, 0, 0x80, 0x80);
