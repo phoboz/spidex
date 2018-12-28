@@ -15,7 +15,7 @@ const struct enemy_race enemy_races[] =
 {
 	/*	h	w	scale	type				speed	max_frames	treshold		shapes	*/
 	{	7,	7,	0x40,	ENEMY_TYPE_FLYER,	1,		2,			1,			fly		},
-	{	9,	9,	0x40,	ENEMY_TYPE_FLYER,	1,		2,			1,			bee		},
+	{	10,	10,	0x40,	ENEMY_TYPE_FLYER,	1,		2,			2,			bee		},
 	{	12,	12,	0x40,	ENEMY_TYPE_HOMER,	1,		2,			3,			bug		}
 };
 

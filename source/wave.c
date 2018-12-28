@@ -19,14 +19,14 @@ const struct enemy_path square_path[] =
 const struct enemy_path circular_path[] =
 {
 	/* treshold		dir */
-	{3,				DIR_DOWN},
-	{3,				DIR_DOWN_RIGHT},
-	{3,				DIR_RIGHT},
-	{3,				DIR_UP_RIGHT},
-	{3,				DIR_UP},
-	{3,				DIR_UP_LEFT},
-	{3,				DIR_LEFT},
-	{3,				DIR_DOWN_LEFT}
+	{6,				DIR_DOWN},
+	{6,				DIR_DOWN_RIGHT},
+	{6,				DIR_RIGHT},
+	{6,				DIR_UP_RIGHT},
+	{6,				DIR_UP},
+	{6,				DIR_UP_LEFT},
+	{6,				DIR_LEFT},
+	{6,				DIR_DOWN_LEFT}
 };
 
 
