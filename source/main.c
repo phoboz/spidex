@@ -21,6 +21,8 @@
 #include "wave.h"
 #include "draw.h"
 #include "text.h"
+#include "ayfxPlayer.h"
+#include "fire_snd.h"
 
 // ---------------------------------------------------------------------------
 // cold reset: the vectrex logo is shown, all ram data is cleared
@@ -58,6 +60,7 @@ int main(void)
 	unsigned int i;
 	unsigned int enemy_id;
 	signed int status;
+	unsigned int fire_status = 0;
 
 	unsigned int new_wave_index = 1;
 
@@ -67,7 +70,7 @@ int main(void)
 
 	while(1)
 	{
-		move_player(&player);
+		fire_status = move_player(&player);
 
 		for (i = 0; i < MAX_ENEMIES; i++)
 		{
@@ -111,6 +114,16 @@ int main(void)
 			if (new_wave_index)
 			{
 				Vec_Music_Flag = 1;
+			}
+
+			if (fire_status)
+			{
+				sfx_pointer_1 = (long unsigned int) (&fire_snd_data);
+				sfx_status_1 = 1;
+			}
+			if (sfx_status_1 == 1)
+			{
+				ayfx_sound1();
 			}
 		}
 
