@@ -14,6 +14,7 @@
 // ---------------------------------------------------------------------------
 
 #include <vectrex.h>
+#include "controller.h"
 #include "input.h"
 #include "player.h"
 #include "enemy.h"
@@ -51,6 +52,8 @@ signed int new_frame(void)
 	Wait_Recal();
 
 	Do_Sound();
+
+	Intensity_5F();
 
 	return Vec_Music_Flag;
 }
@@ -137,10 +140,25 @@ int main(void)
 			else
 			{
 				Print_Str_d(-127, -46, "GAME OVER\x80");
+				update_input();
+				if (button_1_4_pressed())
+				{
+					for (i = 0; i < MAX_ENEMIES; i++)
+					{
+						enemy[i].ch.obj.active = 0;
+					}
+
+					for (i = 0; i < MAX_FOOD; i++)
+					{
+						food[i].obj.active = 0;
+					}
+
+					init_wave(&wave);
+					init_player(&player, 0, 0);
+				}
 			}
 		}
 
-		Intensity_5F();
 		print_3digit_number(127, -16, player.score);
 
 		Intensity_1F();
