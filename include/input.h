@@ -13,4 +13,8 @@ unsigned int get_dir_input_1(
 	unsigned int *dir
 	);
 
+unsigned int get_dir_input_2(
+	unsigned int *dir
+	);
+
 #endif

@@ -67,9 +67,9 @@ unsigned int move_player(
 	{
 		update_input();
 
-		if (get_fire_input_1())
-		{
-			trigger = get_dir_input_1(&dir);
+		//if (get_fire_input_1())
+		//{
+			trigger = get_dir_input_2(&dir);
 			if (trigger)
 			{
 				set_fire_dir_player(player, dir);
@@ -101,9 +101,9 @@ unsigned int move_player(
 					}
 				}
 			}
-		}
-		else
-		{
+		//}
+		//else
+		//{
 			trigger = get_dir_input_1(&dir);
 			if (trigger)
 			{
@@ -111,7 +111,7 @@ unsigned int move_player(
 				animate_character(&player->ch);
 				move_character(&player->ch);
 			}
-		}
+		//}
 	}
 
 	for (i = 0; i < PLAYER_MAX_BULLETS; i++)
