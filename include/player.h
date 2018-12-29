@@ -17,7 +17,7 @@
 #define PLAYER_BULLET_WIDTH		8
 #define PLAYER_MAX_BULLETS		3
 #define PLAYER_FIRE_THRESHOLD	8
-#define PLAYER_BULLET_SPEED		5
+#define PLAYER_BULLET_SPEED		6
 
 
 struct player

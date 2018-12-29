@@ -54,64 +54,86 @@ void set_fire_dir_player(
 	player->ch.base_frame = dir << 1;
 }
 
+unsigned int fire_bullet_player(
+	struct player *player,
+	unsigned int dir,
+	unsigned int trigger
+	)
+{
+	unsigned int i;
+	unsigned int fire = 0;
+
+	if (trigger)
+	{
+		set_fire_dir_player(player, dir);
+	}
+
+	if (++player->counter >= PLAYER_FIRE_THRESHOLD)
+	{
+		if (trigger)
+		{
+			player->counter = 0;
+			for (i = 0; i < PLAYER_MAX_BULLETS; i++)
+			{
+				if (!player->bullet[i].obj.active)
+				{
+					init_bullet(
+						&player->bullet[i],
+						player->ch.obj.y,
+						player->ch.obj.x,
+						PLAYER_BULLET_HEIGHT,
+						PLAYER_BULLET_WIDTH,
+						player->fire_dir,
+						PLAYER_BULLET_SPEED,
+						PLAYER_SCALE,
+						star
+						);
+					fire = i + 1;
+					break;
+				}
+			}
+		}
+	}
+
+	return fire;
+}
+
 unsigned int move_player(
 	struct player *player
 	)
 {
-	unsigned int trigger;
-	unsigned int dir;
 	unsigned int i;
+	unsigned int fire_trigger, move_trigger;
+	unsigned int dir;
+	unsigned int fire_tried = 0;
 	unsigned int fire = 0;
 
 	if (player->ch.obj.active)
 	{
 		update_input();
 
-		//if (get_fire_input_1())
-		//{
-			trigger = get_dir_input_2(&dir);
-			if (trigger)
-			{
-				set_fire_dir_player(player, dir);
-			}
-
-			if (++player->counter >= PLAYER_FIRE_THRESHOLD)
-			{
-				if (trigger)
-				{
-					player->counter = 0;
-					for (i = 0; i < PLAYER_MAX_BULLETS; i++)
-					{
-						if (!player->bullet[i].obj.active)
-						{
-							init_bullet(
-								&player->bullet[i],
-								player->ch.obj.y,
-								player->ch.obj.x,
-								PLAYER_BULLET_HEIGHT,
-								PLAYER_BULLET_WIDTH,
-								player->fire_dir,
-								PLAYER_BULLET_SPEED,
-								PLAYER_SCALE,
-								star
-								);
-							fire = 1;
-							break;
-						}
-					}
-				}
-			}
-		//}
-		//else
-		//{
-			trigger = get_dir_input_1(&dir);
-			if (trigger)
+		if (!get_fire_input_1())
+		{
+			move_trigger = get_dir_input_1(&dir);
+			if (move_trigger)
 			{
 				set_dir_character(&player->ch, dir);
 				animate_character(&player->ch);
 				move_character(&player->ch);
 			}
-		//}
+		}
+		else
+		{
+			fire_trigger = get_dir_input_1(&dir);
+			fire = fire_bullet_player(player, dir, fire_trigger);
+			fire_tried = 1;
+		}
+
+		if (!fire && !fire_tried)
+		{
+			fire_trigger = get_dir_input_2(&dir);
+			fire = fire_bullet_player(player, dir, fire_trigger);
+		}
 	}
 
 	for (i = 0; i < PLAYER_MAX_BULLETS; i++)
