@@ -41,6 +41,13 @@ const struct wave_element wave_1[] =
 {
 	/*	treshold		y		x		race_index		path_index	*/
 	{	0,			40,		40,		ENEMY_RACE_FLY,	0		},
+	{	80,			40,		-40,		ENEMY_RACE_FLY,	0		}
+};
+
+const struct wave_element wave_2[] =
+{
+	/*	treshold		y		x		race_index		path_index	*/
+	{	0,			40,		40,		ENEMY_RACE_FLY,	0		},
 	{	80,			40,		-40,		ENEMY_RACE_FLY,	0		},
 	{	80,			-40,		-40,		ENEMY_RACE_FLY,	0		},
 	{	80,			-40,		40,		ENEMY_RACE_FLY,	0		},
@@ -51,7 +58,8 @@ const struct wave_element wave_1[] =
 const struct wave_def waves[] =
 {
 	/*	num_elmts		wave_elmts	*/
-	{	6,			wave_1		}
+	{	2,			wave_1		},
+	{	6,			wave_2		}
 };
 
 void init_wave(
@@ -70,50 +78,73 @@ unsigned int move_wave(
 	struct enemy *enemies
 	)
 {
+	static unsigned int new_wave = 0;
+
 	unsigned int i;
-	unsigned int treshold;
 
-	treshold = waves[wave->wave_index].elements[wave->element_index].treshold;
-
-	if (wave->retry || ++wave->counter >= treshold)
+	if (!new_wave)
 	{
-		wave->counter = 0;
-
-		wave->retry = 1;
-		for (i = 0; i < num_enemies; i++)
+		if (wave->retry || ++wave->counter >= waves[wave->wave_index].elements[wave->element_index].treshold)
 		{
-			if (!enemies[i].ch.obj.active)
+			wave->counter = 0;
+
+			wave->retry = 1;
+			for (i = 0; i < num_enemies; i++)
 			{
-				init_enemy(
-					&enemies[i],
-					waves[wave->wave_index].elements[wave->element_index].y,
-					waves[wave->wave_index].elements[wave->element_index].x,
-					&enemy_races[waves[wave->wave_index].elements[wave->element_index].race_index],
-					enemy_paths[waves[wave->wave_index].elements[wave->element_index].path_index].num_steps,
-					enemy_paths[waves[wave->wave_index].elements[wave->element_index].path_index].path
-					);
-				wave->retry = 0;
-				break;
+				if (!enemies[i].ch.obj.active)
+				{
+					init_enemy(
+						&enemies[i],
+						waves[wave->wave_index].elements[wave->element_index].y,
+						waves[wave->wave_index].elements[wave->element_index].x,
+						&enemy_races[waves[wave->wave_index].elements[wave->element_index].race_index],
+						enemy_paths[waves[wave->wave_index].elements[wave->element_index].path_index].num_steps,
+						enemy_paths[waves[wave->wave_index].elements[wave->element_index].path_index].path
+						);
+					wave->retry = 0;
+					break;
+				}
 			}
-		}
 
-		if (wave->retry)
-		{
-			return 0;
-		}
-
-
-		if (++wave->element_index >= waves[wave->wave_index].num_elements)
-		{
-			wave->element_index = 0;
-			if (++wave->wave_index >= MAX_WAVES)
+			if (wave->retry)
 			{
-				wave->wave_index = 0;
+				return 0;
+			}
+
+			if (++wave->element_index >= waves[wave->wave_index].num_elements)
+			{
+				wave->element_index = 0;
+				new_wave = 1;
 			}
 		}
 	}
 
-	return 1;
+	if (new_wave)
+	{
+		for (i = 0; i < num_enemies; i++)
+		{
+			if (enemies[i].ch.obj.active && enemies[i].num_hits > 0)
+			{
+				return 0;
+			}
+		}
+
+		for (i = 0; i < num_enemies; i++)
+		{
+			enemies[i].ch.obj.active = 0;
+		}
+
+		if (++wave->wave_index >= MAX_WAVES)
+		{
+			wave->wave_index = 0;
+		}
+
+		new_wave = 0;
+
+		return wave->wave_index + 1;
+	}
+
+	return 0;
 }
 
 // ***************************************************************************

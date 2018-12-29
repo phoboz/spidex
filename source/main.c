@@ -42,34 +42,32 @@ struct wave wave;
 struct enemy enemy[MAX_ENEMIES];
 struct food food[MAX_FOOD];
 
+signed int new_frame(void)
+{
+	DP_to_C8();
+	Init_Music_chk(&Vec_Music_9);
+	Wait_Recal();
+
+	Do_Sound();
+
+	return Vec_Music_Flag;
+}
+
 int main(void)
 {
 	unsigned int i;
 	unsigned int enemy_id;
+	signed int status;
+
+	unsigned int new_wave_index = 1;
 
 	init_input();
-
 	init_wave(&wave);
 	init_player(&player, 0, 0);
-
-#if 0
-	for (i = 0; i < waves[0].num_elements; i++)
-	{
-		init_enemy(
-			&enemy[i],
-			waves[0].elements[i].y,
-			waves[0].elements[i].x,
-			&enemy_races[waves[0].elements[i].race_index],
-			enemy_paths[waves[0].elements[i].path_index].num_steps,
-			enemy_paths[waves[0].elements[i].path_index].path
-			);
-	}
-#endif
+	Vec_Music_Flag = 1;
 
 	while(1)
 	{
-		move_wave(&wave, MAX_ENEMIES, enemy);
-
 		move_player(&player);
 
 		for (i = 0; i < MAX_ENEMIES; i++)
@@ -101,10 +99,24 @@ int main(void)
 
 		interaction_food_player(&player, MAX_FOOD, food);
 
-		Wait_Recal();
+		status = new_frame();
+		if (status)
+		{
+			Vec_Text_Width = 64;
+			Print_Str_d(-127, -46, "WAVE \x80");
+			print_3digit_number(-127, 16, (unsigned long) new_wave_index);
+		}
+		else
+		{
+			new_wave_index = move_wave(&wave, MAX_ENEMIES, enemy);
+			if (new_wave_index)
+			{
+				Vec_Music_Flag = 1;
+			}
+		}
 
 		Intensity_5F();
-		print_3digit_number(127, -24, player.score);
+		print_3digit_number(127, -16, player.score);
 
 		Intensity_1F();
 		draw_synced_list_c(web, 0, 0, 0x80, 0x80);

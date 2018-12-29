@@ -3,7 +3,7 @@
 
 #include "enemy.h"
 
-#define MAX_WAVES		1
+#define MAX_WAVES		2
 
 struct path_element
 {

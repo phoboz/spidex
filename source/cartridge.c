@@ -35,11 +35,11 @@ struct cartridge_t
 const struct cartridge_t game_header __attribute__((section(".cartridge"), used)) = 
 {
 	.copyright 		= "g GCE 2019\x80",	// change year if neccessary, do not change "g GCE"
-	.music 			= &Vec_Music_1,		// taken from included headers
+	.music 			= &Vec_Music_2,		// taken from included headers
 	.title_height 	= -8,
-	.title_width 	= 64,
-	.title_y 		= -16,
-	.title_x 		= -32,
+	.title_width 		= 64,
+	.title_y 			= -16,
+	.title_x 			= -32,
 	.title 			= "SPIDEX\x80"	// note that \x00 is automatically appended!
 };
 
