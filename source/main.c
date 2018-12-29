@@ -126,6 +126,20 @@ int main(void)
 			}
 		}
 
+		if (!player.ch.obj.active)
+		{
+			Vec_Text_Width = 64;
+			if (player.num_lives > 0)
+			{
+				Print_Str_d(-127, -46, "LIVES \x80");
+				print_3digit_number(-127, 16, (unsigned long) player.num_lives);
+			}
+			else
+			{
+				Print_Str_d(-127, -46, "GAME OVER\x80");
+			}
+		}
+
 		Intensity_5F();
 		print_3digit_number(127, -16, player.score);
 

@@ -32,8 +32,14 @@ void init_player(
 		spider
 		);
 
-	player->score		= 0;
-	player->counter	= 0;
+	player->score			= 0;
+	player->num_lives		= PLAYER_NUM_LIVES;
+	player->invinsible		= 0;
+
+	player->counter			= 0;
+	player->blink_counter		= 0;
+	player->regen_counter		= 0;
+	player->invinsible_counter	= 0;
 
 	for (i = 0; i < PLAYER_MAX_BULLETS; i++) {
 		player->bullet[i].obj.active = 0;
@@ -110,6 +116,15 @@ unsigned int move_player(
 
 	if (player->ch.obj.active)
 	{
+		if (player->invinsible)
+		{
+			if (++player->invinsible_counter >= PLAYER_INVINSIBLE_TRESHOLD)
+			{
+				player->invinsible_counter = 0;
+				player->invinsible = 0;
+			}
+		}
+
 		update_input();
 
 		if (!get_fire_input_1())
@@ -135,6 +150,19 @@ unsigned int move_player(
 			fire = fire_bullet_player(player, dir, fire_trigger);
 		}
 	}
+	else
+	{
+		if (player->num_lives > 0)
+		{
+			if (++player->regen_counter >= PLAYER_REGEN_TRESHOLD)
+			{
+				player->regen_counter = 0;
+				player->num_lives--;
+				player->invinsible = 1;
+				player->ch.obj.active = 1;
+			}
+		}
+	}
 
 	for (i = 0; i < PLAYER_MAX_BULLETS; i++)
 	{
@@ -153,11 +181,16 @@ unsigned int interaction_enemies_player(
 	unsigned int i, j;
 	unsigned int result = 0;
 
+	if (player->ch.obj.active)
+	{
 	for (i = 0; i < num_enemies; i++)
 	{
-		if (hit_object(&player->ch.obj, &enemies[i].ch.obj))
+		if (!player->invinsible)
 		{
-			player->ch.obj.active = 0;
+			if (hit_object(&player->ch.obj, &enemies[i].ch.obj))
+			{
+				player->ch.obj.active = 0;
+			}
 		}
 
 		for (j = 0; j < PLAYER_MAX_BULLETS; j++)
@@ -175,6 +208,7 @@ unsigned int interaction_enemies_player(
 				}
 			}
 		}
+	}
 	}
 
 	return result;
@@ -204,7 +238,18 @@ void draw_player(
 {
 	unsigned int i;
 
-	draw_character(&player->ch);
+	if (player->invinsible)
+	{
+		if (++player->blink_counter >= PLAYER_BLINK_TRESHOLD)
+		{
+			player->blink_counter = 0;
+			draw_character(&player->ch);
+		}
+	}
+	else
+	{
+		draw_character(&player->ch);
+	}
 
 	for (i = 0; i < PLAYER_MAX_BULLETS; i++)
 	{
