@@ -41,7 +41,7 @@ void set_dir_player(
 	unsigned int dir
 	);
 
-void move_player(
+unsigned int move_player(
 	struct player *player
 	);
 

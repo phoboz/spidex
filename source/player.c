@@ -54,13 +54,14 @@ void set_fire_dir_player(
 	player->ch.base_frame = dir << 1;
 }
 
-void move_player(
+unsigned int move_player(
 	struct player *player
 	)
 {
 	unsigned int trigger;
 	unsigned int dir;
 	unsigned int i;
+	unsigned int fire = 0;
 
 	if (player->ch.obj.active)
 	{
@@ -94,6 +95,7 @@ void move_player(
 								PLAYER_SCALE,
 								star
 								);
+							fire = 1;
 							break;
 						}
 					}
@@ -116,6 +118,8 @@ void move_player(
 	{
 		move_bullet(&player->bullet[i]);
 	}
+
+	return fire;
 }
 
 unsigned int interaction_enemies_player(
