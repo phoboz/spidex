@@ -61,7 +61,6 @@ int main(void)
 	unsigned int enemy_id;
 	signed int status;
 	unsigned int fire_status = 0;
-
 	unsigned int new_wave_index = 1;
 
 	init_input();
@@ -116,7 +115,7 @@ int main(void)
 				Vec_Music_Flag = 1;
 			}
 
-			if (fire_status)
+			if (fire_status && !new_wave_index)
 			{
 				sfx_pointer_1 = (long unsigned int) (&fire_snd_data);
 				sfx_status_1 = 1;
