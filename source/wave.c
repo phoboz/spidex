@@ -70,6 +70,7 @@ void init_wave(
 	wave->counter =		0;
 	wave->element_index =	0;
 	wave->retry =			0;
+	wave->new_wave =		0;
 }
 
 unsigned int move_wave(
@@ -78,11 +79,9 @@ unsigned int move_wave(
 	struct enemy *enemies
 	)
 {
-	static unsigned int new_wave = 0;
-
 	unsigned int i;
 
-	if (!new_wave)
+	if (!wave->new_wave)
 	{
 		if (wave->retry || ++wave->counter >= waves[wave->wave_index].elements[wave->element_index].treshold)
 		{
@@ -114,12 +113,12 @@ unsigned int move_wave(
 			if (++wave->element_index >= waves[wave->wave_index].num_elements)
 			{
 				wave->element_index = 0;
-				new_wave = 1;
+				wave->new_wave = 1;
 			}
 		}
 	}
 
-	if (new_wave)
+	if (wave->new_wave)
 	{
 		for (i = 0; i < num_enemies; i++)
 		{
@@ -139,7 +138,7 @@ unsigned int move_wave(
 			wave->wave_index = 0;
 		}
 
-		new_wave = 0;
+		wave->new_wave = 0;
 
 		return wave->wave_index + 1;
 	}

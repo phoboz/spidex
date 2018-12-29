@@ -64,7 +64,6 @@ int main(void)
 	init_input();
 	init_wave(&wave);
 	init_player(&player, 0, 0);
-	Vec_Music_Flag = 1;
 
 	while(1)
 	{

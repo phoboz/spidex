@@ -32,6 +32,7 @@ struct wave
 	unsigned int counter;
 	unsigned int element_index;
 	unsigned int retry;
+	unsigned int new_wave;
 };
 
 void init_wave(
