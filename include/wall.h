@@ -5,6 +5,8 @@
 
 struct wall
 {
+	unsigned int active;
+
 	signed int y1, x1;
 	signed int y2, x2;
 

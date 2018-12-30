@@ -17,6 +17,8 @@ void init_wall(
 	signed int y1, x1, y2, x2, temp;
 	const signed char *web_wall = web_walls[index];
 
+	wall->active = 1;
+
 	y1 = web_wall[1];
 	x1 = web_wall[2];
 
@@ -59,29 +61,32 @@ unsigned int check_point_on_wall(
 	signed int y1, x1, y2, x2;
 	unsigned int result = 0;
 
-	y1 = wall->y1;
-	x1 = wall->x1;
-
-	y2 = wall->y2;
-	x2 = wall->x2;
-
-	if (y1 == y2 && y > y1 - WALL_CHECK_DELTA && y < y1 + WALL_CHECK_DELTA)
+	if (wall->active)
 	{
-		if (x > x1 && x < x2)
+		y1 = wall->y1;
+		x1 = wall->x1;
+
+		y2 = wall->y2;
+		x2 = wall->x2;
+
+		if (y1 == y2 && y > y1 - WALL_CHECK_DELTA && y < y1 + WALL_CHECK_DELTA)
+		{
+			if (x > x1 && x < x2)
+			{
+				result = 1;
+			} 
+		}
+		else if (x1 == x2 && x > x1 - WALL_CHECK_DELTA && x < x1 + WALL_CHECK_DELTA)
+		{
+			if (y > y1 && y < y2)
+			{
+				result = 1;
+			} 
+		}
+		else if (y > y1 && y < y2 && x > x1 && x < x2)
 		{
 			result = 1;
-		} 
-	}
-	if (x1 == x2 && x > x1 - WALL_CHECK_DELTA && x < x1 + WALL_CHECK_DELTA)
-	{
-		if (y > y1 && y < y2)
-		{
-			result = 1;
-		} 
-	}
-	else if (y > y1 && y < y2 && x > x1 && x < x2)
-	{
-		result = 1;
+		}
 	}
 
 	return result;
@@ -91,9 +96,12 @@ void draw_wall(
 	struct wall *wall
 	)
 {
-	Reset0Ref();
-	Moveto_d(wall->pos[0], wall->pos[1]);
-	Draw_Line_d(wall->vec[0], wall->vec[1]);
+	if (wall->active)
+	{
+		Reset0Ref();
+		Moveto_d(wall->pos[0], wall->pos[1]);
+		Draw_Line_d(wall->vec[0], wall->vec[1]);
+	}
 }
 
 // ***************************************************************************
