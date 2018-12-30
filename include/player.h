@@ -9,7 +9,7 @@
 #define PLAYER_HEIGHT			14
 #define PLAYER_WIDTH			13
 #define PLAYER_SCALE			0x40
-#define PLAYER_SPEED			1
+#define PLAYER_SPEED			4
 #define PLAYER_ANIM_TRESHOLD	2
 #define PLAYER_MAX_FRAMES		2
 
