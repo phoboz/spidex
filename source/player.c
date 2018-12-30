@@ -52,6 +52,7 @@ void set_state_player(
 {
 	player->state = state;
 	player->state_counter = 0;
+	player->ch.obj.scale = PLAYER_SCALE;
 }
 
 void set_fire_dir_player(
@@ -151,6 +152,18 @@ unsigned int move_player(
 				fire = fire_bullet_player(player, dir, fire_trigger);
 			}
 		}
+		else if (player->state == PLAYER_STATE_DYING)
+		{
+			set_fire_dir_player(player, player->fire_dir + 1);
+			if (--player->ch.obj.scale < 1)
+			{
+				player->ch.obj.scale = 1;
+			}
+			if (++player->state_counter >= PLAYER_DYING_TRESHOLD)
+			{
+				set_state_player(player, PLAYER_STATE_DEAD);
+			}
+		}
 		else if (player->state == PLAYER_STATE_DEAD)
 		{
 			if (player->num_lives > 0)
@@ -170,11 +183,11 @@ unsigned int move_player(
 				set_state_player(player, PLAYER_STATE_NORMAL);
 			}
 		}
-	}
 
-	for (i = 0; i < PLAYER_MAX_BULLETS; i++)
-	{
-		move_bullet(&player->bullet[i]);
+		for (i = 0; i < PLAYER_MAX_BULLETS; i++)
+		{
+			move_bullet(&player->bullet[i]);
+		}
 	}
 
 	return fire;
@@ -197,7 +210,7 @@ unsigned int interaction_enemies_player(
 			{
 				if (hit_object(&player->ch.obj, &enemies[i].ch.obj))
 				{
-					set_state_player(player, PLAYER_STATE_DEAD);
+					set_state_player(player, PLAYER_STATE_DYING);
 				}
 			}
 
@@ -249,24 +262,27 @@ void draw_player(
 {
 	unsigned int i;
 
-	if (player->state == PLAYER_STATE_NORMAL)
+	if (player->ch.obj.active)
 	{
-		draw_character(&player->ch);
-	}
-	else if (player->state == PLAYER_STATE_INVINSIBLE)
-	{
-		if (++player->blink_counter >= PLAYER_BLINK_TRESHOLD)
+		if (player->state == PLAYER_STATE_NORMAL || player->state == PLAYER_STATE_DYING)
 		{
-			player->blink_counter = 0;
 			draw_character(&player->ch);
 		}
-	}
-
-	for (i = 0; i < PLAYER_MAX_BULLETS; i++)
-	{
-		if (player->bullet[i].obj.active)
+		else if (player->state == PLAYER_STATE_INVINSIBLE)
 		{
-			draw_object(&player->bullet[i].obj);
+			if (++player->blink_counter >= PLAYER_BLINK_TRESHOLD)
+			{
+				player->blink_counter = 0;
+				draw_character(&player->ch);
+			}
+		}
+
+		for (i = 0; i < PLAYER_MAX_BULLETS; i++)
+		{
+			if (player->bullet[i].obj.active)
+			{
+				draw_object(&player->bullet[i].obj);
+			}
 		}
 	}
 }
