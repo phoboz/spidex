@@ -3,10 +3,12 @@
 // ***************************************************************************
 
 #include <vectrex.h>
+#include "draw.h"
 #include "enemy.h"
 
 // ---------------------------------------------------------------------------
 
+extern const signed char *spiral[];
 extern const signed char *fly[];
 extern const signed char *bug[];
 extern const signed char *bee[];
@@ -51,14 +53,13 @@ void init_enemy(
 	enemy->type			= race->type;
 	enemy->num_hits		= race->num_hits;
 	enemy->counter		= 0;
+	enemy->spawn_counter	= 0;
 	enemy->step_counter	= start_step;
 	enemy->num_steps		= num_steps;
 	enemy->path			= path;
 
-	enemy->stopped		= 0;
-	enemy->stop_counter	= 0;
-
-	set_dir_enemy(enemy, enemy->path[enemy->step_counter].dir);
+	set_dir_enemy(enemy, DIR_DOWN/*enemy->path[enemy->step_counter].dir*/);
+	set_state_enemy(enemy, ENEMY_STATE_SPAWN);
 }
 
 void set_dir_enemy(
@@ -73,6 +74,15 @@ void set_dir_enemy(
 	set_dir_character(&enemy->ch, dir);
 
 	enemy->ch.base_frame = dir << 1;
+}
+
+void set_state_enemy(
+	struct enemy *enemy,
+	unsigned int state
+	)
+{
+	enemy->state = state;
+	enemy->state_counter = 0;
 }
 
 static void move_flyer_enemy(
@@ -158,15 +168,32 @@ void move_enemy(
 {
 	if (enemy->ch.obj.active)
 	{
-		if (enemy->stopped)
+		if (enemy->state == ENEMY_STATE_SPAWN)
 		{
-			if (++enemy->stop_counter >= ENEMY_STOP_TRESHOLD)
+			if (++enemy->ch.counter >= ENEMY_SPAWN_ANIM_TRESHOLD)
 			{
-				enemy->stop_counter = 0;
-				enemy->stopped = 0;
+				enemy->ch.counter = 0;
+				if (++enemy->ch.frame >= ENEMY_SPAWN_ANIM_FRAMES)
+				{
+					enemy->ch.frame = 0;
+				}
+			}
+
+			if (++enemy->state_counter >= ENEMY_SPAWN_TRESHOLD)
+			{
+				enemy->ch.counter = 0;
+				enemy->ch.frame = 0;
+				set_state_enemy(enemy, ENEMY_STATE_MOVE);
 			}
 		}
-		else
+		if (enemy->state == ENEMY_STATE_STOP)
+		{
+			if (++enemy->state_counter >= ENEMY_STOP_TRESHOLD)
+			{
+				set_state_enemy(enemy, ENEMY_STATE_MOVE);
+			}
+		}
+		else if (enemy->state == ENEMY_STATE_MOVE)
 		{
 			switch (enemy->type)
 			{
@@ -203,7 +230,7 @@ unsigned int hit_enemy(
 	if (enemy->ch.obj.active)
 	{
 		retreat_character(&enemy->ch);
-		enemy->stopped = 1;
+		set_state_enemy(enemy, ENEMY_STATE_STOP);
 	}
 
 	return result;
@@ -213,7 +240,23 @@ void draw_enemy(
 	struct enemy *enemy
 	)
 {
-	draw_character(&enemy->ch);
+	if (enemy->state == ENEMY_STATE_SPAWN)
+	{
+		if (enemy->ch.obj.active)
+		{
+			draw_synced_list_c(
+				spiral[enemy->ch.frame],
+				enemy->ch.obj.y,
+				enemy->ch.obj.x,
+				OBJECT_MOVE_SCALE,
+				0x01 + (enemy->state_counter << 1)
+				);
+		}
+	}
+	else
+	{
+		draw_character(&enemy->ch);
+	}
 }
 
 // ***************************************************************************

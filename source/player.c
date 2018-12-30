@@ -185,7 +185,7 @@ unsigned int interaction_enemies_player(
 	{
 	for (i = 0; i < num_enemies; i++)
 	{
-		if (!player->invinsible)
+		if (!player->invinsible && enemies[i].state != ENEMY_STATE_SPAWN)
 		{
 			if (hit_object(&player->ch.obj, &enemies[i].ch.obj))
 			{
@@ -195,16 +195,19 @@ unsigned int interaction_enemies_player(
 
 		for (j = 0; j < PLAYER_MAX_BULLETS; j++)
 		{
-			if (player->bullet[j].obj.active)
+			if (enemies[i].state != ENEMY_STATE_SPAWN)
 			{
-				if (hit_object(&player->bullet[j].obj, &enemies[i].ch.obj))
+				if (player->bullet[j].obj.active)
 				{
-					player->bullet[j].obj.active = 0;
-					if (hit_enemy(&enemies[i]))
+					if (hit_object(&player->bullet[j].obj, &enemies[i].ch.obj))
 					{
-						result = 1 + i;
+						player->bullet[j].obj.active = 0;
+						if (hit_enemy(&enemies[i]))
+						{
+							result = 1 + i;
+						}
+						break;
 					}
-					break;
 				}
 			}
 		}

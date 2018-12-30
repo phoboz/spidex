@@ -3,6 +3,10 @@
 
 #include "character.h"
 
+#define ENEMY_STATE_SPAWN	0
+#define ENEMY_STATE_STOP	1
+#define ENEMY_STATE_MOVE	2
+
 #define ENEMY_TYPE_FLYER	1
 #define ENEMY_TYPE_HOMER	2
 
@@ -10,7 +14,10 @@
 #define ENEMY_RACE_BEE		1
 #define ENEMY_RACE_BUG		2
 
-#define ENEMY_STOP_TRESHOLD	3
+#define ENEMY_SPAWN_TRESHOLD		16
+#define ENEMY_SPAWN_ANIM_TRESHOLD	1
+#define ENEMY_SPAWN_ANIM_FRAMES		8
+#define ENEMY_STOP_TRESHOLD			3
 
 struct enemy_path {
 	unsigned int treshold;
@@ -22,12 +29,13 @@ struct enemy
 	struct character ch;
 	unsigned int type;
 	signed int num_hits;
+	unsigned int state;
 	unsigned int counter;
+	unsigned int spawn_counter;
 	unsigned int step_counter;
 	unsigned int num_steps;
 	const struct enemy_path *path;
-	unsigned int stopped;
-	unsigned int stop_counter;
+	unsigned int state_counter;
 };
 
 struct enemy_race {
@@ -53,6 +61,11 @@ void init_enemy(
 void set_dir_enemy(
 	struct enemy *enemy,
 	unsigned int dir
+	);
+
+void set_state_enemy(
+	struct enemy *enemy,
+	unsigned int state
 	);
 
 void move_enemy(

@@ -5,6 +5,8 @@
 
 #define MAX_WAVES		2
 
+#define WAVE_OBJECT_TYPE_ENEMY	0
+
 struct path_element
 {
 	unsigned int num_steps;
@@ -16,7 +18,8 @@ struct wave_element
 	unsigned int treshold;
 	signed int y;
 	signed int x;
-	unsigned int race_index;
+	unsigned int object_type;
+	unsigned int object_index;
 	unsigned int path_index;
 };
 
