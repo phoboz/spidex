@@ -74,21 +74,21 @@ unsigned int check_point_on_wall(
 		y2 = wall->y2;
 		x2 = wall->x2;
 
-		if (y1 == y2 && y > y1 - WALL_CHECK_DELTA && y < y1 + WALL_CHECK_DELTA)
+		if (y1 == y2 && y >= y1 - WALL_CHECK_DELTA && y <= y1 + WALL_CHECK_DELTA)
 		{
-			if (x > x1 && x < x2)
+			if (x >= x1 && x <= x2)
 			{
 				result = 1;
 			} 
 		}
-		else if (x1 == x2 && x > x1 - WALL_CHECK_DELTA && x < x1 + WALL_CHECK_DELTA)
+		else if (x1 == x2 && x >= x1 - WALL_CHECK_DELTA && x <= x1 + WALL_CHECK_DELTA)
 		{
-			if (y > y1 && y < y2)
+			if (y >= y1 && y <= y2)
 			{
 				result = 1;
 			} 
 		}
-		else if (y > y1 && y < y2 && x > x1 && x < x2)
+		else if (y >= y1 && y <= y2 && x >= x1 && x <= x2)
 		{
 			result = 1;
 		}
