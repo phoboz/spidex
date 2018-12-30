@@ -83,8 +83,6 @@ const signed char web_wall_1_3[]=
 
 const signed char web_wall_1_4[]=
 {	+1,
-	//+36, +20, // move to y, x
-	//-28, +17, // draw to y, x
 	+8, +37, // move to y, x
 	+28, -17, // draw to y, x
 };
