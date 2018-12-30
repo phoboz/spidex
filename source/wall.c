@@ -12,7 +12,7 @@ extern const signed char *web_walls[];
 void init_wall(
 	struct wall *wall,
 	unsigned int index,
-	unsigned int treshold
+	unsigned int time_treshold
 	)
 {
 	signed int y1, x1, y2, x2, temp;
@@ -20,7 +20,9 @@ void init_wall(
 
 	wall->active		= 1;
 	wall->counter		= 0;
-	wall->treshold	= treshold;
+
+	wall->time_counter		= 0;
+	wall->time_treshold	= time_treshold;
 
 	y1 = web_wall[1];
 	x1 = web_wall[2];
@@ -101,10 +103,14 @@ void move_wall(
 {
 	if (wall->active)
 	{
-		if (++wall->counter >= wall->treshold)
+		if (++wall->counter >= WALL_CYCLE_TRESHOLD)
 		{
 			wall->counter = 0;
-			wall->active = 0;
+			if (++wall->time_counter >= wall->time_treshold)
+			{
+				wall->time_counter = 0;
+				wall->active = 0;
+			}
 		}
 	}
 }
