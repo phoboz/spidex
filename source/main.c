@@ -38,6 +38,7 @@
 
 #define MAX_ENEMIES	3
 #define MAX_FOOD		5
+#define LINE_DELTA		16
 
 extern const signed char web[];
 extern const signed char *web_walls[];
@@ -47,15 +48,88 @@ struct wave wave;
 struct enemy enemy[MAX_ENEMIES];
 struct food food[MAX_FOOD];
 
-void draw_web_wall(
-	unsigned int index
+unsigned int check_point_on_line(
+	signed int y,
+	signed int x,
+	signed int y1,
+	signed int x1,
+	signed int y2,
+	signed int x2
 	)
 {
-	const signed char *wall = web_walls[index];
+	signed int temp;
+	unsigned int result = 0;
 
-	Reset0Ref();
-	Moveto_d(wall[1], wall[2]);
-	Draw_Line_d(wall[3], wall[4]);
+	if (y1 > y2)
+	{
+		temp = y1;
+		y1 = y2;
+		y2 = temp; 
+	}
+
+	if (x1 > x2)
+	{
+		temp = x1;
+		x1 = x2;
+		x2 = temp; 
+	}
+
+	if (y1 == y2 && y > y1 - LINE_DELTA && y < y1 + LINE_DELTA)
+	{
+		if (x > x1 && x < x2)
+		{
+			result = 1;
+		} 
+	}
+	if (x1 == x2 && x > x1 - LINE_DELTA && x < x1 + LINE_DELTA)
+	{
+		if (y > y1 && y < y2)
+		{
+			result = 1;
+		} 
+	}
+	else if (y > y1 && y < y2 && x > x1 && x < x2)
+	{
+		result = 1;
+	}
+
+	return result;
+}
+
+void check_web_walls(void)
+{
+	const signed char *wall;
+	unsigned int i;
+	signed int y, x;
+	signed int y1, x1;
+	signed int y2, x2;
+
+	for (i = 0; i < 24; i++)
+	{
+		y = player.ch.obj.y;
+		x = player.ch.obj.x;
+
+		wall = web_walls[i];
+
+		y1 = wall[1];
+		x1 = wall[2];
+
+		y2 = y1 + wall[3];
+		x2 = x1 + wall[4];
+
+		if (check_point_on_line(y, x, y1, x1, y2, x2))
+		{
+			Reset0Ref();
+			Moveto_d(wall[1], wall[2]);
+			Draw_Line_d(wall[3], wall[4]);
+		}
+	}
+#if 0
+wall = web_walls[3];
+Reset0Ref();
+Moveto_d(wall[1], wall[2]);
+Draw_Line_d(wall[3], wall[4]);
+#endif
 }
 
 signed int new_frame(void)
@@ -194,7 +268,7 @@ int main(void)
 		draw_synced_list_c(web, 0, 0, 0x80, 0x80);
 
 		Intensity_5F();
-		draw_web_wall(11);
+		check_web_walls();
 
 		draw_player(&player);
 

@@ -26,8 +26,8 @@ const signed char web[]=
 	(signed char) -1, -16, +0, // draw, y, x
 	(signed char) -1, -28, +16, // draw, y, x
 	(signed char) -1, +0, +40, // draw, y, x
-	(signed char) -1, +28, +16, // draw, y, x
-	(signed char) -1, +16, +1, // draw, y, x
+	(signed char) -1, +28, +17, // draw, y, x
+	(signed char) -1, +16, +0, // draw, y, x
 	(signed char) -1, +28, -17, // draw, y, x
 	(signed char) +0, +27, +16, // mode, y, x
 	(signed char) -1, +0, -73, // draw, y, x
@@ -54,8 +54,8 @@ const signed char web[]=
 	(signed char) -1, +0, +105, // draw, y, x
 	(signed char) -1, +72, +37, // draw, y, x
 	(signed char) -1, +36, +0, // draw, y, x
-	(signed char) -1, +72, -37, // draw, y, x
-	(signed char) -1, +0, -106, // draw, y, x
+	(signed char) -1, +72, -38, // draw, y, x
+	(signed char) -1, +0, -105, // draw, y, x
 	(signed char) -1, -72, -37, // draw, y, x
 	(signed char) -1, -14, +75, // draw, y, x
 	(signed char) -1, +6, +11, // draw, y, x
@@ -77,12 +77,14 @@ const signed char web_wall_1_2[]=
 
 const signed char web_wall_1_3[]=
 {	+1,
-	-8, +36, // move to y, x
-	+16, +1, // draw to y, x
+	-8, +37, // move to y, x
+	+16, +0, // draw to y, x
 };
 
 const signed char web_wall_1_4[]=
 {	+1,
+	//+36, +20, // move to y, x
+	//-28, +17, // draw to y, x
 	+8, +37, // move to y, x
 	+28, -17, // draw to y, x
 };
