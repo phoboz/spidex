@@ -38,7 +38,7 @@ struct player
 	unsigned long score;
 	unsigned int num_lives;
 	unsigned int fire_dir;
-	unsigned int counter;
+	unsigned int fire_counter;
 	unsigned int state_counter;
 	unsigned int blink_counter;
 	unsigned int invinsible_counter;

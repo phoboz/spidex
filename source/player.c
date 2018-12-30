@@ -36,7 +36,7 @@ void init_player(
 	player->score			= 0;
 	player->num_lives		= PLAYER_NUM_LIVES;
 
-	player->counter			= 0;
+	player->fire_counter		= 0;
 	player->state_counter		= 0;
 	player->blink_counter		= 0;
 
@@ -83,11 +83,11 @@ unsigned int fire_bullet_player(
 		set_fire_dir_player(player, dir);
 	}
 
-	if (++player->counter >= PLAYER_FIRE_THRESHOLD)
+	if (++player->fire_counter >= PLAYER_FIRE_THRESHOLD)
 	{
 		if (trigger)
 		{
-			player->counter = 0;
+			player->fire_counter = 0;
 			for (i = 0; i < PLAYER_MAX_BULLETS; i++)
 			{
 				if (!player->bullet[i].obj.active)
@@ -161,6 +161,8 @@ unsigned int move_player(
 			}
 			if (++player->state_counter >= PLAYER_DYING_TRESHOLD)
 			{
+				player->ch.obj.y = 0;
+				player->ch.obj.x = 0;
 				set_state_player(player, PLAYER_STATE_DEAD);
 			}
 		}
