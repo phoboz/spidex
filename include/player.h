@@ -20,21 +20,26 @@
 #define PLAYER_BULLET_SPEED		6
 #define PLAYER_NUM_LIVES		2
 
+#define PLAYER_STATE_NORMAL		0
+#define PLAYER_STATE_DYING		1
+#define PLAYER_STATE_DEAD		2
+#define PLAYER_STATE_INVINSIBLE	3
+
 #define PLAYER_BLINK_TRESHOLD		2
-#define PLAYER_REGEN_TRESHOLD		128
+#define PLAYER_DEAD_TRESHOLD		128
 #define PLAYER_INVINSIBLE_TRESHOLD	64
 
 
 struct player
 {
 	struct character ch;
+	unsigned int state;
 	unsigned long score;
 	unsigned int num_lives;
-	unsigned int invinsible;
 	unsigned int fire_dir;
 	unsigned int counter;
+	unsigned int state_counter;
 	unsigned int blink_counter;
-	unsigned int regen_counter;
 	unsigned int invinsible_counter;
 	struct bullet bullet[PLAYER_MAX_BULLETS];
 };
@@ -46,7 +51,12 @@ void init_player(
 	signed int x
 	);
 
-void set_dir_player(
+void set_state_player(
+	struct player *player,
+	unsigned int state
+	);
+
+void set_fire_dir_player(
 	struct player *player,
 	unsigned int dir
 	);

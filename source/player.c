@@ -32,18 +32,26 @@ void init_player(
 		spider
 		);
 
+	player->state			= PLAYER_STATE_NORMAL;
 	player->score			= 0;
 	player->num_lives		= PLAYER_NUM_LIVES;
-	player->invinsible		= 0;
 
 	player->counter			= 0;
+	player->state_counter		= 0;
 	player->blink_counter		= 0;
-	player->regen_counter		= 0;
-	player->invinsible_counter	= 0;
 
 	for (i = 0; i < PLAYER_MAX_BULLETS; i++) {
 		player->bullet[i].obj.active = 0;
 	}
+}
+
+void set_state_player(
+	struct player *player,
+	unsigned int state
+	)
+{
+	player->state = state;
+	player->state_counter = 0;
 }
 
 void set_fire_dir_player(
@@ -116,50 +124,50 @@ unsigned int move_player(
 
 	if (player->ch.obj.active)
 	{
-		if (player->invinsible)
+		if (player->state == PLAYER_STATE_NORMAL || player->state == PLAYER_STATE_INVINSIBLE)
 		{
-			if (++player->invinsible_counter >= PLAYER_INVINSIBLE_TRESHOLD)
+			update_input();
+
+			if (!get_fire_input_1())
 			{
-				player->invinsible_counter = 0;
-				player->invinsible = 0;
+				move_trigger = get_dir_input_1(&dir);
+				if (move_trigger)
+				{
+					set_dir_character(&player->ch, dir);
+					animate_character(&player->ch);
+					move_character(&player->ch);
+				}
+			}
+			else
+			{
+				fire_trigger = get_dir_input_1(&dir);
+				fire = fire_bullet_player(player, dir, fire_trigger);
+				fire_tried = 1;
+			}
+
+			if (!fire && !fire_tried)
+			{
+				fire_trigger = get_dir_input_2(&dir);
+				fire = fire_bullet_player(player, dir, fire_trigger);
 			}
 		}
-
-		update_input();
-
-		if (!get_fire_input_1())
+		else if (player->state == PLAYER_STATE_DEAD)
 		{
-			move_trigger = get_dir_input_1(&dir);
-			if (move_trigger)
+			if (player->num_lives > 0)
 			{
-				set_dir_character(&player->ch, dir);
-				animate_character(&player->ch);
-				move_character(&player->ch);
+				if (++player->state_counter >= PLAYER_DEAD_TRESHOLD)
+				{
+					player->num_lives--;
+					set_state_player(player, PLAYER_STATE_INVINSIBLE);
+				}
 			}
 		}
-		else
+		
+		if (player->state == PLAYER_STATE_INVINSIBLE)
 		{
-			fire_trigger = get_dir_input_1(&dir);
-			fire = fire_bullet_player(player, dir, fire_trigger);
-			fire_tried = 1;
-		}
-
-		if (!fire && !fire_tried)
-		{
-			fire_trigger = get_dir_input_2(&dir);
-			fire = fire_bullet_player(player, dir, fire_trigger);
-		}
-	}
-	else
-	{
-		if (player->num_lives > 0)
-		{
-			if (++player->regen_counter >= PLAYER_REGEN_TRESHOLD)
+			if (++player->state_counter >= PLAYER_INVINSIBLE_TRESHOLD)
 			{
-				player->regen_counter = 0;
-				player->num_lives--;
-				player->invinsible = 1;
-				player->ch.obj.active = 1;
+				set_state_player(player, PLAYER_STATE_NORMAL);
 			}
 		}
 	}
@@ -183,35 +191,35 @@ unsigned int interaction_enemies_player(
 
 	if (player->ch.obj.active)
 	{
-	for (i = 0; i < num_enemies; i++)
-	{
-		if (!player->invinsible && enemies[i].state != ENEMY_STATE_SPAWN)
+		for (i = 0; i < num_enemies; i++)
 		{
-			if (hit_object(&player->ch.obj, &enemies[i].ch.obj))
+			if (player->state == PLAYER_STATE_NORMAL && enemies[i].state != ENEMY_STATE_SPAWN)
 			{
-				player->ch.obj.active = 0;
-			}
-		}
-
-		for (j = 0; j < PLAYER_MAX_BULLETS; j++)
-		{
-			if (enemies[i].state != ENEMY_STATE_SPAWN)
-			{
-				if (player->bullet[j].obj.active)
+				if (hit_object(&player->ch.obj, &enemies[i].ch.obj))
 				{
-					if (hit_object(&player->bullet[j].obj, &enemies[i].ch.obj))
+					set_state_player(player, PLAYER_STATE_DEAD);
+				}
+			}
+
+			for (j = 0; j < PLAYER_MAX_BULLETS; j++)
+			{
+				if (enemies[i].state != ENEMY_STATE_SPAWN)
+				{
+					if (player->bullet[j].obj.active)
 					{
-						player->bullet[j].obj.active = 0;
-						if (hit_enemy(&enemies[i]))
+						if (hit_object(&player->bullet[j].obj, &enemies[i].ch.obj))
 						{
-							result = 1 + i;
+							player->bullet[j].obj.active = 0;
+							if (hit_enemy(&enemies[i]))
+							{
+								result = 1 + i;
+							}
+							break;
 						}
-						break;
 					}
 				}
 			}
 		}
-	}
 	}
 
 	return result;
@@ -241,17 +249,17 @@ void draw_player(
 {
 	unsigned int i;
 
-	if (player->invinsible)
+	if (player->state == PLAYER_STATE_NORMAL)
+	{
+		draw_character(&player->ch);
+	}
+	else if (player->state == PLAYER_STATE_INVINSIBLE)
 	{
 		if (++player->blink_counter >= PLAYER_BLINK_TRESHOLD)
 		{
 			player->blink_counter = 0;
 			draw_character(&player->ch);
 		}
-	}
-	else
-	{
-		draw_character(&player->ch);
 	}
 
 	for (i = 0; i < PLAYER_MAX_BULLETS; i++)

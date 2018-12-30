@@ -129,7 +129,7 @@ int main(void)
 			}
 		}
 
-		if (!player.ch.obj.active)
+		if (player.state == PLAYER_STATE_DEAD)
 		{
 			Vec_Text_Width = 64;
 			if (player.num_lives > 0)
