@@ -39,7 +39,7 @@
 
 #define MAX_ENEMIES	3
 #define MAX_FOOD		5
-#define MAX_WALLS		24
+#define MAX_WALLS		4
 
 extern const signed char web[];
 

@@ -1,7 +1,7 @@
 #ifndef _WALL_H
 #define _WALL_H
 
-#define WALL_CHECK_DELTA	16
+#define WALL_CHECK_DELTA	8
 
 struct wall
 {
