@@ -24,6 +24,7 @@
 #include "text.h"
 #include "ayfxPlayer.h"
 #include "fire_snd.h"
+#include "fall_snd.h"
 
 // ---------------------------------------------------------------------------
 // cold reset: the vectrex logo is shown, all ram data is cleared
@@ -127,7 +128,7 @@ int main(void)
 			{
 				if (player.state == PLAYER_STATE_DYING)
 				{
-					sfx_pointer_1 = (long unsigned int) (&fire_snd_data);
+					sfx_pointer_1 = (long unsigned int) (&fall_snd_data);
 					sfx_status_1 = 1;
 				}
 			}
