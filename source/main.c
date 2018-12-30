@@ -48,11 +48,18 @@ struct food food[MAX_FOOD];
 
 signed int new_frame(void)
 {
-	DP_to_C8();
-	Init_Music_chk(&Vec_Music_9);
+	if (Vec_Music_Flag)
+	{
+		DP_to_C8();
+		Init_Music_chk(&Vec_Music_9);
+	}
+
 	Wait_Recal();
 
-	Do_Sound();
+	if (Vec_Music_Flag || sfx_status_1 == 1)
+	{
+		Do_Sound();
+	}
 
 	Intensity_5F();
 
