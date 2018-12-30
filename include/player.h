@@ -3,6 +3,7 @@
 
 #include "character.h"
 #include "enemy.h"
+#include "wall.h"
 #include "food.h"
 #include "bullet.h"
 
@@ -64,7 +65,9 @@ void set_fire_dir_player(
 	);
 
 unsigned int move_player(
-	struct player *player
+	struct player *player,
+	unsigned int num_walls,
+	struct wall *walls
 	);
 
 unsigned int interaction_enemies_player(

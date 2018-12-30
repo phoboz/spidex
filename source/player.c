@@ -115,7 +115,9 @@ unsigned int fire_bullet_player(
 }
 
 unsigned int move_player(
-	struct player *player
+	struct player *player,
+	unsigned int num_walls,
+	struct wall *walls
 	)
 {
 	unsigned int i;
@@ -138,6 +140,16 @@ unsigned int move_player(
 					set_dir_character(&player->ch, dir);
 					animate_character(&player->ch);
 					move_character(&player->ch);
+					for (i = 0; i < num_walls; i++)
+					{
+						if (walls[i].active)
+						{
+							if (check_point_on_wall(&walls[i], player->ch.obj.y, player->ch.obj.x))
+							{
+								retreat_character(&player->ch);
+							}
+						}
+					}
 				}
 			}
 			else

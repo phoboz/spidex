@@ -39,16 +39,17 @@ const struct path_element enemy_paths[] =
 
 const struct wave_element wave_1[] =
 {
-	/*	treshold		y		x		object_type				object_index		path_index */
+	/*	treshold		y		x		object_type				object_index		value */
 	{	0,			40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,	0		},
 	{	80,			40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,	0		}
 };
 
 const struct wave_element wave_2[] =
 {
-	/*	treshold		y		x		object_type				object_index		path_index */
+	/*	treshold		y		x		object_type				object_index		value */
 	{	0,			40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,	0		},
 	{	80,			40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,	0		},
+	{	40,			0,		0,		WAVE_OBJECT_TYPE_WALL,		0,				128		},
 	{	80,			-40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,	0		},
 	{	80,			-40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,	0		},
 	{	80,			40,		80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BEE,	1		},
@@ -59,7 +60,7 @@ const struct wave_def waves[] =
 {
 	/*	num_elmts		wave_elmts	*/
 	{	2,			wave_1		},
-	{	6,			wave_2		}
+	{	7,			wave_2		}
 };
 
 void init_wave(
@@ -76,7 +77,9 @@ void init_wave(
 unsigned int move_wave(
 	struct wave *wave,
 	unsigned int num_enemies,
-	struct enemy *enemies
+	struct enemy *enemies,
+	unsigned int num_walls,
+	struct wall *walls
 	)
 {
 	unsigned int i;
@@ -99,8 +102,24 @@ unsigned int move_wave(
 							waves[wave->wave_index].elements[wave->element_index].y,
 							waves[wave->wave_index].elements[wave->element_index].x,
 							&enemy_races[waves[wave->wave_index].elements[wave->element_index].object_index],
-							enemy_paths[waves[wave->wave_index].elements[wave->element_index].path_index].num_steps,
-							enemy_paths[waves[wave->wave_index].elements[wave->element_index].path_index].path
+							enemy_paths[waves[wave->wave_index].elements[wave->element_index].value].num_steps,
+							enemy_paths[waves[wave->wave_index].elements[wave->element_index].value].path
+							);
+						wave->retry = 0;
+						break;
+					}
+				}
+			}
+			else if (waves[wave->wave_index].elements[wave->element_index].object_type == WAVE_OBJECT_TYPE_WALL)
+			{
+				for (i = 0; i < num_walls; i++)
+				{
+					if (!walls[i].active)
+					{
+						init_wall(
+							&walls[i],
+							waves[wave->wave_index].elements[wave->element_index].object_index,
+							waves[wave->wave_index].elements[wave->element_index].value
 							);
 						wave->retry = 0;
 						break;

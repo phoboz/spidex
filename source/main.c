@@ -49,6 +49,96 @@ struct enemy enemy[MAX_ENEMIES];
 struct food food[MAX_FOOD];
 struct wall wall[MAX_WALLS];
 
+void init_enemies(void)
+{
+	unsigned int i;
+
+	for (i = 0; i < MAX_ENEMIES; i++)
+	{
+		enemy[i].ch.obj.active = 0;
+	}
+}
+
+void init_foods(void)
+{
+	unsigned int i;
+
+	for (i = 0; i < MAX_FOOD; i++)
+	{
+		food[i].obj.active = 0;
+	}
+}
+
+void init_walls(void)
+{
+	unsigned int i;
+
+	for (i = 0; i < MAX_WALLS; i++)
+	{
+		wall[i].active = 0;
+	}
+}
+
+void move_enemies(void)
+{
+	unsigned int i;
+
+	for (i = 0; i < MAX_ENEMIES; i++)
+	{
+		move_enemy(&enemy[i], player.ch.obj.y, player.ch.obj.x);
+	}
+}
+
+void move_foods(void)
+{
+	unsigned int i;
+
+	for (i = 0; i < MAX_FOOD; i++)
+	{
+		move_food(&food[i]);
+	}
+}
+
+void move_walls(void)
+{
+	unsigned int i;
+
+	for (i = 0; i < MAX_WALLS; i++)
+	{
+		move_wall(&wall[i]);
+	}
+}
+
+void draw_enemies(void)
+{
+	unsigned int i;
+
+	for (i = 0; i < MAX_ENEMIES; i++)
+	{
+		draw_enemy(&enemy[i]);
+	}
+}
+
+void draw_foods(void)
+{
+	unsigned int i;
+
+	for (i = 0; i < MAX_FOOD; i++)
+	{
+		draw_food(&food[i]);
+	}
+}
+
+void draw_walls(void)
+{
+	unsigned int i;
+
+	for (i = 0; i < MAX_WALLS; i++)
+	{
+		draw_wall(&wall[i]);
+	}
+}
+
 signed int new_frame(void)
 {
 	if (Vec_Music_Flag)
@@ -78,28 +168,18 @@ int main(void)
 	unsigned int new_wave_index = 1;
 
 	init_input();
-
-	for (i = 0; i < MAX_WALLS; i++)
-	{
-		init_wall(&wall[i], i);
-	}
-
-	init_wave(&wave);
 	init_player(&player, 0, 0);
+	init_enemies();
+	init_foods();
+	init_walls();
+	init_wave(&wave);
 
 	while(1)
 	{
-		fire_status = move_player(&player);
-
-		for (i = 0; i < MAX_ENEMIES; i++)
-		{
-			move_enemy(&enemy[i], player.ch.obj.y, player.ch.obj.x);
-		}
-
-		for (i = 0; i < MAX_FOOD; i++)
-		{
-			move_food(&food[i]);
-		}
+		fire_status = move_player(&player, MAX_WALLS, wall);
+		move_enemies();
+		move_foods();
+		move_walls();
 
 		enemy_id = interaction_enemies_player(&player, MAX_ENEMIES, enemy);
 		if (enemy_id)
@@ -129,7 +209,7 @@ int main(void)
 		}
 		else
 		{
-			new_wave_index = move_wave(&wave, MAX_ENEMIES, enemy);
+			new_wave_index = move_wave(&wave, MAX_ENEMIES, enemy, MAX_WALLS, wall);
 			if (new_wave_index)
 			{
 				Vec_Music_Flag = 1;
@@ -169,18 +249,11 @@ int main(void)
 				update_input();
 				if (button_1_4_pressed())
 				{
-					for (i = 0; i < MAX_ENEMIES; i++)
-					{
-						enemy[i].ch.obj.active = 0;
-					}
-
-					for (i = 0; i < MAX_FOOD; i++)
-					{
-						food[i].obj.active = 0;
-					}
-
-					init_wave(&wave);
 					init_player(&player, 0, 0);
+					init_enemies();
+					init_foods();
+					init_walls();
+					init_wave(&wave);
 				}
 			}
 		}
@@ -191,26 +264,12 @@ int main(void)
 		draw_synced_list_c(web, 0, 0, 0x80, 0x80);
 
 		Intensity_5F();
-		for (i = 0; i < MAX_WALLS; i++)
-		{
-			if (check_point_on_wall(&wall[i], player.ch.obj.y, player.ch.obj.x))
-			{
-				draw_wall(&wall[i]);
-			}
-		}
+		draw_walls();
 
 		draw_player(&player);
-
-		for (i = 0; i < MAX_ENEMIES; i++)
-		{
-			draw_enemy(&enemy[i]);
-		}
-
-		for (i = 0; i < MAX_FOOD; i++)
-		{
-			draw_food(&food[i]);
-		}
-	};
+		draw_enemies();
+		draw_foods();
+	}
 	
 	// if return value is <= 0, then a warm reset will be performed,
 	// otherwise a cold reset will be performed

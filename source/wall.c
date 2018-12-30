@@ -11,13 +11,16 @@ extern const signed char *web_walls[];
 
 void init_wall(
 	struct wall *wall,
-	unsigned int index
+	unsigned int index,
+	unsigned int treshold
 	)
 {
 	signed int y1, x1, y2, x2, temp;
 	const signed char *web_wall = web_walls[index];
 
-	wall->active = 1;
+	wall->active		= 1;
+	wall->counter		= 0;
+	wall->treshold	= treshold;
 
 	y1 = web_wall[1];
 	x1 = web_wall[2];
@@ -90,6 +93,20 @@ unsigned int check_point_on_wall(
 	}
 
 	return result;
+}
+
+void move_wall(
+	struct wall *wall
+	)
+{
+	if (wall->active)
+	{
+		if (++wall->counter >= wall->treshold)
+		{
+			wall->counter = 0;
+			wall->active = 0;
+		}
+	}
 }
 
 void draw_wall(

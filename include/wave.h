@@ -2,10 +2,12 @@
 #define _WAVE_H	
 
 #include "enemy.h"
+#include "wall.h"
 
 #define MAX_WAVES		2
 
 #define WAVE_OBJECT_TYPE_ENEMY	0
+#define WAVE_OBJECT_TYPE_WALL	1
 
 struct path_element
 {
@@ -20,7 +22,7 @@ struct wave_element
 	signed int x;
 	unsigned int object_type;
 	unsigned int object_index;
-	unsigned int path_index;
+	unsigned int value;
 };
 
 struct wave_def
@@ -45,7 +47,9 @@ void init_wave(
 unsigned int move_wave(
 	struct wave *wave,
 	unsigned int num_enemies,
-	struct enemy *enemies
+	struct enemy *enemies,
+	unsigned int num_walls,
+	struct wall *walls
 	);
 
 extern const struct path_element enemy_paths[];
