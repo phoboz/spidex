@@ -40,11 +40,23 @@
 #define MAX_FOOD		5
 
 extern const signed char web[];
+extern const signed char *web_walls[];
 
 struct player player;
 struct wave wave;
 struct enemy enemy[MAX_ENEMIES];
 struct food food[MAX_FOOD];
+
+void draw_web_wall(
+	unsigned int index
+	)
+{
+	const signed char *wall = web_walls[index];
+
+	Reset0Ref();
+	Moveto_d(wall[1], wall[2]);
+	Draw_Line_d(wall[3], wall[4]);
+}
 
 signed int new_frame(void)
 {
@@ -182,6 +194,8 @@ int main(void)
 		draw_synced_list_c(web, 0, 0, 0x80, 0x80);
 
 		Intensity_5F();
+		draw_web_wall(11);
+
 		draw_player(&player);
 
 		for (i = 0; i < MAX_ENEMIES; i++)
