@@ -123,6 +123,15 @@ int main(void)
 				sfx_pointer_1 = (long unsigned int) (&fire_snd_data);
 				sfx_status_1 = 1;
 			}
+			else if (player.state_changed)
+			{
+				if (player.state == PLAYER_STATE_DYING)
+				{
+					sfx_pointer_1 = (long unsigned int) (&fire_snd_data);
+					sfx_status_1 = 1;
+				}
+			}
+
 			if (sfx_status_1 == 1)
 			{
 				ayfx_sound1();

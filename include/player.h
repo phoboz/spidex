@@ -42,6 +42,7 @@ struct player
 	unsigned int state_counter;
 	unsigned int blink_counter;
 	unsigned int invinsible_counter;
+	unsigned int state_changed;
 	struct bullet bullet[PLAYER_MAX_BULLETS];
 };
 

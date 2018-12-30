@@ -32,13 +32,13 @@ void init_player(
 		spider
 		);
 
-	player->state			= PLAYER_STATE_NORMAL;
 	player->score			= 0;
 	player->num_lives		= PLAYER_NUM_LIVES;
 
 	player->fire_counter		= 0;
-	player->state_counter		= 0;
 	player->blink_counter		= 0;
+
+	set_state_player(player, PLAYER_STATE_NORMAL);
 
 	for (i = 0; i < PLAYER_MAX_BULLETS; i++) {
 		player->bullet[i].obj.active = 0;
@@ -50,9 +50,10 @@ void set_state_player(
 	unsigned int state
 	)
 {
-	player->state = state;
-	player->state_counter = 0;
-	player->ch.obj.scale = PLAYER_SCALE;
+	player->state			= state;
+	player->state_counter	= 0;
+	player->ch.obj.scale	= PLAYER_SCALE;
+	player->state_changed	= 1;
 }
 
 void set_fire_dir_player(
@@ -184,6 +185,11 @@ unsigned int move_player(
 			{
 				set_state_player(player, PLAYER_STATE_NORMAL);
 			}
+		}
+
+		if (player->state_changed)
+		{
+			player->state_changed = 0;
 		}
 
 		for (i = 0; i < PLAYER_MAX_BULLETS; i++)
