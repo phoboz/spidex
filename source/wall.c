@@ -88,7 +88,7 @@ unsigned int check_point_on_wall(
 				result = 1;
 			}
 		}
-		else if (y >= y1 && y <= y2 && x >= x1 && x <= x2)
+		else if (y > y1 && y < y2 && x > x1 && x < x2)
 		{
 			result = 1;
 		}
