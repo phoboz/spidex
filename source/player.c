@@ -145,7 +145,32 @@ unsigned int move_player(
 					set_dir_character(&player->ch, dir);
 					animate_character(&player->ch);
 					get_move_character(&player->ch, player->ch.move_speed, &dy, &dx);
+
 					y = player->ch.obj.y + dy;
+					x = player->ch.obj.x;
+					for (i = 0; i < num_walls; i++)
+					{
+						if (walls[i].active)
+						{
+							if (check_point_on_wall(&walls[i], y - player->ch.obj.h_2, x - player->ch.obj.w_2) ||
+							    check_point_on_wall(&walls[i], y - player->ch.obj.h_2, x + player->ch.obj.w_2) ||
+							    check_point_on_wall(&walls[i], y + player->ch.obj.h_2, x + player->ch.obj.w_2) ||
+							    check_point_on_wall(&walls[i], y + player->ch.obj.h_2, x - player->ch.obj.w_2))
+							{
+								s1  = (unsigned int) abs(y);
+								s1 += (unsigned int) abs(x);
+								s2  = (unsigned int) abs(player->ch.obj.y);
+								s2 += (unsigned int) abs(player->ch.obj.x);
+								if (s1 > s2)
+								{
+									hit_wall = 1;
+									break;
+								}
+							}
+						}
+					}
+
+					y = player->ch.obj.y;
 					x = player->ch.obj.x + dx;
 					for (i = 0; i < num_walls; i++)
 					{
