@@ -124,6 +124,7 @@ unsigned int move_player(
 	unsigned int i;
 	signed int dy, dx;
 	signed int y, x;
+	unsigned int s1, s2;
 	unsigned int fire_trigger, move_trigger;
 	unsigned int dir;
 	unsigned int hit_wall = 0;
@@ -155,8 +156,15 @@ unsigned int move_player(
 							    check_point_on_wall(&walls[i], y + player->ch.obj.h_2, x + player->ch.obj.w_2) ||
 							    check_point_on_wall(&walls[i], y + player->ch.obj.h_2, x - player->ch.obj.w_2))
 							{
-								hit_wall = 1;
-								break;
+								s1  = (unsigned int) abs(y);
+								s1 += (unsigned int) abs(x);
+								s2  = (unsigned int) abs(player->ch.obj.y);
+								s2 += (unsigned int) abs(player->ch.obj.x);
+								if (s1 > s2)
+								{
+									hit_wall = 1;
+									break;
+								}
 							}
 						}
 					}
@@ -165,6 +173,7 @@ unsigned int move_player(
 					{
 						player->ch.obj.y += dy;
 						player->ch.obj.x += dx;
+						limit_move_character(&player->ch);
 					}
 				}
 			}

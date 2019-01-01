@@ -1,9 +1,9 @@
 #ifndef _WALL_H
 #define _WALL_H
 
-#define WALL_CHECK_DELTA	4
+#define WALL_CHECK_DELTA	3
 
-#define WALL_CYCLE_TRESHOLD		4
+#define WALL_CYCLE_TRESHOLD		32
 
 struct wall
 {

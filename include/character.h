@@ -5,8 +5,8 @@
 
 #define CHARACTER_MIN_Y	-108
 #define CHARACTER_MAX_Y	 108
-#define CHARACTER_MIN_X	 -84
-#define CHARACTER_MAX_X	  84
+#define CHARACTER_MIN_X	-100
+#define CHARACTER_MAX_X	 100
 
 struct character
 {
@@ -51,11 +51,15 @@ void get_move_character(
 	signed int *dx
 	);
 
+unsigned int limit_move_character(
+	struct character *ch
+	);
+
 unsigned int move_character(
 	struct character *ch
 	);
 
-void retreat_character(
+unsigned int retreat_character(
 	struct character *ch
 	);
 

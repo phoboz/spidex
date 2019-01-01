@@ -49,9 +49,9 @@ const struct wave_element wave_2[] =
 	/*	treshold		y		x		object_type				object_index		value */
 	{	0,			40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,	0		},
 	{	80,			40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,	0		},
-	{	40,			0,		0,		WAVE_OBJECT_TYPE_WALL,		24,				64		},
-	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		25,				64		},
-	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		31,				64		},
+	{	40,			0,		0,		WAVE_OBJECT_TYPE_WALL,		16,				16		},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		17,				16		},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		23,				16		},
 	{	80,			-40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,	0		},
 	{	80,			-40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,	0		},
 	{	80,			40,		80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BEE,	1		},

@@ -119,16 +119,11 @@ void get_move_character(
 	}
 }
 
-unsigned int move_character(
+unsigned int limit_move_character(
 	struct character *ch
 	)
 {
-	signed int dy, dx;
 	unsigned int stopped = 0;
-
-	get_move_character(ch, ch->move_speed, &dy, &dx);
-	ch->obj.y += dy;
-	ch->obj.x += dx;
 
 	if (ch->obj.y < CHARACTER_MIN_Y)
 	{
@@ -157,7 +152,20 @@ unsigned int move_character(
 	return stopped;
 }
 
-void retreat_character(
+unsigned int move_character(
+	struct character *ch
+	)
+{
+	signed int dy, dx;
+
+	get_move_character(ch, ch->move_speed, &dy, &dx);
+	ch->obj.y += dy;
+	ch->obj.x += dx;
+
+	return limit_move_character(ch);
+}
+
+unsigned int retreat_character(
 	struct character *ch
 	)
 {
@@ -167,25 +175,7 @@ void retreat_character(
 	ch->obj.y -= dy;
 	ch->obj.x -= dx;
 
-	if (ch->obj.y < CHARACTER_MIN_Y)
-	{
-		ch->obj.y = CHARACTER_MIN_Y;
-	}
-
-	if (ch->obj.y > CHARACTER_MAX_Y)
-	{
-		ch->obj.y = CHARACTER_MAX_Y;
-	}
-
-	if (ch->obj.x < CHARACTER_MIN_X)
-	{
-		ch->obj.x = CHARACTER_MIN_X;
-	}
-
-	if (ch->obj.x > CHARACTER_MAX_X)
-	{
-		ch->obj.x = CHARACTER_MAX_X;
-	}
+	return limit_move_character(ch);
 }
 
 void draw_character(
