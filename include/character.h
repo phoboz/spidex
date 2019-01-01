@@ -44,6 +44,13 @@ unsigned int animate_character(
 	struct character *ch
 	);
 
+void get_move_character(
+	struct character *ch,
+	signed int speed,
+	signed int *dy,
+	signed int *dx
+	);
+
 unsigned int move_character(
 	struct character *ch
 	);

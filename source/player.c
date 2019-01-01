@@ -3,6 +3,7 @@
 // ***************************************************************************
 
 #include <vectrex.h>
+#include "generic.h"
 #include "input.h"
 #include "player.h"
 
@@ -121,8 +122,11 @@ unsigned int move_player(
 	)
 {
 	unsigned int i;
+	signed int dy, dx;
+	signed int y, x;
 	unsigned int fire_trigger, move_trigger;
 	unsigned int dir;
+	unsigned int hit_wall = 0;
 	unsigned int fire_tried = 0;
 	unsigned int fire = 0;
 
@@ -139,16 +143,27 @@ unsigned int move_player(
 				{
 					set_dir_character(&player->ch, dir);
 					animate_character(&player->ch);
-					move_character(&player->ch);
+					get_move_character(&player->ch, player->ch.move_speed, &dy, &dx);
+					y = player->ch.obj.y + dy;
+					x = player->ch.obj.x + dx;
 					for (i = 0; i < num_walls; i++)
 					{
 						if (walls[i].active)
 						{
-							if (check_point_on_wall(&walls[i], player->ch.obj.y, player->ch.obj.x))
+							if (check_point_on_wall(&walls[i], y, x) &&
+							    (abs(y) + abs(x)) >
+							    (abs(player->ch.obj.y) + abs(player->ch.obj.x)))
 							{
-								retreat_character(&player->ch);
+								hit_wall = 1;
+								break;
 							}
 						}
+					}
+
+					if (!hit_wall)
+					{
+						player->ch.obj.y += dy;
+						player->ch.obj.x += dx;
 					}
 				}
 			}

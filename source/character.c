@@ -63,54 +63,72 @@ unsigned int animate_character(
 	return changed;
 }
 
+void get_move_character(
+	struct character *ch,
+	signed int speed,
+	signed int *dy,
+	signed int *dx
+	)
+{
+	switch (ch->dir)
+	{
+		case DIR_DOWN:
+			*dy = -speed;
+			*dx =  0;
+			break;
+
+		case DIR_DOWN_RIGHT:
+			*dy = -speed;
+			*dx =  speed;
+			break;
+
+		case DIR_RIGHT:
+			*dy =  0;
+			*dx =  speed;
+			break;
+
+		case DIR_UP_RIGHT:
+			*dy =  speed;
+			*dx =  speed;
+			break;
+
+		case DIR_UP:
+			*dy =  speed;
+			*dx =  0;
+			break;
+
+		case DIR_UP_LEFT:
+			*dy =  speed;
+			*dx = -speed;
+			break;
+
+		case DIR_LEFT:
+			*dy =  0;
+			*dx = -speed;
+			break;
+
+		case DIR_DOWN_LEFT:
+			*dy = -speed;
+			*dx = -speed;
+			break;
+
+		default:
+			*dy =  0;
+			*dx =  0;
+			break;
+	}
+}
+
 unsigned int move_character(
 	struct character *ch
 	)
 {
+	signed int dy, dx;
 	unsigned int stopped = 0;
-	signed int speed = ch->move_speed;
 
-	switch (ch->dir)
-	{
-		case DIR_DOWN:
-			ch->obj.y -= speed;
-			break;
-
-		case DIR_DOWN_RIGHT:
-			ch->obj.y -= speed;
-			ch->obj.x +=  speed;
-			break;
-
-		case DIR_RIGHT:
-			ch->obj.x += speed;
-			break;
-
-		case DIR_UP_RIGHT:
-			ch->obj.y += speed;
-			ch->obj.x += speed;
-			break;
-
-		case DIR_UP:
-			ch->obj.y += speed;
-			break;
-
-		case DIR_UP_LEFT:
-			ch->obj.y += speed;
-			ch->obj.x -= speed;
-			break;
-
-		case DIR_LEFT:
-			ch->obj.x -= speed;
-			break;
-
-		case DIR_DOWN_LEFT:
-			ch->obj.y -= speed;
-			ch->obj.x -= speed;
-			break;
-
-		default:
-			break;
-	}
+	get_move_character(ch, ch->move_speed, &dy, &dx);
+	ch->obj.y += dy;
+	ch->obj.x += dx;
 
 	if (ch->obj.y < CHARACTER_MIN_Y)
 	{
@@ -143,49 +161,11 @@ void retreat_character(
 	struct character *ch
 	)
 {
-	signed int speed = ch->move_speed << 1;
+	signed int dy, dx;
 
-	switch (ch->dir)
-	{
-		case DIR_DOWN:
-			ch->obj.y += speed;
-			break;
-
-		case DIR_DOWN_RIGHT:
-			ch->obj.y += speed;
-			ch->obj.x -=  speed;
-			break;
-
-		case DIR_RIGHT:
-			ch->obj.x -= speed;
-			break;
-
-		case DIR_UP_RIGHT:
-			ch->obj.y -= speed;
-			ch->obj.x -= speed;
-			break;
-
-		case DIR_UP:
-			ch->obj.y -= speed;
-			break;
-
-		case DIR_UP_LEFT:
-			ch->obj.y -= speed;
-			ch->obj.x += speed;
-			break;
-
-		case DIR_LEFT:
-			ch->obj.x += speed;
-			break;
-
-		case DIR_DOWN_LEFT:
-			ch->obj.y += speed;
-			ch->obj.x += speed;
-			break;
-
-		default:
-			break;
-	}
+	get_move_character(ch, ch->move_speed << 1, &dy, &dx);
+	ch->obj.y -= dy;
+	ch->obj.x -= dx;
 
 	if (ch->obj.y < CHARACTER_MIN_Y)
 	{
