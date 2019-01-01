@@ -75,6 +75,26 @@ const signed char web_wall_1_2[]=
 	-6, -11, // draw to y, x
 };
 
+// -4,  15
+// -10, 4
+
+const signed char web_wall_coords_1_2[]=
+{
+	-10	,	4	,
+	-9	,	5	,
+	-8	,	6	,
+	-8	,	7	,
+	-7	,	8	,
+	-7	,	9	,
+	-6	,	10	,
+	-6	,	11	,
+	-5	,	12	,
+	-5	,	13	,
+	-4	,	14	,
+	-4	,	15	,
+	127	/* terminator */
+};
+
 const signed char web_wall_1_3[]=
 {	+1,
 	+4, +15, // move to y, x
@@ -85,6 +105,25 @@ const signed char web_wall_1_4[]=
 {	+1,
 	+10, +4, // move to y, x
 	-6, +11, // draw to y, x
+};
+
+// 10,  4
+//  4, 15
+const signed char web_wall_coords_1_4[]=
+{
+	10	,	4	,
+	9	,	5	,
+	8	,	6	,
+	8	,	7	,
+	7	,	8	,
+	7	,	9	,
+	6	,	10	,
+	6	,	11	,
+	5	,	12	,
+	5	,	13	,
+	4	,	14	,
+	4	,	15	,
+	127	/* terminator */
 };
 
 const signed char web_wall_1_5[]=
@@ -99,6 +138,25 @@ const signed char web_wall_1_6[]=
 	+6, +11, // draw to y, x
 };
 
+// 4, -15
+// 10, -4
+const signed char web_wall_coords_1_6[]=
+{
+	4	,	-15	,
+	4	,	-14	,
+	5	,	-13	,
+	5	,	-12	,
+	6	,	-11	,
+	6	,	-10	,
+	7	,	-9	,
+	7	,	-8	,
+	8	,	-7	,
+	8	,	-6	,
+	9	,	-5	,
+	10	,	-4	,
+	127	/* terminator */
+};
+
 const signed char web_wall_1_7[]=
 {	+1,
 	-4, -15, // move to y, x
@@ -109,6 +167,25 @@ const signed char web_wall_1_8[]=
 {	+1,
 	-10, -4, // move to y, x
 	+6, -11, // draw to y, x
+};
+
+// -10, -4
+// -4, -15
+const signed char web_wall_coords_1_8[]=
+{
+	-4	,	-15	,
+	-4	,	-14	,
+	-5	,	-13	,
+	-5	,	-12	,
+	-6	,	-11	,
+	-6	,	-10	,
+	-7	,	-9	,
+	-7	,	-8	,
+	-8	,	-7	,
+	-8	,	-6	,
+	-9	,	-5	,
+	-10	,	-4	,
+	127	/* terminator */
 };
 
 const signed char web_wall_2_1[]=
@@ -123,6 +200,30 @@ const signed char web_wall_2_2[]=
 	+28, +16, // draw to y, x
 };
 
+// -36,  20
+//  -8,  36
+const signed char web_wall_coords_2_2[]=
+{
+	-36	,	20	,
+	-35	,	21	,
+	-33	,	22	,
+	-31	,	23	,
+	-29	,	24	,
+	-28	,	25	,
+	-26	,	26	,
+	-24	,	27	,
+	-22	,	28	,
+	-21	,	29	,
+	-19	,	30	,
+	-17	,	31	,
+	-15	,	32	,
+	-14	,	33	,
+	-12	,	34	,
+	-10	,	35	,
+	-8	,	36	,
+	127	/* terminator */
+};
+
 const signed char web_wall_2_3[]=
 {	+1,
 	-8, +37, // move to y, x
@@ -133,6 +234,31 @@ const signed char web_wall_2_4[]=
 {	+1,
 	+8, +37, // move to y, x
 	+28, -17, // draw to y, x
+};
+
+//  8, 37
+// 36, 20
+const signed char web_wall_coords_2_4[]=
+{
+	36	,	20	,
+	35	,	21	,
+	33	,	22	,
+	32	,	23	,
+	30	,	24	,
+	28	,	25	,
+	27	,	26	,
+	25	,	27	,
+	23	,	28	,
+	22	,	29	,
+	20	,	30	,
+	18	,	31	,
+	17	,	32	,
+	15	,	33	,
+	13	,	34	,
+	12	,	35	,
+	10	,	36	,
+	8	,	37	,
+	127	/* terminator */
 };
 
 const signed char web_wall_2_5[]=
@@ -147,6 +273,30 @@ const signed char web_wall_2_6[]=
 	-28, -16, // draw to y, x
 };
 
+// 36, -20
+//  8, -36
+const signed char web_wall_coords_2_6[]=
+{
+	8	,	-36	,
+	10	,	-35	,
+	12	,	-34	,
+	14	,	-33	,
+	15	,	-32	,
+	17	,	-31	,
+	19	,	-30	,
+	21	,	-29	,
+	22	,	-28	,
+	24	,	-27	,
+	26	,	-26	,
+	28	,	-25	,
+	29	,	-24	,
+	31	,	-23	,
+	33	,	-22	,
+	35	,	-21	,
+	36	,	-20	,
+	127	/* terminator */
+};
+
 const signed char web_wall_2_7[]=
 {	+1,
 	+8, -36, // move to y, x
@@ -157,6 +307,30 @@ const signed char web_wall_2_8[]=
 {	+1,
 	-8, -36, // move to y, x
 	-28, +16, // draw to y, x
+};
+
+//  -8, -36
+// -36, -20
+const signed char web_wall_coords_2_8[]=
+{
+	-8	,	-36	,
+	-10	,	-35	,
+	-12	,	-34	,
+	-14	,	-33	,
+	-15	,	-32	,
+	-17	,	-31	,
+	-19	,	-30	,
+	-21	,	-29	,
+	-22	,	-28	,
+	-24	,	-27	,
+	-26	,	-26	,
+	-28	,	-25	,
+	-29	,	-24	,
+	-31	,	-23	,
+	-33	,	-22	,
+	-35	,	-21	,
+	-36	,	-20	,
+	127	/* terminator */
 };
 
 const signed char web_wall_3_1[]=
@@ -171,6 +345,40 @@ const signed char web_wall_3_2[]=
 	+50, +26, // draw to y, x
 };
 
+// -63, 37
+// -13, 63
+const signed char web_wall_coords_3_2[]=
+{
+	-63	,	37	,
+	-61	,	38	,
+	-59	,	39	,
+	-57	,	40	,
+	-55	,	41	,
+	-53	,	42	,
+	-51	,	43	,
+	-49	,	44	,
+	-47	,	45	,
+	-45	,	46	,
+	-43	,	47	,
+	-41	,	48	,
+	-39	,	49	,
+	-38	,	50	,
+	-36	,	51	,
+	-34	,	52	,
+	-32	,	53	,
+	-30	,	54	,
+	-28	,	55	,
+	-26	,	56	,
+	-24	,	57	,
+	-22	,	58	,
+	-20	,	59	,
+	-18	,	60	,
+	-16	,	61	,
+	-14	,	62	,
+	-13	,	63	,
+	127	/* terminator */
+};
+
 const signed char web_wall_3_3[]=
 {	+1,
 	-13, +63, // move to y, x
@@ -181,6 +389,41 @@ const signed char web_wall_3_4[]=
 {	+1,
 	+13, +63, // move to y, x
 	+50, -27, // draw to y, x
+};
+
+// 13, 63
+// 63, 36
+const signed char web_wall_coords_3_4[]=
+{
+	63	,	36	,
+	61	,	37	,
+	59	,	38	,
+	57	,	39	,
+	55	,	40	,
+	53	,	41	,
+	51	,	42	,
+	50	,	43	,
+	48	,	44	,
+	46	,	45	,
+	44	,	46	,
+	42	,	47	,
+	40	,	48	,
+	38	,	49	,
+	37	,	50	,
+	35	,	51	,
+	33	,	52	,
+	31	,	53	,
+	29	,	54	,
+	27	,	55	,
+	25	,	56	,
+	24	,	57	,
+	22	,	58	,
+	20	,	59	,
+	18	,	60	,
+	16	,	61	,
+	14	,	62	,
+	13	,	63	,
+	127	/* terminator */
 };
 
 const signed char web_wall_3_5[]=
@@ -195,6 +438,37 @@ const signed char web_wall_3_6[]=
 	-51, -23, // draw to y, x
 };
 
+// 63, -37
+// 12, -60
+const signed char web_wall_coords_3_6[]=
+{
+	12	,	-60	,
+	14	,	-59	,
+	16	,	-58	,
+	18	,	-57	,
+	20	,	-56	,
+	23	,	-55	,
+	25	,	-54	,
+	27	,	-53	,
+	29	,	-52	,
+	31	,	-51	,
+	34	,	-50	,
+	36	,	-49	,
+	38	,	-48	,
+	40	,	-47	,
+	43	,	-46	,
+	45	,	-45	,
+	47	,	-44	,
+	49	,	-43	,
+	51	,	-42	,
+	54	,	-41	,
+	56	,	-40	,
+	58	,	-39	,
+	60	,	-38	,
+	63	,	-37	,
+	127	/* terminator */
+};
+
 const signed char web_wall_3_7[]=
 {	+1,
 	+12, -60, // move to y, x
@@ -205,6 +479,38 @@ const signed char web_wall_3_8[]=
 {	+1,
 	-12, -60, // move to y, x
 	-51, +24, // draw to y, x
+};
+
+// -12, -60
+// -63, -36
+const signed char web_wall_coords_3_8[]=
+{
+	-12	,	-60	,
+	-14	,	-59	,
+	-16	,	-58	,
+	-18	,	-57	,
+	-20	,	-56	,
+	-22	,	-55	,
+	-24	,	-54	,
+	-26	,	-53	,
+	-29	,	-52	,
+	-31	,	-51	,
+	-33	,	-50	,
+	-35	,	-49	,
+	-37	,	-48	,
+	-39	,	-47	,
+	-41	,	-46	,
+	-43	,	-45	,
+	-46	,	-44	,
+	-48	,	-43	,
+	-50	,	-42	,
+	-52	,	-41	,
+	-54	,	-40	,
+	-56	,	-39	,
+	-58	,	-38	,
+	-60	,	-37	,
+	-63	,	-36	,
+	127	/* terminator */
 };
 
 const signed char web_wall_4_1[]=
@@ -475,29 +781,29 @@ const signed char *web_walls[]=
 const signed char *web_wall_coords[]=
 {
 	0,
+	web_wall_coords_1_2,
 	0,
+	web_wall_coords_1_4,
 	0,
+	web_wall_coords_1_6,
 	0,
+	web_wall_coords_1_8,
 	0,
+	web_wall_coords_2_2,
 	0,
+	web_wall_coords_2_4,
 	0,
+	web_wall_coords_2_6,
 	0,
+	web_wall_coords_2_8,
 	0,
+	web_wall_coords_3_2,
 	0,
+	web_wall_coords_3_4,
 	0,
+	web_wall_coords_3_6,
 	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
+	web_wall_coords_3_8,
 	0,
 	web_wall_coords_4_2,
 	0,
