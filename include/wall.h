@@ -1,7 +1,7 @@
 #ifndef _WALL_H
 #define _WALL_H
 
-#define WALL_CHECK_DELTA	8
+#define WALL_CHECK_DELTA	4
 
 #define WALL_CYCLE_TRESHOLD		4
 
@@ -15,6 +15,8 @@ struct wall
 	signed int y1, x1;
 	signed int y2, x2;
 
+	const signed char *coords;
+ 
 	signed int pos[2];
 	signed int vec[2];
 };

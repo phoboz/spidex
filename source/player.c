@@ -150,9 +150,10 @@ unsigned int move_player(
 					{
 						if (walls[i].active)
 						{
-							if (check_point_on_wall(&walls[i], y, x) &&
-							    (abs(y) + abs(x)) >
-							    (abs(player->ch.obj.y) + abs(player->ch.obj.x)))
+							if (check_point_on_wall(&walls[i], y - player->ch.obj.h_2, x - player->ch.obj.w_2) ||
+							    check_point_on_wall(&walls[i], y - player->ch.obj.h_2, x + player->ch.obj.w_2) ||
+							    check_point_on_wall(&walls[i], y + player->ch.obj.h_2, x + player->ch.obj.w_2) ||
+							    check_point_on_wall(&walls[i], y + player->ch.obj.h_2, x - player->ch.obj.w_2))
 							{
 								hit_wall = 1;
 								break;

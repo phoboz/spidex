@@ -1,19 +1,9 @@
 // ***************************************************************************
 // main
 // ***************************************************************************
-// This file was developed by Prof. Dr. Peer Johannsen as part of the 
-// "Retro-Programming" and "Advanced C Programming" class at
-// Pforzheim University, Germany.
-// 
-// It can freely be used, but at one's own risk and for non-commercial
-// purposes only. Please respect the copyright and credit the origin of
-// this file.
-//
-// Feedback, suggestions and bug-reports are welcome and can be sent to:
-// peer.johannsen@pforzheim-university.de
-// ---------------------------------------------------------------------------
 
 #include <vectrex.h>
+#include "generic.h"
 #include "controller.h"
 #include "input.h"
 #include "player.h"
@@ -212,6 +202,7 @@ int main(void)
 			new_wave_index = move_wave(&wave, MAX_ENEMIES, enemy, MAX_WALLS, wall);
 			if (new_wave_index)
 			{
+				init_walls();
 				Vec_Music_Flag = 1;
 			}
 

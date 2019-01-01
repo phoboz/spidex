@@ -8,6 +8,7 @@
 // ---------------------------------------------------------------------------
 
 extern const signed char *web_walls[];
+extern const signed char *web_wall_coords[];
 
 void init_wall(
 	struct wall *wall,
@@ -50,6 +51,8 @@ void init_wall(
 	wall->y2 = y2;
 	wall->x2 = x2;
 
+	wall->coords = web_wall_coords[index];
+
 	wall->pos[0] = web_wall[1];
 	wall->pos[1] = web_wall[2];
 
@@ -63,6 +66,7 @@ unsigned int check_point_on_wall(
 	signed int x
 	)
 {
+	const signed char *coord;
 	signed int y1, x1, y2, x2;
 	unsigned int result = 0;
 
@@ -90,7 +94,17 @@ unsigned int check_point_on_wall(
 		}
 		else if (y > y1 && y < y2 && x > x1 && x < x2)
 		{
-			result = 1;
+			for (coord = wall->coords; coord[0] != 127; coord += 2)
+			{
+				if (y > coord[0] - WALL_CHECK_DELTA &&
+				    y < coord[0] + WALL_CHECK_DELTA &&
+				    x > coord[1] - WALL_CHECK_DELTA &&
+				    x < coord[1] + WALL_CHECK_DELTA)
+				{
+					result = 1;
+					break;
+				}
+			}
 		}
 	}
 

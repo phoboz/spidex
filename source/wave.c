@@ -40,6 +40,10 @@ const struct path_element enemy_paths[] =
 const struct wave_element wave_1[] =
 {
 	/*	treshold		y		x		object_type				object_index		value */
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		25,				255		},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		27,				255		},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		29,				255		},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		31,				255		},
 	{	0,			40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,	0		},
 	{	80,			40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,	0		}
 };
@@ -49,9 +53,9 @@ const struct wave_element wave_2[] =
 	/*	treshold		y		x		object_type				object_index		value */
 	{	0,			40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,	0		},
 	{	80,			40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,	0		},
-	{	40,			0,		0,		WAVE_OBJECT_TYPE_WALL,		8,				64		},
-	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		9,				64		},
-	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		15,				64		},
+	{	40,			0,		0,		WAVE_OBJECT_TYPE_WALL,		24,				64		},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		25,				64		},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		31,				64		},
 	{	80,			-40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,	0		},
 	{	80,			-40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,	0		},
 	{	80,			40,		80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BEE,	1		},
@@ -61,7 +65,7 @@ const struct wave_element wave_2[] =
 const struct wave_def waves[] =
 {
 	/*	num_elmts		wave_elmts	*/
-	{	2,			wave_1		},
+	{	6,			wave_1		},
 	{	9,			wave_2		}
 };
 
