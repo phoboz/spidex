@@ -114,11 +114,13 @@ static void move_flyer_enemy(
 static void move_homer_enemy(
 	struct enemy *enemy,
 	signed int dest_y,
-	signed int dest_x
+	signed int dest_x,
+	unsigned int num_walls,
+	struct wall *walls
 	)
 {
-	signed int src_y;
-	signed int src_x;
+	signed int src_y, src_x;
+	signed int dy, dx;
 
 	src_y = enemy->ch.obj.y;
 	src_x = enemy->ch.obj.x;
@@ -156,14 +158,27 @@ static void move_homer_enemy(
 		set_dir_enemy(enemy, DIR_DOWN_LEFT);
 	}
 
-	animate_character(&enemy->ch);
-	move_character(&enemy->ch);
+	get_move_character(&enemy->ch, enemy->ch.move_speed, &dy, &dx);
+
+	if (!interaction_walls_character(&enemy->ch, dy, dx, num_walls, walls))
+	{
+		animate_character(&enemy->ch);
+		enemy->ch.obj.y += dy;
+		enemy->ch.obj.x += dx;
+		limit_move_character(&enemy->ch);
+	}
+	else
+	{
+		set_state_enemy(enemy, ENEMY_STATE_STOP);
+	}
 }
 
 void move_enemy(
 	struct enemy *enemy,
 	signed int dest_y,
-	signed int dest_x
+	signed int dest_x,
+	unsigned int num_walls,
+	struct wall *walls
 	)
 {
 	if (enemy->ch.obj.active)
@@ -202,7 +217,7 @@ void move_enemy(
 					break;
 
 				case ENEMY_TYPE_HOMER:
-					move_homer_enemy(enemy, dest_y, dest_x);
+					move_homer_enemy(enemy, dest_y, dest_x, num_walls, walls);
 					break;
 
 				default:

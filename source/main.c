@@ -75,7 +75,7 @@ void move_enemies(void)
 
 	for (i = 0; i < MAX_ENEMIES; i++)
 	{
-		move_enemy(&enemy[i], player.ch.obj.y, player.ch.obj.x);
+		move_enemy(&enemy[i], player.ch.obj.y, player.ch.obj.x, MAX_WALLS, wall);
 	}
 }
 
