@@ -124,7 +124,6 @@ unsigned int move_player(
 	unsigned int i;
 	signed int dy, dx;
 	signed int y, x;
-	unsigned int s1, s2;
 	unsigned int fire_trigger, move_trigger;
 	unsigned int dir;
 	unsigned int hit_wall = 0;
@@ -146,46 +145,34 @@ unsigned int move_player(
 					animate_character(&player->ch);
 					get_move_character(&player->ch, player->ch.move_speed, &dy, &dx);
 
-					y = player->ch.obj.y + dy;
-					x = player->ch.obj.x;
 					for (i = 0; i < num_walls; i++)
 					{
 						if (walls[i].active)
 						{
-							if (check_point_on_wall(&walls[i], y - player->ch.obj.h_2, x - player->ch.obj.w_2) ||
-							    check_point_on_wall(&walls[i], y - player->ch.obj.h_2, x + player->ch.obj.w_2) ||
-							    check_point_on_wall(&walls[i], y + player->ch.obj.h_2, x + player->ch.obj.w_2) ||
-							    check_point_on_wall(&walls[i], y + player->ch.obj.h_2, x - player->ch.obj.w_2))
+							y = player->ch.obj.y + dy;
+							x = player->ch.obj.x;
+
+							if ((unsigned int) abs(y) > (unsigned int) abs(player->ch.obj.y))
 							{
-								s1  = (unsigned int) abs(y);
-								s1 += (unsigned int) abs(x);
-								s2  = (unsigned int) abs(player->ch.obj.y);
-								s2 += (unsigned int) abs(player->ch.obj.x);
-								if (s1 > s2)
+								if (check_point_on_wall(&walls[i], y - player->ch.obj.h_2, x - player->ch.obj.w_2) ||
+								    check_point_on_wall(&walls[i], y - player->ch.obj.h_2, x + player->ch.obj.w_2) ||
+								    check_point_on_wall(&walls[i], y + player->ch.obj.h_2, x + player->ch.obj.w_2) ||
+								    check_point_on_wall(&walls[i], y + player->ch.obj.h_2, x - player->ch.obj.w_2))
 								{
 									hit_wall = 1;
 									break;
 								}
 							}
-						}
-					}
 
-					y = player->ch.obj.y;
-					x = player->ch.obj.x + dx;
-					for (i = 0; i < num_walls; i++)
-					{
-						if (walls[i].active)
-						{
-							if (check_point_on_wall(&walls[i], y - player->ch.obj.h_2, x - player->ch.obj.w_2) ||
-							    check_point_on_wall(&walls[i], y - player->ch.obj.h_2, x + player->ch.obj.w_2) ||
-							    check_point_on_wall(&walls[i], y + player->ch.obj.h_2, x + player->ch.obj.w_2) ||
-							    check_point_on_wall(&walls[i], y + player->ch.obj.h_2, x - player->ch.obj.w_2))
+							y = player->ch.obj.y;
+							x = player->ch.obj.x + dx;
+
+							if ((unsigned int) abs(x) > (unsigned int) abs(player->ch.obj.x))
 							{
-								s1  = (unsigned int) abs(y);
-								s1 += (unsigned int) abs(x);
-								s2  = (unsigned int) abs(player->ch.obj.y);
-								s2 += (unsigned int) abs(player->ch.obj.x);
-								if (s1 > s2)
+								if (check_point_on_wall(&walls[i], y - player->ch.obj.h_2, x - player->ch.obj.w_2) ||
+								    check_point_on_wall(&walls[i], y - player->ch.obj.h_2, x + player->ch.obj.w_2) ||
+								    check_point_on_wall(&walls[i], y + player->ch.obj.h_2, x + player->ch.obj.w_2) ||
+								    check_point_on_wall(&walls[i], y + player->ch.obj.h_2, x - player->ch.obj.w_2))
 								{
 									hit_wall = 1;
 									break;
