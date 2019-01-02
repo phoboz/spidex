@@ -2,6 +2,7 @@
 #define _CHARACTER_H
 
 #include "object.h"
+#include "wall.h"
 
 #define CHARACTER_MIN_Y	-108
 #define CHARACTER_MAX_Y	 108
@@ -61,6 +62,14 @@ unsigned int move_character(
 
 unsigned int retreat_character(
 	struct character *ch
+	);
+
+unsigned int interaction_walls_character(
+	struct character *ch,
+	signed int dy,
+	signed int dx,
+	unsigned int num_walls,
+	struct wall *walls
 	);
 
 void draw_character(

@@ -3,7 +3,6 @@
 // ***************************************************************************
 
 #include <vectrex.h>
-#include "generic.h"
 #include "input.h"
 #include "player.h"
 
@@ -123,10 +122,8 @@ unsigned int move_player(
 {
 	unsigned int i;
 	signed int dy, dx;
-	signed int y, x;
 	unsigned int fire_trigger, move_trigger;
 	unsigned int dir;
-	unsigned int hit_wall = 0;
 	unsigned int fire_tried = 0;
 	unsigned int fire = 0;
 
@@ -145,92 +142,7 @@ unsigned int move_player(
 					animate_character(&player->ch);
 					get_move_character(&player->ch, player->ch.move_speed, &dy, &dx);
 
-					if (dy != 0 && dx != 0)
-					{
-						for (i = 0; i < num_walls; i++)
-						{
-							if (walls[i].active)
-							{
-								y = player->ch.obj.y + dy;
-								x = player->ch.obj.x;
-
-								if ((unsigned int) abs(y) > (unsigned int) abs(player->ch.obj.y))
-								{
-									if (check_point_on_wall(&walls[i], y - player->ch.obj.h_2, x - player->ch.obj.w_2) ||
-									    check_point_on_wall(&walls[i], y - player->ch.obj.h_2, x + player->ch.obj.w_2) ||
-									    check_point_on_wall(&walls[i], y + player->ch.obj.h_2, x + player->ch.obj.w_2) ||
-									    check_point_on_wall(&walls[i], y + player->ch.obj.h_2, x - player->ch.obj.w_2))
-									{
-										hit_wall = 1;
-										break;
-									}
-								}
-	
-								y = player->ch.obj.y;
-								x = player->ch.obj.x + dx;
-
-								if ((unsigned int) abs(x) > (unsigned int) abs(player->ch.obj.x))
-								{
-									if (check_point_on_wall(&walls[i], y - player->ch.obj.h_2, x - player->ch.obj.w_2) ||
-									    check_point_on_wall(&walls[i], y - player->ch.obj.h_2, x + player->ch.obj.w_2) ||
-									    check_point_on_wall(&walls[i], y + player->ch.obj.h_2, x + player->ch.obj.w_2) ||
-									    check_point_on_wall(&walls[i], y + player->ch.obj.h_2, x - player->ch.obj.w_2))
-									{
-										hit_wall = 1;
-										break;
-									}
-								}
-							}
-						}
-					}
-					else if (dy != 0)
-					{
-						for (i = 0; i < num_walls; i++)
-						{
-							if (walls[i].active)
-							{
-								y = player->ch.obj.y + dy;
-								x = player->ch.obj.x;
-
-								if ((unsigned int) abs(y) > (unsigned int) abs(player->ch.obj.y))
-								{
-									if (check_point_on_wall(&walls[i], y - player->ch.obj.h_2, x - player->ch.obj.w_2) ||
-									    check_point_on_wall(&walls[i], y - player->ch.obj.h_2, x + player->ch.obj.w_2) ||
-									    check_point_on_wall(&walls[i], y + player->ch.obj.h_2, x + player->ch.obj.w_2) ||
-									    check_point_on_wall(&walls[i], y + player->ch.obj.h_2, x - player->ch.obj.w_2))
-									{
-										hit_wall = 1;
-										break;
-									}
-								}
-							}
-						}
-					}
-					else if (dx != 0)
-					{
-						for (i = 0; i < num_walls; i++)
-						{
-							if (walls[i].active)
-							{
-								y = player->ch.obj.y;
-								x = player->ch.obj.x + dx;
-
-								if ((unsigned int) abs(x) > (unsigned int) abs(player->ch.obj.x))
-								{
-									if (check_point_on_wall(&walls[i], y - player->ch.obj.h_2, x - player->ch.obj.w_2) ||
-									    check_point_on_wall(&walls[i], y - player->ch.obj.h_2, x + player->ch.obj.w_2) ||
-									    check_point_on_wall(&walls[i], y + player->ch.obj.h_2, x + player->ch.obj.w_2) ||
-									    check_point_on_wall(&walls[i], y + player->ch.obj.h_2, x - player->ch.obj.w_2))
-									{
-										hit_wall = 1;
-										break;
-									}
-								}
-							}
-						}
-					}
-
-					if (!hit_wall)
+					if (!interaction_walls_character(&player->ch, dy, dx, num_walls, walls))
 					{
 						player->ch.obj.y += dy;
 						player->ch.obj.x += dx;

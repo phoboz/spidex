@@ -3,6 +3,7 @@
 // ***************************************************************************
 
 #include <vectrex.h>
+#include "generic.h"
 #include "character.h"
 
 // ---------------------------------------------------------------------------
@@ -176,6 +177,106 @@ unsigned int retreat_character(
 	ch->obj.x -= dx;
 
 	return limit_move_character(ch);
+}
+
+unsigned int interaction_walls_character(
+	struct character *ch,
+	signed int dy,
+	signed int dx,
+	unsigned int num_walls,
+	struct wall *walls
+	)
+{
+	unsigned int i;
+	signed int y, x;
+	unsigned int result = 0;
+
+	if (dy != 0 && dx != 0)
+	{
+		for (i = 0; i < num_walls; i++)
+		{
+			if (walls[i].active)
+			{
+				y = ch->obj.y + dy;
+				x = ch->obj.x;
+
+				if ((unsigned int) abs(y) > (unsigned int) abs(ch->obj.y))
+				{
+					if (check_point_on_wall(&walls[i], y - ch->obj.h_2, x - ch->obj.w_2) ||
+					    check_point_on_wall(&walls[i], y - ch->obj.h_2, x + ch->obj.w_2) ||
+					    check_point_on_wall(&walls[i], y + ch->obj.h_2, x + ch->obj.w_2) ||
+					    check_point_on_wall(&walls[i], y + ch->obj.h_2, x - ch->obj.w_2))
+					{
+						result = 1;
+						break;
+					}
+				}
+	
+				y = ch->obj.y;
+				x = ch->obj.x + dx;
+
+				if ((unsigned int) abs(x) > (unsigned int) abs(ch->obj.x))
+				{
+					if (check_point_on_wall(&walls[i], y - ch->obj.h_2, x - ch->obj.w_2) ||
+					    check_point_on_wall(&walls[i], y - ch->obj.h_2, x + ch->obj.w_2) ||
+					    check_point_on_wall(&walls[i], y + ch->obj.h_2, x + ch->obj.w_2) ||
+					    check_point_on_wall(&walls[i], y + ch->obj.h_2, x - ch->obj.w_2))
+					{
+						result = 1;
+						break;
+					}
+				}
+			}
+		}
+	}
+	else if (dy != 0)
+	{
+		for (i = 0; i < num_walls; i++)
+		{
+			if (walls[i].active)
+			{
+				y = ch->obj.y + dy;
+				x = ch->obj.x;
+
+				if ((unsigned int) abs(y) > (unsigned int) abs(ch->obj.y))
+				{
+					if (check_point_on_wall(&walls[i], y - ch->obj.h_2, x - ch->obj.w_2) ||
+					    check_point_on_wall(&walls[i], y - ch->obj.h_2, x + ch->obj.w_2) ||
+					    check_point_on_wall(&walls[i], y + ch->obj.h_2, x + ch->obj.w_2) ||
+					    check_point_on_wall(&walls[i], y + ch->obj.h_2, x - ch->obj.w_2))
+					{
+						result = 1;
+						break;
+					}
+				}
+			}
+		}
+	}
+	else if (dx != 0)
+	{
+		for (i = 0; i < num_walls; i++)
+		{
+			if (walls[i].active)
+			{
+				y = ch->obj.y;
+				x = ch->obj.x + dx;
+
+				if ((unsigned int) abs(x) > (unsigned int) abs(ch->obj.x))
+				{
+					if (check_point_on_wall(&walls[i], y - ch->obj.h_2, x - ch->obj.w_2) ||
+					    check_point_on_wall(&walls[i], y - ch->obj.h_2, x + ch->obj.w_2) ||
+					    check_point_on_wall(&walls[i], y + ch->obj.h_2, x + ch->obj.w_2) ||
+					    check_point_on_wall(&walls[i], y + ch->obj.h_2, x - ch->obj.w_2))
+					{
+						result = 1;
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	return result;
 }
 
 void draw_character(
