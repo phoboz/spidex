@@ -247,7 +247,7 @@ const signed char fly_down_left_2[]=
 };
 
 
-const signed char *fly[]=
+const signed char* const fly[]=
 {
 	fly_down_1,
 	fly_down_2,

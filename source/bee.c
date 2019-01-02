@@ -463,7 +463,7 @@ const signed char bee_up_left_2[]=
 	(signed char) +2 // endmarker 
 };
 
-const signed char *bee[]=
+const signed char* const bee[]=
 {
 	bee_down_1,
 	bee_down_2,

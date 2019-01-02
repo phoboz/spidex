@@ -118,7 +118,7 @@ const signed char spiral_8[]=
 	(signed char) +2 // endmarker 
 };
 
-const signed char *spiral[]=
+const signed char * const spiral[]=
 {
 	spiral_1,
 	spiral_2,

@@ -599,7 +599,7 @@ const signed char spider_down_left_2[]=
 	(signed char) +2 // endmarker 
 };
 
-const signed char *spider[]=
+const signed char * const spider[]=
 {
 	spider_down_1,
 	spider_down_2,

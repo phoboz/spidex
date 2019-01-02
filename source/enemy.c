@@ -9,10 +9,11 @@
 
 // ---------------------------------------------------------------------------
 
-extern const signed char *spiral[];
-extern const signed char *fly[];
-extern const signed char *bug[];
-extern const signed char *bee[];
+extern const signed char* const spiral[];
+extern const signed char* const fly[];
+extern const signed char* const bug[];
+extern const signed char* const bee[];
+extern const signed char* const mine[];
 
 const struct enemy_race enemy_races[] =
 {

@@ -633,7 +633,7 @@ const signed char bug_up_left_2[]=
 	(signed char) +2 // endmarker 
 };
 
-const signed char *bug[]=
+const signed char* const bug[]=
 {
 	bug_down_1,
 	bug_down_2,

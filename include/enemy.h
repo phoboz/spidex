@@ -38,7 +38,7 @@ struct enemy_race {
 	signed int max_hits;
 	unsigned int explode;
 	unsigned int treshold;
-	const signed char **shapes;
+	const signed char * const *shapes;
 };
 
 struct enemy

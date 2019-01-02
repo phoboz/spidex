@@ -18,7 +18,7 @@ void init_character(
 	signed int speed,
 	unsigned int treshold,
 	unsigned int max_frames,
-	const signed char **shapes
+	const signed char* const *shapes
 	)
 {
 	init_object(&ch->obj, y, x, h, w, scale, shapes[0]);

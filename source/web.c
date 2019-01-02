@@ -742,7 +742,7 @@ const signed char web_wall_coords_4_8[]=
 	127	/* terminator */
 };
 
-const signed char *web_walls[]=
+const signed char* const web_walls[]=
 {
 	web_wall_1_1,
 	web_wall_1_2,
@@ -778,7 +778,7 @@ const signed char *web_walls[]=
 	web_wall_4_8
 };
 
-const signed char *web_wall_coords[]=
+const signed char* const web_wall_coords[]=
 {
 	0,
 	web_wall_coords_1_2,

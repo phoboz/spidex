@@ -8,7 +8,7 @@
 
 // ---------------------------------------------------------------------------
 
-extern const signed char *spider[];
+extern const signed char* const spider[];
 extern const signed char star[];
 
 void init_player(

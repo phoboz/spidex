@@ -7,8 +7,8 @@
 
 // ---------------------------------------------------------------------------
 
-extern const signed char *web_walls[];
-extern const signed char *web_wall_coords[];
+extern const signed char* const web_walls[];
+extern const signed char* const web_wall_coords[];
 
 void init_wall(
 	struct wall *wall,

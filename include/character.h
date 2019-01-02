@@ -19,7 +19,7 @@ struct character
 	unsigned int base_frame;
 	unsigned int frame;
 	unsigned int max_frames;
-	const signed char **shapes;
+	const signed char* const *shapes;
 };
 
 
@@ -33,7 +33,7 @@ void init_character(
 	signed int speed,
 	unsigned int treshold,
 	unsigned int max_frames,
-	const signed char **shapes
+	const signed char* const *shapes
 	);
 
 void set_dir_character(
