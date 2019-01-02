@@ -145,37 +145,86 @@ unsigned int move_player(
 					animate_character(&player->ch);
 					get_move_character(&player->ch, player->ch.move_speed, &dy, &dx);
 
-					for (i = 0; i < num_walls; i++)
+					if (dy != 0 && dx != 0)
 					{
-						if (walls[i].active)
+						for (i = 0; i < num_walls; i++)
 						{
-							y = player->ch.obj.y + dy;
-							x = player->ch.obj.x;
-
-							if ((unsigned int) abs(y) > (unsigned int) abs(player->ch.obj.y))
+							if (walls[i].active)
 							{
-								if (check_point_on_wall(&walls[i], y - player->ch.obj.h_2, x - player->ch.obj.w_2) ||
-								    check_point_on_wall(&walls[i], y - player->ch.obj.h_2, x + player->ch.obj.w_2) ||
-								    check_point_on_wall(&walls[i], y + player->ch.obj.h_2, x + player->ch.obj.w_2) ||
-								    check_point_on_wall(&walls[i], y + player->ch.obj.h_2, x - player->ch.obj.w_2))
+								y = player->ch.obj.y + dy;
+								x = player->ch.obj.x;
+
+								if ((unsigned int) abs(y) > (unsigned int) abs(player->ch.obj.y))
 								{
-									hit_wall = 1;
-									break;
+									if (check_point_on_wall(&walls[i], y - player->ch.obj.h_2, x - player->ch.obj.w_2) ||
+									    check_point_on_wall(&walls[i], y - player->ch.obj.h_2, x + player->ch.obj.w_2) ||
+									    check_point_on_wall(&walls[i], y + player->ch.obj.h_2, x + player->ch.obj.w_2) ||
+									    check_point_on_wall(&walls[i], y + player->ch.obj.h_2, x - player->ch.obj.w_2))
+									{
+										hit_wall = 1;
+										break;
+									}
+								}
+	
+								y = player->ch.obj.y;
+								x = player->ch.obj.x + dx;
+
+								if ((unsigned int) abs(x) > (unsigned int) abs(player->ch.obj.x))
+								{
+									if (check_point_on_wall(&walls[i], y - player->ch.obj.h_2, x - player->ch.obj.w_2) ||
+									    check_point_on_wall(&walls[i], y - player->ch.obj.h_2, x + player->ch.obj.w_2) ||
+									    check_point_on_wall(&walls[i], y + player->ch.obj.h_2, x + player->ch.obj.w_2) ||
+									    check_point_on_wall(&walls[i], y + player->ch.obj.h_2, x - player->ch.obj.w_2))
+									{
+										hit_wall = 1;
+										break;
+									}
 								}
 							}
-
-							y = player->ch.obj.y;
-							x = player->ch.obj.x + dx;
-
-							if ((unsigned int) abs(x) > (unsigned int) abs(player->ch.obj.x))
+						}
+					}
+					else if (dy != 0)
+					{
+						for (i = 0; i < num_walls; i++)
+						{
+							if (walls[i].active)
 							{
-								if (check_point_on_wall(&walls[i], y - player->ch.obj.h_2, x - player->ch.obj.w_2) ||
-								    check_point_on_wall(&walls[i], y - player->ch.obj.h_2, x + player->ch.obj.w_2) ||
-								    check_point_on_wall(&walls[i], y + player->ch.obj.h_2, x + player->ch.obj.w_2) ||
-								    check_point_on_wall(&walls[i], y + player->ch.obj.h_2, x - player->ch.obj.w_2))
+								y = player->ch.obj.y + dy;
+								x = player->ch.obj.x;
+
+								if ((unsigned int) abs(y) > (unsigned int) abs(player->ch.obj.y))
 								{
-									hit_wall = 1;
-									break;
+									if (check_point_on_wall(&walls[i], y - player->ch.obj.h_2, x - player->ch.obj.w_2) ||
+									    check_point_on_wall(&walls[i], y - player->ch.obj.h_2, x + player->ch.obj.w_2) ||
+									    check_point_on_wall(&walls[i], y + player->ch.obj.h_2, x + player->ch.obj.w_2) ||
+									    check_point_on_wall(&walls[i], y + player->ch.obj.h_2, x - player->ch.obj.w_2))
+									{
+										hit_wall = 1;
+										break;
+									}
+								}
+							}
+						}
+					}
+					else if (dx != 0)
+					{
+						for (i = 0; i < num_walls; i++)
+						{
+							if (walls[i].active)
+							{
+								y = player->ch.obj.y;
+								x = player->ch.obj.x + dx;
+
+								if ((unsigned int) abs(x) > (unsigned int) abs(player->ch.obj.x))
+								{
+									if (check_point_on_wall(&walls[i], y - player->ch.obj.h_2, x - player->ch.obj.w_2) ||
+									    check_point_on_wall(&walls[i], y - player->ch.obj.h_2, x + player->ch.obj.w_2) ||
+									    check_point_on_wall(&walls[i], y + player->ch.obj.h_2, x + player->ch.obj.w_2) ||
+									    check_point_on_wall(&walls[i], y + player->ch.obj.h_2, x - player->ch.obj.w_2))
+									{
+										hit_wall = 1;
+										break;
+									}
 								}
 							}
 						}
