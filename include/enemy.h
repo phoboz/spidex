@@ -6,6 +6,8 @@
 #define ENEMY_STATE_SPAWN	0
 #define ENEMY_STATE_STOP	1
 #define ENEMY_STATE_MOVE	2
+#define ENEMY_STATE_EXPLODE	3
+#define ENEMY_STATE_DEAD	4
 
 #define ENEMY_TYPE_FLYER	1
 #define ENEMY_TYPE_HOMER	2
@@ -14,28 +16,17 @@
 #define ENEMY_RACE_BEE		1
 #define ENEMY_RACE_BUG		2
 
+#define ENEMY_EXPLOSION_RADIUS	16
+
 #define ENEMY_SPAWN_TRESHOLD		16
 #define ENEMY_SPAWN_ANIM_TRESHOLD	1
 #define ENEMY_SPAWN_ANIM_FRAMES		8
 #define ENEMY_STOP_TRESHOLD			3
+#define ENEMY_EXPLODE_TRESHOLD		12
 
 struct enemy_path {
 	unsigned int treshold;
 	unsigned int dir;
-};
-
-struct enemy
-{
-	struct character ch;
-	unsigned int type;
-	signed int num_hits;
-	unsigned int state;
-	unsigned int counter;
-	unsigned int spawn_counter;
-	unsigned int step_counter;
-	unsigned int num_steps;
-	const struct enemy_path *path;
-	unsigned int state_counter;
 };
 
 struct enemy_race {
@@ -44,9 +35,24 @@ struct enemy_race {
 	unsigned int scale;
 	unsigned int type;
 	signed int speed;
-	signed int num_hits;
+	signed int max_hits;
+	unsigned int explode;
 	unsigned int treshold;
 	const signed char **shapes;
+};
+
+struct enemy
+{
+	struct character ch;
+	const struct enemy_race *race;
+	signed int num_hits;
+	unsigned int state;
+	unsigned int counter;
+	unsigned int spawn_counter;
+	unsigned int step_counter;
+	unsigned int num_steps;
+	const struct enemy_path *path;
+	unsigned int state_counter;
 };
 
 void init_enemy(
@@ -78,6 +84,11 @@ void move_enemy(
 
 unsigned int hit_enemy(
 	struct enemy *enemy
+	);
+
+unsigned int hit_object_enemy(
+	struct enemy *enemy,
+	struct object *obj
 	);
 
 void draw_enemy(

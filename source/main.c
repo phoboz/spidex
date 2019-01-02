@@ -29,7 +29,7 @@
 
 #define MAX_ENEMIES	3
 #define MAX_FOOD		5
-#define MAX_WALLS		4
+#define MAX_WALLS		3
 
 extern const signed char web[];
 
@@ -202,6 +202,7 @@ int main(void)
 			new_wave_index = move_wave(&wave, MAX_ENEMIES, enemy, MAX_WALLS, wall);
 			if (new_wave_index)
 			{
+				init_enemies();
 				init_walls();
 				Vec_Music_Flag = 1;
 			}

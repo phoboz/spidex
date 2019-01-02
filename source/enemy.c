@@ -3,6 +3,7 @@
 // ***************************************************************************
 
 #include <vectrex.h>
+#include "generic.h"
 #include "draw.h"
 #include "enemy.h"
 
@@ -15,10 +16,23 @@ extern const signed char *bee[];
 
 const struct enemy_race enemy_races[] =
 {
-	/*	h	w	scale	type				speed	num_hits		treshold		shapes	*/
-	{	7,	7,	0x40,	ENEMY_TYPE_FLYER,	1,		1,			1,			fly		},
-	{	10,	10,	0x40,	ENEMY_TYPE_FLYER,	1,		5,			2,			bee		},
-	{	12,	12,	0x40,	ENEMY_TYPE_HOMER,	1,		-1,			3,			bug		}
+	/*	h	w	scale	type				speed	max_hits	explode	treshold		shapes	*/
+	{	7,	7,	0x40,	ENEMY_TYPE_FLYER,	1,		1,		0,		1,			fly		},
+	{	10,	10,	0x40,	ENEMY_TYPE_FLYER,	1,		5,		0,		2,			bee		},
+	{	12,	12,	0x40,	ENEMY_TYPE_HOMER,	1,		-1,		0,		3,			bug		}
+};
+
+const signed char cicle[]=
+{	(signed char) +1, +10, -10, // sync and move to y, x
+	(signed char) -1, +4, +10, // draw, y, x
+	(signed char) -1, -4, +10, // draw, y, x
+	(signed char) -1, -10, +4, // draw, y, x
+	(signed char) -1, -10, -4, // draw, y, x
+	(signed char) -1, -4, -10, // draw, y, x
+	(signed char) -1, +4, -10, // draw, y, x
+	(signed char) -1, +10, -4, // draw, y, x
+	(signed char) -1, +10, +4, // draw, y, x
+	(signed char) +2 // endmarker 
 };
 
 void init_enemy(
@@ -50,15 +64,15 @@ void init_enemy(
 		race->shapes
 		);
 
-	enemy->type			= race->type;
-	enemy->num_hits		= race->num_hits;
+	enemy->race			= race;
+	enemy->num_hits		= race->max_hits;
 	enemy->counter		= 0;
 	enemy->spawn_counter	= 0;
 	enemy->step_counter	= start_step;
 	enemy->num_steps		= num_steps;
 	enemy->path			= path;
 
-	set_dir_enemy(enemy, DIR_DOWN/*enemy->path[enemy->step_counter].dir*/);
+	set_dir_enemy(enemy, DIR_DOWN);
 	set_state_enemy(enemy, ENEMY_STATE_SPAWN);
 }
 
@@ -83,6 +97,11 @@ void set_state_enemy(
 {
 	enemy->state = state;
 	enemy->state_counter = 0;
+
+	if (state == ENEMY_STATE_DEAD)
+	{
+		enemy->ch.obj.active = 0;
+	}
 }
 
 static void move_flyer_enemy(
@@ -201,7 +220,7 @@ void move_enemy(
 				set_state_enemy(enemy, ENEMY_STATE_MOVE);
 			}
 		}
-		if (enemy->state == ENEMY_STATE_STOP)
+		else if (enemy->state == ENEMY_STATE_STOP)
 		{
 			if (++enemy->state_counter >= ENEMY_STOP_TRESHOLD)
 			{
@@ -210,7 +229,7 @@ void move_enemy(
 		}
 		else if (enemy->state == ENEMY_STATE_MOVE)
 		{
-			switch (enemy->type)
+			switch (enemy->race->type)
 			{
 				case ENEMY_TYPE_FLYER:
 					move_flyer_enemy(enemy);
@@ -222,6 +241,13 @@ void move_enemy(
 
 				default:
 					break;
+			}
+		}
+		else if (enemy->state == ENEMY_STATE_EXPLODE)
+		{
+			if (++enemy->state_counter >= ENEMY_EXPLODE_TRESHOLD)
+			{
+				set_state_enemy(enemy, ENEMY_STATE_DEAD);
 			}
 		}
 	}
@@ -237,15 +263,57 @@ unsigned int hit_enemy(
 	{
 		if (--enemy->num_hits == 0)
 		{
-			enemy->ch.obj.active = 0;
-			result = 1;
+			if (enemy->race->explode)
+			{
+				set_state_enemy(enemy, ENEMY_STATE_EXPLODE);
+			}
+			else
+			{
+				set_state_enemy(enemy, ENEMY_STATE_DEAD);
+				result = 1;
+			}
+		}
+	}
+	else if (enemy->state != ENEMY_STATE_EXPLODE)
+	{
+		if (enemy->ch.obj.active)
+		{
+			retreat_character(&enemy->ch);
+			set_state_enemy(enemy, ENEMY_STATE_STOP);
 		}
 	}
 
+	return result;
+}
+
+unsigned int hit_object_enemy(
+	struct enemy *enemy,
+	struct object *obj
+	)
+{
+	unsigned int r;
+	signed int dy, dx;
+	unsigned int result = 0;
+
 	if (enemy->ch.obj.active)
 	{
-		retreat_character(&enemy->ch);
-		set_state_enemy(enemy, ENEMY_STATE_STOP);
+		if (enemy->state == ENEMY_STATE_STOP || enemy->state == ENEMY_STATE_MOVE)
+		{
+			if (hit_object(obj, &enemy->ch.obj))
+			{
+				result = 1;
+			}
+		}
+		else if (enemy->state == ENEMY_STATE_EXPLODE)
+		{
+			dy = enemy->ch.obj.y - obj->y;
+			dx = enemy->ch.obj.x - obj->x;
+			r = ENEMY_EXPLOSION_RADIUS + (enemy->state_counter << 2);
+			if ((unsigned int) abs(dy) + (unsigned int) abs(dx) < r)
+			{
+				result = 1;
+			}
+		}
 	}
 
 	return result;
@@ -255,22 +323,35 @@ void draw_enemy(
 	struct enemy *enemy
 	)
 {
-	if (enemy->state == ENEMY_STATE_SPAWN)
+	if (enemy->ch.obj.active)
 	{
-		if (enemy->ch.obj.active)
+		if (enemy->state == ENEMY_STATE_SPAWN)
+		{
+			if (enemy->ch.obj.active)
+			{
+				draw_synced_list_c(
+					spiral[enemy->ch.frame],
+					enemy->ch.obj.y,
+					enemy->ch.obj.x,
+					OBJECT_MOVE_SCALE,
+					0x01 + (enemy->state_counter << 1)
+					);
+			}
+		}
+		else if (enemy->state == ENEMY_STATE_EXPLODE)
 		{
 			draw_synced_list_c(
-				spiral[enemy->ch.frame],
+				cicle,
 				enemy->ch.obj.y,
 				enemy->ch.obj.x,
 				OBJECT_MOVE_SCALE,
-				0x01 + (enemy->state_counter << 1)
+				enemy->ch.obj.scale + (enemy->state_counter << 4)
 				);
 		}
-	}
-	else
-	{
-		draw_character(&enemy->ch);
+		else
+		{
+			draw_character(&enemy->ch);
+		}
 	}
 }
 

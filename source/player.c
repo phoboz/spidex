@@ -226,7 +226,7 @@ unsigned int interaction_enemies_player(
 		{
 			if (player->state == PLAYER_STATE_NORMAL && enemies[i].state != ENEMY_STATE_SPAWN)
 			{
-				if (hit_object(&player->ch.obj, &enemies[i].ch.obj))
+				if (hit_object_enemy(&enemies[i], &player->ch.obj))
 				{
 					set_state_player(player, PLAYER_STATE_DYING);
 				}
