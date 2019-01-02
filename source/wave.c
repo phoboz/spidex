@@ -29,12 +29,19 @@ const struct enemy_path circular_path[] =
 	{12,				DIR_DOWN_LEFT}
 };
 
+const struct enemy_path l_path[] =
+{
+	/* treshold		dir */
+	{12,				DIR_LEFT},
+	{12,				DIR_UP}
+};
 
 const struct path_element enemy_paths[] =
 {
 	/* num_steps	reference */
 	{4,			square_path},
-	{8,			circular_path}
+	{8,			circular_path},
+	{2,			l_path}
 };
 
 const struct wave_element wave_1[] =
@@ -58,11 +65,20 @@ const struct wave_element wave_2[] =
 	{	120,			-40,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BUG,	0		}
 };
 
+const struct wave_element wave_3[] =
+{
+	/*	treshold		y		x		object_type				object_index		value */
+	{	0,			-80,		80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,	2		},
+	{	0,			-90,		80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,	2		},
+	{	0,			-100,	80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,	2		}
+};
+
 const struct wave_def waves[] =
 {
 	/*	num_elmts		wave_elmts	*/
 	{	2,			wave_1		},
-	{	9,			wave_2		}
+	{	9,			wave_2		},
+	{	3,			wave_3		}
 };
 
 void init_wave(

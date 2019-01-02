@@ -163,7 +163,9 @@ int main(void)
 	init_foods();
 	init_walls();
 	init_wave(&wave);
-
+////DEBUG
+	wave.wave_index = 2;
+////END DEBUG
 	while(1)
 	{
 		fire_status = move_player(&player, MAX_WALLS, wall);

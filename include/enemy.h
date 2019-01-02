@@ -15,6 +15,7 @@
 #define ENEMY_RACE_FLY		0
 #define ENEMY_RACE_BEE		1
 #define ENEMY_RACE_BUG		2
+#define ENEMY_RACE_MINE	3
 
 #define ENEMY_EXPLOSION_RADIUS	16
 

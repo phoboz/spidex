@@ -4,7 +4,7 @@
 #include "enemy.h"
 #include "wall.h"
 
-#define MAX_WAVES		2
+#define MAX_WAVES		3
 
 #define WAVE_OBJECT_TYPE_ENEMY	0
 #define WAVE_OBJECT_TYPE_WALL	1

@@ -20,7 +20,8 @@ const struct enemy_race enemy_races[] =
 	/*	h	w	scale	type				speed	max_hits	explode	treshold		shapes	*/
 	{	7,	7,	0x40,	ENEMY_TYPE_FLYER,	1,		1,		0,		1,			fly		},
 	{	10,	10,	0x40,	ENEMY_TYPE_FLYER,	1,		5,		0,		2,			bee		},
-	{	12,	12,	0x40,	ENEMY_TYPE_HOMER,	1,		-1,		0,		3,			bug		}
+	{	12,	12,	0x40,	ENEMY_TYPE_HOMER,	1,		-1,		0,		3,			bug		},
+	{	7,	7,	0x40,	ENEMY_TYPE_FLYER,	2,		1,		1,		2,			mine		}
 };
 
 const signed char cicle[]=
@@ -73,7 +74,15 @@ void init_enemy(
 	enemy->num_steps		= num_steps;
 	enemy->path			= path;
 
-	set_dir_enemy(enemy, DIR_DOWN);
+	if (enemy->race->type == ENEMY_TYPE_FLYER)
+	{
+		set_dir_enemy(enemy, enemy->path[0].dir);
+	}
+	else
+	{
+		set_dir_enemy(enemy, DIR_DOWN);
+	}
+
 	set_state_enemy(enemy, ENEMY_STATE_SPAWN);
 }
 
