@@ -9,6 +9,9 @@
 #define CHARACTER_MIN_X	-100
 #define CHARACTER_MAX_X	 100
 
+#define CHARACTER_WALL_MODE_PASS_IN	0
+#define CHARACTER_WALL_MODE_PASS_OUT	1
+
 struct character
 {
 	struct object obj;
@@ -30,7 +33,7 @@ void init_character(
 	signed int h,
 	signed int w,
 	unsigned int scale,
-	signed int speed,
+	signed int move_speed,
 	unsigned int treshold,
 	unsigned int max_frames,
 	const signed char* const *shapes
@@ -68,6 +71,7 @@ unsigned int interaction_walls_character(
 	struct character *ch,
 	signed int dy,
 	signed int dx,
+	unsigned int mode,
 	unsigned int num_walls,
 	struct wall *walls
 	);

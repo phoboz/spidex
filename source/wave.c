@@ -32,8 +32,10 @@ const struct enemy_path circular_path[] =
 const struct enemy_path l_path[] =
 {
 	/* treshold		dir */
-	{12,				DIR_LEFT},
-	{12,				DIR_UP}
+	{40,				DIR_LEFT},
+	{90,				DIR_UP},
+	{90,				DIR_DOWN},
+	{40,				DIR_RIGHT}
 };
 
 const struct path_element enemy_paths[] =
@@ -41,7 +43,7 @@ const struct path_element enemy_paths[] =
 	/* num_steps	reference */
 	{4,			square_path},
 	{8,			circular_path},
-	{2,			l_path}
+	{4,			l_path}
 };
 
 const struct wave_element wave_1[] =
@@ -68,6 +70,9 @@ const struct wave_element wave_2[] =
 const struct wave_element wave_3[] =
 {
 	/*	treshold		y		x		object_type				object_index		value */
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		19,				32		},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		20,				32		},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		21,				32		},
 	{	0,			-80,		80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,	2		},
 	{	0,			-90,		80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,	2		},
 	{	0,			-100,	80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,	2		}
@@ -78,7 +83,7 @@ const struct wave_def waves[] =
 	/*	num_elmts		wave_elmts	*/
 	{	2,			wave_1		},
 	{	9,			wave_2		},
-	{	3,			wave_3		}
+	{	6,			wave_3		}
 };
 
 void init_wave(

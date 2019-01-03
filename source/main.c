@@ -164,7 +164,7 @@ int main(void)
 	init_walls();
 	init_wave(&wave);
 ////DEBUG
-	wave.wave_index = 2;
+	//wave.wave_index = 2;
 ////END DEBUG
 	while(1)
 	{

@@ -15,7 +15,7 @@ void init_character(
 	signed int h,
 	signed int w,
 	unsigned int scale,
-	signed int speed,
+	signed int move_speed,
 	unsigned int treshold,
 	unsigned int max_frames,
 	const signed char* const *shapes
@@ -24,7 +24,7 @@ void init_character(
 	init_object(&ch->obj, y, x, h, w, scale, shapes[0]);
 
 	ch->dir 			= DIR_DOWN;
-	ch->move_speed	= speed;
+	ch->move_speed	= move_speed;
 
 	ch->counter		= 0;
 	ch->treshold		= treshold;
@@ -183,6 +183,7 @@ unsigned int interaction_walls_character(
 	struct character *ch,
 	signed int dy,
 	signed int dx,
+	unsigned int mode,
 	unsigned int num_walls,
 	struct wall *walls
 	)
@@ -191,85 +192,175 @@ unsigned int interaction_walls_character(
 	signed int y, x;
 	unsigned int result = 0;
 
-	if (dy != 0 && dx != 0)
+	if (mode == CHARACTER_WALL_MODE_PASS_IN)
 	{
-		for (i = 0; i < num_walls; i++)
+		if (dy != 0 && dx != 0)
 		{
-			if (walls[i].active)
+			for (i = 0; i < num_walls; i++)
 			{
-				y = ch->obj.y + dy;
-				x = ch->obj.x;
-
-				if ((unsigned int) abs(y) > (unsigned int) abs(ch->obj.y))
+				if (walls[i].active)
 				{
-					if (check_point_on_wall(&walls[i], y - ch->obj.h_2, x - ch->obj.w_2) ||
-					    check_point_on_wall(&walls[i], y - ch->obj.h_2, x + ch->obj.w_2) ||
-					    check_point_on_wall(&walls[i], y + ch->obj.h_2, x + ch->obj.w_2) ||
-					    check_point_on_wall(&walls[i], y + ch->obj.h_2, x - ch->obj.w_2))
+					y = ch->obj.y + dy;
+					x = ch->obj.x;
+
+					if ((unsigned int) abs(y) > (unsigned int) abs(ch->obj.y))
 					{
-						result = 1;
-						break;
+						if (check_point_on_wall(&walls[i], y - ch->obj.h_2, x - ch->obj.w_2) ||
+							check_point_on_wall(&walls[i], y - ch->obj.h_2, x + ch->obj.w_2) ||
+							check_point_on_wall(&walls[i], y + ch->obj.h_2, x + ch->obj.w_2) ||
+							check_point_on_wall(&walls[i], y + ch->obj.h_2, x - ch->obj.w_2))
+						{
+							result = 1;
+							break;
+						}
 					}
-				}
 	
-				y = ch->obj.y;
-				x = ch->obj.x + dx;
+					y = ch->obj.y;
+					x = ch->obj.x + dx;
 
-				if ((unsigned int) abs(x) > (unsigned int) abs(ch->obj.x))
-				{
-					if (check_point_on_wall(&walls[i], y - ch->obj.h_2, x - ch->obj.w_2) ||
-					    check_point_on_wall(&walls[i], y - ch->obj.h_2, x + ch->obj.w_2) ||
-					    check_point_on_wall(&walls[i], y + ch->obj.h_2, x + ch->obj.w_2) ||
-					    check_point_on_wall(&walls[i], y + ch->obj.h_2, x - ch->obj.w_2))
+					if ((unsigned int) abs(x) > (unsigned int) abs(ch->obj.x))
 					{
-						result = 1;
-						break;
+						if (check_point_on_wall(&walls[i], y - ch->obj.h_2, x - ch->obj.w_2) ||
+							check_point_on_wall(&walls[i], y - ch->obj.h_2, x + ch->obj.w_2) ||
+							check_point_on_wall(&walls[i], y + ch->obj.h_2, x + ch->obj.w_2) ||
+							check_point_on_wall(&walls[i], y + ch->obj.h_2, x - ch->obj.w_2))
+						{
+							result = 1;
+							break;
+						}
+					}
+				}
+			}
+		}
+		else if (dy != 0)
+		{
+			for (i = 0; i < num_walls; i++)
+			{
+				if (walls[i].active)
+				{
+					y = ch->obj.y + dy;
+					x = ch->obj.x;
+
+					if ((unsigned int) abs(y) > (unsigned int) abs(ch->obj.y))
+					{
+						if (check_point_on_wall(&walls[i], y - ch->obj.h_2, x - ch->obj.w_2) ||
+							check_point_on_wall(&walls[i], y - ch->obj.h_2, x + ch->obj.w_2) ||
+							check_point_on_wall(&walls[i], y + ch->obj.h_2, x + ch->obj.w_2) ||
+							check_point_on_wall(&walls[i], y + ch->obj.h_2, x - ch->obj.w_2))
+						{
+							result = 1;
+							break;
+						}
+					}
+				}
+			}
+		}
+		else if (dx != 0)
+		{
+			for (i = 0; i < num_walls; i++)
+			{
+				if (walls[i].active)
+				{
+					y = ch->obj.y;
+					x = ch->obj.x + dx;
+
+					if ((unsigned int) abs(x) > (unsigned int) abs(ch->obj.x))
+					{
+						if (check_point_on_wall(&walls[i], y - ch->obj.h_2, x - ch->obj.w_2) ||
+							check_point_on_wall(&walls[i], y - ch->obj.h_2, x + ch->obj.w_2) ||
+							check_point_on_wall(&walls[i], y + ch->obj.h_2, x + ch->obj.w_2) ||
+							check_point_on_wall(&walls[i], y + ch->obj.h_2, x - ch->obj.w_2))
+						{
+							result = 1;
+							break;
+						}
 					}
 				}
 			}
 		}
 	}
-	else if (dy != 0)
+	else if (mode == CHARACTER_WALL_MODE_PASS_OUT)
 	{
-		for (i = 0; i < num_walls; i++)
+		if (dy != 0 && dx != 0)
 		{
-			if (walls[i].active)
+			for (i = 0; i < num_walls; i++)
 			{
-				y = ch->obj.y + dy;
-				x = ch->obj.x;
-
-				if ((unsigned int) abs(y) > (unsigned int) abs(ch->obj.y))
+				if (walls[i].active)
 				{
-					if (check_point_on_wall(&walls[i], y - ch->obj.h_2, x - ch->obj.w_2) ||
-					    check_point_on_wall(&walls[i], y - ch->obj.h_2, x + ch->obj.w_2) ||
-					    check_point_on_wall(&walls[i], y + ch->obj.h_2, x + ch->obj.w_2) ||
-					    check_point_on_wall(&walls[i], y + ch->obj.h_2, x - ch->obj.w_2))
+					y = ch->obj.y + dy;
+					x = ch->obj.x;
+
+					if ((unsigned int) abs(y) < (unsigned int) abs(ch->obj.y))
 					{
-						result = 1;
-						break;
+						if (check_point_on_wall(&walls[i], y - ch->obj.h_2, x - ch->obj.w_2) ||
+							check_point_on_wall(&walls[i], y - ch->obj.h_2, x + ch->obj.w_2) ||
+							check_point_on_wall(&walls[i], y + ch->obj.h_2, x + ch->obj.w_2) ||
+							check_point_on_wall(&walls[i], y + ch->obj.h_2, x - ch->obj.w_2))
+						{
+							result = 1;
+							break;
+						}
+					}
+	
+					y = ch->obj.y;
+					x = ch->obj.x + dx;
+
+					if ((unsigned int) abs(x) < (unsigned int) abs(ch->obj.x))
+					{
+						if (check_point_on_wall(&walls[i], y - ch->obj.h_2, x - ch->obj.w_2) ||
+							check_point_on_wall(&walls[i], y - ch->obj.h_2, x + ch->obj.w_2) ||
+							check_point_on_wall(&walls[i], y + ch->obj.h_2, x + ch->obj.w_2) ||
+							check_point_on_wall(&walls[i], y + ch->obj.h_2, x - ch->obj.w_2))
+						{
+							result = 1;
+							break;
+						}
 					}
 				}
 			}
 		}
-	}
-	else if (dx != 0)
-	{
-		for (i = 0; i < num_walls; i++)
+		else if (dy != 0)
 		{
-			if (walls[i].active)
+			for (i = 0; i < num_walls; i++)
 			{
-				y = ch->obj.y;
-				x = ch->obj.x + dx;
-
-				if ((unsigned int) abs(x) > (unsigned int) abs(ch->obj.x))
+				if (walls[i].active)
 				{
-					if (check_point_on_wall(&walls[i], y - ch->obj.h_2, x - ch->obj.w_2) ||
-					    check_point_on_wall(&walls[i], y - ch->obj.h_2, x + ch->obj.w_2) ||
-					    check_point_on_wall(&walls[i], y + ch->obj.h_2, x + ch->obj.w_2) ||
-					    check_point_on_wall(&walls[i], y + ch->obj.h_2, x - ch->obj.w_2))
+					y = ch->obj.y + dy;
+					x = ch->obj.x;
+
+					if ((unsigned int) abs(y) < (unsigned int) abs(ch->obj.y))
 					{
-						result = 1;
-						break;
+						if (check_point_on_wall(&walls[i], y - ch->obj.h_2, x - ch->obj.w_2) ||
+							check_point_on_wall(&walls[i], y - ch->obj.h_2, x + ch->obj.w_2) ||
+							check_point_on_wall(&walls[i], y + ch->obj.h_2, x + ch->obj.w_2) ||
+							check_point_on_wall(&walls[i], y + ch->obj.h_2, x - ch->obj.w_2))
+						{
+							result = 1;
+							break;
+						}
+					}
+				}
+			}
+		}
+		else if (dx != 0)
+		{
+			for (i = 0; i < num_walls; i++)
+			{
+				if (walls[i].active)
+				{
+					y = ch->obj.y;
+					x = ch->obj.x + dx;
+
+					if ((unsigned int) abs(x) < (unsigned int) abs(ch->obj.x))
+					{
+						if (check_point_on_wall(&walls[i], y - ch->obj.h_2, x - ch->obj.w_2) ||
+							check_point_on_wall(&walls[i], y - ch->obj.h_2, x + ch->obj.w_2) ||
+							check_point_on_wall(&walls[i], y + ch->obj.h_2, x + ch->obj.w_2) ||
+							check_point_on_wall(&walls[i], y + ch->obj.h_2, x - ch->obj.w_2))
+						{
+							result = 1;
+							break;
+						}
 					}
 				}
 			}

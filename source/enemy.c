@@ -46,13 +46,6 @@ void init_enemy(
 	const struct enemy_path *path
 	)
 {
-	static unsigned int start_step = 0;
-
-	if (++start_step >= num_steps)
-	{
-		start_step = 0;
-	}
-
 	init_character(
 		&enemy->ch,
 		y,
@@ -70,7 +63,7 @@ void init_enemy(
 	enemy->num_hits		= race->max_hits;
 	enemy->counter		= 0;
 	enemy->spawn_counter	= 0;
-	enemy->step_counter	= start_step;
+	enemy->step_counter	= 0;
 	enemy->num_steps		= num_steps;
 	enemy->path			= path;
 
@@ -115,28 +108,67 @@ void set_state_enemy(
 }
 
 static void move_flyer_enemy(
-	struct enemy *enemy
+	struct enemy *enemy,
+	unsigned int num_walls,
+	struct wall *walls
 	)
 {
+	signed int dy, dx;
 	animate_character(&enemy->ch);
 
 	if (++enemy->counter >= enemy->path[enemy->step_counter].treshold)
 	{
 		enemy->counter = 0;
-		set_dir_enemy(enemy, enemy->path[enemy->step_counter].dir);
 		if (++enemy->step_counter >= enemy->num_steps)
 		{
 			enemy->step_counter = 0;
 		}
+
+		set_dir_enemy(enemy, enemy->path[enemy->step_counter].dir);
 	}
 
-	if (move_character(&enemy->ch))
+	if (enemy->race->explode)
 	{
-		if (++enemy->step_counter >= enemy->num_steps)
+		get_move_character(&enemy->ch, enemy->ch.move_speed, &dy, &dx);
+
+		if (!interaction_walls_character(
+				&enemy->ch,
+				dy,
+				dx,
+				CHARACTER_WALL_MODE_PASS_OUT,
+				num_walls,
+				walls
+				))
 		{
-			enemy->step_counter = 0;
+			animate_character(&enemy->ch);
+
+			enemy->ch.obj.y += dy;
+			enemy->ch.obj.x += dx;
+
+			if (limit_move_character(&enemy->ch))
+			{
+				if (++enemy->step_counter >= enemy->num_steps)
+				{
+					enemy->step_counter = 0;
+				}
+				set_dir_enemy(enemy, enemy->path[enemy->step_counter].dir);
+			}
 		}
-		set_dir_enemy(enemy, enemy->path[enemy->step_counter].dir);
+		else
+		{
+			set_state_enemy(enemy, ENEMY_STATE_EXPLODE);
+		}
+	}
+	else
+	{
+		if (move_character(&enemy->ch))
+		{
+			if (++enemy->step_counter >= enemy->num_steps)
+			{
+				enemy->step_counter = 0;
+			}
+			set_dir_enemy(enemy, enemy->path[enemy->step_counter].dir);
+		}
 	}
 }
 
@@ -189,7 +221,14 @@ static void move_homer_enemy(
 
 	get_move_character(&enemy->ch, enemy->ch.move_speed, &dy, &dx);
 
-	if (!interaction_walls_character(&enemy->ch, dy, dx, num_walls, walls))
+	if (!interaction_walls_character(
+			&enemy->ch,
+			dy,
+			dx,
+			CHARACTER_WALL_MODE_PASS_OUT,
+			num_walls,
+			walls
+			))
 	{
 		animate_character(&enemy->ch);
 		enemy->ch.obj.y += dy;
@@ -198,7 +237,14 @@ static void move_homer_enemy(
 	}
 	else
 	{
-		set_state_enemy(enemy, ENEMY_STATE_STOP);
+		if (enemy->race->explode)
+		{
+			set_state_enemy(enemy, ENEMY_STATE_EXPLODE);
+		}
+		else
+		{
+			set_state_enemy(enemy, ENEMY_STATE_STOP);
+		}
 	}
 }
 
@@ -242,7 +288,7 @@ void move_enemy(
 			switch (enemy->race->type)
 			{
 				case ENEMY_TYPE_FLYER:
-					move_flyer_enemy(enemy);
+					move_flyer_enemy(enemy, num_walls, walls);
 					break;
 
 				case ENEMY_TYPE_HOMER:
@@ -284,7 +330,8 @@ unsigned int hit_enemy(
 			}
 		}
 	}
-	else if (enemy->state != ENEMY_STATE_EXPLODE)
+
+	if (enemy->state != ENEMY_STATE_EXPLODE)
 	{
 		if (enemy->ch.obj.active)
 		{

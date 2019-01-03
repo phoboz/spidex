@@ -142,7 +142,14 @@ unsigned int move_player(
 					animate_character(&player->ch);
 					get_move_character(&player->ch, player->ch.move_speed, &dy, &dx);
 
-					if (!interaction_walls_character(&player->ch, dy, dx, num_walls, walls))
+					if (!interaction_walls_character(
+							&player->ch,
+							dy,
+							dx,
+							CHARACTER_WALL_MODE_PASS_IN,
+							num_walls,
+							walls
+							))
 					{
 						player->ch.obj.y += dy;
 						player->ch.obj.x += dx;
