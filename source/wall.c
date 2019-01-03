@@ -25,11 +25,11 @@ void init_wall(
 	wall->time_counter		= 0;
 	wall->time_treshold	= time_treshold;
 
-	y1 = web_wall[1];
-	x1 = web_wall[2];
+	y1 = web_wall[0];
+	x1 = web_wall[1];
 
-	y2 = y1 + web_wall[3];
-	x2 = x1 + web_wall[4];
+	y2 = y1 + web_wall[2];
+	x2 = x1 + web_wall[3];
 
 	if (y1 > y2)
 	{
@@ -53,11 +53,11 @@ void init_wall(
 
 	wall->coords = web_wall_coords[index];
 
-	wall->pos[0] = web_wall[1];
-	wall->pos[1] = web_wall[2];
+	wall->pos[0] = web_wall[0];
+	wall->pos[1] = web_wall[1];
 
-	wall->vec[0] = web_wall[3];
-	wall->vec[1] = web_wall[4];
+	wall->vec[0] = web_wall[2];
+	wall->vec[1] = web_wall[3];
 }
 
 unsigned int check_point_on_wall(

@@ -156,6 +156,7 @@ int main(void)
 	signed int status;
 	unsigned int fire_status = 0;
 	unsigned int new_wave_index = 1;
+	unsigned int draw_web = 1;
 
 	init_input();
 	init_player(&player, 0, 0);
@@ -254,8 +255,23 @@ int main(void)
 
 		print_3digit_number(127, -16, player.score);
 
-		Intensity_1F();
-		draw_synced_list_c(web, 0, 0, 0x80, 0x80);
+		if (button_1_1_pressed())
+		{
+			if (draw_web)
+			{
+				draw_web = 0;
+			}
+			else
+			{
+				draw_web = 1;
+			}
+		}
+
+		if (draw_web)
+		{
+			Intensity_1F();
+			draw_synced_list_c(web, 0, 0, 0x80, 0x80);
+		}
 
 		Intensity_5F();
 		draw_walls();
