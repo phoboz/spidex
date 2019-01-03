@@ -250,8 +250,7 @@ static void move_homer_enemy(
 
 void move_enemy(
 	struct enemy *enemy,
-	signed int dest_y,
-	signed int dest_x,
+	struct object *obj,
 	unsigned int num_walls,
 	struct wall *walls
 	)
@@ -292,7 +291,7 @@ void move_enemy(
 					break;
 
 				case ENEMY_TYPE_HOMER:
-					move_homer_enemy(enemy, dest_y, dest_x, num_walls, walls);
+					move_homer_enemy(enemy, obj->y, obj->x, num_walls, walls);
 					break;
 
 				default:

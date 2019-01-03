@@ -77,8 +77,7 @@ void set_state_enemy(
 
 void move_enemy(
 	struct enemy *enemy,
-	signed int dest_y,
-	signed int dest_x,
+	struct object *obj,
 	unsigned int num_walls,
 	struct wall *walls
 	);
