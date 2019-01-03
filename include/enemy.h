@@ -4,13 +4,18 @@
 #include "character.h"
 
 #define ENEMY_STATE_SPAWN	0
-#define ENEMY_STATE_STOP	1
-#define ENEMY_STATE_MOVE	2
-#define ENEMY_STATE_EXPLODE	3
-#define ENEMY_STATE_DEAD	4
+#define ENEMY_STATE_EGG	1
+#define ENEMY_STATE_STOP	2
+#define ENEMY_STATE_MOVE	3
+#define ENEMY_STATE_EXPLODE	4
+#define ENEMY_STATE_DEAD	5
 
 #define ENEMY_TYPE_FLYER	1
 #define ENEMY_TYPE_HOMER	2
+
+#define ENEMY_SPECIAL_NONE		0
+#define ENEMY_SPECIAL_EXPLODE	1
+#define ENEMY_SPECIAL_EGG		2
 
 #define ENEMY_RACE_FLY		0
 #define ENEMY_RACE_BEE		1
@@ -37,7 +42,7 @@ struct enemy_race {
 	unsigned int type;
 	signed int speed;
 	signed int max_hits;
-	unsigned int explode;
+	unsigned int special;
 	unsigned int treshold;
 	const signed char * const *shapes;
 };

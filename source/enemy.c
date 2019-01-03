@@ -17,14 +17,14 @@ extern const signed char* const mine[];
 
 const struct enemy_race enemy_races[] =
 {
-	/*	h	w	scale	type				speed	max_hits	explode	treshold		shapes	*/
-	{	7,	7,	0x40,	ENEMY_TYPE_FLYER,	1,		1,		0,		1,			fly		},
-	{	10,	10,	0x40,	ENEMY_TYPE_FLYER,	1,		5,		0,		2,			bee		},
-	{	12,	12,	0x40,	ENEMY_TYPE_HOMER,	1,		-1,		0,		3,			bug		},
-	{	7,	7,	0x40,	ENEMY_TYPE_FLYER,	2,		1,		1,		2,			mine		}
+	/*	h	w	scale	type				speed	max_hits	special					treshold	shapes	*/
+	{	7,	7,	0x40,	ENEMY_TYPE_FLYER,	1,		1,		ENEMY_SPECIAL_NONE,		1,		fly		},
+	{	10,	10,	0x40,	ENEMY_TYPE_FLYER,	1,		5,		ENEMY_SPECIAL_NONE,		2,		bee		},
+	{	12,	12,	0x40,	ENEMY_TYPE_HOMER,	1,		-1,		ENEMY_SPECIAL_NONE,		3,		bug		},
+	{	7,	7,	0x40,	ENEMY_TYPE_FLYER,	2,		1,		ENEMY_SPECIAL_EXPLODE,		2,		mine		}
 };
 
-const signed char cicle[]=
+static const signed char cicle[]=
 {	(signed char) +1, +10, -10, // sync and move to y, x
 	(signed char) -1, +4, +10, // draw, y, x
 	(signed char) -1, -4, +10, // draw, y, x
@@ -34,6 +34,38 @@ const signed char cicle[]=
 	(signed char) -1, +4, -10, // draw, y, x
 	(signed char) -1, +10, -4, // draw, y, x
 	(signed char) -1, +10, +4, // draw, y, x
+	(signed char) +2 // endmarker 
+};
+
+static const signed char egg_1[]=
+{	(signed char) +1, +6, -10, // sync and move to y, x
+	(signed char) -1, +2, +10, // draw, y, x
+	(signed char) -1, -2, +10, // draw, y, x
+	(signed char) -1, -6, +3, // draw, y, x
+	(signed char) -1, -6, -3, // draw, y, x
+	(signed char) -1, -2, -10, // draw, y, x
+	(signed char) -1, +2, -10, // draw, y, x
+	(signed char) -1, +6, -3, // draw, y, x
+	(signed char) -1, +6, +3, // draw, y, x
+	(signed char) +2 // endmarker 
+};
+
+static const signed char egg_2[]=
+{	(signed char) +1, +7, +5, // sync and move to y, x
+	(signed char) -1, -7, +1, // draw, y, x
+	(signed char) -1, -7, -1, // draw, y, x
+	(signed char) +0, +0, -10, // mode, y, x
+	(signed char) -1, +7, -1, // draw, y, x
+	(signed char) -1, +7, +1, // draw, y, x
+	(signed char) +0, -1, -5, // mode, y, x
+	(signed char) -1, +2, +10, // draw, y, x
+	(signed char) -1, -2, +10, // draw, y, x
+	(signed char) -1, -6, +3, // draw, y, x
+	(signed char) -1, -6, -3, // draw, y, x
+	(signed char) -1, -2, -10, // draw, y, x
+	(signed char) -1, +2, -10, // draw, y, x
+	(signed char) -1, +6, -3, // draw, y, x
+	(signed char) -1, +6, +3, // draw, y, x
 	(signed char) +2 // endmarker 
 };
 
@@ -127,7 +159,7 @@ static void move_flyer_enemy(
 		set_dir_enemy(enemy, enemy->path[enemy->step_counter].dir);
 	}
 
-	if (enemy->race->explode)
+	if (enemy->race->special == ENEMY_SPECIAL_EXPLODE)
 	{
 		get_move_character(&enemy->ch, enemy->ch.move_speed, &dy, &dx);
 
@@ -237,7 +269,7 @@ static void move_homer_enemy(
 	}
 	else
 	{
-		if (enemy->race->explode)
+		if (enemy->race->special == ENEMY_SPECIAL_EXPLODE)
 		{
 			set_state_enemy(enemy, ENEMY_STATE_EXPLODE);
 		}
@@ -318,7 +350,7 @@ unsigned int hit_enemy(
 	{
 		if (--enemy->num_hits == 0)
 		{
-			if (enemy->race->explode)
+			if (enemy->race->special == ENEMY_SPECIAL_EXPLODE)
 			{
 				set_state_enemy(enemy, ENEMY_STATE_EXPLODE);
 			}
