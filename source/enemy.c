@@ -20,7 +20,7 @@ const struct enemy_race enemy_races[] =
 	/*	h	w	scale	type				speed	max_hits	special					treshold	shapes	*/
 	{	7,	7,	0x40,	ENEMY_TYPE_FLYER,	1,		1,		ENEMY_SPECIAL_NONE,		1,		fly		},
 	{	10,	10,	0x40,	ENEMY_TYPE_FLYER,	1,		5,		ENEMY_SPECIAL_NONE,		2,		bee		},
-	{	12,	12,	0x40,	ENEMY_TYPE_HOMER,	1,		-1,		ENEMY_SPECIAL_NONE,		3,		bug		},
+	{	12,	12,	0x40,	ENEMY_TYPE_HOMER,	1,		-1,		ENEMY_SPECIAL_EGG,			3,		bug		},
 	{	7,	7,	0x40,	ENEMY_TYPE_FLYER,	2,		1,		ENEMY_SPECIAL_EXPLODE,		2,		mine		}
 };
 
@@ -108,7 +108,14 @@ void init_enemy(
 		set_dir_enemy(enemy, DIR_DOWN);
 	}
 
-	set_state_enemy(enemy, ENEMY_STATE_SPAWN);
+	if (enemy->race->special == ENEMY_SPECIAL_EGG)
+	{
+		set_state_enemy(enemy, ENEMY_STATE_EGG);
+	}
+	else
+	{
+		set_state_enemy(enemy, ENEMY_STATE_SPAWN);
+	}
 }
 
 void set_dir_enemy(
@@ -280,6 +287,30 @@ static void move_homer_enemy(
 	}
 }
 
+static void move_egg_enemy(
+	struct enemy *enemy,
+	struct object *obj
+	)
+{
+	if (enemy->state == ENEMY_STATE_EGG)
+	{
+		if (++enemy->state_counter >= ENEMY_EGG_TRESHOLD)
+		{
+			set_state_enemy(enemy, ENEMY_STATE_HATCH);
+		}
+	}
+	else if (enemy->state == ENEMY_STATE_HATCH)
+	{
+		if (++enemy->state_counter >= ENEMY_HATCH_TRESHOLD)
+		{
+			set_state_enemy(enemy, ENEMY_STATE_MOVE);
+		}
+	}
+
+	///TODO
+	obj=obj;
+}
+
 void move_enemy(
 	struct enemy *enemy,
 	struct object *obj,
@@ -289,7 +320,23 @@ void move_enemy(
 {
 	if (enemy->ch.obj.active)
 	{
-		if (enemy->state == ENEMY_STATE_SPAWN)
+		if (enemy->state == ENEMY_STATE_MOVE)
+		{
+			switch (enemy->race->type)
+			{
+				case ENEMY_TYPE_FLYER:
+					move_flyer_enemy(enemy, num_walls, walls);
+					break;
+
+				case ENEMY_TYPE_HOMER:
+					move_homer_enemy(enemy, obj->y, obj->x, num_walls, walls);
+					break;
+
+				default:
+					break;
+			}
+		}
+		else if (enemy->state == ENEMY_STATE_SPAWN)
 		{
 			if (++enemy->ch.counter >= ENEMY_SPAWN_ANIM_TRESHOLD)
 			{
@@ -314,28 +361,16 @@ void move_enemy(
 				set_state_enemy(enemy, ENEMY_STATE_MOVE);
 			}
 		}
-		else if (enemy->state == ENEMY_STATE_MOVE)
-		{
-			switch (enemy->race->type)
-			{
-				case ENEMY_TYPE_FLYER:
-					move_flyer_enemy(enemy, num_walls, walls);
-					break;
-
-				case ENEMY_TYPE_HOMER:
-					move_homer_enemy(enemy, obj->y, obj->x, num_walls, walls);
-					break;
-
-				default:
-					break;
-			}
-		}
 		else if (enemy->state == ENEMY_STATE_EXPLODE)
 		{
 			if (++enemy->state_counter >= ENEMY_EXPLODE_TRESHOLD)
 			{
 				set_state_enemy(enemy, ENEMY_STATE_DEAD);
 			}
+		}
+		else if (enemy->state == ENEMY_STATE_EGG || enemy->state == ENEMY_STATE_HATCH)
+		{
+			move_egg_enemy(enemy, obj);
 		}
 	}
 }
@@ -425,6 +460,26 @@ void draw_enemy(
 					0x01 + (enemy->state_counter << 1)
 					);
 			}
+		}
+		else if (enemy->state == ENEMY_STATE_EGG)
+		{
+				draw_synced_list_c(
+					egg_1,
+					enemy->ch.obj.y,
+					enemy->ch.obj.x,
+					OBJECT_MOVE_SCALE,
+					enemy->ch.obj.scale
+					);
+		}
+		else if (enemy->state == ENEMY_STATE_HATCH)
+		{
+				draw_synced_list_c(
+					egg_2,
+					enemy->ch.obj.y,
+					enemy->ch.obj.x,
+					OBJECT_MOVE_SCALE,
+					enemy->ch.obj.scale
+					);
 		}
 		else if (enemy->state == ENEMY_STATE_EXPLODE)
 		{
