@@ -28,6 +28,7 @@
 #define PLAYER_STATE_INVINSIBLE	3
 
 #define PLAYER_BLINK_TRESHOLD		2
+#define PLAYER_SCALE_TRESHOLD		10
 #define PLAYER_DYING_TRESHOLD		48
 #define PLAYER_DEAD_TRESHOLD		48
 #define PLAYER_INVINSIBLE_TRESHOLD	48
@@ -42,7 +43,7 @@ struct player
 	unsigned int fire_dir;
 	unsigned int fire_counter;
 	unsigned int state_counter;
-	unsigned int blink_counter;
+	unsigned int anim_counter;
 	unsigned int invinsible_counter;
 	unsigned int state_changed;
 	struct bullet bullet[PLAYER_MAX_BULLETS];

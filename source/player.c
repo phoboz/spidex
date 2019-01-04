@@ -35,8 +35,8 @@ void init_player(
 	player->score			= 0;
 	player->num_lives		= PLAYER_NUM_LIVES;
 
-	player->fire_counter		= 0;
-	player->blink_counter		= 0;
+	player->fire_counter	= 0;
+	player->anim_counter	= 0;
 
 	set_state_player(player, PLAYER_STATE_NORMAL);
 
@@ -52,7 +52,6 @@ void set_state_player(
 {
 	player->state			= state;
 	player->state_counter	= 0;
-	player->ch.obj.scale	= SPIDER_SCALE;
 	player->state_changed	= 1;
 }
 
@@ -173,14 +172,20 @@ unsigned int move_player(
 		else if (player->state == PLAYER_STATE_DYING)
 		{
 			set_fire_dir_player(player, player->fire_dir + 1);
-			if (--player->ch.obj.scale < 1)
+			if (++player->anim_counter >= PLAYER_SCALE_TRESHOLD)
 			{
-				player->ch.obj.scale = 1;
+				player->anim_counter = 0;
+				if (--player->ch.obj.scale < 1)
+				{
+					player->ch.obj.scale = 1;
+				}
 			}
+
 			if (++player->state_counter >= PLAYER_DYING_TRESHOLD)
 			{
 				player->ch.obj.y = 0;
 				player->ch.obj.x = 0;
+				player->ch.obj.scale = SPIDER_SCALE;
 				set_state_player(player, PLAYER_STATE_DEAD);
 			}
 		}
@@ -289,17 +294,17 @@ void draw_player(
 
 	if (player->ch.obj.active)
 	{
-		if (player->state == PLAYER_STATE_NORMAL || player->state == PLAYER_STATE_DYING)
+		if (player->state == PLAYER_STATE_INVINSIBLE)
 		{
-			draw_character(&player->ch);
-		}
-		else if (player->state == PLAYER_STATE_INVINSIBLE)
-		{
-			if (++player->blink_counter >= PLAYER_BLINK_TRESHOLD)
+			if (++player->anim_counter >= PLAYER_BLINK_TRESHOLD)
 			{
-				player->blink_counter = 0;
+				player->anim_counter = 0;
 				draw_character(&player->ch);
 			}
+		}
+		else
+		{
+			draw_character(&player->ch);
 		}
 
 		for (i = 0; i < PLAYER_MAX_BULLETS; i++)
