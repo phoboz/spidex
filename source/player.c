@@ -302,7 +302,7 @@ void draw_player(
 				draw_character(&player->ch);
 			}
 		}
-		else
+		else if (player->state != PLAYER_STATE_DEAD)
 		{
 			draw_character(&player->ch);
 		}
