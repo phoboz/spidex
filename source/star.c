@@ -5,20 +5,20 @@
 #include <vectrex.h>
 
 // ---------------------------------------------------------------------------
+#define AMPLIFIER_MUL 10
 
 const signed char star[]=
-{	(signed char) +1, +2, +5, // sync and move to y, x
-	(signed char) +0, +0, +2, // additional sync move to y, x
-	(signed char) -1, +0, -5, // draw, y, x
-	(signed char) -1, +5, -2, // draw, y, x
-	(signed char) -1, -5, -2, // draw, y, x
-	(signed char) -1, +0, -5, // draw, y, x
-	(signed char) -1, -4, +4, // draw, y, x
-	(signed char) -1, -5, -2, // draw, y, x
-	(signed char) -1, +3, +5, // draw, y, x
-	(signed char) -1, -3, +5, // draw, y, x
-	(signed char) -1, +5, -2, // draw, y, x
-	(signed char) -1, +4, +4, // draw, y, x
+{	(signed char) +1, +AMPLIFIER_MUL*2, +AMPLIFIER_MUL*7, // sync and move to y, x
+	(signed char) -1, +AMPLIFIER_MUL*0, -AMPLIFIER_MUL*5, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*5, -AMPLIFIER_MUL*2, // draw, y, x
+	(signed char) -1, -AMPLIFIER_MUL*5, -AMPLIFIER_MUL*2, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*0, -AMPLIFIER_MUL*5, // draw, y, x
+	(signed char) -1, -AMPLIFIER_MUL*4, +AMPLIFIER_MUL*4, // draw, y, x
+	(signed char) -1, -AMPLIFIER_MUL*5, -AMPLIFIER_MUL*2, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*3, +AMPLIFIER_MUL*5, // draw, y, x
+	(signed char) -1, -AMPLIFIER_MUL*3, +AMPLIFIER_MUL*5, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*5, -AMPLIFIER_MUL*2, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*4, +AMPLIFIER_MUL*4, // draw, y, x
 	(signed char) +2 // endmarker 
 };
 

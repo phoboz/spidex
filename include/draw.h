@@ -9,5 +9,16 @@ void draw_synced_list_c(
 	unsigned int scaleList
 	);
 
+void draw_synced_list_c_nm(
+	const signed char *u,
+	unsigned int scaleList
+	);
+
+void draw_synced_list_c_nm1(
+	const signed char *u,
+	unsigned int scaleMove,
+	unsigned int scaleList
+	);
+
 #endif
 

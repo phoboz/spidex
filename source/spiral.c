@@ -5,116 +5,117 @@
 #include <vectrex.h>
 
 // ---------------------------------------------------------------------------
+#define AMPLIFIER_MUL 10
 
 const signed char spiral_1[]=
-{	(signed char) +1, +0, -9, // sync and move to y, x
-	(signed char) -1, -9, +6, // draw, y, x
-	(signed char) -1, -1, +9, // draw, y, x
-	(signed char) -1, +4, +6, // draw, y, x
-	(signed char) -1, +7, -2, // draw, y, x
-	(signed char) -1, +3, -6, // draw, y, x
-	(signed char) -1, -3, -5, // draw, y, x
-	(signed char) -1, -5, +2, // draw, y, x
-	(signed char) -1, +0, +5, // draw, y, x
-	(signed char) -1, +5, +0, // draw, y, x
+{	(signed char) +1, +AMPLIFIER_MUL*0, -AMPLIFIER_MUL*9, // sync and move to y, x
+	(signed char) -1, -AMPLIFIER_MUL*9, +AMPLIFIER_MUL*6, // draw, y, x
+	(signed char) -1, -AMPLIFIER_MUL*1, +AMPLIFIER_MUL*9, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*4, +AMPLIFIER_MUL*6, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*7, -AMPLIFIER_MUL*2, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*3, -AMPLIFIER_MUL*6, // draw, y, x
+	(signed char) -1, -AMPLIFIER_MUL*3, -AMPLIFIER_MUL*5, // draw, y, x
+	(signed char) -1, -AMPLIFIER_MUL*5, +AMPLIFIER_MUL*2, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*0, +AMPLIFIER_MUL*5, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*5, +AMPLIFIER_MUL*0, // draw, y, x
 	(signed char) +2 // endmarker 
 };
 
 const signed char spiral_2[]=
-{	(signed char) +1, -6, -6, // sync and move to y, x
-	(signed char) -1, -2, +10, // draw, y, x
-	(signed char) -1, +5, +7, // draw, y, x
-	(signed char) -1, +7, +2, // draw, y, x
-	(signed char) -1, +4, -7, // draw, y, x
-	(signed char) -1, -2, -6, // draw, y, x
-	(signed char) -1, -6, -1, // draw, y, x
-	(signed char) -1, -2, +5, // draw, y, x
-	(signed char) -1, +3, +3, // draw, y, x
-	(signed char) -1, +4, -3, // draw, y, x
+{	(signed char) +1, -AMPLIFIER_MUL*6, -AMPLIFIER_MUL*6, // sync and move to y, x
+	(signed char) -1, -AMPLIFIER_MUL*2, +AMPLIFIER_MUL*10, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*5, +AMPLIFIER_MUL*7, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*7, +AMPLIFIER_MUL*2, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*4, -AMPLIFIER_MUL*7, // draw, y, x
+	(signed char) -1, -AMPLIFIER_MUL*2, -AMPLIFIER_MUL*6, // draw, y, x
+	(signed char) -1, -AMPLIFIER_MUL*6, -AMPLIFIER_MUL*1, // draw, y, x
+	(signed char) -1, -AMPLIFIER_MUL*2, +AMPLIFIER_MUL*5, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*3, +AMPLIFIER_MUL*3, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*4, -AMPLIFIER_MUL*3, // draw, y, x
 	(signed char) +2 // endmarker 
 };
 
 const signed char spiral_3[]=
-{	(signed char) +1, -8, +0, // sync and move to y, x
-	(signed char) -1, +5, +8, // draw, y, x
-	(signed char) -1, +9, +2, // draw, y, x
-	(signed char) -1, +6, -4, // draw, y, x
-	(signed char) -1, -2, -7, // draw, y, x
-	(signed char) -1, -6, -3, // draw, y, x
-	(signed char) -1, -5, +3, // draw, y, x
-	(signed char) -1, +2, +5, // draw, y, x
-	(signed char) -1, +5, +0, // draw, y, x
-	(signed char) -1, +0, -5, // draw, y, x
+{	(signed char) +1, -AMPLIFIER_MUL*8, +AMPLIFIER_MUL*0, // sync and move to y, x
+	(signed char) -1, +AMPLIFIER_MUL*5, +AMPLIFIER_MUL*8, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*9, +AMPLIFIER_MUL*2, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*6, -AMPLIFIER_MUL*4, // draw, y, x
+	(signed char) -1, -AMPLIFIER_MUL*2, -AMPLIFIER_MUL*7, // draw, y, x
+	(signed char) -1, -AMPLIFIER_MUL*6, -AMPLIFIER_MUL*3, // draw, y, x
+	(signed char) -1, -AMPLIFIER_MUL*5, +AMPLIFIER_MUL*3, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*2, +AMPLIFIER_MUL*5, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*5, +AMPLIFIER_MUL*0, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*0, -AMPLIFIER_MUL*5, // draw, y, x
 	(signed char) +2 // endmarker 
 };
 
 const signed char spiral_4[]=
-{	(signed char) +1, -6, +6, // sync and move to y, x
-	(signed char) -1, +10, +2, // draw, y, x
-	(signed char) -1, +7, -5, // draw, y, x
-	(signed char) -1, +2, -7, // draw, y, x
-	(signed char) -1, -7, -4, // draw, y, x
-	(signed char) -1, -6, +2, // draw, y, x
-	(signed char) -1, -1, +6, // draw, y, x
-	(signed char) -1, +5, +2, // draw, y, x
-	(signed char) -1, +3, -3, // draw, y, x
-	(signed char) -1, -3, -4, // draw, y, x
+{	(signed char) +1, -AMPLIFIER_MUL*6, +AMPLIFIER_MUL*6, // sync and move to y, x
+	(signed char) -1, +AMPLIFIER_MUL*10, +AMPLIFIER_MUL*2, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*7, -AMPLIFIER_MUL*5, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*2, -AMPLIFIER_MUL*7, // draw, y, x
+	(signed char) -1, -AMPLIFIER_MUL*7, -AMPLIFIER_MUL*4, // draw, y, x
+	(signed char) -1, -AMPLIFIER_MUL*6, +AMPLIFIER_MUL*2, // draw, y, x
+	(signed char) -1, -AMPLIFIER_MUL*1, +AMPLIFIER_MUL*6, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*5, +AMPLIFIER_MUL*2, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*3, -AMPLIFIER_MUL*3, // draw, y, x
+	(signed char) -1, -AMPLIFIER_MUL*3, -AMPLIFIER_MUL*4, // draw, y, x
 	(signed char) +2 // endmarker 
 };
 
 const signed char spiral_5[]=
-{	(signed char) +1, +0, +8, // sync and move to y, x
-	(signed char) -1, +8, -5, // draw, y, x
-	(signed char) -1, +2, -9, // draw, y, x
-	(signed char) -1, -4, -6, // draw, y, x
-	(signed char) -1, -7, +2, // draw, y, x
-	(signed char) -1, -3, +6, // draw, y, x
-	(signed char) -1, +3, +5, // draw, y, x
-	(signed char) -1, +5, -2, // draw, y, x
-	(signed char) -1, +0, -5, // draw, y, x
-	(signed char) -1, -5, +0, // draw, y, x
+{	(signed char) +1, +AMPLIFIER_MUL*0, +AMPLIFIER_MUL*8, // sync and move to y, x
+	(signed char) -1, +AMPLIFIER_MUL*8, -AMPLIFIER_MUL*5, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*2, -AMPLIFIER_MUL*9, // draw, y, x
+	(signed char) -1, -AMPLIFIER_MUL*4, -AMPLIFIER_MUL*6, // draw, y, x
+	(signed char) -1, -AMPLIFIER_MUL*7, +AMPLIFIER_MUL*2, // draw, y, x
+	(signed char) -1, -AMPLIFIER_MUL*3, +AMPLIFIER_MUL*6, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*3, +AMPLIFIER_MUL*5, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*5, -AMPLIFIER_MUL*2, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*0, -AMPLIFIER_MUL*5, // draw, y, x
+	(signed char) -1, -AMPLIFIER_MUL*5, +AMPLIFIER_MUL*0, // draw, y, x
 	(signed char) +2 // endmarker 
 };
 
 const signed char spiral_6[]=
-{	(signed char) +1, +6, +6, // sync and move to y, x
-	(signed char) -1, +2, -10, // draw, y, x
-	(signed char) -1, -5, -7, // draw, y, x
-	(signed char) -1, -7, -2, // draw, y, x
-	(signed char) -1, -4, +7, // draw, y, x
-	(signed char) -1, +2, +6, // draw, y, x
-	(signed char) -1, +6, +1, // draw, y, x
-	(signed char) -1, +2, -5, // draw, y, x
-	(signed char) -1, -3, -3, // draw, y, x
-	(signed char) -1, -4, +3, // draw, y, x
+{	(signed char) +1, +AMPLIFIER_MUL*6, +AMPLIFIER_MUL*6, // sync and move to y, x
+	(signed char) -1, +AMPLIFIER_MUL*2, -AMPLIFIER_MUL*10, // draw, y, x
+	(signed char) -1, -AMPLIFIER_MUL*5, -AMPLIFIER_MUL*7, // draw, y, x
+	(signed char) -1, -AMPLIFIER_MUL*7, -AMPLIFIER_MUL*2, // draw, y, x
+	(signed char) -1, -AMPLIFIER_MUL*4, +AMPLIFIER_MUL*7, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*2, +AMPLIFIER_MUL*6, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*6, +AMPLIFIER_MUL*1, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*2, -AMPLIFIER_MUL*5, // draw, y, x
+	(signed char) -1, -AMPLIFIER_MUL*3, -AMPLIFIER_MUL*3, // draw, y, x
+	(signed char) -1, -AMPLIFIER_MUL*4, +AMPLIFIER_MUL*3, // draw, y, x
 	(signed char) +2 // endmarker 
 };
 
 const signed char spiral_7[]=
-{	(signed char) +1, +8, +0, // sync and move to y, x
-	(signed char) -1, -5, -8, // draw, y, x
-	(signed char) -1, -9, -2, // draw, y, x
-	(signed char) -1, -6, +4, // draw, y, x
-	(signed char) -1, +2, +7, // draw, y, x
-	(signed char) -1, +6, +3, // draw, y, x
-	(signed char) -1, +5, -3, // draw, y, x
-	(signed char) -1, -2, -5, // draw, y, x
-	(signed char) -1, -5, +0, // draw, y, x
-	(signed char) -1, +0, +5, // draw, y, x
+{	(signed char) +1, +AMPLIFIER_MUL*8, +AMPLIFIER_MUL*0, // sync and move to y, x
+	(signed char) -1, -AMPLIFIER_MUL*5, -AMPLIFIER_MUL*8, // draw, y, x
+	(signed char) -1, -AMPLIFIER_MUL*9, -AMPLIFIER_MUL*2, // draw, y, x
+	(signed char) -1, -AMPLIFIER_MUL*6, +AMPLIFIER_MUL*4, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*2, +AMPLIFIER_MUL*7, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*6, +AMPLIFIER_MUL*3, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*5, -AMPLIFIER_MUL*3, // draw, y, x
+	(signed char) -1, -AMPLIFIER_MUL*2, -AMPLIFIER_MUL*5, // draw, y, x
+	(signed char) -1, -AMPLIFIER_MUL*5, +AMPLIFIER_MUL*0, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*0, +AMPLIFIER_MUL*5, // draw, y, x
 	(signed char) +2 // endmarker 
 };
 
 const signed char spiral_8[]=
-{	(signed char) +1, +6, -6, // sync and move to y, x
-	(signed char) -1, -10, -2, // draw, y, x
-	(signed char) -1, -7, +5, // draw, y, x
-	(signed char) -1, -2, +7, // draw, y, x
-	(signed char) -1, +7, +4, // draw, y, x
-	(signed char) -1, +6, -2, // draw, y, x
-	(signed char) -1, +1, -6, // draw, y, x
-	(signed char) -1, -5, -2, // draw, y, x
-	(signed char) -1, -3, +3, // draw, y, x
-	(signed char) -1, +3, +4, // draw, y, x
+{	(signed char) +1, +AMPLIFIER_MUL*6, -AMPLIFIER_MUL*6, // sync and move to y, x
+	(signed char) -1, -AMPLIFIER_MUL*10, -AMPLIFIER_MUL*2, // draw, y, x
+	(signed char) -1, -AMPLIFIER_MUL*7, +AMPLIFIER_MUL*5, // draw, y, x
+	(signed char) -1, -AMPLIFIER_MUL*2, +AMPLIFIER_MUL*7, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*7, +AMPLIFIER_MUL*4, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*6, -AMPLIFIER_MUL*2, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*1, -AMPLIFIER_MUL*6, // draw, y, x
+	(signed char) -1, -AMPLIFIER_MUL*5, -AMPLIFIER_MUL*2, // draw, y, x
+	(signed char) -1, -AMPLIFIER_MUL*3, +AMPLIFIER_MUL*3, // draw, y, x
+	(signed char) -1, +AMPLIFIER_MUL*3, +AMPLIFIER_MUL*4, // draw, y, x
 	(signed char) +2 // endmarker 
 };
 

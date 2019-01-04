@@ -25,7 +25,7 @@ void init_player(
 		x,
 		PLAYER_HEIGHT,
 		PLAYER_WIDTH,
-		PLAYER_SCALE,
+		SPIDER_SCALE,
 		PLAYER_SPEED,
 		PLAYER_ANIM_TRESHOLD,
 		PLAYER_MAX_FRAMES,
@@ -52,7 +52,7 @@ void set_state_player(
 {
 	player->state			= state;
 	player->state_counter	= 0;
-	player->ch.obj.scale	= PLAYER_SCALE;
+	player->ch.obj.scale	= SPIDER_SCALE;
 	player->state_changed	= 1;
 }
 
@@ -101,7 +101,7 @@ unsigned int fire_bullet_player(
 						PLAYER_BULLET_WIDTH,
 						player->fire_dir,
 						PLAYER_BULLET_SPEED,
-						PLAYER_SCALE,
+						PLAYER_SCALE/10,
 						star
 						);
 					fire = i + 1;

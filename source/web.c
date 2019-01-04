@@ -5,6 +5,86 @@
 #include <vectrex.h>
 
 // ---------------------------------------------------------------------------
+#define WEB1_BLOW_UP 10
+const signed char web1[]=
+{	(signed char) 0x01, -0x04*WEB1_BLOW_UP, +0x0B*WEB1_BLOW_UP, // sync and move to y, x
+	(signed char) 0x00, +0x00*WEB1_BLOW_UP, +0x04*WEB1_BLOW_UP, // additional sync move to y, x
+	(signed char) 0xFF, -0x06*WEB1_BLOW_UP, -0x0B*WEB1_BLOW_UP, // draw, y, x
+	(signed char) 0xFF, +0x00*WEB1_BLOW_UP, -0x08*WEB1_BLOW_UP, // draw, y, x
+	(signed char) 0xFF, +0x06*WEB1_BLOW_UP, -0x0B*WEB1_BLOW_UP, // draw, y, x
+	(signed char) 0xFF, +0x08*WEB1_BLOW_UP, +0x00*WEB1_BLOW_UP, // draw, y, x
+	(signed char) 0xFF, +0x06*WEB1_BLOW_UP, +0x0B*WEB1_BLOW_UP, // draw, y, x
+	(signed char) 0xFF, +0x00*WEB1_BLOW_UP, +0x08*WEB1_BLOW_UP, // draw, y, x
+	(signed char) 0xFF, -0x06*WEB1_BLOW_UP, +0x0B*WEB1_BLOW_UP, // draw, y, x
+	(signed char) 0xFF, -0x08*WEB1_BLOW_UP, +0x00*WEB1_BLOW_UP, // draw, y, x
+	(signed char) 0x02 // endmarker 
+};
+#define WEB2_BLOW_UP 3
+const signed char web2[]=
+{	(signed char) 0x01, +0x24*WEB2_BLOW_UP, +0x14*WEB2_BLOW_UP, // sync and move to y, x
+	(signed char) 0xFF, +0x00*WEB2_BLOW_UP, -0x28*WEB2_BLOW_UP, // draw, y, x
+	(signed char) 0xFF, -0x1C*WEB2_BLOW_UP, -0x10*WEB2_BLOW_UP, // draw, y, x
+	(signed char) 0xFF, -0x10*WEB2_BLOW_UP, +0x00*WEB2_BLOW_UP, // draw, y, x
+	(signed char) 0xFF, -0x1C*WEB2_BLOW_UP, +0x10*WEB2_BLOW_UP, // draw, y, x
+	(signed char) 0xFF, +0x00*WEB2_BLOW_UP, +0x28*WEB2_BLOW_UP, // draw, y, x
+	(signed char) 0xFF, +0x1C*WEB2_BLOW_UP, +0x10*WEB2_BLOW_UP, // draw, y, x
+	(signed char) 0xFF, +0x10*WEB2_BLOW_UP, +0x00*WEB2_BLOW_UP, // draw, y, x
+	(signed char) 0xFF, +0x1C*WEB2_BLOW_UP, -0x10*WEB2_BLOW_UP, // draw, y, x
+	(signed char) 0x02 // endmarker 
+};
+
+#define WEB_MOVE_BLOW_UP 8
+const signed char web3[]=
+{	(signed char) 0x01, -0x04*WEB_MOVE_BLOW_UP, -0x0F*WEB_MOVE_BLOW_UP, // sync and move to y, x
+	(signed char) 0xFF, -0x0E, -0x4B, // draw, y, x
+	(signed char) 0x01, +0x04*WEB_MOVE_BLOW_UP, -0x0F*WEB_MOVE_BLOW_UP, // sync and move to y, x
+	(signed char) 0xFF, +0x0E, -0x4B, // draw, y, x
+	(signed char) 0x01, +0x0A*WEB_MOVE_BLOW_UP, -0x04*WEB_MOVE_BLOW_UP, // sync and move to y, x
+	(signed char) 0xFF, +0x66, -0x3F, // draw, y, x
+	(signed char) 0x01, +0x0A*WEB_MOVE_BLOW_UP, +0x04*WEB_MOVE_BLOW_UP, // sync and move to y, x
+	(signed char) 0xFF, +0x63, +0x3C, // draw, y, x
+	(signed char) 0x01, +0x04*WEB_MOVE_BLOW_UP, +0x0F*WEB_MOVE_BLOW_UP, // sync and move to y, x
+	(signed char) 0xFF, +0x0E, +0x4B, // draw, y, x
+	(signed char) 0x01, -0x04*WEB_MOVE_BLOW_UP, +0x0F*WEB_MOVE_BLOW_UP, // sync and move to y, x
+	(signed char) 0xFF, -0x0E, +0x4B, // draw, y, x
+	(signed char) 0x01, -0x0A*WEB_MOVE_BLOW_UP, +0x04*WEB_MOVE_BLOW_UP, // sync and move to y, x
+	(signed char) 0xFF, -0x66, +0x3F, // draw, y, x
+	(signed char) 0x01, -0x0A*WEB_MOVE_BLOW_UP, -0x04*WEB_MOVE_BLOW_UP, // sync and move to y, x
+	(signed char) 0xFF, -0x68, -0x3F, // draw, y, x
+	(signed char) 0x02 // endmarker 
+};
+
+#define WEB4_BLOW_UP 2
+
+const signed char web4[]=
+{	(signed char) 0x01, +0x3F*WEB4_BLOW_UP, +0x24*WEB4_BLOW_UP, // sync and move to y, x
+	(signed char) 0xFF, -0x32*WEB4_BLOW_UP, +0x1B*WEB4_BLOW_UP, // draw, y, x
+	(signed char) 0xFF, -0x1A*WEB4_BLOW_UP, +0x00*WEB4_BLOW_UP, // draw, y, x
+	(signed char) 0xFF, -0x32*WEB4_BLOW_UP, -0x1B*WEB4_BLOW_UP, // draw, y, x
+	(signed char) 0xFF, +0x00*WEB4_BLOW_UP, -0x24*WEB4_BLOW_UP, // draw, y, x
+	(signed char) 0xFF, +0x00*WEB4_BLOW_UP, -0x24*WEB4_BLOW_UP, // draw, y, x
+	(signed char) 0xFF, +0x32*WEB4_BLOW_UP, -0x1B*WEB4_BLOW_UP, // draw, y, x
+	(signed char) 0xFF, +0x1A*WEB4_BLOW_UP, +0x00*WEB4_BLOW_UP, // draw, y, x
+	(signed char) 0xFF, +0x32*WEB4_BLOW_UP, +0x1B*WEB4_BLOW_UP, // draw, y, x
+	(signed char) 0xFF, +0x00*WEB4_BLOW_UP, +0x24*WEB4_BLOW_UP, // draw, y, x
+	(signed char) 0xFF, +0x00*WEB4_BLOW_UP, +0x24*WEB4_BLOW_UP, // draw, y, x
+	(signed char) 0x02 // endmarker 
+};
+
+#define WEB5_BLOW_UP 1
+
+const signed char web5[]=
+{	(signed char) 0x01, -0x12*WEB5_BLOW_UP, +0x5A*WEB5_BLOW_UP, // sync and move to y, x
+	(signed char) 0xFF, +0x24*WEB5_BLOW_UP, +0x00*WEB5_BLOW_UP, // draw, y, x
+	(signed char) 0xFF, +0x48*WEB5_BLOW_UP, -0x25*WEB5_BLOW_UP, // draw, y, x
+	(signed char) 0xFF, +0x00*WEB5_BLOW_UP, -0x6A*WEB5_BLOW_UP, // draw, y, x
+	(signed char) 0xFF, -0x48*WEB5_BLOW_UP, -0x25*WEB5_BLOW_UP, // draw, y, x
+	(signed char) 0xFF, -0x24*WEB5_BLOW_UP, +0x00*WEB5_BLOW_UP, // draw, y, x
+	(signed char) 0xFF, -0x48*WEB5_BLOW_UP, +0x25*WEB5_BLOW_UP, // draw, y, x
+	(signed char) 0xFF, +0x00*WEB5_BLOW_UP, +0x6A*WEB5_BLOW_UP, // draw, y, x
+	(signed char) 0xFF, +0x48*WEB5_BLOW_UP, +0x25*WEB5_BLOW_UP, // draw, y, x
+	(signed char) 0x02 // endmarker 
+};
 
 const signed char web[]=
 {	(signed char) +1, +18, +90, // sync and move to y, x
@@ -61,22 +141,26 @@ const signed char web[]=
 	(signed char) -1, +6, +11, // draw, y, x
 	(signed char) -1, +102, -63, // draw, y, x
 	(signed char) +2 // endmarker 
+	
+	
+	
 };
 
 const signed char web_wall_1_1[]=
-{
+{	+1,
 	-10, +4, // move to y, x
 	+0, -8, // draw to y, x
 };
 
 const signed char web_wall_1_2[]=
-{
+{	+1,
 	-4, +15, // move to y, x
 	-6, -11, // draw to y, x
 };
 
 // -4,  15
 // -10, 4
+
 const signed char web_wall_coords_1_2[]=
 {
 	-10	,	4	,
@@ -95,13 +179,13 @@ const signed char web_wall_coords_1_2[]=
 };
 
 const signed char web_wall_1_3[]=
-{
+{	+1,
 	+4, +15, // move to y, x
 	-8, +0, // draw to y, x
 };
 
 const signed char web_wall_1_4[]=
-{
+{	+1,
 	+10, +4, // move to y, x
 	-6, +11, // draw to y, x
 };
@@ -126,13 +210,13 @@ const signed char web_wall_coords_1_4[]=
 };
 
 const signed char web_wall_1_5[]=
-{
+{	+1,
 	+10, -4, // move to y, x
 	+0, +8, // draw to y, x
 };
 
 const signed char web_wall_1_6[]=
-{
+{	+1,
 	+4, -15, // move to y, x
 	+6, +11, // draw to y, x
 };
@@ -157,13 +241,13 @@ const signed char web_wall_coords_1_6[]=
 };
 
 const signed char web_wall_1_7[]=
-{
+{	+1,
 	-4, -15, // move to y, x
 	+8, +0, // draw to y, x
 };
 
 const signed char web_wall_1_8[]=
-{
+{	+1,
 	-10, -4, // move to y, x
 	+6, -11, // draw to y, x
 };
@@ -188,13 +272,13 @@ const signed char web_wall_coords_1_8[]=
 };
 
 const signed char web_wall_2_1[]=
-{
+{	+1,
 	-36, -20, // move to y, x
 	+0, +40, // draw to y, x
 };
 
 const signed char web_wall_2_2[]=
-{
+{	+1,
 	-36, +20, // move to y, x
 	+28, +16, // draw to y, x
 };
@@ -224,13 +308,13 @@ const signed char web_wall_coords_2_2[]=
 };
 
 const signed char web_wall_2_3[]=
-{
+{	+1,
 	-8, +37, // move to y, x
 	+16, +0, // draw to y, x
 };
 
 const signed char web_wall_2_4[]=
-{
+{	+1,
 	+8, +36, // move to y, x
 	+28, -16, // draw to y, x
 };
@@ -260,13 +344,13 @@ const signed char web_wall_coords_2_4[]=
 };
 
 const signed char web_wall_2_5[]=
-{
+{	+1,
 	+36, +20, // move to y, x
 	+0, -40, // draw to y, x
 };
 
 const signed char web_wall_2_6[]=
-{
+{	+1,
 	+36, -20, // move to y, x
 	-28, -16, // draw to y, x
 };
@@ -296,13 +380,13 @@ const signed char web_wall_coords_2_6[]=
 };
 
 const signed char web_wall_2_7[]=
-{
+{	+1,
 	+8, -36, // move to y, x
 	-16, +0, // draw to y, x
 };
 
 const signed char web_wall_2_8[]=
-{
+{	+1,
 	-8, -36, // move to y, x
 	-28, +16, // draw to y, x
 };
@@ -332,13 +416,13 @@ const signed char web_wall_coords_2_8[]=
 };
 
 const signed char web_wall_3_1[]=
-{
+{	+1,
 	-63, -36, // move to y, x
 	+0, +73, // draw to y, x
 };
 
 const signed char web_wall_3_2[]=
-{
+{	+1,
 	-63, +36, // move to y, x
 	+50, +27, // draw to y, x
 };
@@ -379,13 +463,13 @@ const signed char web_wall_coords_3_2[]=
 };
 
 const signed char web_wall_3_3[]=
-{
+{	+1,
 	-13, +63, // move to y, x
 	+26, +0, // draw to y, x
 };
 
 const signed char web_wall_3_4[]=
-{
+{	+1,
 	+13, +63, // move to y, x
 	+50, -27, // draw to y, x
 };
@@ -426,13 +510,13 @@ const signed char web_wall_coords_3_4[]=
 };
 
 const signed char web_wall_3_5[]=
-{
+{	+1,
 	+63, +36, // move to y, x
 	+0, -73, // draw to y, x
 };
 
 const signed char web_wall_3_6[]=
-{
+{	+1,
 	+63, -36, // move to y, x
 	-50, -27, // draw to y, x
 };
@@ -473,13 +557,13 @@ const signed char web_wall_coords_3_6[]=
 };
 
 const signed char web_wall_3_7[]=
-{
+{	+1,
 	+12, -60, // move to y, x
 	-24, +0, // draw to y, x
 };
 
 const signed char web_wall_3_8[]=
-{
+{	+1,
 	-13, -63, // move to y, x
 	-50, +27, // draw to y, x
 };
@@ -520,13 +604,13 @@ const signed char web_wall_coords_3_8[]=
 };
 
 const signed char web_wall_4_1[]=
-{
+{	+1,
 	-90, -52, // move to y, x
 	+0, +105, // draw to y, x
 };
 
 const signed char web_wall_4_2[]=
-{
+{	+1,
 	-90, +53, // move to y, x
 	+72, +37, // draw to y, x
 };
@@ -577,13 +661,13 @@ const signed char web_wall_coords_4_2[]=
 };
 
 const signed char web_wall_4_3[]=
-{
+{	+1,
 	-18, +90, // move to y, x
 	+36, +0, // draw to y, x
 };
 
 const signed char web_wall_4_4[]=
-{
+{	+1,
 	+18, +90, // move to y, x
 	+72, -37, // draw to y, x
 };
@@ -634,13 +718,13 @@ const signed char web_wall_coords_4_4[]=
 };
 
 const signed char web_wall_4_5[]=
-{
+{	+1,
 	+90, +53, // move to y, x
 	+0, -106, // draw to y, x
 };
 
 const signed char web_wall_4_6[]=
-{
+{	+1,
 	+90, -53, // move to y, x
 	-72, -37, // draw to y, x
 };
@@ -691,13 +775,13 @@ const signed char web_wall_coords_4_6[]=
 };
 
 const signed char web_wall_4_7[]=
-{
+{	+1,
 	+18, -90, // move to y, x
 	-36, +0, // draw to y, x
 };
 
 const signed char web_wall_4_8[]=
-{
+{	+1,
 	-18, -90, // move to y, x
 	-72, +37, // draw to y, x
 };

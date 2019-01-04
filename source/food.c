@@ -6,18 +6,22 @@
 #include "food.h"
 
 // ---------------------------------------------------------------------------
+#define AMPLIFIER_MUL 10
 
 static const signed char food_shape[]=
-{	(signed char) +1, +4, +0, // sync and move to y, x
-	(signed char) -1, -8, +0, // draw, y, x
-	(signed char) +1, +3, -3, // sync and move to y, x
-	(signed char) -1, -6, +6, // draw, y, x
-	(signed char) +1, +0, -4, // sync and move to y, x
-	(signed char) -1, +0, +8, // draw, y, x
-	(signed char) +1, -3, -3, // sync and move to y, x
-	(signed char) -1, +6, +6, // draw, y, x
-	(signed char) +2 // endmarker 
-};
+{	
+	(signed char) 0x01, -0x04*AMPLIFIER_MUL, +0x00*AMPLIFIER_MUL, // sync and move to y, x
+	(signed char) 0xFF, +0x08*AMPLIFIER_MUL, +0x00*AMPLIFIER_MUL, // draw, y, x
+	(signed char) 0x00, -0x01*AMPLIFIER_MUL, +0x03*AMPLIFIER_MUL, // mode, y, x
+	(signed char) 0xFF, -0x06*AMPLIFIER_MUL, -0x06*AMPLIFIER_MUL, // draw, y, x
+	(signed char) 0x00, +0x03*AMPLIFIER_MUL, -0x01*AMPLIFIER_MUL, // mode, y, x
+	(signed char) 0xFF, +0x00*AMPLIFIER_MUL, +0x08*AMPLIFIER_MUL, // draw, y, x
+	(signed char) 0x00, -0x03*AMPLIFIER_MUL, -0x01*AMPLIFIER_MUL, // mode, y, x
+	(signed char) 0xFF, +0x06*AMPLIFIER_MUL, -0x06*AMPLIFIER_MUL, // draw, y, x
+	(signed char) 0x02 // endmarker 	
+
+
+	};
 
 void init_food(
 	struct food *food,
@@ -25,7 +29,7 @@ void init_food(
 	signed int x
 	)
 {
-	init_object(&food->obj, y, x, FOOD_HEIGHT, FOOD_WIDTH, FOOD_SCALE, food_shape);
+	init_object(&food->obj, y, x, FOOD_HEIGHT, FOOD_WIDTH, FOOD_SCALE/AMPLIFIER_MUL, food_shape);
 }
 
 void move_food(

@@ -32,6 +32,7 @@ void init_object(
 	obj->shape = shape;
 }
 
+
 unsigned int hit_object(
 	struct object *obj1,
 	struct object *obj2
@@ -46,15 +47,16 @@ unsigned int hit_object(
 
 	if (obj1->active && obj2->active)
 	{
-		y1 = obj1->y - obj1->h_2;
-		x1 = obj1->x - obj1->w_2;
-		h1 = obj1->h;
+        	x1 = obj1->x - obj1->w_2;
+        	w2 = obj2->w;
 		w1 = obj1->w;
-
-		y2 = obj2->y - obj2->h_2;
 		x2 = obj2->x - obj2->w_2;
-		h2 = obj2->h;
-		w2 = obj2->w;
+    		y1 = obj1->y - obj1->h_2;
+    		y2 = obj2->y - obj2->h_2;
+    		h2 = obj2->h;
+    		h1 = obj1->h;
+
+
 
 		if (x1 < x2 + w2 &&
 		    x1 + w1 > x2 &&
