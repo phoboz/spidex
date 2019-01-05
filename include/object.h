@@ -53,6 +53,11 @@ void move_object(
 	signed int x
 	);
 
+unsigned int distance_object(
+	struct object *obj1,
+	struct object *obj2
+	);
+
 unsigned int hit_object(
 	struct object *obj1,
 	struct object *obj2

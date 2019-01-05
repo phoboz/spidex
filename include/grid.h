@@ -3,7 +3,9 @@
 
 #define GRID_NUM_CELLS		8
 #define GRID_CELL_SIZE		32
-#define GRID_CELL_SHIFT	5
+
+#define GRID_NUM_CELLS_SHIFT	3
+#define GRID_CELL_SIZE_SHIFT	5
 
 struct grid
 {

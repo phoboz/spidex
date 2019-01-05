@@ -3,6 +3,7 @@
 // ***************************************************************************
 
 #include <vectrex.h>
+#include "generic.h"
 #include "grid.h"
 #include "object.h"
 #include "player.h"
@@ -67,6 +68,21 @@ void move_object(
 	{
 		move_object_grid(obj->grid, obj, y, x);
 	}
+}
+
+unsigned int distance_object(
+	struct object *obj1,
+	struct object *obj2
+	)
+{
+	signed int dy, dx;
+	unsigned int result;
+
+	dy = obj1->y - obj2->y;
+	dx = obj1->x - obj2->x;
+	result = (unsigned int) abs(dy) + (unsigned int) abs(dx);
+
+	return result;
 }
 
 unsigned int hit_object(
