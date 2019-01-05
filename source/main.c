@@ -7,6 +7,7 @@
 #include "controller.h"
 #include "input.h"
 #include "draw.h"
+#include "grid.h"
 #include "player.h"
 #include "enemy.h"
 #include "food.h"
@@ -44,6 +45,7 @@ struct wave wave;
 struct enemy enemy[MAX_ENEMIES];
 struct food food[MAX_FOOD];
 struct wall wall[MAX_WALLS];
+struct grid grid;
 
 void init_enemies(void)
 {
@@ -51,7 +53,8 @@ void init_enemies(void)
 
 	for (i = 0; i < MAX_ENEMIES; i++)
 	{
-		enemy[i].ch.obj.active = 0;
+		//set_state_enemy(&enemy[i], ENEMY_STATE_STOP);
+		deinit_object(&enemy[i].ch.obj);
 	}
 }
 
@@ -61,7 +64,7 @@ void init_foods(void)
 
 	for (i = 0; i < MAX_FOOD; i++)
 	{
-		food[i].obj.active = 0;
+		deinit_object(&food[i].obj);
 	}
 }
 
@@ -85,9 +88,37 @@ void move_enemies(void)
 	}
 }
 
+void add_food(struct enemy *curr_enemy)
+{
+	unsigned int i;
+
+	for (i = 0; i < MAX_FOOD; i++)
+	{
+		if (!food[i].obj.active)
+		{
+			init_food(
+				&food[i],
+				curr_enemy->ch.obj.y,
+				curr_enemy->ch.obj.x,
+				&grid
+				);
+			break;
+		}
+	}
+}
+
 void move_foods(void)
 {
 	unsigned int i;
+
+	for (i = 0; i < MAX_ENEMIES; i++)
+	{
+		if (enemy[i].state == ENEMY_STATE_DEAD)
+		{
+			add_food(&enemy[i]);
+			set_state_enemy(&enemy[i], ENEMY_STATE_STOP);
+		}
+	}
 
 	for (i = 0; i < MAX_FOOD; i++)
 	{
@@ -157,14 +188,14 @@ signed int new_frame(void)
 
 int main(void)
 {
-	unsigned int i;
-	unsigned int enemy_id;
 	signed int status;
 	unsigned int fire_status = 0;
 	unsigned int new_wave_index = 1;
 
 	init_input();
-	init_player(&player, 0, 0);
+	init_grid(&grid);
+	clear_player(&player);
+	init_player(&player, 0, 0, &grid);
 	init_enemies();
 	init_foods();
 	init_walls();
@@ -179,24 +210,7 @@ int main(void)
 		move_foods();
 		move_walls();
 
-		enemy_id = interaction_enemies_player(&player, MAX_ENEMIES, enemy);
-		if (enemy_id)
-		{
-			for (i = 0; i < MAX_FOOD; i++)
-			{
-				if (!food[i].obj.active)
-				{
-					init_food(
-						&food[i],
-						enemy[enemy_id - 1].ch.obj.y,
-						enemy[enemy_id - 1].ch.obj.x
-						);
-					break;
-				}
-			}
-		}
-
-		interaction_food_player(&player, MAX_FOOD, food);
+		handle_grid(&grid);
 
 		status = new_frame();
 		if (status)
@@ -207,7 +221,7 @@ int main(void)
 		}
 		else
 		{
-			new_wave_index = move_wave(&wave, MAX_ENEMIES, enemy, MAX_WALLS, wall);
+			new_wave_index = move_wave(&wave, MAX_ENEMIES, enemy, MAX_WALLS, wall, &grid);
 			if (new_wave_index)
 			{
 				init_enemies();
@@ -249,7 +263,8 @@ int main(void)
 				update_input();
 				if (button_1_4_pressed())
 				{
-					init_player(&player, 0, 0);
+					clear_player(&player);
+					init_player(&player, 0, 0, &grid);
 					init_enemies();
 					init_foods();
 					init_walls();

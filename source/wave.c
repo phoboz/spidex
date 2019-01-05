@@ -102,7 +102,8 @@ unsigned int move_wave(
 	unsigned int num_enemies,
 	struct enemy *enemies,
 	unsigned int num_walls,
-	struct wall *walls
+	struct wall *walls,
+	struct grid *grid
 	)
 {
 	unsigned int i;
@@ -126,7 +127,8 @@ unsigned int move_wave(
 							waves[wave->wave_index].elements[wave->element_index].x,
 							&enemy_races[waves[wave->wave_index].elements[wave->element_index].object_index],
 							enemy_paths[waves[wave->wave_index].elements[wave->element_index].value].num_steps,
-							enemy_paths[waves[wave->wave_index].elements[wave->element_index].value].path
+							enemy_paths[waves[wave->wave_index].elements[wave->element_index].value].path,
+							grid
 							);
 						wave->retry = 0;
 						break;

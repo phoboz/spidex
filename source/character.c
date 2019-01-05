@@ -10,6 +10,7 @@
 
 void init_character(
 	struct character *ch,
+	unsigned int type,
 	signed int y,
 	signed int x,
 	signed int h,
@@ -18,10 +19,11 @@ void init_character(
 	signed int move_speed,
 	unsigned int treshold,
 	unsigned int max_frames,
-	const signed char* const *shapes
+	const signed char* const *shapes,
+	struct grid *grid
 	)
 {
-	init_object(&ch->obj, y, x, h, w, scale, shapes[0]);
+	init_object(&ch->obj, type, y, x, h, w, scale, shapes[0], grid);
 
 	ch->dir 			= DIR_DOWN;
 	ch->move_speed	= move_speed;
@@ -120,50 +122,41 @@ void get_move_character(
 	}
 }
 
-unsigned int limit_move_character(
-	struct character *ch
+unsigned int move_character(
+	struct character *ch,
+	signed int y,
+	signed int x
 	)
 {
 	unsigned int stopped = 0;
 
-	if (ch->obj.y < CHARACTER_MIN_Y)
+	if (y < CHARACTER_MIN_Y)
 	{
-		ch->obj.y = CHARACTER_MIN_Y;
+		y = CHARACTER_MIN_Y;
 		stopped = 1;
 	}
 
-	if (ch->obj.y > CHARACTER_MAX_Y)
+	if (y > CHARACTER_MAX_Y)
 	{
-		ch->obj.y = CHARACTER_MAX_Y;
+		y = CHARACTER_MAX_Y;
 		stopped = 1;
 	}
 
-	if (ch->obj.x < CHARACTER_MIN_X)
+	if (x < CHARACTER_MIN_X)
 	{
-		ch->obj.x = CHARACTER_MIN_X;
+		x = CHARACTER_MIN_X;
 		stopped = 1;
 	}
 
-	if (ch->obj.x > CHARACTER_MAX_X)
+	if (x > CHARACTER_MAX_X)
 	{
-		ch->obj.x = CHARACTER_MAX_X;
+		x = CHARACTER_MAX_X;
 		stopped = 1;
 	}
+
+	move_object(&ch->obj, y, x);
 
 	return stopped;
-}
-
-unsigned int move_character(
-	struct character *ch
-	)
-{
-	signed int dy, dx;
-
-	get_move_character(ch, ch->move_speed, &dy, &dx);
-	ch->obj.y += dy;
-	ch->obj.x += dx;
-
-	return limit_move_character(ch);
 }
 
 unsigned int retreat_character(
@@ -173,10 +166,8 @@ unsigned int retreat_character(
 	signed int dy, dx;
 
 	get_move_character(ch, ch->move_speed << 1, &dy, &dx);
-	ch->obj.y -= dy;
-	ch->obj.x -= dx;
 
-	return limit_move_character(ch);
+	return move_character(ch, ch->obj.y - dy, ch->obj.x - dx);
 }
 
 unsigned int interaction_walls_character(

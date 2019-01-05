@@ -26,10 +26,28 @@ static const signed char food_shape[]=
 void init_food(
 	struct food *food,
 	signed int y,
-	signed int x
+	signed int x,
+	struct grid *grid
 	)
 {
-	init_object(&food->obj, y, x, FOOD_HEIGHT, FOOD_WIDTH, FOOD_SCALE/AMPLIFIER_MUL, food_shape);
+	init_object(
+		&food->obj,
+		OBJECT_TYPE_FOOD,
+		y,
+		x,
+		FOOD_HEIGHT,
+		FOOD_WIDTH,
+		FOOD_SCALE/AMPLIFIER_MUL,
+		food_shape,
+		grid
+		);
+}
+
+void deinit_food(
+	struct food *food
+	)
+{
+	deinit_object(&food->obj);
 }
 
 void move_food(
@@ -41,7 +59,7 @@ void move_food(
 		if (++food->counter >= FOOD_TRESHOLD)
 		{
 			food->counter = 0;
-			food->obj.active = 0;
+			deinit_object(&food->obj);
 		}
 	}
 }

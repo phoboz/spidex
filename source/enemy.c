@@ -76,11 +76,13 @@ void init_enemy(
 	signed int x,
 	const struct enemy_race *race, 
 	unsigned int num_steps,
-	const struct enemy_path *path
+	const struct enemy_path *path,
+	struct grid *grid
 	)
 {
 	init_character(
 		&enemy->ch,
+		OBJECT_TYPE_ENEMY,
 		y,
 		x,
 		race->h,
@@ -89,7 +91,8 @@ void init_enemy(
 		race->speed,
 		race->treshold,
 		2,
-		race->shapes
+		race->shapes,
+		grid
 		);
 
 	enemy->race			= race;
@@ -143,7 +146,7 @@ void set_state_enemy(
 
 	if (state == ENEMY_STATE_DEAD)
 	{
-		enemy->ch.obj.active = 0;
+		deinit_object(&enemy->ch.obj);
 	}
 }
 
@@ -182,10 +185,7 @@ static void move_flyer_enemy(
 		{
 			animate_character(&enemy->ch);
 
-			enemy->ch.obj.y += dy;
-			enemy->ch.obj.x += dx;
-
-			if (limit_move_character(&enemy->ch))
+			if (move_character(&enemy->ch, enemy->ch.obj.y + dy, enemy->ch.obj.x + dx))
 			{
 				if (++enemy->step_counter >= enemy->num_steps)
 				{
@@ -201,7 +201,8 @@ static void move_flyer_enemy(
 	}
 	else
 	{
-		if (move_character(&enemy->ch))
+		get_move_character(&enemy->ch, enemy->ch.move_speed, &dy, &dx);
+		if (move_character(&enemy->ch, enemy->ch.obj.y + dy, enemy->ch.obj.x + dx))
 		{
 			if (++enemy->step_counter >= enemy->num_steps)
 			{
@@ -271,9 +272,7 @@ static void move_homer_enemy(
 			))
 	{
 		animate_character(&enemy->ch);
-		enemy->ch.obj.y += dy;
-		enemy->ch.obj.x += dx;
-		limit_move_character(&enemy->ch);
+		move_character(&enemy->ch, enemy->ch.obj.y + dy, enemy->ch.obj.x + dx);
 	}
 	else
 	{
@@ -382,29 +381,33 @@ unsigned int hit_enemy(
 {
 	unsigned int result = 0;
 
-	if (enemy->num_hits > 0)
+	if (enemy->state == ENEMY_STATE_STOP || enemy->state == ENEMY_STATE_MOVE)
 	{
-		if (--enemy->num_hits == 0)
+		if (enemy->num_hits > 0)
 		{
-			if (enemy->race->special == ENEMY_SPECIAL_EXPLODE)
+			if (--enemy->num_hits == 0)
 			{
-				set_state_enemy(enemy, ENEMY_STATE_EXPLODE);
-			}
-			else
-			{
-				set_state_enemy(enemy, ENEMY_STATE_DEAD);
-				result = 1;
+				if (enemy->race->special == ENEMY_SPECIAL_EXPLODE)
+				{
+					set_state_enemy(enemy, ENEMY_STATE_EXPLODE);
+				}
+				else
+				{
+					set_state_enemy(enemy, ENEMY_STATE_DEAD);
+				}
 			}
 		}
-	}
 
-	if (enemy->state != ENEMY_STATE_EXPLODE)
-	{
-		if (enemy->ch.obj.active)
+		if (enemy->state != ENEMY_STATE_EXPLODE)
 		{
-			retreat_character(&enemy->ch);
-			set_state_enemy(enemy, ENEMY_STATE_STOP);
+			if (enemy->ch.obj.active)
+			{
+				retreat_character(&enemy->ch);
+				set_state_enemy(enemy, ENEMY_STATE_STOP);
+			}
 		}
+
+		result = 1;
 	}
 
 	return result;
@@ -423,13 +426,11 @@ unsigned int hit_object_enemy(
 	{
 		if (enemy->state == ENEMY_STATE_STOP || enemy->state == ENEMY_STATE_MOVE)
 		{
-			if (hit_object(obj, &enemy->ch.obj))
-			{
-				result = 1;
-			}
+			result = 1;
 		}
 		else if (enemy->state == ENEMY_STATE_EXPLODE)
 		{
+			// TODO: This must be triggered even if the explosion is in another cell
 			dy = enemy->ch.obj.y - obj->y;
 			dx = enemy->ch.obj.x - obj->x;
 			r = ENEMY_EXPLOSION_RADIUS + (enemy->state_counter << 2);

@@ -28,6 +28,7 @@ struct character
 
 void init_character(
 	struct character *ch,
+	unsigned int type,
 	signed int y,
 	signed int x,
 	signed int h,
@@ -36,7 +37,8 @@ void init_character(
 	signed int move_speed,
 	unsigned int treshold,
 	unsigned int max_frames,
-	const signed char* const *shapes
+	const signed char* const *shapes,
+	struct grid *grid
 	);
 
 void set_dir_character(
@@ -55,12 +57,10 @@ void get_move_character(
 	signed int *dx
 	);
 
-unsigned int limit_move_character(
-	struct character *ch
-	);
-
 unsigned int move_character(
-	struct character *ch
+	struct character *ch,
+	signed int y,
+	signed int x
 	);
 
 unsigned int retreat_character(

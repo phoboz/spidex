@@ -11,16 +11,26 @@
 extern const signed char* const spider[];
 extern const signed char star[];
 
+void clear_player(
+	struct player *player
+	)
+{
+	player->score			= 0;
+	player->num_lives		= PLAYER_NUM_LIVES;
+}
+
 void init_player(
 	struct player *player,
 	signed int y,
-	signed int x
+	signed int x,
+	struct grid *grid
 	)
 {
 	unsigned int i;
 
 	init_character(
 		&player->ch,
+		OBJECT_TYPE_PLAYER,
 		y,
 		x,
 		PLAYER_HEIGHT,
@@ -29,11 +39,9 @@ void init_player(
 		PLAYER_SPEED,
 		PLAYER_ANIM_TRESHOLD,
 		PLAYER_MAX_FRAMES,
-		spider
+		spider,
+		grid
 		);
-
-	player->score			= 0;
-	player->num_lives		= PLAYER_NUM_LIVES;
 
 	player->fire_counter	= 0;
 	player->anim_counter	= 0;
@@ -101,7 +109,8 @@ unsigned int fire_bullet_player(
 						player->fire_dir,
 						PLAYER_BULLET_SPEED,
 						PLAYER_SCALE/10,
-						star
+						star,
+						player->ch.obj.grid
 						);
 					fire = i + 1;
 					break;
@@ -150,9 +159,7 @@ unsigned int move_player(
 							walls
 							))
 					{
-						player->ch.obj.y += dy;
-						player->ch.obj.x += dx;
-						limit_move_character(&player->ch);
+						move_character(&player->ch, player->ch.obj.y + dy, player->ch.obj.x + dx);
 					}
 				}
 			}
@@ -183,21 +190,8 @@ unsigned int move_player(
 
 			if (++player->state_counter >= PLAYER_DYING_TRESHOLD)
 			{
-				player->ch.obj.y = 0;
-				player->ch.obj.x = 0;
-				player->ch.obj.scale = SPIDER_SCALE;
 				set_state_player(player, PLAYER_STATE_DEAD);
-			}
-		}
-		else if (player->state == PLAYER_STATE_DEAD)
-		{
-			if (player->num_lives > 0)
-			{
-				if (++player->state_counter >= PLAYER_DEAD_TRESHOLD)
-				{
-					player->num_lives--;
-					set_state_player(player, PLAYER_STATE_INVINSIBLE);
-				}
+				deinit_object(&player->ch.obj);
 			}
 		}
 		
@@ -213,16 +207,32 @@ unsigned int move_player(
 		{
 			player->state_changed = 0;
 		}
-
-		for (i = 0; i < PLAYER_MAX_BULLETS; i++)
+	}
+	else
+	{
+		if (player->state == PLAYER_STATE_DEAD)
 		{
-			move_bullet(&player->bullet[i]);
+			if (player->num_lives > 0)
+			{
+				if (++player->state_counter >= PLAYER_DEAD_TRESHOLD)
+				{
+					init_player(player, 0, 0, player->ch.obj.grid);
+					player->num_lives--;
+					set_state_player(player, PLAYER_STATE_INVINSIBLE);
+				}
+			}
 		}
+	}
+
+	for (i = 0; i < PLAYER_MAX_BULLETS; i++)
+	{
+		move_bullet(&player->bullet[i]);
 	}
 
 	return fire;
 }
 
+#if 0
 unsigned int interaction_enemies_player(
 	struct player *player,
 	unsigned int num_enemies,
@@ -285,6 +295,7 @@ void interaction_food_player(
 		}
 	}
 }
+#endif
 
 void draw_player(
 	struct player *player

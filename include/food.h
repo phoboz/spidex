@@ -17,7 +17,12 @@ struct food
 void init_food(
 	struct food *food,
 	signed int y,
-	signed int x
+	signed int x,
+	struct grid *grid
+	);
+
+void deinit_food(
+	struct food *food
 	);
 
 void move_food(

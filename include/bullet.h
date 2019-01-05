@@ -24,7 +24,8 @@ void init_bullet(
 	unsigned int dir,
 	signed int speed,
 	unsigned int scale,
-	const signed char *shape
+	const signed char *shape,
+	struct grid *grid
 	);
 
 void move_bullet(

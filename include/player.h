@@ -7,8 +7,8 @@
 #include "food.h"
 #include "bullet.h"
 
-#define PLAYER_HEIGHT			14
-#define PLAYER_WIDTH			13
+#define PLAYER_HEIGHT			12
+#define PLAYER_WIDTH			12
 #define PLAYER_SCALE			0x40
 #define SPIDER_SCALE			PLAYER_SCALE/10
 #define PLAYER_SPEED			4
@@ -49,11 +49,15 @@ struct player
 	struct bullet bullet[PLAYER_MAX_BULLETS];
 };
 
+void clear_player(
+	struct player *player
+	);
 
 void init_player(
 	struct player *player,
 	signed int y,
-	signed int x
+	signed int x,
+	struct grid *grid
 	);
 
 void set_state_player(
@@ -70,18 +74,6 @@ unsigned int move_player(
 	struct player *player,
 	unsigned int num_walls,
 	struct wall *walls
-	);
-
-unsigned int interaction_enemies_player(
-	struct player *player,
-	unsigned int num_enemies,
-	struct enemy *enemies
-	);
-
-void interaction_food_player(
-	struct player *player,
-	unsigned int num_food,
-	struct food *food
 	);
 
 void draw_player(

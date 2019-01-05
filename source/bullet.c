@@ -16,10 +16,11 @@ void init_bullet(
 	unsigned int dir,
 	signed int speed,
 	unsigned int scale,
-	const signed char *shape
+	const signed char *shape,
+	struct grid *grid
 	)
 {
-	init_object(&bullet->obj, y, x, h, w, scale, shape);
+	init_object(&bullet->obj, OBJECT_TYPE_BULLET, y, x, h, w, scale, shape, grid);
 
 	switch (dir) {
 		case DIR_DOWN:
@@ -75,17 +76,16 @@ void move_bullet(
 {
 	if (bullet->obj.active)
 	{
-		bullet->obj.y += bullet->dy;
-		bullet->obj.x += bullet->dx;
+		move_object(&bullet->obj, bullet->obj.y + bullet->dy, bullet->obj.x + bullet->dx);
 
 		if (bullet->obj.y < BULLET_MIN_Y || bullet->obj.y > BULLET_MAX_Y)
 		{
-			bullet->obj.active = 0;
+			deinit_object(&bullet->obj);
 		}
 
 		if (bullet->obj.x < BULLET_MIN_X || bullet->obj.x > BULLET_MAX_X)
 		{
-			bullet->obj.active = 0;
+			deinit_object(&bullet->obj);
 		}
 	}
 }

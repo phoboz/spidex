@@ -49,7 +49,8 @@ unsigned int move_wave(
 	unsigned int num_enemies,
 	struct enemy *enemies,
 	unsigned int num_walls,
-	struct wall *walls
+	struct wall *walls,
+	struct grid *grid
 	);
 
 extern const struct path_element enemy_paths[];

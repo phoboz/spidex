@@ -70,7 +70,8 @@ void init_enemy(
 	signed int x,
 	const struct enemy_race *race, 
 	unsigned int num_steps,
-	const struct enemy_path *path
+	const struct enemy_path *path,
+	struct grid *grid
 	);
 
 void set_dir_enemy(
