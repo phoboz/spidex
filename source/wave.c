@@ -73,9 +73,9 @@ const struct wave_element wave_2[] =
 	/*	treshold		y		x		object_type				object_index		value */
 	{	0,			40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,	0		},
 	{	80,			40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,	0		},
-	{	40,			0,		0,		WAVE_OBJECT_TYPE_WALL,		16,				32		},
-	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		17,				32		},
-	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		23,				32		},
+	{	40,			0,		0,		WAVE_OBJECT_TYPE_WALL,		16,				0		},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		17,				0		},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		23,				0		},
 	{	80,			-40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,	0		},
 	{	80,			-40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,	0		},
 	{	80,			40,		80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BEE,	1		},
@@ -85,9 +85,9 @@ const struct wave_element wave_2[] =
 const struct wave_element wave_3[] =
 {
 	/*	treshold		y		x		object_type				object_index		value */
-	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		19,				32		},
-	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		20,				32		},
-	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		21,				32		},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		19,				0		},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		20,				0		},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		21,				0		},
 	{	0,			-80,		80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,	3		},
 	{	0,			-90,		80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,	3		},
 	{	0,			-100,	80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,	3		}
@@ -158,8 +158,7 @@ unsigned int move_wave(
 					{
 						init_wall(
 							&walls[i],
-							waves[wave->wave_index].elements[wave->element_index].object_index,
-							waves[wave->wave_index].elements[wave->element_index].value
+							waves[wave->wave_index].elements[wave->element_index].object_index
 							);
 						wave->retry = 0;
 						break;

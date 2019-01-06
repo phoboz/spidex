@@ -3,14 +3,9 @@
 
 #define WALL_CHECK_DELTA	3
 
-#define WALL_CYCLE_TRESHOLD		32
-
 struct wall
 {
 	unsigned int active;
-	unsigned int counter;
-	unsigned int time_counter;
-	unsigned int time_treshold;
 
 	signed int y1, x1;
 	signed int y2, x2;
@@ -23,18 +18,13 @@ struct wall
 
 void init_wall(
 	struct wall *wall,
-	unsigned int index,
-	unsigned int time_treshold
+	unsigned int index
 	);
 
 unsigned int check_point_on_wall(
 	struct wall *wall,
 	signed int y,
 	signed int x
-	);
-
-void move_wall(
-	struct wall *wall
 	);
 
 void draw_wall(

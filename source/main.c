@@ -126,16 +126,6 @@ void move_foods(void)
 	}
 }
 
-void move_walls(void)
-{
-	unsigned int i;
-
-	for (i = 0; i < MAX_WALLS; i++)
-	{
-		move_wall(&wall[i]);
-	}
-}
-
 void draw_enemies(void)
 {
 	unsigned int i;
@@ -208,7 +198,6 @@ int main(void)
 		fire_status = move_player(&player, MAX_WALLS, wall);
 		move_enemies();
 		move_foods();
-		move_walls();
 
 		handle_grid(&grid);
 
