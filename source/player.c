@@ -9,7 +9,7 @@
 // ---------------------------------------------------------------------------
 
 extern const signed char* const spider[];
-extern const signed char star[];
+extern const signed char* const star[];
 
 void clear_player(
 	struct player *player
@@ -35,7 +35,7 @@ void init_player(
 		x,
 		PLAYER_HEIGHT,
 		PLAYER_WIDTH,
-		SPIDER_SCALE,
+		PLAYER_SCALE,
 		PLAYER_SPEED,
 		PLAYER_ANIM_TRESHOLD,
 		PLAYER_MAX_FRAMES,
@@ -108,7 +108,7 @@ unsigned int fire_bullet_player(
 						PLAYER_BULLET_WIDTH,
 						player->fire_dir,
 						PLAYER_BULLET_SPEED,
-						PLAYER_SCALE/10,
+						PLAYER_SCALE,
 						star,
 						player->ch.obj.grid
 						);
@@ -322,7 +322,7 @@ void draw_player(
 		{
 			if (player->bullet[i].obj.active)
 			{
-				draw_object(&player->bullet[i].obj);
+				draw_bullet(&player->bullet[i]);
 			}
 		}
 	}

@@ -16,11 +16,13 @@ void init_bullet(
 	unsigned int dir,
 	signed int speed,
 	unsigned int scale,
-	const signed char *shape,
+	const signed char* const *shapes,
 	struct grid *grid
 	)
 {
-	init_object(&bullet->obj, OBJECT_TYPE_BULLET, y, x, h, w, scale, shape, grid);
+	init_object(&bullet->obj, OBJECT_TYPE_BULLET, y, x, h, w, scale, shapes[0], grid);
+	bullet->frame		= 0;
+	bullet->shapes	= shapes;
 
 	switch (dir) {
 		case DIR_DOWN:
@@ -76,6 +78,11 @@ void move_bullet(
 {
 	if (bullet->obj.active)
 	{
+		if (++bullet->frame >= 8)
+		{
+			bullet->frame = 0;
+		}
+
 		move_object(&bullet->obj, bullet->obj.y + bullet->dy, bullet->obj.x + bullet->dx);
 
 		if (bullet->obj.y < BULLET_MIN_Y || bullet->obj.y > BULLET_MAX_Y)
@@ -94,6 +101,7 @@ void draw_bullet(
 	struct bullet *bullet
 	)
 {
+	bullet->obj.shape = bullet->shapes[bullet->frame];
 	draw_object(&bullet->obj);
 }
 

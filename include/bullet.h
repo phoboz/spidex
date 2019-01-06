@@ -13,6 +13,8 @@ struct bullet
 	struct object obj;
 	signed int dy;
 	signed int dx;
+	unsigned int frame;
+	const signed char* const *shapes;
 };
 
 void init_bullet(
@@ -24,7 +26,7 @@ void init_bullet(
 	unsigned int dir,
 	signed int speed,
 	unsigned int scale,
-	const signed char *shape,
+	const signed char* const *shapes,
 	struct grid *grid
 	);
 
