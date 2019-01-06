@@ -29,7 +29,7 @@
 // after each reset, the cartridge title is shown and then main() is called
 // ---------------------------------------------------------------------------
 
-#define MAX_ENEMIES	3
+#define MAX_ENEMIES	4
 #define MAX_FOOD		5
 #define MAX_WALLS		3
 

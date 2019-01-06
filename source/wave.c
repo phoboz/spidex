@@ -16,7 +16,7 @@ const struct enemy_path square_path[] =
 	{12,				DIR_UP}
 };
 
-const struct enemy_path circular_path[] =
+const struct enemy_path circular_path_small[] =
 {
 	/* treshold		dir */
 	{12,				DIR_DOWN},
@@ -27,6 +27,19 @@ const struct enemy_path circular_path[] =
 	{12,				DIR_UP_LEFT},
 	{12,				DIR_LEFT},
 	{12,				DIR_DOWN_LEFT}
+};
+
+const struct enemy_path circular_path_large[] =
+{
+	/* treshold		dir */
+	{32,				DIR_DOWN},
+	{32,				DIR_DOWN_RIGHT},
+	{32,				DIR_RIGHT},
+	{32,				DIR_UP_RIGHT},
+	{32,				DIR_UP},
+	{32,				DIR_UP_LEFT},
+	{32,				DIR_LEFT},
+	{32,				DIR_DOWN_LEFT}
 };
 
 const struct enemy_path l_path[] =
@@ -42,15 +55,17 @@ const struct path_element enemy_paths[] =
 {
 	/* num_steps	reference */
 	{4,			square_path},
-	{8,			circular_path},
+	{8,			circular_path_small},
+	{8,			circular_path_large},
 	{4,			l_path}
 };
 
 const struct wave_element wave_1[] =
 {
 	/*	treshold		y		x		object_type				object_index		value */
-	{	0,			40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,	0		},
-	{	80,			40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,	0		}
+	{	0,			40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,		0		},
+	{	80,			40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,		0		},
+	{	80,			-56,		-16,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BUTTERFLY,	2		}
 };
 
 const struct wave_element wave_2[] =
@@ -73,15 +88,15 @@ const struct wave_element wave_3[] =
 	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		19,				32		},
 	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		20,				32		},
 	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		21,				32		},
-	{	0,			-80,		80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,	2		},
-	{	0,			-90,		80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,	2		},
-	{	0,			-100,	80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,	2		}
+	{	0,			-80,		80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,	3		},
+	{	0,			-90,		80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,	3		},
+	{	0,			-100,	80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,	3		}
 };
 
 const struct wave_def waves[] =
 {
 	/*	num_elmts		wave_elmts	*/
-	{	2,			wave_1		},
+	{	3,			wave_1		},
 	{	9,			wave_2		},
 	{	6,			wave_3		}
 };
