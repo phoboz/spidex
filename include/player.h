@@ -49,7 +49,6 @@ struct player
 	struct bullet bullet[PLAYER_MAX_BULLETS];
 };
 
-
 void init_player(
 	struct player *player,
 	signed int y,

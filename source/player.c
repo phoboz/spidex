@@ -32,8 +32,8 @@ void init_player(
 		spider
 		);
 
-	player->score			= 0;
-	player->num_lives		= PLAYER_NUM_LIVES;
+	player->score		= 0;
+	player->num_lives	= PLAYER_NUM_LIVES;
 
 	player->fire_counter	= 0;
 	player->anim_counter	= 0;
@@ -187,17 +187,7 @@ unsigned int move_player(
 				player->ch.obj.x = 0;
 				player->ch.obj.scale = SPIDER_SCALE;
 				set_state_player(player, PLAYER_STATE_DEAD);
-			}
-		}
-		else if (player->state == PLAYER_STATE_DEAD)
-		{
-			if (player->num_lives > 0)
-			{
-				if (++player->state_counter >= PLAYER_DEAD_TRESHOLD)
-				{
-					player->num_lives--;
-					set_state_player(player, PLAYER_STATE_INVINSIBLE);
-				}
+				player->ch.obj.active = 0;
 			}
 		}
 		
@@ -213,11 +203,23 @@ unsigned int move_player(
 		{
 			player->state_changed = 0;
 		}
-
-		for (i = 0; i < PLAYER_MAX_BULLETS; i++)
+	}
+	else if (player->state == PLAYER_STATE_DEAD)
+	{
+		if (player->num_lives > 0)
 		{
-			move_bullet(&player->bullet[i]);
+			if (++player->state_counter >= PLAYER_DEAD_TRESHOLD)
+			{
+				player->num_lives--;
+				set_state_player(player, PLAYER_STATE_INVINSIBLE);
+				player->ch.obj.active = 1;
+			}
 		}
+	}
+
+	for (i = 0; i < PLAYER_MAX_BULLETS; i++)
+	{
+		move_bullet(&player->bullet[i]);
 	}
 
 	return fire;
@@ -306,14 +308,11 @@ void draw_player(
 		{
 			draw_character(&player->ch);
 		}
+	}
 
-		for (i = 0; i < PLAYER_MAX_BULLETS; i++)
-		{
-			if (player->bullet[i].obj.active)
-			{
-				draw_object(&player->bullet[i].obj);
-			}
-		}
+	for (i = 0; i < PLAYER_MAX_BULLETS; i++)
+	{
+		draw_object(&player->bullet[i].obj);
 	}
 }
 
