@@ -12,13 +12,13 @@ extern const signed char* const web_wall_coords[];
 
 void init_wall(
 	struct wall *wall,
-	unsigned int index
+	unsigned int index,
+	struct grid *grid
 	)
 {
 	signed int y1, x1, y2, x2, temp;
+	signed int h, w;
 	const signed char *web_wall = web_walls[index];
-
-	wall->active = 1;
 
 	y1 = web_wall[1];
 	x1 = web_wall[2];
@@ -42,9 +42,29 @@ void init_wall(
 
 	wall->y1 = y1;
 	wall->x1 = x1;
-
 	wall->y2 = y2;
 	wall->x2 = x2;
+
+	// TODO: Calulcate size accurately
+	if (y1 == y2)
+	{
+		h = 2;
+	}
+	else
+	{
+		h = y2 - y1;
+	}
+
+	if (x1 == x2)
+	{
+		w = 2;
+	}
+	else
+	{
+		w = x2 - x1;
+	}
+
+	init_object(&wall->obj, OBJECT_TYPE_WALL, y1, x1, h, w, WALL_SCALE, 0, grid);
 
 	wall->coords = web_wall_coords[index];
 
@@ -65,40 +85,35 @@ unsigned int check_point_on_wall(
 	signed int y1, x1, y2, x2;
 	unsigned int result = 0;
 
-	if (wall->active)
+	y1 = wall->y1;
+	x1 = wall->x1;
+
+	y2 = wall->y2;
+	x2 = wall->x2;
+
+	if (y1 == y2 && y >= y1 - WALL_CHECK_DELTA && y <= y1 + WALL_CHECK_DELTA)
 	{
-		y1 = wall->y1;
-		x1 = wall->x1;
-
-		y2 = wall->y2;
-		x2 = wall->x2;
-
-		if (y1 == y2 && y >= y1 - WALL_CHECK_DELTA && y <= y1 + WALL_CHECK_DELTA)
+		if (x >= x1 && x <= x2)
 		{
-			if (x >= x1 && x <= x2)
+			result = 1;
+		} 
+	}
+	else if (x1 == x2 && x >= x1 - WALL_CHECK_DELTA && x <= x1 + WALL_CHECK_DELTA)
+	{
+		if (y >= y1 && y <= y2)
+		{
+			result = 1;
+		}
+	}
+	else if (y > y1 && y < y2 && x > x1 && x < x2)
+	{
+		for (coord = wall->coords; coord[0] != 127; coord += 2)
+		{
+			if (y > coord[0] - WALL_CHECK_DELTA && y < coord[0] + WALL_CHECK_DELTA &&
+				x > coord[1] - WALL_CHECK_DELTA && x < coord[1] + WALL_CHECK_DELTA)
 			{
 				result = 1;
-			} 
-		}
-		else if (x1 == x2 && x >= x1 - WALL_CHECK_DELTA && x <= x1 + WALL_CHECK_DELTA)
-		{
-			if (y >= y1 && y <= y2)
-			{
-				result = 1;
-			}
-		}
-		else if (y > y1 && y < y2 && x > x1 && x < x2)
-		{
-			for (coord = wall->coords; coord[0] != 127; coord += 2)
-			{
-				if (y > coord[0] - WALL_CHECK_DELTA &&
-				    y < coord[0] + WALL_CHECK_DELTA &&
-				    x > coord[1] - WALL_CHECK_DELTA &&
-				    x < coord[1] + WALL_CHECK_DELTA)
-				{
-					result = 1;
-					break;
-				}
+				break;
 			}
 		}
 	}
@@ -110,7 +125,7 @@ void draw_wall(
 	struct wall *wall
 	)
 {
-	if (wall->active)
+	if (wall->obj.active)
 	{
 		Reset0Ref();
 		Moveto_d(wall->pos[0], wall->pos[1]);

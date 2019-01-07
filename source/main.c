@@ -74,7 +74,7 @@ void init_walls(void)
 
 	for (i = 0; i < MAX_WALLS; i++)
 	{
-		wall[i].active = 0;
+		deinit_object(&wall[i].obj);
 	}
 }
 
@@ -191,15 +191,15 @@ int main(void)
 	init_walls();
 	init_wave(&wave);
 ////DEBUG
-	//wave.wave_index = 2;
+	//wave.wave_index = 1;
 ////END DEBUG
 	while(1)
 	{
+		handle_grid(&grid);
+
 		fire_status = move_player(&player, MAX_WALLS, wall);
 		move_enemies();
 		move_foods();
-
-		handle_grid(&grid);
 
 		status = new_frame();
 		if (status)

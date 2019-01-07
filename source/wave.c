@@ -154,11 +154,12 @@ unsigned int move_wave(
 			{
 				for (i = 0; i < num_walls; i++)
 				{
-					if (!walls[i].active)
+					if (!walls[i].obj.active)
 					{
 						init_wall(
 							&walls[i],
-							waves[wave->wave_index].elements[wave->element_index].object_index
+							waves[wave->wave_index].elements[wave->element_index].object_index,
+							grid
 							);
 						wave->retry = 0;
 						break;

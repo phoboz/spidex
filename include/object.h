@@ -1,10 +1,11 @@
 #ifndef _OBJECT_H
 #define _OBJECT_H
 
-#define OBJECT_TYPE_PLAYER	0
-#define OBJECT_TYPE_BULLET	1
-#define OBJECT_TYPE_ENEMY	2
-#define OBJECT_TYPE_FOOD	3
+#define OBJECT_TYPE_PLAYER		0
+#define OBJECT_TYPE_BULLET		1
+#define OBJECT_TYPE_ENEMY		2
+#define OBJECT_TYPE_FOOD		11
+#define OBJECT_TYPE_WALL		21
 
 #define OBJECT_MOVE_SCALE	0x80
 #define DIR_DOWN			0
@@ -20,6 +21,7 @@ struct object
 {
 	unsigned int active;
 	unsigned int type;
+	unsigned int check_wall;
 	signed int y, x;
 	signed int h, w;
 	signed int h_2, w_2;

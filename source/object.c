@@ -8,6 +8,7 @@
 #include "object.h"
 #include "player.h"
 #include "enemy.h"
+#include "wall.h"
 #include "draw.h"
 
 // ---------------------------------------------------------------------------
@@ -24,9 +25,9 @@ void init_object(
 	struct grid *grid
 	)
 {
-	obj->active = 1;
-
-	obj->type	 = type;
+	obj->active		= 1;
+	obj->type			= type;
+	obj->check_wall	= 0;
 
 	obj->y = y;
 	obj->x = x;
@@ -40,10 +41,18 @@ void init_object(
 
 	obj->prev = 0;
 	obj->next = 0;
-
 	obj->grid = grid;
 
-	add_object_grid(grid, obj);
+	if (obj->type == OBJECT_TYPE_WALL)
+	{
+		struct wall *wall = (struct wall *) obj;
+		add_static_object_grid(grid, obj, wall->y1, wall->x1);
+		add_static_object_grid(grid, obj, wall->y2, wall->x2);
+	}
+	else
+	{
+		add_object_grid(grid, obj);
+	}
 }
 
 void deinit_object(
@@ -52,7 +61,16 @@ void deinit_object(
 {
 	if (obj->active)
 	{
-		remove_object_grid(obj->grid, obj);
+		if (obj->type == OBJECT_TYPE_WALL)
+		{
+			struct wall *wall = (struct wall *) obj;
+			remove_static_object_grid(obj->grid, obj, wall->y1, wall->x1);
+			remove_static_object_grid(obj->grid, obj, wall->y2, wall->x2);
+		}
+		else
+		{
+			remove_object_grid(obj->grid, obj);
+		}
 	}
 
 	obj->active = 0;
@@ -66,6 +84,7 @@ void move_object(
 {
 	if (obj->active)
 	{
+		obj->check_wall = 0;
 		move_object_grid(obj->grid, obj, y, x);
 	}
 }
@@ -91,14 +110,24 @@ unsigned int hit_object(
 	)
 {
 	signed int y1, y2;
-	signed int h1, h2;
 	signed int x1, x2;
+	signed int h1, h2;
 	signed int w1, w2;
 
 	unsigned int result = 0;
 
 	if (obj1->active && obj2->active)
 	{
+		if (obj1->type == OBJECT_TYPE_WALL)
+		{
+			obj2->check_wall = 1;
+		}
+
+		if (obj2->type == OBJECT_TYPE_WALL)
+		{
+			obj1->check_wall = 1;
+		}
+
         	x1 = obj1->x - obj1->w_2;
         	w2 = obj2->w;
 		w1 = obj1->w;

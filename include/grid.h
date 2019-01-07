@@ -21,9 +21,23 @@ void add_object_grid(
 	struct object *obj
 	);
 
+void add_static_object_grid(
+	struct grid *grid,
+	struct object *obj,
+	signed int y,
+	signed int x
+	);
+
 void remove_object_grid(
 	struct grid *grid,
 	struct object *obj
+	);
+
+void remove_static_object_grid(
+	struct grid *grid,
+	struct object *obj,
+	signed int y,
+	signed int x
 	);
 
 void move_object_grid(
@@ -35,6 +49,11 @@ void move_object_grid(
 
 void handle_grid(
 	struct grid *grid
+	);
+
+void draw_cell_grid(
+	unsigned int x,
+	unsigned int y
 	);
 
 #endif

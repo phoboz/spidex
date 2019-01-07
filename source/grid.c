@@ -4,6 +4,7 @@
 
 #include <vectrex.h>
 #include "object.h"
+#include "wall.h"
 #include "grid.h"
 
 // ---------------------------------------------------------------------------
@@ -38,6 +39,31 @@ void add_object_grid(
 	obj->next = grid->cells[cell_x][cell_y];
 	grid->cells[cell_x][cell_y] = obj;
 
+
+	if (obj->next != 0)
+	{
+		obj->next->prev = obj;
+	}
+}
+
+void add_static_object_grid(
+	struct grid *grid,
+	struct object *obj,
+	signed int y,
+	signed int x
+	)
+{
+	unsigned int obj_x = (unsigned int) x;
+	unsigned int obj_y = (unsigned int) y;
+
+	unsigned int cell_x = (obj_x + 127) >> GRID_CELL_SIZE_SHIFT;
+	unsigned int cell_y = (obj_y + 127) >> GRID_CELL_SIZE_SHIFT;
+
+	obj->prev = 0;
+	obj->next = grid->cells[cell_x][cell_y];
+	grid->cells[cell_x][cell_y] = obj;
+
+
 	if (obj->next != 0)
 	{
 		obj->next->prev = obj;
@@ -51,6 +77,35 @@ void remove_object_grid(
 {
 	unsigned int obj_x = (unsigned int) obj->x;
 	unsigned int obj_y = (unsigned int) obj->y;
+
+	unsigned int cell_x = (obj_x + 127) >> GRID_CELL_SIZE_SHIFT;
+	unsigned int cell_y = (obj_y + 127) >> GRID_CELL_SIZE_SHIFT;
+
+	if (obj->prev != 0)
+	{
+		obj->prev->next = obj->next;
+	}
+
+	if (obj->next != 0)
+	{
+		obj->next->prev = obj->prev;
+	}
+
+	if (grid->cells[cell_x][cell_y] == obj)
+	{
+		grid->cells[cell_x][cell_y] = obj->next;
+	}
+}
+
+void remove_static_object_grid(
+	struct grid *grid,
+	struct object *obj,
+	signed int y,
+	signed int x
+	)
+{
+	unsigned int obj_x = (unsigned int) x;
+	unsigned int obj_y = (unsigned int) y;
 
 	unsigned int cell_x = (obj_x + 127) >> GRID_CELL_SIZE_SHIFT;
 	unsigned int cell_y = (obj_y + 127) >> GRID_CELL_SIZE_SHIFT;
@@ -186,6 +241,27 @@ void handle_grid(
 		}
 	}
 }
+
+#ifdef DEBUG
+void draw_cell_grid(
+	unsigned int x,
+	unsigned int y
+	)
+{
+	signed int px, py;
+	px = (signed int) (x - 4) << GRID_CELL_SIZE_SHIFT;
+	py = (signed int) (y - 4) << GRID_CELL_SIZE_SHIFT;
+
+	Reset0Ref();
+	VIA_t1_cnt_lo = 0x80;
+	Moveto_d(py, px);
+	Intensity_7F();
+	Draw_Line_d(0, GRID_CELL_SIZE);
+	Draw_Line_d(GRID_CELL_SIZE, 0);
+	Draw_Line_d(0, -GRID_CELL_SIZE);
+	Draw_Line_d(-GRID_CELL_SIZE, 0);
+}
+#endif
 
 // ***************************************************************************
 // end of file

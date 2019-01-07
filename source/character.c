@@ -183,13 +183,18 @@ unsigned int interaction_walls_character(
 	signed int y, x;
 	unsigned int result = 0;
 
+	if (!ch->obj.check_wall)
+	{
+		return result;
+	}
+
 	if (mode == CHARACTER_WALL_MODE_PASS_IN)
 	{
 		if (dy != 0 && dx != 0)
 		{
 			for (i = 0; i < num_walls; i++)
 			{
-				if (walls[i].active)
+				if (walls[i].obj.active)
 				{
 					y = ch->obj.y + dy;
 					x = ch->obj.x;
@@ -227,7 +232,7 @@ unsigned int interaction_walls_character(
 		{
 			for (i = 0; i < num_walls; i++)
 			{
-				if (walls[i].active)
+				if (walls[i].obj.active)
 				{
 					y = ch->obj.y + dy;
 					x = ch->obj.x;
@@ -250,7 +255,7 @@ unsigned int interaction_walls_character(
 		{
 			for (i = 0; i < num_walls; i++)
 			{
-				if (walls[i].active)
+				if (walls[i].obj.active)
 				{
 					y = ch->obj.y;
 					x = ch->obj.x + dx;
@@ -276,7 +281,7 @@ unsigned int interaction_walls_character(
 		{
 			for (i = 0; i < num_walls; i++)
 			{
-				if (walls[i].active)
+				if (walls[i].obj.active)
 				{
 					y = ch->obj.y + dy;
 					x = ch->obj.x;
@@ -314,7 +319,7 @@ unsigned int interaction_walls_character(
 		{
 			for (i = 0; i < num_walls; i++)
 			{
-				if (walls[i].active)
+				if (walls[i].obj.active)
 				{
 					y = ch->obj.y + dy;
 					x = ch->obj.x;
@@ -337,7 +342,7 @@ unsigned int interaction_walls_character(
 		{
 			for (i = 0; i < num_walls; i++)
 			{
-				if (walls[i].active)
+				if (walls[i].obj.active)
 				{
 					y = ch->obj.y;
 					x = ch->obj.x + dx;
