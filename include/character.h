@@ -71,9 +71,7 @@ unsigned int interaction_walls_character(
 	struct character *ch,
 	signed int dy,
 	signed int dx,
-	unsigned int mode,
-	unsigned int num_walls,
-	struct wall *walls
+	unsigned int mode
 	);
 
 void draw_character(

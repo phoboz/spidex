@@ -1,13 +1,20 @@
 #ifndef _OBJECT_H
 #define _OBJECT_H
 
-#define OBJECT_TYPE_PLAYER		0
-#define OBJECT_TYPE_BULLET		1
-#define OBJECT_TYPE_ENEMY		2
-#define OBJECT_TYPE_FOOD		11
+#define OBJECT_TYPE_FOOD		1
+
+#define OBJECT_TYPE_CHARACTER	10
+#define OBJECT_TYPE_PLAYER		11
+#define OBJECT_TYPE_BULLET		12
+#define OBJECT_TYPE_ENEMY		13
+
+#define OBJECT_TYPE_STATIC		20
 #define OBJECT_TYPE_WALL		21
 
+#define OBJECT_MAX_STATIC		2
+
 #define OBJECT_MOVE_SCALE	0x80
+
 #define DIR_DOWN			0
 #define DIR_DOWN_RIGHT		1
 #define DIR_RIGHT			2
@@ -21,7 +28,8 @@ struct object
 {
 	unsigned int active;
 	unsigned int type;
-	unsigned int check_wall;
+	unsigned int num_static;
+	struct object *static_obj[OBJECT_MAX_STATIC];
 	signed int y, x;
 	signed int h, w;
 	signed int h_2, w_2;

@@ -123,9 +123,7 @@ unsigned int fire_bullet_player(
 }
 
 unsigned int move_player(
-	struct player *player,
-	unsigned int num_walls,
-	struct wall *walls
+	struct player *player
 	)
 {
 	unsigned int i;
@@ -154,9 +152,7 @@ unsigned int move_player(
 							&player->ch,
 							dy,
 							dx,
-							CHARACTER_WALL_MODE_PASS_IN,
-							num_walls,
-							walls
+							CHARACTER_WALL_MODE_PASS_IN
 							))
 					{
 						move_character(&player->ch, player->ch.obj.y + dy, player->ch.obj.x + dx);

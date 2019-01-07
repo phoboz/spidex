@@ -153,9 +153,7 @@ void set_state_enemy(
 }
 
 static void move_flyer_enemy(
-	struct enemy *enemy,
-	unsigned int num_walls,
-	struct wall *walls
+	struct enemy *enemy
 	)
 {
 	signed int dy, dx;
@@ -180,9 +178,7 @@ static void move_flyer_enemy(
 				&enemy->ch,
 				dy,
 				dx,
-				CHARACTER_WALL_MODE_PASS_OUT,
-				num_walls,
-				walls
+				CHARACTER_WALL_MODE_PASS_OUT
 				))
 		{
 			animate_character(&enemy->ch);
@@ -218,9 +214,7 @@ static void move_flyer_enemy(
 static void move_homer_enemy(
 	struct enemy *enemy,
 	signed int dest_y,
-	signed int dest_x,
-	unsigned int num_walls,
-	struct wall *walls
+	signed int dest_x
 	)
 {
 	signed int src_y, src_x;
@@ -268,9 +262,7 @@ static void move_homer_enemy(
 			&enemy->ch,
 			dy,
 			dx,
-			CHARACTER_WALL_MODE_PASS_OUT,
-			num_walls,
-			walls
+			CHARACTER_WALL_MODE_PASS_OUT
 			))
 	{
 		animate_character(&enemy->ch);
@@ -315,9 +307,7 @@ static void move_egg_enemy(
 
 void move_enemy(
 	struct enemy *enemy,
-	struct object *obj,
-	unsigned int num_walls,
-	struct wall *walls
+	struct object *obj
 	)
 {
 	if (enemy->ch.obj.active)
@@ -327,11 +317,11 @@ void move_enemy(
 			switch (enemy->race->type)
 			{
 				case ENEMY_TYPE_FLYER:
-					move_flyer_enemy(enemy, num_walls, walls);
+					move_flyer_enemy(enemy);
 					break;
 
 				case ENEMY_TYPE_HOMER:
-					move_homer_enemy(enemy, obj->y, obj->x, num_walls, walls);
+					move_homer_enemy(enemy, obj->y, obj->x);
 					break;
 
 				default:

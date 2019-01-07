@@ -174,6 +174,183 @@ unsigned int interaction_walls_character(
 	struct character *ch,
 	signed int dy,
 	signed int dx,
+	unsigned int mode
+	)
+{
+	unsigned int i;
+	signed int y, x;
+	unsigned int result = 0;
+
+	if (ch->obj.static_obj == 0)
+	{
+		return result;
+	}
+
+	if (mode == CHARACTER_WALL_MODE_PASS_IN)
+	{
+		if (dy != 0 && dx != 0)
+		{
+			for (i = 0; i < ch->obj.num_static; i++)
+			{
+				y = ch->obj.y + dy;
+				x = ch->obj.x;
+
+				if ((unsigned int) abs(y) > (unsigned int) abs(ch->obj.y))
+				{
+					if (check_point_on_wall((struct wall *) ch->obj.static_obj[i], y - ch->obj.h_2, x - ch->obj.w_2) ||
+						check_point_on_wall((struct wall *) ch->obj.static_obj[i], y - ch->obj.h_2, x + ch->obj.w_2) ||
+						check_point_on_wall((struct wall *) ch->obj.static_obj[i], y + ch->obj.h_2, x + ch->obj.w_2) ||
+						check_point_on_wall((struct wall *) ch->obj.static_obj[i], y + ch->obj.h_2, x - ch->obj.w_2))
+					{
+						result = 1;
+						break;
+					}
+				}
+	
+				y = ch->obj.y;
+				x = ch->obj.x + dx;
+
+				if ((unsigned int) abs(x) > (unsigned int) abs(ch->obj.x))
+				{
+					if (check_point_on_wall((struct wall *) ch->obj.static_obj[i], y - ch->obj.h_2, x - ch->obj.w_2) ||
+						check_point_on_wall((struct wall *) ch->obj.static_obj[i], y - ch->obj.h_2, x + ch->obj.w_2) ||
+						check_point_on_wall((struct wall *) ch->obj.static_obj[i], y + ch->obj.h_2, x + ch->obj.w_2) ||
+						check_point_on_wall((struct wall *) ch->obj.static_obj[i], y + ch->obj.h_2, x - ch->obj.w_2))
+					{
+						result = 1;
+						break;
+					}
+				}
+			}
+		}
+		else if (dy != 0)
+		{
+			for (i = 0; i < ch->obj.num_static; i++)
+			{
+				y = ch->obj.y + dy;
+				x = ch->obj.x;
+
+				if ((unsigned int) abs(y) > (unsigned int) abs(ch->obj.y))
+				{
+					if (check_point_on_wall((struct wall *) ch->obj.static_obj[i], y - ch->obj.h_2, x - ch->obj.w_2) ||
+						check_point_on_wall((struct wall *) ch->obj.static_obj[i], y - ch->obj.h_2, x + ch->obj.w_2) ||
+						check_point_on_wall((struct wall *) ch->obj.static_obj[i], y + ch->obj.h_2, x + ch->obj.w_2) ||
+						check_point_on_wall((struct wall *) ch->obj.static_obj[i], y + ch->obj.h_2, x - ch->obj.w_2))
+					{
+						result = 1;
+						break;
+					}
+				}
+			}
+		}
+		else if (dx != 0)
+		{
+			for (i = 0; i < ch->obj.num_static; i++)
+			{
+				y = ch->obj.y;
+				x = ch->obj.x + dx;
+
+				if ((unsigned int) abs(x) > (unsigned int) abs(ch->obj.x))
+				{
+					if (check_point_on_wall((struct wall *) ch->obj.static_obj[i], y - ch->obj.h_2, x - ch->obj.w_2) ||
+						check_point_on_wall((struct wall *) ch->obj.static_obj[i], y - ch->obj.h_2, x + ch->obj.w_2) ||
+						check_point_on_wall((struct wall *) ch->obj.static_obj[i], y + ch->obj.h_2, x + ch->obj.w_2) ||
+						check_point_on_wall((struct wall *) ch->obj.static_obj[i], y + ch->obj.h_2, x - ch->obj.w_2))
+					{
+						result = 1;
+						break;
+					}
+				}
+			}
+		}
+	}
+	else if (mode == CHARACTER_WALL_MODE_PASS_OUT)
+	{
+		if (dy != 0 && dx != 0)
+		{
+			for (i = 0; i < ch->obj.num_static; i++)
+			{
+				y = ch->obj.y + dy;
+				x = ch->obj.x;
+
+				if ((unsigned int) abs(y) < (unsigned int) abs(ch->obj.y))
+				{
+					if (check_point_on_wall((struct wall *) ch->obj.static_obj[i], y - ch->obj.h_2, x - ch->obj.w_2) ||
+						check_point_on_wall((struct wall *) ch->obj.static_obj[i], y - ch->obj.h_2, x + ch->obj.w_2) ||
+						check_point_on_wall((struct wall *) ch->obj.static_obj[i], y + ch->obj.h_2, x + ch->obj.w_2) ||
+						check_point_on_wall((struct wall *) ch->obj.static_obj[i], y + ch->obj.h_2, x - ch->obj.w_2))
+					{
+						result = 1;
+						break;
+					}
+				}
+	
+				y = ch->obj.y;
+				x = ch->obj.x + dx;
+
+				if ((unsigned int) abs(x) < (unsigned int) abs(ch->obj.x))
+				{
+					if (check_point_on_wall((struct wall *) ch->obj.static_obj[i], y - ch->obj.h_2, x - ch->obj.w_2) ||
+						check_point_on_wall((struct wall *) ch->obj.static_obj[i], y - ch->obj.h_2, x + ch->obj.w_2) ||
+						check_point_on_wall((struct wall *) ch->obj.static_obj[i], y + ch->obj.h_2, x + ch->obj.w_2) ||
+						check_point_on_wall((struct wall *) ch->obj.static_obj[i], y + ch->obj.h_2, x - ch->obj.w_2))
+					{
+						result = 1;
+						break;
+					}
+				}
+			}
+		}
+		else if (dy != 0)
+		{
+			for (i = 0; i < ch->obj.num_static; i++)
+			{
+				y = ch->obj.y + dy;
+				x = ch->obj.x;
+
+				if ((unsigned int) abs(y) < (unsigned int) abs(ch->obj.y))
+				{
+					if (check_point_on_wall((struct wall *) ch->obj.static_obj[i], y - ch->obj.h_2, x - ch->obj.w_2) ||
+						check_point_on_wall((struct wall *) ch->obj.static_obj[i], y - ch->obj.h_2, x + ch->obj.w_2) ||
+						check_point_on_wall((struct wall *) ch->obj.static_obj[i], y + ch->obj.h_2, x + ch->obj.w_2) ||
+						check_point_on_wall((struct wall *) ch->obj.static_obj[i], y + ch->obj.h_2, x - ch->obj.w_2))
+					{
+						result = 1;
+						break;
+					}
+				}
+			}
+		}
+		else if (dx != 0)
+		{
+			for (i = 0; i < ch->obj.num_static; i++)
+			{
+				y = ch->obj.y;
+				x = ch->obj.x + dx;
+
+				if ((unsigned int) abs(x) < (unsigned int) abs(ch->obj.x))
+				{
+					if (check_point_on_wall((struct wall *) ch->obj.static_obj[i], y - ch->obj.h_2, x - ch->obj.w_2) ||
+						check_point_on_wall((struct wall *) ch->obj.static_obj[i], y - ch->obj.h_2, x + ch->obj.w_2) ||
+						check_point_on_wall((struct wall *) ch->obj.static_obj[i], y + ch->obj.h_2, x + ch->obj.w_2) ||
+						check_point_on_wall((struct wall *) ch->obj.static_obj[i], y + ch->obj.h_2, x - ch->obj.w_2))
+					{
+						result = 1;
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	return result;
+}
+
+#if 0
+unsigned int interaction_walls_character(
+	struct character *ch,
+	signed int dy,
+	signed int dx,
 	unsigned int mode,
 	unsigned int num_walls,
 	struct wall *walls
@@ -183,7 +360,7 @@ unsigned int interaction_walls_character(
 	signed int y, x;
 	unsigned int result = 0;
 
-	if (!ch->obj.check_wall)
+	if (ch->obj.num_static == 0)
 	{
 		return result;
 	}
@@ -365,6 +542,7 @@ unsigned int interaction_walls_character(
 
 	return result;
 }
+#endif
 
 void draw_character(
 	struct character *ch

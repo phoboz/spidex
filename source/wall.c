@@ -3,6 +3,7 @@
 // ***************************************************************************
 
 #include <vectrex.h>
+#include "generic.h"
 #include "wall.h"
 
 // ---------------------------------------------------------------------------
@@ -48,7 +49,7 @@ void init_wall(
 	// TODO: Calulcate size accurately
 	if (y1 == y2)
 	{
-		h = 2;
+		h = 1;
 	}
 	else
 	{
@@ -57,7 +58,7 @@ void init_wall(
 
 	if (x1 == x2)
 	{
-		w = 2;
+		w = 1;
 	}
 	else
 	{
@@ -73,6 +74,46 @@ void init_wall(
 
 	wall->vec[0] = web_wall[3];
 	wall->vec[1] = web_wall[4];
+}
+
+void get_middle_point_wall(
+	struct wall *wall,
+	signed int *y,
+	signed int *x
+	)
+{
+	const signed char *coord;
+	unsigned int count;
+	signed int y1, x1, y2, x2;
+
+	y1 = wall->y1;
+	x1 = wall->x1;
+
+	y2 = wall->y2;
+	x2 = wall->x2;
+
+	if (y1 == y2)
+	{
+		*y = y1;
+		*x = x1;//(x2 - x1) >> 1 TODO: Mysterious bug causes crash
+	}
+	else if (x1 == x2)
+	{
+		*y = (y2 - y1) >> 1;
+		*x = x1;
+	}
+	else
+	{
+		count = 0;
+		for (coord = wall->coords; coord[0] != 127; coord += 2)
+		{
+			count++;
+		}
+
+		count >>= 1;
+		*y = wall->coords[count];
+		*x = wall->coords[count + 1];
+	}
 }
 
 unsigned int check_point_on_wall(

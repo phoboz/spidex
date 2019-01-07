@@ -29,7 +29,7 @@
 // after each reset, the cartridge title is shown and then main() is called
 // ---------------------------------------------------------------------------
 
-#define MAX_ENEMIES	4
+#define MAX_ENEMIES	3
 #define MAX_FOOD		5
 #define MAX_WALLS		3
 
@@ -84,7 +84,7 @@ void move_enemies(void)
 
 	for (i = 0; i < MAX_ENEMIES; i++)
 	{
-		move_enemy(&enemy[i], &player.ch.obj, MAX_WALLS, wall);
+		move_enemy(&enemy[i], &player.ch.obj);
 	}
 }
 
@@ -191,13 +191,13 @@ int main(void)
 	init_walls();
 	init_wave(&wave);
 ////DEBUG
-	//wave.wave_index = 1;
+	wave.wave_index = 2;
 ////END DEBUG
 	while(1)
 	{
 		handle_grid(&grid);
 
-		fire_status = move_player(&player, MAX_WALLS, wall);
+		fire_status = move_player(&player);
 		move_enemies();
 		move_foods();
 

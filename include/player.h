@@ -70,9 +70,7 @@ void set_fire_dir_player(
 	);
 
 unsigned int move_player(
-	struct player *player,
-	unsigned int num_walls,
-	struct wall *walls
+	struct player *player
 	);
 
 void draw_player(

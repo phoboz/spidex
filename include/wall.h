@@ -26,6 +26,12 @@ void init_wall(
 	struct grid *grid
 	);
 
+void get_middle_point_wall(
+	struct wall *wall,
+	signed int *y,
+	signed int *x
+	);
+
 unsigned int check_point_on_wall(
 	struct wall *wall,
 	signed int y,

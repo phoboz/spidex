@@ -25,9 +25,12 @@ void init_object(
 	struct grid *grid
 	)
 {
-	obj->active		= 1;
-	obj->type			= type;
-	obj->check_wall	= 0;
+	signed int ym, xm;
+
+	obj->active	= 1;
+	obj->type		= type;
+
+	obj->num_static = 0;
 
 	obj->y = y;
 	obj->x = x;
@@ -43,10 +46,12 @@ void init_object(
 	obj->next = 0;
 	obj->grid = grid;
 
-	if (obj->type == OBJECT_TYPE_WALL)
+	if (obj->type > OBJECT_TYPE_STATIC)
 	{
 		struct wall *wall = (struct wall *) obj;
+		get_middle_point_wall(wall, &ym, &xm);
 		add_static_object_grid(grid, obj, wall->y1, wall->x1);
+		add_static_object_grid(grid, obj, ym, xm);
 		add_static_object_grid(grid, obj, wall->y2, wall->x2);
 	}
 	else
@@ -59,12 +64,16 @@ void deinit_object(
 	struct object *obj
 	)
 {
+	signed int ym, xm;
+
 	if (obj->active)
 	{
-		if (obj->type == OBJECT_TYPE_WALL)
+		if (obj->type > OBJECT_TYPE_STATIC)
 		{
 			struct wall *wall = (struct wall *) obj;
+			get_middle_point_wall(wall, &ym, &xm);
 			remove_static_object_grid(obj->grid, obj, wall->y1, wall->x1);
+			remove_static_object_grid(obj->grid, obj, ym, xm);
 			remove_static_object_grid(obj->grid, obj, wall->y2, wall->x2);
 		}
 		else
@@ -84,7 +93,7 @@ void move_object(
 {
 	if (obj->active)
 	{
-		obj->check_wall = 0;
+		obj->num_static = 0;
 		move_object_grid(obj->grid, obj, y, x);
 	}
 }
@@ -104,6 +113,18 @@ unsigned int distance_object(
 	return result;
 }
 
+static void add_static_object(
+	struct object *obj,
+	struct object *static_obj
+	)
+{
+	if (obj->num_static < OBJECT_MAX_STATIC)
+	{
+		obj->static_obj[obj->num_static] = static_obj;
+		obj->num_static++;
+	}
+}
+
 unsigned int hit_object(
 	struct object *obj1,
 	struct object *obj2
@@ -116,31 +137,28 @@ unsigned int hit_object(
 
 	unsigned int result = 0;
 
-	if (obj1->active && obj2->active)
+	if (obj1->type > OBJECT_TYPE_CHARACTER && obj2->type > OBJECT_TYPE_STATIC)
 	{
-		if (obj1->type == OBJECT_TYPE_WALL)
-		{
-			obj2->check_wall = 1;
-		}
+		add_static_object(obj1, obj2);
+	}
 
-		if (obj2->type == OBJECT_TYPE_WALL)
-		{
-			obj1->check_wall = 1;
-		}
+	if (obj2->type > OBJECT_TYPE_CHARACTER && obj1->type > OBJECT_TYPE_STATIC)
+	{
+		add_static_object(obj2, obj1);
+	}
 
-        	x1 = obj1->x - obj1->w_2;
-        	w2 = obj2->w;
-		w1 = obj1->w;
-		x2 = obj2->x - obj2->w_2;
-    		y1 = obj1->y - obj1->h_2;
-    		y2 = obj2->y - obj2->h_2;
-    		h2 = obj2->h;
-    		h1 = obj1->h;
+	x1 = obj1->x - obj1->w_2;
+	w2 = obj2->w;
+	w1 = obj1->w;
+	x2 = obj2->x - obj2->w_2;
+	y1 = obj1->y - obj1->h_2;
+	y2 = obj2->y - obj2->h_2;
+	h2 = obj2->h;
+	h1 = obj1->h;
 
-		if (x1 < x2 + w2 && x1 + w1 > x2 && y1 < y2 + h2 && h1 + y1 > y2)
-		{
-			result = 1;
-		}
+	if (x1 < x2 + w2 && x1 + w1 > x2 && y1 < y2 + h2 && h1 + y1 > y2)
+	{
+		result = 1;
 	}
 
 	return result;
