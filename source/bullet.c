@@ -16,10 +16,10 @@ void init_bullet(
 	unsigned int dir,
 	signed int speed,
 	unsigned int scale,
-	const signed char *shape
+	const signed char* const *shapes
 	)
 {
-	init_object(&bullet->obj, y, x, h, w, scale, shape);
+	init_object(&bullet->obj, y, x, h, w, scale, shapes[0]);
 
 	switch (dir) {
 		case DIR_DOWN:
@@ -67,6 +67,9 @@ void init_bullet(
 			bullet->dx =  0;
 			break;
 	}
+
+	bullet->frame		= 0;
+	bullet->shapes	= shapes;
 }
 
 void move_bullet(
@@ -75,6 +78,11 @@ void move_bullet(
 {
 	if (bullet->obj.active)
 	{
+		if (++bullet->frame >= BULLET_NUM_FRAMES)
+		{
+			bullet->frame = 0;
+		}
+
 		bullet->obj.y += bullet->dy;
 		bullet->obj.x += bullet->dx;
 
@@ -94,6 +102,7 @@ void draw_bullet(
 	struct bullet *bullet
 	)
 {
+	bullet->obj.shape = bullet->shapes[bullet->frame];
 	draw_object(&bullet->obj);
 }
 

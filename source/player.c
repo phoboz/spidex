@@ -9,7 +9,7 @@
 // ---------------------------------------------------------------------------
 
 extern const signed char* const spider[];
-extern const signed char star[];
+extern const signed char* const star[];
 
 void init_player(
 	struct player *player,
@@ -312,7 +312,7 @@ void draw_player(
 
 	for (i = 0; i < PLAYER_MAX_BULLETS; i++)
 	{
-		draw_object(&player->bullet[i].obj);
+		draw_bullet(&player->bullet[i]);
 	}
 }
 

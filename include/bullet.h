@@ -3,6 +3,8 @@
 
 #include "object.h"
 
+#define BULLET_NUM_FRAMES	6
+
 #define BULLET_MIN_Y	-118
 #define BULLET_MAX_Y	 118
 #define BULLET_MIN_X	 -96
@@ -13,6 +15,8 @@ struct bullet
 	struct object obj;
 	signed int dy;
 	signed int dx;
+	unsigned int frame;
+	const signed char* const *shapes;
 };
 
 void init_bullet(
@@ -24,7 +28,7 @@ void init_bullet(
 	unsigned int dir,
 	signed int speed,
 	unsigned int scale,
-	const signed char *shape
+	const signed char* const *shapes
 	);
 
 void move_bullet(
