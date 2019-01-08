@@ -5,492 +5,292 @@
 #include <vectrex.h>
 
 // ---------------------------------------------------------------------------
-#define AMPLIFIER_MUL 10 
 
-const signed char bee_left_1[]=
-{	(signed char) +1, +AMPLIFIER_MUL*2, -AMPLIFIER_MUL*10, // sync and move to y, x
-	(signed char) -1, -AMPLIFIER_MUL*4, +AMPLIFIER_MUL*10, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*2, +AMPLIFIER_MUL*0, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*5, -AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*5, +AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*0, +AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*6, +AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*4, -AMPLIFIER_MUL*6, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*4, +AMPLIFIER_MUL*6, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*6, -AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*0, -AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*5, -AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) +1, -AMPLIFIER_MUL*5, -AMPLIFIER_MUL*1, // sync and move to y, x
-	(signed char) -1, +AMPLIFIER_MUL*5, +AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*2, +AMPLIFIER_MUL*0, // mode, y, x
-	(signed char) -1, -AMPLIFIER_MUL*4, -AMPLIFIER_MUL*10, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*0, +AMPLIFIER_MUL*6, // mode, y, x
-	(signed char) +0, +AMPLIFIER_MUL*0, +AMPLIFIER_MUL*7, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*0, +AMPLIFIER_MUL*6, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*2, +AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*2, -AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*0, -AMPLIFIER_MUL*6, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*0, +AMPLIFIER_MUL*1, // mode, y, x
-	(signed char) -1, -AMPLIFIER_MUL*4, +AMPLIFIER_MUL*0, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*0, +AMPLIFIER_MUL*3, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*4, +AMPLIFIER_MUL*0, // draw, y, x
+#define BLOW_UP 10
+
+const signed char bee_1_0[]=
+{	(signed char) +1, -10*BLOW_UP, -1*BLOW_UP, // sync and move to y, x
+	(signed char) -1, +8*BLOW_UP, +3*BLOW_UP, // draw, y, x
+	(signed char) -1, -2*BLOW_UP, +8*BLOW_UP, // draw, y, x
+	(signed char) -1, +5*BLOW_UP, -2*BLOW_UP, // draw, y, x
+	(signed char) -1, +1*BLOW_UP, -5*BLOW_UP, // draw, y, x
+	(signed char) -1, +8*BLOW_UP, -3*BLOW_UP, // draw, y, x
+	(signed char) -1, -8*BLOW_UP, -3*BLOW_UP, // draw, y, x
+	(signed char) -1, -1*BLOW_UP, -5*BLOW_UP, // draw, y, x
+	(signed char) -1, -5*BLOW_UP, -2*BLOW_UP, // draw, y, x
+	(signed char) -1, +2*BLOW_UP, +8*BLOW_UP, // draw, y, x
+	(signed char) -1, -8*BLOW_UP, +3*BLOW_UP, // draw, y, x
+	(signed char) +0, +7*BLOW_UP, +1*BLOW_UP, // mode, y, x
+	(signed char) +0, +7*BLOW_UP, +1*BLOW_UP, // mode, y, x
+	(signed char) -1, +0*BLOW_UP, -4*BLOW_UP, // draw, y, x
 	(signed char) +2 // endmarker 
 };
-
-const signed char bee_down_left_1[]=
-{	(signed char) +1, -AMPLIFIER_MUL*6, -AMPLIFIER_MUL*8, // sync and move to y, x
-	(signed char) -1, +AMPLIFIER_MUL*5, +AMPLIFIER_MUL*9, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*1, -AMPLIFIER_MUL*1, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*3, -AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*4, -AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*3, +AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*3, +AMPLIFIER_MUL*5, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*7, -AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*1, +AMPLIFIER_MUL*7, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*5, +AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*3, -AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*3, -AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) +1, -AMPLIFIER_MUL*4, +AMPLIFIER_MUL*3, // sync and move to y, x
-	(signed char) -1, +AMPLIFIER_MUL*4, -AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*1, -AMPLIFIER_MUL*1, // mode, y, x
-	(signed char) -1, -AMPLIFIER_MUL*9, -AMPLIFIER_MUL*5, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*9, +AMPLIFIER_MUL*10, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*4, +AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*2, -AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*1, -AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*4, -AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*0, +AMPLIFIER_MUL*0, // mode, y, x
-	(signed char) -1, -AMPLIFIER_MUL*3, +AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*3, +AMPLIFIER_MUL*2, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*2, -AMPLIFIER_MUL*2, // draw, y, x
+const signed char bee_1_1[]=
+{	(signed char) +1, -8*BLOW_UP, +6*BLOW_UP, // sync and move to y, x
+	(signed char) -1, +8*BLOW_UP, -3*BLOW_UP, // draw, y, x
+	(signed char) -1, +4*BLOW_UP, +7*BLOW_UP, // draw, y, x
+	(signed char) -1, +2*BLOW_UP, -5*BLOW_UP, // draw, y, x
+	(signed char) -1, -2*BLOW_UP, -4*BLOW_UP, // draw, y, x
+	(signed char) -1, +3*BLOW_UP, -8*BLOW_UP, // draw, y, x
+	(signed char) -1, -8*BLOW_UP, +3*BLOW_UP, // draw, y, x
+	(signed char) -1, -4*BLOW_UP, -2*BLOW_UP, // draw, y, x
+	(signed char) -1, -5*BLOW_UP, +2*BLOW_UP, // draw, y, x
+	(signed char) -1, +7*BLOW_UP, +4*BLOW_UP, // draw, y, x
+	(signed char) -1, -3*BLOW_UP, +8*BLOW_UP, // draw, y, x
+	(signed char) +0, +10*BLOW_UP, -9*BLOW_UP, // mode, y, x
+	(signed char) -1, -3*BLOW_UP, -3*BLOW_UP, // draw, y, x
 	(signed char) +2 // endmarker 
 };
-
-const signed char bee_down_1[]=
-{	(signed char) +1, -AMPLIFIER_MUL*10, -AMPLIFIER_MUL*1, // sync and move to y, x
-	(signed char) -1, +AMPLIFIER_MUL*10, +AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*0, -AMPLIFIER_MUL*1, // mode, y, x
-	(signed char) -1, -AMPLIFIER_MUL*1, -AMPLIFIER_MUL*5, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*1, -AMPLIFIER_MUL*5, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*4, +AMPLIFIER_MUL*0, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*2, +AMPLIFIER_MUL*6, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*6, +AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*6, +AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*2, +AMPLIFIER_MUL*6, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*4, +AMPLIFIER_MUL*0, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*1, -AMPLIFIER_MUL*5, // draw, y, x
-	(signed char) +1, -AMPLIFIER_MUL*1, +AMPLIFIER_MUL*5, // sync and move to y, x
-	(signed char) -1, +AMPLIFIER_MUL*1, -AMPLIFIER_MUL*5, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*0, -AMPLIFIER_MUL*1, // mode, y, x
-	(signed char) -1, -AMPLIFIER_MUL*10, +AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*7, +AMPLIFIER_MUL*1, // mode, y, x
-	(signed char) +0, +AMPLIFIER_MUL*7, +AMPLIFIER_MUL*0, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*5, +AMPLIFIER_MUL*0, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*1, -AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*1, -AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*5, +AMPLIFIER_MUL*0, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*0, +AMPLIFIER_MUL*0, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*0, +AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*3, -AMPLIFIER_MUL*1, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*0, -AMPLIFIER_MUL*2, // draw, y, x
+const signed char bee_1_2[]=
+{	(signed char) +1, -1*BLOW_UP, +10*BLOW_UP, // sync and move to y, x
+	(signed char) -1, +3*BLOW_UP, -8*BLOW_UP, // draw, y, x
+	(signed char) -1, +8*BLOW_UP, +2*BLOW_UP, // draw, y, x
+	(signed char) -1, -2*BLOW_UP, -5*BLOW_UP, // draw, y, x
+	(signed char) -1, -5*BLOW_UP, -1*BLOW_UP, // draw, y, x
+	(signed char) -1, -3*BLOW_UP, -8*BLOW_UP, // draw, y, x
+	(signed char) -1, -3*BLOW_UP, +8*BLOW_UP, // draw, y, x
+	(signed char) -1, -5*BLOW_UP, +1*BLOW_UP, // draw, y, x
+	(signed char) -1, -2*BLOW_UP, +5*BLOW_UP, // draw, y, x
+	(signed char) -1, +8*BLOW_UP, -2*BLOW_UP, // draw, y, x
+	(signed char) -1, +3*BLOW_UP, +8*BLOW_UP, // draw, y, x
+	(signed char) +0, +1*BLOW_UP, -7*BLOW_UP, // mode, y, x
+	(signed char) +0, +1*BLOW_UP, -7*BLOW_UP, // mode, y, x
+	(signed char) -1, -4*BLOW_UP, +0*BLOW_UP, // draw, y, x
 	(signed char) +2 // endmarker 
 };
-
-const signed char bee_down_right_1[]=
-{	(signed char) +1, -AMPLIFIER_MUL*8, +AMPLIFIER_MUL*6, // sync and move to y, x
-	(signed char) -1, +AMPLIFIER_MUL*9, -AMPLIFIER_MUL*5, // draw, y, x
-	(signed char) +0, -AMPLIFIER_MUL*1, -AMPLIFIER_MUL*1, // mode, y, x
-	(signed char) -1, -AMPLIFIER_MUL*4, -AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*3, -AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*3, -AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*5, +AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*1, +AMPLIFIER_MUL*7, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*7, -AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*3, +AMPLIFIER_MUL*5, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*3, +AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*4, -AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) +1, +AMPLIFIER_MUL*3, +AMPLIFIER_MUL*4, // sync and move to y, x
-	(signed char) -1, -AMPLIFIER_MUL*3, -AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) +0, -AMPLIFIER_MUL*1, -AMPLIFIER_MUL*1, // mode, y, x
-	(signed char) -1, -AMPLIFIER_MUL*5, +AMPLIFIER_MUL*9, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*10, -AMPLIFIER_MUL*9, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*4, -AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*1, -AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*2, -AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*4, +AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*0, +AMPLIFIER_MUL*0, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*3, +AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*2, -AMPLIFIER_MUL*3, // mode, y, x
-	(signed char) -1, -AMPLIFIER_MUL*2, -AMPLIFIER_MUL*2, // draw, y, x
+const signed char bee_1_3[]=
+{	(signed char) +1, +6*BLOW_UP, +8*BLOW_UP, // sync and move to y, x
+	(signed char) -1, -3*BLOW_UP, -8*BLOW_UP, // draw, y, x
+	(signed char) -1, +7*BLOW_UP, -4*BLOW_UP, // draw, y, x
+	(signed char) -1, -5*BLOW_UP, -2*BLOW_UP, // draw, y, x
+	(signed char) -1, -4*BLOW_UP, +2*BLOW_UP, // draw, y, x
+	(signed char) -1, -8*BLOW_UP, -3*BLOW_UP, // draw, y, x
+	(signed char) -1, +3*BLOW_UP, +8*BLOW_UP, // draw, y, x
+	(signed char) -1, -2*BLOW_UP, +4*BLOW_UP, // draw, y, x
+	(signed char) -1, +2*BLOW_UP, +5*BLOW_UP, // draw, y, x
+	(signed char) -1, +4*BLOW_UP, -7*BLOW_UP, // draw, y, x
+	(signed char) -1, +8*BLOW_UP, +3*BLOW_UP, // draw, y, x
+	(signed char) +0, -9*BLOW_UP, -10*BLOW_UP, // mode, y, x
+	(signed char) -1, -3*BLOW_UP, +3*BLOW_UP, // draw, y, x
 	(signed char) +2 // endmarker 
 };
-
-const signed char bee_right_1[]=
-{	(signed char) +1, -AMPLIFIER_MUL*1, +AMPLIFIER_MUL*10, // sync and move to y, x
-	(signed char) -1, +AMPLIFIER_MUL*2, -AMPLIFIER_MUL*10, // draw, y, x
-	(signed char) +0, -AMPLIFIER_MUL*1, +AMPLIFIER_MUL*0, // mode, y, x
-	(signed char) -1, -AMPLIFIER_MUL*5, +AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*5, -AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*0, -AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*6, -AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*4, +AMPLIFIER_MUL*6, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*4, -AMPLIFIER_MUL*6, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*6, +AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*0, +AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*5, +AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) +1, +AMPLIFIER_MUL*5, +AMPLIFIER_MUL*1, // sync and move to y, x
-	(signed char) -1, -AMPLIFIER_MUL*5, -AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) +0, -AMPLIFIER_MUL*1, +AMPLIFIER_MUL*0, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*2, +AMPLIFIER_MUL*10, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*1, -AMPLIFIER_MUL*7, // mode, y, x
-	(signed char) +0, +AMPLIFIER_MUL*0, -AMPLIFIER_MUL*7, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*0, -AMPLIFIER_MUL*5, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*2, -AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*2, +AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*0, +AMPLIFIER_MUL*5, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*0, +AMPLIFIER_MUL*0, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*4, +AMPLIFIER_MUL*0, // draw, y, x
-	(signed char) +0, -AMPLIFIER_MUL*1, -AMPLIFIER_MUL*3, // mode, y, x
-	(signed char) -1, -AMPLIFIER_MUL*2, +AMPLIFIER_MUL*0, // draw, y, x
+const signed char bee_1_4[]=
+{	(signed char) +1, +10*BLOW_UP, +1*BLOW_UP, // sync and move to y, x
+	(signed char) -1, -8*BLOW_UP, -3*BLOW_UP, // draw, y, x
+	(signed char) -1, +2*BLOW_UP, -8*BLOW_UP, // draw, y, x
+	(signed char) -1, -5*BLOW_UP, +2*BLOW_UP, // draw, y, x
+	(signed char) -1, -1*BLOW_UP, +5*BLOW_UP, // draw, y, x
+	(signed char) -1, -8*BLOW_UP, +3*BLOW_UP, // draw, y, x
+	(signed char) -1, +8*BLOW_UP, +3*BLOW_UP, // draw, y, x
+	(signed char) -1, +1*BLOW_UP, +5*BLOW_UP, // draw, y, x
+	(signed char) -1, +5*BLOW_UP, +2*BLOW_UP, // draw, y, x
+	(signed char) -1, -2*BLOW_UP, -8*BLOW_UP, // draw, y, x
+	(signed char) -1, +8*BLOW_UP, -3*BLOW_UP, // draw, y, x
+	(signed char) +0, -7*BLOW_UP, -1*BLOW_UP, // mode, y, x
+	(signed char) +0, -7*BLOW_UP, -1*BLOW_UP, // mode, y, x
+	(signed char) -1, +0*BLOW_UP, +4*BLOW_UP, // draw, y, x
 	(signed char) +2 // endmarker 
 };
-
-const signed char bee_up_right_1[]=
-{	(signed char) +1, +AMPLIFIER_MUL*6, +AMPLIFIER_MUL*8, // sync and move to y, x
-	(signed char) -1, -AMPLIFIER_MUL*5, -AMPLIFIER_MUL*9, // draw, y, x
-	(signed char) +0, -AMPLIFIER_MUL*1, +AMPLIFIER_MUL*1, // mode, y, x
-	(signed char) -1, -AMPLIFIER_MUL*3, +AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*4, +AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*3, -AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*3, -AMPLIFIER_MUL*5, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*7, +AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*1, -AMPLIFIER_MUL*7, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*5, -AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*3, +AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*3, +AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) +1, +AMPLIFIER_MUL*4, -AMPLIFIER_MUL*3, // sync and move to y, x
-	(signed char) -1, -AMPLIFIER_MUL*4, +AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) +0, -AMPLIFIER_MUL*1, +AMPLIFIER_MUL*1, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*9, +AMPLIFIER_MUL*5, // draw, y, x
-	(signed char) +0, -AMPLIFIER_MUL*9, -AMPLIFIER_MUL*10, // mode, y, x
-	(signed char) -1, -AMPLIFIER_MUL*4, -AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*2, +AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*1, +AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*4, +AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*0, +AMPLIFIER_MUL*0, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*3, -AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) +0, -AMPLIFIER_MUL*3, -AMPLIFIER_MUL*2, // mode, y, x
-	(signed char) -1, -AMPLIFIER_MUL*2, +AMPLIFIER_MUL*2, // draw, y, x
+const signed char bee_1_5[]=
+{	(signed char) +1, +8*BLOW_UP, -6*BLOW_UP, // sync and move to y, x
+	(signed char) -1, -8*BLOW_UP, +3*BLOW_UP, // draw, y, x
+	(signed char) -1, -4*BLOW_UP, -7*BLOW_UP, // draw, y, x
+	(signed char) -1, -2*BLOW_UP, +5*BLOW_UP, // draw, y, x
+	(signed char) -1, +2*BLOW_UP, +4*BLOW_UP, // draw, y, x
+	(signed char) -1, -3*BLOW_UP, +8*BLOW_UP, // draw, y, x
+	(signed char) -1, +8*BLOW_UP, -3*BLOW_UP, // draw, y, x
+	(signed char) -1, +4*BLOW_UP, +2*BLOW_UP, // draw, y, x
+	(signed char) -1, +5*BLOW_UP, -2*BLOW_UP, // draw, y, x
+	(signed char) -1, -7*BLOW_UP, -4*BLOW_UP, // draw, y, x
+	(signed char) -1, +3*BLOW_UP, -8*BLOW_UP, // draw, y, x
+	(signed char) +0, -10*BLOW_UP, +9*BLOW_UP, // mode, y, x
+	(signed char) -1, +3*BLOW_UP, +3*BLOW_UP, // draw, y, x
 	(signed char) +2 // endmarker 
 };
-
-const signed char bee_up_1[]=
-{	(signed char) +1, +AMPLIFIER_MUL*10, +AMPLIFIER_MUL*1, // sync and move to y, x
-	(signed char) -1, -AMPLIFIER_MUL*10, -AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*0, +AMPLIFIER_MUL*1, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*1, +AMPLIFIER_MUL*5, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*1, +AMPLIFIER_MUL*5, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*4, +AMPLIFIER_MUL*0, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*2, -AMPLIFIER_MUL*6, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*6, -AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*6, -AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*2, -AMPLIFIER_MUL*6, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*4, +AMPLIFIER_MUL*0, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*1, +AMPLIFIER_MUL*5, // draw, y, x
-	(signed char) +1, +AMPLIFIER_MUL*1, -AMPLIFIER_MUL*5, // sync and move to y, x
-	(signed char) -1, -AMPLIFIER_MUL*1, +AMPLIFIER_MUL*5, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*0, +AMPLIFIER_MUL*1, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*10, -AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) +0, -AMPLIFIER_MUL*7, -AMPLIFIER_MUL*1, // mode, y, x
-	(signed char) +0, -AMPLIFIER_MUL*7, -AMPLIFIER_MUL*0, // mode, y, x
-	(signed char) -1, -AMPLIFIER_MUL*5, +AMPLIFIER_MUL*0, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*1, +AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*1, +AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*5, +AMPLIFIER_MUL*0, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*0, +AMPLIFIER_MUL*0, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*0, -AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) +0, -AMPLIFIER_MUL*3, +AMPLIFIER_MUL*1, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*0, +AMPLIFIER_MUL*2, // draw, y, x
+const signed char bee_1_6[]=
+{	(signed char) +1, +1*BLOW_UP, -10*BLOW_UP, // sync and move to y, x
+	(signed char) -1, -3*BLOW_UP, +8*BLOW_UP, // draw, y, x
+	(signed char) -1, -8*BLOW_UP, -2*BLOW_UP, // draw, y, x
+	(signed char) -1, +2*BLOW_UP, +5*BLOW_UP, // draw, y, x
+	(signed char) -1, +5*BLOW_UP, +1*BLOW_UP, // draw, y, x
+	(signed char) -1, +3*BLOW_UP, +8*BLOW_UP, // draw, y, x
+	(signed char) -1, +3*BLOW_UP, -8*BLOW_UP, // draw, y, x
+	(signed char) -1, +5*BLOW_UP, -1*BLOW_UP, // draw, y, x
+	(signed char) -1, +2*BLOW_UP, -5*BLOW_UP, // draw, y, x
+	(signed char) -1, -8*BLOW_UP, +2*BLOW_UP, // draw, y, x
+	(signed char) -1, -3*BLOW_UP, -8*BLOW_UP, // draw, y, x
+	(signed char) +0, -1*BLOW_UP, +7*BLOW_UP, // mode, y, x
+	(signed char) +0, -1*BLOW_UP, +7*BLOW_UP, // mode, y, x
+	(signed char) -1, +4*BLOW_UP, +0*BLOW_UP, // draw, y, x
 	(signed char) +2 // endmarker 
 };
-
-const signed char bee_up_left_1[]=
-{	(signed char) +1, +AMPLIFIER_MUL*8, -AMPLIFIER_MUL*6, // sync and move to y, x
-	(signed char) -1, -AMPLIFIER_MUL*9, +AMPLIFIER_MUL*5, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*1, +AMPLIFIER_MUL*1, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*4, +AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*3, +AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*3, +AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*5, -AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*1, -AMPLIFIER_MUL*7, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*7, +AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*3, -AMPLIFIER_MUL*5, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*3, -AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*4, +AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) +1, -AMPLIFIER_MUL*3, -AMPLIFIER_MUL*4, // sync and move to y, x
-	(signed char) -1, +AMPLIFIER_MUL*3, +AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*1, +AMPLIFIER_MUL*1, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*5, -AMPLIFIER_MUL*9, // draw, y, x
-	(signed char) +0, -AMPLIFIER_MUL*10, +AMPLIFIER_MUL*9, // mode, y, x
-	(signed char) -1, -AMPLIFIER_MUL*4, +AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*1, +AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*2, +AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*4, -AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*0, +AMPLIFIER_MUL*0, // mode, y, x
-	(signed char) -1, -AMPLIFIER_MUL*3, -AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) +0, -AMPLIFIER_MUL*2, +AMPLIFIER_MUL*3, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*2, +AMPLIFIER_MUL*2, // draw, y, x
+const signed char bee_1_7[]=
+{	(signed char) +1, -6*BLOW_UP, -8*BLOW_UP, // sync and move to y, x
+	(signed char) -1, +3*BLOW_UP, +8*BLOW_UP, // draw, y, x
+	(signed char) -1, -7*BLOW_UP, +4*BLOW_UP, // draw, y, x
+	(signed char) -1, +5*BLOW_UP, +2*BLOW_UP, // draw, y, x
+	(signed char) -1, +4*BLOW_UP, -2*BLOW_UP, // draw, y, x
+	(signed char) -1, +8*BLOW_UP, +3*BLOW_UP, // draw, y, x
+	(signed char) -1, -3*BLOW_UP, -8*BLOW_UP, // draw, y, x
+	(signed char) -1, +2*BLOW_UP, -4*BLOW_UP, // draw, y, x
+	(signed char) -1, -2*BLOW_UP, -5*BLOW_UP, // draw, y, x
+	(signed char) -1, -4*BLOW_UP, +7*BLOW_UP, // draw, y, x
+	(signed char) -1, -8*BLOW_UP, -3*BLOW_UP, // draw, y, x
+	(signed char) +0, +9*BLOW_UP, +10*BLOW_UP, // mode, y, x
+	(signed char) -1, +3*BLOW_UP, -3*BLOW_UP, // draw, y, x
 	(signed char) +2 // endmarker 
 };
-
-const signed char bee_left_2[]=
-{	(signed char) +1, -AMPLIFIER_MUL*2, +AMPLIFIER_MUL*9, // sync and move to y, x
-	(signed char) -1, -AMPLIFIER_MUL*3, +AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*5, -AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*1, -AMPLIFIER_MUL*5, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*9, -AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*2, +AMPLIFIER_MUL*9, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*3, +AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*5, -AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*1, -AMPLIFIER_MUL*5, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*9, -AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*2, +AMPLIFIER_MUL*9, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*2, +AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) +1, +AMPLIFIER_MUL*0, +AMPLIFIER_MUL*10, // sync and move to y, x
-	(signed char) -1, +AMPLIFIER_MUL*2, -AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*0, -AMPLIFIER_MUL*2, // mode, y, x
-	(signed char) -1, -AMPLIFIER_MUL*4, +AMPLIFIER_MUL*0, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*0, -AMPLIFIER_MUL*7, // mode, y, x
-	(signed char) +0, +AMPLIFIER_MUL*0, -AMPLIFIER_MUL*10, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*4, +AMPLIFIER_MUL*9, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*0, +AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) +0, -AMPLIFIER_MUL*1, +AMPLIFIER_MUL*3, // mode, y, x
-	(signed char) -1, -AMPLIFIER_MUL*2, +AMPLIFIER_MUL*0, // draw, y, x
-	(signed char) +0, -AMPLIFIER_MUL*1, -AMPLIFIER_MUL*3, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*0, -AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*4, -AMPLIFIER_MUL*9, // draw, y, x
+const signed char bee_2_0[]=
+{	(signed char) +1, -10*BLOW_UP, -1*BLOW_UP, // sync and move to y, x
+	(signed char) -1, +8*BLOW_UP, +3*BLOW_UP, // draw, y, x
+	(signed char) -1, +6*BLOW_UP, +7*BLOW_UP, // draw, y, x
+	(signed char) -1, +5*BLOW_UP, -5*BLOW_UP, // draw, y, x
+	(signed char) -1, -7*BLOW_UP, -1*BLOW_UP, // draw, y, x
+	(signed char) -1, +8*BLOW_UP, -3*BLOW_UP, // draw, y, x
+	(signed char) -1, -8*BLOW_UP, -3*BLOW_UP, // draw, y, x
+	(signed char) -1, +7*BLOW_UP, -1*BLOW_UP, // draw, y, x
+	(signed char) -1, -5*BLOW_UP, -5*BLOW_UP, // draw, y, x
+	(signed char) -1, -6*BLOW_UP, +7*BLOW_UP, // draw, y, x
+	(signed char) -1, -8*BLOW_UP, +3*BLOW_UP, // draw, y, x
+	(signed char) +0, +7*BLOW_UP, +1*BLOW_UP, // mode, y, x
+	(signed char) +0, +7*BLOW_UP, +1*BLOW_UP, // mode, y, x
+	(signed char) -1, +0*BLOW_UP, -4*BLOW_UP, // draw, y, x
 	(signed char) +2 // endmarker 
 };
-
-const signed char bee_down_left_2[]=
-{	(signed char) +1, +AMPLIFIER_MUL*5, +AMPLIFIER_MUL*8, // sync and move to y, x
-	(signed char) -1, -AMPLIFIER_MUL*1, +AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*5, +AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*3, -AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*4, -AMPLIFIER_MUL*9, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*8, +AMPLIFIER_MUL*5, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*3, -AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*2, -AMPLIFIER_MUL*5, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*4, -AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*9, +AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*5, +AMPLIFIER_MUL*8, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*2, -AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) +1, +AMPLIFIER_MUL*7, +AMPLIFIER_MUL*7, // sync and move to y, x
-	(signed char) -1, +AMPLIFIER_MUL*1, -AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) +0, -AMPLIFIER_MUL*2, -AMPLIFIER_MUL*1, // mode, y, x
-	(signed char) -1, -AMPLIFIER_MUL*2, +AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) +0, -AMPLIFIER_MUL*12, -AMPLIFIER_MUL*12, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*9, +AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*1, +AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*2, +AMPLIFIER_MUL*3, // mode, y, x
-	(signed char) -1, -AMPLIFIER_MUL*2, +AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) +0, -AMPLIFIER_MUL*3, -AMPLIFIER_MUL*2, // mode, y, x
-	(signed char) -1, -AMPLIFIER_MUL*1, -AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*4, -AMPLIFIER_MUL*9, // draw, y, x
+const signed char bee_2_1[]=
+{	(signed char) +1, -8*BLOW_UP, +6*BLOW_UP, // sync and move to y, x
+	(signed char) -1, +8*BLOW_UP, -3*BLOW_UP, // draw, y, x
+	(signed char) -1, +9*BLOW_UP, +1*BLOW_UP, // draw, y, x
+	(signed char) -1, +0*BLOW_UP, -8*BLOW_UP, // draw, y, x
+	(signed char) -1, -5*BLOW_UP, +5*BLOW_UP, // draw, y, x
+	(signed char) -1, +3*BLOW_UP, -8*BLOW_UP, // draw, y, x
+	(signed char) -1, -8*BLOW_UP, +3*BLOW_UP, // draw, y, x
+	(signed char) -1, +5*BLOW_UP, -5*BLOW_UP, // draw, y, x
+	(signed char) -1, -8*BLOW_UP, +0*BLOW_UP, // draw, y, x
+	(signed char) -1, +1*BLOW_UP, +9*BLOW_UP, // draw, y, x
+	(signed char) -1, -3*BLOW_UP, +8*BLOW_UP, // draw, y, x
+	(signed char) +0, +10*BLOW_UP, -9*BLOW_UP, // mode, y, x
+	(signed char) -1, -3*BLOW_UP, -3*BLOW_UP, // draw, y, x
 	(signed char) +2 // endmarker 
 };
-
-const signed char bee_down_2[]=
-{	(signed char) +1, +AMPLIFIER_MUL*9, +AMPLIFIER_MUL*2, // sync and move to y, x
-	(signed char) -1, +AMPLIFIER_MUL*2, +AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*3, +AMPLIFIER_MUL*5, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*4, -AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*4, -AMPLIFIER_MUL*9, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*9, -AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*2, -AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*3, -AMPLIFIER_MUL*5, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*4, +AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*4, +AMPLIFIER_MUL*9, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*9, +AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*1, -AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) +1, +AMPLIFIER_MUL*10, +AMPLIFIER_MUL*0, // sync and move to y, x
-	(signed char) -1, -AMPLIFIER_MUL*1, -AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) +0, -AMPLIFIER_MUL*2, +AMPLIFIER_MUL*1, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*0, +AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) +0, -AMPLIFIER_MUL*7, +AMPLIFIER_MUL*0, // mode, y, x
-	(signed char) +0, -AMPLIFIER_MUL*10, +AMPLIFIER_MUL*0, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*9, -AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*2, +AMPLIFIER_MUL*0, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*3, +AMPLIFIER_MUL*1, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*0, +AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) +0, -AMPLIFIER_MUL*3, +AMPLIFIER_MUL*1, // mode, y, x
-	(signed char) -1, -AMPLIFIER_MUL*2, +AMPLIFIER_MUL*0, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*9, -AMPLIFIER_MUL*3, // draw, y, x
+const signed char bee_2_2[]=
+{	(signed char) +1, -1*BLOW_UP, +10*BLOW_UP, // sync and move to y, x
+	(signed char) -1, +3*BLOW_UP, -8*BLOW_UP, // draw, y, x
+	(signed char) -1, +7*BLOW_UP, -6*BLOW_UP, // draw, y, x
+	(signed char) -1, -5*BLOW_UP, -5*BLOW_UP, // draw, y, x
+	(signed char) -1, -1*BLOW_UP, +7*BLOW_UP, // draw, y, x
+	(signed char) -1, -3*BLOW_UP, -8*BLOW_UP, // draw, y, x
+	(signed char) -1, -3*BLOW_UP, +8*BLOW_UP, // draw, y, x
+	(signed char) -1, -1*BLOW_UP, -7*BLOW_UP, // draw, y, x
+	(signed char) -1, -5*BLOW_UP, +5*BLOW_UP, // draw, y, x
+	(signed char) -1, +7*BLOW_UP, +6*BLOW_UP, // draw, y, x
+	(signed char) -1, +3*BLOW_UP, +8*BLOW_UP, // draw, y, x
+	(signed char) +0, +1*BLOW_UP, -7*BLOW_UP, // mode, y, x
+	(signed char) +0, +1*BLOW_UP, -7*BLOW_UP, // mode, y, x
+	(signed char) -1, -4*BLOW_UP, +0*BLOW_UP, // draw, y, x
 	(signed char) +2 // endmarker 
 };
-
-const signed char bee_down_right_2[]=
-{	(signed char) +1, +AMPLIFIER_MUL*8, -AMPLIFIER_MUL*5, // sync and move to y, x
-	(signed char) -1, +AMPLIFIER_MUL*3, +AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*2, +AMPLIFIER_MUL*5, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*4, +AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*9, -AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*5, -AMPLIFIER_MUL*8, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*1, -AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*5, -AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*3, +AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*4, +AMPLIFIER_MUL*9, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*8, -AMPLIFIER_MUL*5, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*1, -AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) +1, +AMPLIFIER_MUL*7, -AMPLIFIER_MUL*7, // sync and move to y, x
-	(signed char) -1, -AMPLIFIER_MUL*2, -AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) +0, -AMPLIFIER_MUL*1, +AMPLIFIER_MUL*2, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*2, +AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) +0, -AMPLIFIER_MUL*12, +AMPLIFIER_MUL*12, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*4, -AMPLIFIER_MUL*9, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*1, -AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*3, -AMPLIFIER_MUL*2, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*2, +AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) +0, -AMPLIFIER_MUL*2, +AMPLIFIER_MUL*3, // mode, y, x
-	(signed char) -1, -AMPLIFIER_MUL*1, +AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*9, +AMPLIFIER_MUL*4, // draw, y, x
+const signed char bee_2_3[]=
+{	(signed char) +1, +6*BLOW_UP, +8*BLOW_UP, // sync and move to y, x
+	(signed char) -1, -3*BLOW_UP, -8*BLOW_UP, // draw, y, x
+	(signed char) -1, +1*BLOW_UP, -9*BLOW_UP, // draw, y, x
+	(signed char) -1, -8*BLOW_UP, +0*BLOW_UP, // draw, y, x
+	(signed char) -1, +5*BLOW_UP, +5*BLOW_UP, // draw, y, x
+	(signed char) -1, -8*BLOW_UP, -3*BLOW_UP, // draw, y, x
+	(signed char) -1, +3*BLOW_UP, +8*BLOW_UP, // draw, y, x
+	(signed char) -1, -5*BLOW_UP, -5*BLOW_UP, // draw, y, x
+	(signed char) -1, +0*BLOW_UP, +8*BLOW_UP, // draw, y, x
+	(signed char) -1, +9*BLOW_UP, -1*BLOW_UP, // draw, y, x
+	(signed char) -1, +8*BLOW_UP, +3*BLOW_UP, // draw, y, x
+	(signed char) +0, -9*BLOW_UP, -10*BLOW_UP, // mode, y, x
+	(signed char) -1, -3*BLOW_UP, +3*BLOW_UP, // draw, y, x
 	(signed char) +2 // endmarker 
 };
-
-const signed char bee_right_2[]=
-{	(signed char) +1, +AMPLIFIER_MUL*2, -AMPLIFIER_MUL*9, // sync and move to y, x
-	(signed char) -1, +AMPLIFIER_MUL*3, -AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*5, +AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*1, +AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*9, +AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*2, -AMPLIFIER_MUL*9, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*3, -AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*5, +AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*1, +AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*9, +AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*2, -AMPLIFIER_MUL*9, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*2, -AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) +1, +AMPLIFIER_MUL*0, -AMPLIFIER_MUL*10, // sync and move to y, x
-	(signed char) -1, -AMPLIFIER_MUL*2, +AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*1, +AMPLIFIER_MUL*2, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*2, +AMPLIFIER_MUL*0, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*0, +AMPLIFIER_MUL*7, // mode, y, x
-	(signed char) +0, +AMPLIFIER_MUL*0, +AMPLIFIER_MUL*10, // mode, y, x
-	(signed char) -1, -AMPLIFIER_MUL*3, -AMPLIFIER_MUL*9, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*0, -AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*1, -AMPLIFIER_MUL*3, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*2, +AMPLIFIER_MUL*0, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*1, +AMPLIFIER_MUL*3, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*0, +AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*3, +AMPLIFIER_MUL*9, // draw, y, x
+const signed char bee_2_4[]=
+{	(signed char) +1, +10*BLOW_UP, +1*BLOW_UP, // sync and move to y, x
+	(signed char) -1, -8*BLOW_UP, -3*BLOW_UP, // draw, y, x
+	(signed char) -1, -6*BLOW_UP, -7*BLOW_UP, // draw, y, x
+	(signed char) -1, -5*BLOW_UP, +5*BLOW_UP, // draw, y, x
+	(signed char) -1, +7*BLOW_UP, +1*BLOW_UP, // draw, y, x
+	(signed char) -1, -8*BLOW_UP, +3*BLOW_UP, // draw, y, x
+	(signed char) -1, +8*BLOW_UP, +3*BLOW_UP, // draw, y, x
+	(signed char) -1, -7*BLOW_UP, +1*BLOW_UP, // draw, y, x
+	(signed char) -1, +5*BLOW_UP, +5*BLOW_UP, // draw, y, x
+	(signed char) -1, +6*BLOW_UP, -7*BLOW_UP, // draw, y, x
+	(signed char) -1, +8*BLOW_UP, -3*BLOW_UP, // draw, y, x
+	(signed char) +0, -7*BLOW_UP, -1*BLOW_UP, // mode, y, x
+	(signed char) +0, -7*BLOW_UP, -1*BLOW_UP, // mode, y, x
+	(signed char) -1, +0*BLOW_UP, +4*BLOW_UP, // draw, y, x
 	(signed char) +2 // endmarker 
 };
-
-const signed char bee_up_right_2[]=
-{	(signed char) +1, -AMPLIFIER_MUL*5, -AMPLIFIER_MUL*8, // sync and move to y, x
-	(signed char) -1, +AMPLIFIER_MUL*1, -AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*5, -AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*3, +AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*4, +AMPLIFIER_MUL*9, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*8, -AMPLIFIER_MUL*5, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*3, +AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*2, +AMPLIFIER_MUL*5, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*4, +AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*9, -AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*5, -AMPLIFIER_MUL*8, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*2, +AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) +1, -AMPLIFIER_MUL*7, -AMPLIFIER_MUL*7, // sync and move to y, x
-	(signed char) -1, -AMPLIFIER_MUL*1, +AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*2, +AMPLIFIER_MUL*1, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*2, -AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*12, +AMPLIFIER_MUL*12, // mode, y, x
-	(signed char) -1, -AMPLIFIER_MUL*9, -AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*1, -AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) +0, -AMPLIFIER_MUL*2, -AMPLIFIER_MUL*3, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*2, -AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*3, +AMPLIFIER_MUL*2, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*1, +AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*4, +AMPLIFIER_MUL*9, // draw, y, x
+const signed char bee_2_5[]=
+{	(signed char) +1, +8*BLOW_UP, -6*BLOW_UP, // sync and move to y, x
+	(signed char) -1, -8*BLOW_UP, +3*BLOW_UP, // draw, y, x
+	(signed char) -1, -9*BLOW_UP, -1*BLOW_UP, // draw, y, x
+	(signed char) -1, +0*BLOW_UP, +8*BLOW_UP, // draw, y, x
+	(signed char) -1, +5*BLOW_UP, -5*BLOW_UP, // draw, y, x
+	(signed char) -1, -3*BLOW_UP, +8*BLOW_UP, // draw, y, x
+	(signed char) -1, +8*BLOW_UP, -3*BLOW_UP, // draw, y, x
+	(signed char) -1, -5*BLOW_UP, +5*BLOW_UP, // draw, y, x
+	(signed char) -1, +8*BLOW_UP, +0*BLOW_UP, // draw, y, x
+	(signed char) -1, -1*BLOW_UP, -9*BLOW_UP, // draw, y, x
+	(signed char) -1, +3*BLOW_UP, -8*BLOW_UP, // draw, y, x
+	(signed char) +0, -10*BLOW_UP, +9*BLOW_UP, // mode, y, x
+	(signed char) -1, +3*BLOW_UP, +3*BLOW_UP, // draw, y, x
 	(signed char) +2 // endmarker 
 };
-
-const signed char bee_up_2[]=
-{	(signed char) +1, -AMPLIFIER_MUL*9, -AMPLIFIER_MUL*2, // sync and move to y, x
-	(signed char) -1, -AMPLIFIER_MUL*2, -AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*3, -AMPLIFIER_MUL*5, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*4, +AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*4, +AMPLIFIER_MUL*9, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*9, +AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*2, +AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*3, +AMPLIFIER_MUL*5, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*4, -AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*4, -AMPLIFIER_MUL*9, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*9, -AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*1, +AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) +1, -AMPLIFIER_MUL*10, +AMPLIFIER_MUL*0, // sync and move to y, x
-	(signed char) -1, +AMPLIFIER_MUL*1, +AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*2, -AMPLIFIER_MUL*1, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*0, -AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*7, +AMPLIFIER_MUL*0, // mode, y, x
-	(signed char) +0, +AMPLIFIER_MUL*10, +AMPLIFIER_MUL*0, // mode, y, x
-	(signed char) -1, -AMPLIFIER_MUL*9, +AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*2, +AMPLIFIER_MUL*0, // draw, y, x
-	(signed char) +0, -AMPLIFIER_MUL*3, -AMPLIFIER_MUL*1, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*0, -AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*3, -AMPLIFIER_MUL*1, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*2, +AMPLIFIER_MUL*0, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*9, +AMPLIFIER_MUL*3, // draw, y, x
+const signed char bee_2_6[]=
+{	(signed char) +1, +1*BLOW_UP, -10*BLOW_UP, // sync and move to y, x
+	(signed char) -1, -3*BLOW_UP, +8*BLOW_UP, // draw, y, x
+	(signed char) -1, -7*BLOW_UP, +6*BLOW_UP, // draw, y, x
+	(signed char) -1, +5*BLOW_UP, +5*BLOW_UP, // draw, y, x
+	(signed char) -1, +1*BLOW_UP, -7*BLOW_UP, // draw, y, x
+	(signed char) -1, +3*BLOW_UP, +8*BLOW_UP, // draw, y, x
+	(signed char) -1, +3*BLOW_UP, -8*BLOW_UP, // draw, y, x
+	(signed char) -1, +1*BLOW_UP, +7*BLOW_UP, // draw, y, x
+	(signed char) -1, +5*BLOW_UP, -5*BLOW_UP, // draw, y, x
+	(signed char) -1, -7*BLOW_UP, -6*BLOW_UP, // draw, y, x
+	(signed char) -1, -3*BLOW_UP, -8*BLOW_UP, // draw, y, x
+	(signed char) +0, -1*BLOW_UP, +7*BLOW_UP, // mode, y, x
+	(signed char) +0, -1*BLOW_UP, +7*BLOW_UP, // mode, y, x
+	(signed char) -1, +4*BLOW_UP, +0*BLOW_UP, // draw, y, x
 	(signed char) +2 // endmarker 
 };
-
-
-const signed char bee_up_left_2[]=
-{	(signed char) +1, -AMPLIFIER_MUL*8, +AMPLIFIER_MUL*5, // sync and move to y, x
-	(signed char) -1, -AMPLIFIER_MUL*3, -AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*2, -AMPLIFIER_MUL*5, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*4, -AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*9, +AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*5, +AMPLIFIER_MUL*8, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*1, +AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*5, +AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*3, -AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*4, -AMPLIFIER_MUL*9, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*8, +AMPLIFIER_MUL*5, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*1, +AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) +1, -AMPLIFIER_MUL*7, +AMPLIFIER_MUL*7, // sync and move to y, x
-	(signed char) -1, +AMPLIFIER_MUL*2, +AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*1, -AMPLIFIER_MUL*2, // mode, y, x
-	(signed char) -1, -AMPLIFIER_MUL*2, -AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*12, -AMPLIFIER_MUL*12, // mode, y, x
-	(signed char) -1, -AMPLIFIER_MUL*4, +AMPLIFIER_MUL*9, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*1, +AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) +0, -AMPLIFIER_MUL*3, +AMPLIFIER_MUL*2, // mode, y, x
-	(signed char) -1, -AMPLIFIER_MUL*2, -AMPLIFIER_MUL*2, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*2, -AMPLIFIER_MUL*3, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*1, -AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*9, -AMPLIFIER_MUL*4, // draw, y, x
+const signed char bee_2_7[]=
+{	(signed char) +1, -6*BLOW_UP, -8*BLOW_UP, // sync and move to y, x
+	(signed char) -1, +3*BLOW_UP, +8*BLOW_UP, // draw, y, x
+	(signed char) -1, -1*BLOW_UP, +9*BLOW_UP, // draw, y, x
+	(signed char) -1, +8*BLOW_UP, +0*BLOW_UP, // draw, y, x
+	(signed char) -1, -5*BLOW_UP, -5*BLOW_UP, // draw, y, x
+	(signed char) -1, +8*BLOW_UP, +3*BLOW_UP, // draw, y, x
+	(signed char) -1, -3*BLOW_UP, -8*BLOW_UP, // draw, y, x
+	(signed char) -1, +5*BLOW_UP, +5*BLOW_UP, // draw, y, x
+	(signed char) -1, +0*BLOW_UP, -8*BLOW_UP, // draw, y, x
+	(signed char) -1, -9*BLOW_UP, +1*BLOW_UP, // draw, y, x
+	(signed char) -1, -8*BLOW_UP, -3*BLOW_UP, // draw, y, x
+	(signed char) +0, +9*BLOW_UP, +10*BLOW_UP, // mode, y, x
+	(signed char) -1, +3*BLOW_UP, -3*BLOW_UP, // draw, y, x
 	(signed char) +2 // endmarker 
 };
-
 const signed char* const bee[]=
-{
-	bee_down_1,
-	bee_down_2,
-	bee_down_right_1,
-	bee_down_right_2,
-	bee_right_1,
-	bee_right_2,
-	bee_up_right_1,
-	bee_up_right_2,
-	bee_up_1,
-	bee_up_2,
-	bee_up_left_1,
-	bee_up_left_2,
-	bee_left_1,
-	bee_left_2,
-	bee_down_left_1,
-	bee_down_left_2
+{	 bee_1_0, // list of all single vectorlists in this
+	 bee_2_0,
+	 bee_1_1,
+	 bee_2_1,
+	 bee_1_2,
+	 bee_2_2,
+	 bee_1_3,
+	 bee_2_3,
+	 bee_1_4,
+	 bee_2_4,
+	 bee_1_5,
+	 bee_2_5,
+	 bee_1_6,
+	 bee_2_6,
+	 bee_1_7,
+	 bee_2_7
 };
+
 
 // ***************************************************************************
 // end of file

@@ -183,8 +183,6 @@ unsigned int move_player(
 
 			if (++player->state_counter >= PLAYER_DYING_TRESHOLD)
 			{
-				player->ch.obj.y = 0;
-				player->ch.obj.x = 0;
 				player->ch.obj.scale = SPIDER_SCALE;
 				set_state_player(player, PLAYER_STATE_DEAD);
 				player->ch.obj.active = 0;
@@ -212,6 +210,8 @@ unsigned int move_player(
 			{
 				player->num_lives--;
 				set_state_player(player, PLAYER_STATE_INVINSIBLE);
+				player->ch.obj.y = 0;
+				player->ch.obj.x = 0;
 				player->ch.obj.active = 1;
 			}
 		}

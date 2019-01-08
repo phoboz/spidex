@@ -19,7 +19,7 @@ const struct enemy_race enemy_races[] =
 {
 	/*	h	w	scale	type				speed	max_hits	special					treshold	shapes	*/
 	{	7,	7,	0x40/10,	ENEMY_TYPE_FLYER,	1,		1,		ENEMY_SPECIAL_NONE,		1,		fly		},
-	{	10,	10,	0x40/10,	ENEMY_TYPE_FLYER,	1,		5,		ENEMY_SPECIAL_NONE,		2,		bee		},
+	{	10,	10,	0x40/10,	ENEMY_TYPE_FLYER,	2,		5,		ENEMY_SPECIAL_NONE,		2,		bee		},
 	{	12,	12,	0x40/10,	ENEMY_TYPE_HOMER,	1,		-1,		ENEMY_SPECIAL_EGG,			3,	bug		},
 	{	7,	7,	8/*0x40/10*/,	ENEMY_TYPE_FLYER,	2,		1,		ENEMY_SPECIAL_EXPLODE,		2,		mine		}
 };

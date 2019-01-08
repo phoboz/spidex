@@ -3,7 +3,7 @@
 
 #include "object.h"
 
-#define BULLET_NUM_FRAMES	6
+#define BULLET_NUM_FRAMES	8
 
 #define BULLET_MIN_Y	-118
 #define BULLET_MAX_Y	 118

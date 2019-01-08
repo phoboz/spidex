@@ -95,16 +95,6 @@ void move_foods(void)
 	}
 }
 
-void move_walls(void)
-{
-	unsigned int i;
-
-	for (i = 0; i < MAX_WALLS; i++)
-	{
-		move_wall(&wall[i]);
-	}
-}
-
 void draw_enemies(void)
 {
 	unsigned int i;
@@ -170,14 +160,13 @@ int main(void)
 	init_walls();
 	init_wave(&wave);
 ////DEBUG
-	//wave.wave_index = 2;
+	//wave.wave_index = 1;
 ////END DEBUG
 	while(1)
 	{
 		fire_status = move_player(&player, MAX_WALLS, wall);
 		move_enemies();
 		move_foods();
-		move_walls();
 
 		enemy_id = interaction_enemies_player(&player, MAX_ENEMIES, enemy);
 		if (enemy_id)
