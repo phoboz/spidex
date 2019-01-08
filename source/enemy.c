@@ -24,7 +24,7 @@ const struct enemy_race enemy_races[] =
 	/*	h	w	scale	type					speed	max_hits	special				treshold	shapes	*/
 	{	4,	4,	0x40/10,	ENEMY_TYPE_RANDOM,		2,		1,		ENEMY_SPECIAL_NONE,	1,		mosquito	},
 	{	7,	7,	0x40/10,	ENEMY_TYPE_FLYER,		1,		1,		ENEMY_SPECIAL_NONE,	1,		fly		},
-	{	10,	10,	0x40/10,	ENEMY_TYPE_FLYER,		2,		2,		ENEMY_SPECIAL_NONE,	4,		butterfly	},
+	{	10,	10,	0x40/10,	ENEMY_TYPE_RANDOM,		2,		2,		ENEMY_SPECIAL_NONE,	4,		butterfly	},
 	{	10,	10,	0x40/10,	ENEMY_TYPE_FLYER,		2,		5,		ENEMY_SPECIAL_NONE,	2,		bee		},
 	{	12,	12,	0x40/10,	ENEMY_TYPE_HOMER,		1,		-1,		ENEMY_SPECIAL_EGG,		3,		bug		},
 	{	7,	7,	8/*0x40/10*/,	ENEMY_TYPE_FLYER,	2,		1,		ENEMY_SPECIAL_EXPLODE,	2,		mine		}
@@ -54,7 +54,7 @@ void init_enemy(
 
 	enemy->race			= race;
 	enemy->num_hits		= race->max_hits;
-	enemy->counter		= 0;
+	enemy->path_counter	= 0;
 	enemy->spawn_counter	= 0;
 	enemy->step_counter	= 0;
 	enemy->num_steps		= num_steps;
@@ -114,54 +114,62 @@ void set_state_enemy(
 	}
 }
 
+static void set_random_dir_enemy(
+	struct enemy *enemy
+	)
+{
+	unsigned int rnd = random();
+
+	if (rnd < ENEMY_RANDOM_RANGE_DOWN)
+	{
+		set_dir_enemy(enemy, DIR_DOWN);
+	}
+	else if (rnd < ENEMY_RANDOM_RANGE_DOWN_RIGHT)
+	{
+		set_dir_enemy(enemy, DIR_DOWN_RIGHT);
+	}
+	else if (rnd < ENEMY_RANDOM_RANGE_RIGHT)
+	{
+		set_dir_enemy(enemy, DIR_RIGHT);
+	}
+	else if (rnd < ENEMY_RANDOM_RANGE_UP_RIGHT)
+	{
+		set_dir_enemy(enemy, DIR_UP_RIGHT);
+	}
+	else if (rnd < ENEMY_RANDOM_RANGE_UP)
+	{
+		set_dir_enemy(enemy, DIR_UP);
+	}
+	else if (rnd < ENEMY_RANDOM_RANGE_UP_LEFT)
+	{
+		set_dir_enemy(enemy, DIR_UP_LEFT);
+	}
+	else if (rnd < ENEMY_RANDOM_RANGE_LEFT)
+	{
+		set_dir_enemy(enemy, DIR_LEFT);
+	}
+	else if (rnd < ENEMY_RANDOM_RANGE_DOWN_LEFT)
+	{
+		set_dir_enemy(enemy, DIR_DOWN_LEFT);
+	}
+}
+
 static void move_random_enemy(
 	struct enemy *enemy
 	)
 {
-	unsigned int rnd;
-
 	animate_character(&enemy->ch);
 
-	if (++enemy->counter >= enemy->num_steps)
+	if (++enemy->path_counter >= enemy->num_steps)
 	{
-		enemy->counter = 0;
-
-		rnd = random();
-		if (rnd < ENEMY_RANDOM_RANGE_DOWN)
-		{
-			set_dir_enemy(enemy, DIR_DOWN);
-		}
-		else if (rnd < ENEMY_RANDOM_RANGE_DOWN_RIGHT)
-		{
-			set_dir_enemy(enemy, DIR_DOWN_RIGHT);
-		}
-		else if (rnd < ENEMY_RANDOM_RANGE_RIGHT)
-		{
-			set_dir_enemy(enemy, DIR_RIGHT);
-		}
-		else if (rnd < ENEMY_RANDOM_RANGE_UP_RIGHT)
-		{
-			set_dir_enemy(enemy, DIR_UP_RIGHT);
-		}
-		else if (rnd < ENEMY_RANDOM_RANGE_UP)
-		{
-			set_dir_enemy(enemy, DIR_UP);
-		}
-		else if (rnd < ENEMY_RANDOM_RANGE_UP_LEFT)
-		{
-			set_dir_enemy(enemy, DIR_UP_LEFT);
-		}
-		else if (rnd < ENEMY_RANDOM_RANGE_LEFT)
-		{
-			set_dir_enemy(enemy, DIR_LEFT);
-		}
-		else if (rnd < ENEMY_RANDOM_RANGE_DOWN_LEFT)
-		{
-			set_dir_enemy(enemy, DIR_DOWN_LEFT);
-		}
+		enemy->path_counter = 0;
+		set_random_dir_enemy(enemy);
 	}
 
-	move_character(&enemy->ch);
+	if (move_character(&enemy->ch))
+	{
+		set_random_dir_enemy(enemy);
+	}
 }
 
 static void move_flyer_enemy(
@@ -174,9 +182,9 @@ static void move_flyer_enemy(
 
 	animate_character(&enemy->ch);
 
-	if (++enemy->counter >= enemy->path[enemy->step_counter].treshold)
+	if (++enemy->path_counter >= enemy->path[enemy->step_counter].treshold)
 	{
-		enemy->counter = 0;
+		enemy->path_counter = 0;
 		if (++enemy->step_counter >= enemy->num_steps)
 		{
 			enemy->step_counter = 0;

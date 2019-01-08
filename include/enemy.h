@@ -68,7 +68,7 @@ struct enemy
 	const struct enemy_race *race;
 	signed int num_hits;
 	unsigned int state;
-	unsigned int counter;
+	unsigned int path_counter;
 	unsigned int spawn_counter;
 	unsigned int step_counter;
 	unsigned int num_steps;
