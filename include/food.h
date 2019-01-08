@@ -20,6 +20,10 @@ void init_food(
 	signed int x
 	);
 
+void deinit_food(
+	struct food *food
+	);
+
 void move_food(
 	struct food *food
 	);

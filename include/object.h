@@ -32,6 +32,10 @@ void init_object(
 	const signed char *shape
 	);
 
+void deinit_object(
+	struct object *obj
+	);
+
 unsigned int hit_object(
 	struct object *obj1,
 	struct object *obj2

@@ -32,6 +32,12 @@ void init_object(
 	obj->shape = shape;
 }
 
+void deinit_object(
+	struct object *obj
+	)
+{
+	obj->active = 0;
+}
 
 unsigned int hit_object(
 	struct object *obj1,

@@ -31,6 +31,10 @@ void init_bullet(
 	const signed char* const *shapes
 	);
 
+void deinit_bullet(
+	struct bullet *bullet
+	);
+
 void move_bullet(
 	struct bullet *bullet
 	);

@@ -19,7 +19,8 @@ void init_wall(
 	signed int y1, x1, y2, x2, temp;
 	const signed char *web_wall = web_walls[index];
 
-	wall->active = 1;
+	wall->active	= 1;
+	wall->index	= index;
 
 	y1 = web_wall[1];
 	x1 = web_wall[2];
@@ -55,6 +56,13 @@ void init_wall(
 	wall->vec[0] = web_wall[0] - 1;
 	wall->vec[1] = web_wall[3];
 	wall->vec[2] = web_wall[4];
+}
+
+void deinit_wall(
+	struct wall *wall
+	)
+{
+	wall->active = 0;
 }
 
 unsigned int check_point_on_wall(

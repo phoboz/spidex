@@ -6,6 +6,7 @@
 struct wall
 {
 	unsigned int active;
+	unsigned int index;
 
 	signed int y1, x1;
 	signed int y2, x2;
@@ -19,6 +20,10 @@ struct wall
 void init_wall(
 	struct wall *wall,
 	unsigned int index
+	);
+
+void deinit_wall(
+	struct wall *wall
 	);
 
 unsigned int check_point_on_wall(

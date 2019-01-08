@@ -45,6 +45,13 @@ void init_player(
 	}
 }
 
+void deinit_player(
+	struct player *player
+	)
+{
+	deinit_object(&player->ch.obj);
+}
+
 void set_state_player(
 	struct player *player,
 	unsigned int state
@@ -53,6 +60,11 @@ void set_state_player(
 	player->state			= state;
 	player->state_counter	= 0;
 	player->state_changed	= 1;
+
+	if (state == PLAYER_STATE_DEAD)
+	{
+		deinit_player(player);
+	}
 }
 
 void set_fire_dir_player(
@@ -185,7 +197,6 @@ unsigned int move_player(
 			{
 				player->ch.obj.scale = SPIDER_SCALE;
 				set_state_player(player, PLAYER_STATE_DEAD);
-				player->ch.obj.active = 0;
 			}
 		}
 		
@@ -254,7 +265,7 @@ unsigned int interaction_enemies_player(
 					{
 						if (hit_object(&player->bullet[j].obj, &enemies[i].ch.obj))
 						{
-							player->bullet[j].obj.active = 0;
+							deinit_bullet(&player->bullet[j]);
 							if (hit_enemy(&enemies[i]))
 							{
 								result = 1 + i;
@@ -282,7 +293,7 @@ void interaction_food_player(
 	{
 		if (hit_object(&player->ch.obj, &food[i].obj))
 		{
-			food[i].obj.active = 0;
+			deinit_food(&food[i]);
 			player->score++;
 		}
 	}

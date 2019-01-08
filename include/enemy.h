@@ -73,6 +73,10 @@ void init_enemy(
 	const struct enemy_path *path
 	);
 
+void deinit_enemy(
+	struct enemy *enemy
+	);
+
 void set_dir_enemy(
 	struct enemy *enemy,
 	unsigned int dir

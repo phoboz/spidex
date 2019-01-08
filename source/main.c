@@ -45,33 +45,33 @@ struct enemy enemy[MAX_ENEMIES];
 struct food food[MAX_FOOD];
 struct wall wall[MAX_WALLS];
 
-void init_enemies(void)
+void clear_enemies(void)
 {
 	unsigned int i;
 
 	for (i = 0; i < MAX_ENEMIES; i++)
 	{
-		enemy[i].ch.obj.active = 0;
+		deinit_enemy(&enemy[i]);
 	}
 }
 
-void init_foods(void)
+void clear_foods(void)
 {
 	unsigned int i;
 
 	for (i = 0; i < MAX_FOOD; i++)
 	{
-		food[i].obj.active = 0;
+		deinit_food(&food[i]);
 	}
 }
 
-void init_walls(void)
+void clear_walls(void)
 {
 	unsigned int i;
 
 	for (i = 0; i < MAX_WALLS; i++)
 	{
-		wall[i].active = 0;
+		deinit_wall(&wall[i]);
 	}
 }
 
@@ -155,12 +155,12 @@ int main(void)
 
 	init_input();
 	init_player(&player, 0, 0);
-	init_enemies();
-	init_foods();
-	init_walls();
+	clear_enemies();
+	clear_foods();
+	clear_walls();
 	init_wave(&wave);
 ////DEBUG
-	//wave.wave_index = 1;
+	//wave.wave_index = 2;
 ////END DEBUG
 	while(1)
 	{
@@ -199,8 +199,8 @@ int main(void)
 			new_wave_index = move_wave(&wave, MAX_ENEMIES, enemy, MAX_WALLS, wall);
 			if (new_wave_index)
 			{
-				init_enemies();
-				init_walls();
+				clear_enemies();
+				clear_walls();
 				Vec_Music_Flag = 1;
 			}
 
@@ -239,9 +239,9 @@ int main(void)
 				if (button_1_4_pressed())
 				{
 					init_player(&player, 0, 0);
-					init_enemies();
-					init_foods();
-					init_walls();
+					clear_enemies();
+					clear_foods();
+					clear_walls();
 					init_wave(&wave);
 				}
 			}

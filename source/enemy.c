@@ -119,6 +119,13 @@ void init_enemy(
 	}
 }
 
+void deinit_enemy(
+	struct enemy *enemy
+	)
+{
+	deinit_object(&enemy->ch.obj);
+}
+
 void set_dir_enemy(
 	struct enemy *enemy,
 	unsigned int dir
@@ -143,7 +150,7 @@ void set_state_enemy(
 
 	if (state == ENEMY_STATE_DEAD)
 	{
-		enemy->ch.obj.active = 0;
+		deinit_object(&enemy->ch.obj);
 	}
 }
 
@@ -458,7 +465,6 @@ void draw_enemy(
 					enemy->ch.obj.y,
 					enemy->ch.obj.x,
 					OBJECT_MOVE_SCALE,
-//					0x01*AMPLIFIER_MUL + (enemy->state_counter << 1)
 					0x01 + (enemy->state_counter >> 2)
 					);
 			}
@@ -470,9 +476,7 @@ void draw_enemy(
 					enemy->ch.obj.y,
 					enemy->ch.obj.x,
 					OBJECT_MOVE_SCALE,
-			
 					0x40/AMPLIFIER_MUL
-//					enemy->ch.obj.scale
 					);
 		}
 		else if (enemy->state == ENEMY_STATE_HATCH)
@@ -483,7 +487,6 @@ void draw_enemy(
 					enemy->ch.obj.x,
 					OBJECT_MOVE_SCALE,
 					0x40/AMPLIFIER_MUL
-//					enemy->ch.obj.scale
 					);
 		}
 		else if (enemy->state == ENEMY_STATE_EXPLODE)
@@ -493,8 +496,7 @@ void draw_enemy(
 				enemy->ch.obj.y,
 				enemy->ch.obj.x,
 				OBJECT_MOVE_SCALE,
-				0x40/AMPLIFIER_MUL + (enemy->state_counter << 2) // size correct???
-//				enemy->ch.obj.scale + (enemy->state_counter << 4)
+				0x40/AMPLIFIER_MUL + (enemy->state_counter << 2)
 				);
 		}
 		else

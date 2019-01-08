@@ -8,6 +8,7 @@
 
 #define WAVE_OBJECT_TYPE_ENEMY	0
 #define WAVE_OBJECT_TYPE_WALL	1
+#define WAVE_OBJECT_TYPE_DEWALL	2
 
 struct path_element
 {

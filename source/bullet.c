@@ -72,6 +72,13 @@ void init_bullet(
 	bullet->shapes	= shapes;
 }
 
+void deinit_bullet(
+	struct bullet *bullet
+	)
+{
+	deinit_object(&bullet->obj);
+}
+
 void move_bullet(
 	struct bullet *bullet
 	)
@@ -88,12 +95,12 @@ void move_bullet(
 
 		if (bullet->obj.y < BULLET_MIN_Y || bullet->obj.y > BULLET_MAX_Y)
 		{
-			bullet->obj.active = 0;
+			deinit_bullet(bullet);
 		}
 
 		if (bullet->obj.x < BULLET_MIN_X || bullet->obj.x > BULLET_MAX_X)
 		{
-			bullet->obj.active = 0;
+			deinit_bullet(bullet);
 		}
 	}
 }

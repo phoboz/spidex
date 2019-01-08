@@ -55,6 +55,10 @@ void init_player(
 	signed int x
 	);
 
+void deinit_player(
+	struct player *player
+	);
+
 void set_state_player(
 	struct player *player,
 	unsigned int state

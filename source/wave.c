@@ -7,6 +7,8 @@
 
 // ---------------------------------------------------------------------------
 
+#define NUM_ELMTS(item)	(sizeof(item) / sizeof(item[0]))
+
 const struct enemy_path square_path[] =
 {
 	/* treshold		dir */
@@ -40,10 +42,10 @@ const struct enemy_path l_path[] =
 
 const struct path_element enemy_paths[] =
 {
-	/* num_steps	reference */
-	{4,			square_path},
-	{8,			circular_path},
-	{4,			l_path}
+	/* num_steps				reference */
+	{NUM_ELMTS(square_path),	square_path},
+	{NUM_ELMTS(circular_path),	circular_path},
+	{NUM_ELMTS(l_path),		l_path}
 };
 
 const struct wave_element wave_1[] =
@@ -75,15 +77,21 @@ const struct wave_element wave_3[] =
 	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		21,				0		},
 	{	0,			-80,		80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,	2		},
 	{	0,			-90,		80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,	2		},
-	{	0,			-100,	80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,	2		}
+	{	0,			-100,	80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,	2		},
+	{	120,			-40,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BUG,	0		},
+	{	10,			-40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,	0		},
+	{	10,			-40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,	0		},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_DEWALL,	19,				0		},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_DEWALL,	20,				0		},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_DEWALL,	21,				0		}
 };
 
 const struct wave_def waves[] =
 {
-	/*	num_elmts		wave_elmts	*/
-	{	2,			wave_1		},
-	{	9,			wave_2		},
-	{	6,			wave_3		}
+	/*	num_elmts				wave_elmts	*/
+	{	NUM_ELMTS(wave_1),		wave_1	},
+	{	NUM_ELMTS(wave_2),		wave_2	},
+	{	NUM_ELMTS(wave_3),		wave_3	}
 };
 
 void init_wave(
@@ -145,6 +153,24 @@ unsigned int move_wave(
 							);
 						wave->retry = 0;
 						break;
+					}
+				}
+			}
+			else if (waves[wave->wave_index].elements[wave->element_index].object_type == WAVE_OBJECT_TYPE_DEWALL)
+			{
+				for (i = 0; i < num_walls; i++)
+				{
+					if (walls[i].active)
+					{
+						if (walls[i].active)
+						{
+							if (walls[i].index == waves[wave->wave_index].elements[wave->element_index].object_index)
+							{
+								deinit_wall(&walls[i]);
+								wave->retry = 0;
+								break;
+							}
+						}
 					}
 				}
 			}

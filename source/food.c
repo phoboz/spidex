@@ -32,6 +32,13 @@ void init_food(
 	init_object(&food->obj, y, x, FOOD_HEIGHT, FOOD_WIDTH, FOOD_SCALE/AMPLIFIER_MUL, food_shape);
 }
 
+void deinit_food(
+	struct food *food
+	)
+{
+	deinit_object(&food->obj);
+}
+
 void move_food(
 	struct food *food
 	)
