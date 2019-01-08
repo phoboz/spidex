@@ -13,7 +13,7 @@ struct wall
 	const signed char *coords;
  
 	signed int pos[2];
-	signed int vec[2];
+	signed int vec[3];
 };
 
 void init_wall(

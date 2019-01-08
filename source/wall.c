@@ -3,6 +3,7 @@
 // ***************************************************************************
 
 #include <vectrex.h>
+#include "draw.h"
 #include "wall.h"
 
 // ---------------------------------------------------------------------------
@@ -51,8 +52,9 @@ void init_wall(
 	wall->pos[0] = web_wall[1];
 	wall->pos[1] = web_wall[2];
 
-	wall->vec[0] = web_wall[3];
-	wall->vec[1] = web_wall[4];
+	wall->vec[0] = web_wall[0] - 1;
+	wall->vec[1] = web_wall[3];
+	wall->vec[2] = web_wall[4];
 }
 
 unsigned int check_point_on_wall(
@@ -112,9 +114,9 @@ void draw_wall(
 {
 	if (wall->active)
 	{
-		Reset0Ref();
-		Moveto_d(wall->pos[0], wall->pos[1]);
-		Draw_Line_d(wall->vec[0], wall->vec[1]);
+		reset0ref();
+		moveto(wall->pos[0], wall->pos[1]);
+		draw_vlist_c((const signed char *) wall->vec);
 	}
 }
 
