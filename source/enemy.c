@@ -12,6 +12,7 @@
 extern const signed char cicle[];
 extern const signed char* const spiral[];
 extern const signed char* const egg[];
+extern const signed char* const mosquito[];
 extern const signed char* const fly[];
 extern const signed char* const butterfly[];
 extern const signed char* const bug[];
@@ -21,6 +22,7 @@ extern const signed char* const mine[];
 const struct enemy_race enemy_races[] =
 {
 	/*	h	w	scale	type					speed	max_hits	special				treshold	shapes	*/
+	{	6,	6,	0x40/10,	ENEMY_TYPE_FLYER,		1,		1,		ENEMY_SPECIAL_NONE,	1,		mosquito	},
 	{	7,	7,	0x40/10,	ENEMY_TYPE_FLYER,		1,		1,		ENEMY_SPECIAL_NONE,	1,		fly		},
 	{	10,	10,	0x40/10,	ENEMY_TYPE_FLYER,		2,		2,		ENEMY_SPECIAL_NONE,	4,		butterfly	},
 	{	10,	10,	0x40/10,	ENEMY_TYPE_FLYER,		2,		5,		ENEMY_SPECIAL_NONE,	2,		bee		},
