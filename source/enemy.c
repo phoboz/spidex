@@ -9,7 +9,9 @@
 
 // ---------------------------------------------------------------------------
 
+extern const signed char cicle[];
 extern const signed char* const spiral[];
+extern const signed char* const egg[];
 extern const signed char* const fly[];
 extern const signed char* const butterfly[];
 extern const signed char* const bug[];
@@ -24,52 +26,6 @@ const struct enemy_race enemy_races[] =
 	{	10,	10,	0x40/10,	ENEMY_TYPE_FLYER,		2,		5,		ENEMY_SPECIAL_NONE,	2,		bee		},
 	{	12,	12,	0x40/10,	ENEMY_TYPE_HOMER,		1,		-1,		ENEMY_SPECIAL_EGG,		3,		bug		},
 	{	7,	7,	8/*0x40/10*/,	ENEMY_TYPE_FLYER,	2,		1,		ENEMY_SPECIAL_EXPLODE,	2,		mine		}
-};
-#define AMPLIFIER_MUL 10 
-
-static const signed char cicle[]=
-{	(signed char) +1, +AMPLIFIER_MUL*10, -AMPLIFIER_MUL*10, // sync and move to y, x
-	(signed char) -1, +AMPLIFIER_MUL*4, +AMPLIFIER_MUL*10, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*4, +AMPLIFIER_MUL*10, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*10, +AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*10, -AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*4, -AMPLIFIER_MUL*10, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*4, -AMPLIFIER_MUL*10, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*10, -AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*10, +AMPLIFIER_MUL*4, // draw, y, x
-	(signed char) +2 // endmarker 
-};
-
-static const signed char egg_1[]=
-{	(signed char) +1, +AMPLIFIER_MUL*6, -AMPLIFIER_MUL*10, // sync and move to y, x
-	(signed char) -1, +AMPLIFIER_MUL*2, +AMPLIFIER_MUL*10, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*2, +AMPLIFIER_MUL*10, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*6, +AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*6, -AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*2, -AMPLIFIER_MUL*10, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*2, -AMPLIFIER_MUL*10, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*6, -AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*6, +AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) +2 // endmarker 
-};
-
-static const signed char egg_2[]=
-{	(signed char) +1, +AMPLIFIER_MUL*7, +AMPLIFIER_MUL*5, // sync and move to y, x
-	(signed char) -1, -AMPLIFIER_MUL*7, +AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*7, -AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) +0, +AMPLIFIER_MUL*0, -AMPLIFIER_MUL*10, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*7, -AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*7, +AMPLIFIER_MUL*1, // draw, y, x
-	(signed char) +0, -AMPLIFIER_MUL*1, -AMPLIFIER_MUL*5, // mode, y, x
-	(signed char) -1, +AMPLIFIER_MUL*2, +AMPLIFIER_MUL*10, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*2, +AMPLIFIER_MUL*10, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*6, +AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*6, -AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, -AMPLIFIER_MUL*2, -AMPLIFIER_MUL*10, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*2, -AMPLIFIER_MUL*10, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*6, -AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) -1, +AMPLIFIER_MUL*6, +AMPLIFIER_MUL*3, // draw, y, x
-	(signed char) +2 // endmarker 
 };
 
 void init_enemy(
@@ -474,21 +430,21 @@ void draw_enemy(
 		else if (enemy->state == ENEMY_STATE_EGG)
 		{
 				draw_synced_list_c(
-					egg_1,
+					egg[0],
 					enemy->ch.obj.y,
 					enemy->ch.obj.x,
 					OBJECT_MOVE_SCALE,
-					0x40/AMPLIFIER_MUL
+					0x40/10
 					);
 		}
 		else if (enemy->state == ENEMY_STATE_HATCH)
 		{
 				draw_synced_list_c(
-					egg_2,
+					egg[1],
 					enemy->ch.obj.y,
 					enemy->ch.obj.x,
 					OBJECT_MOVE_SCALE,
-					0x40/AMPLIFIER_MUL
+					0x40/10
 					);
 		}
 		else if (enemy->state == ENEMY_STATE_EXPLODE)
@@ -498,7 +454,7 @@ void draw_enemy(
 				enemy->ch.obj.y,
 				enemy->ch.obj.x,
 				OBJECT_MOVE_SCALE,
-				0x40/AMPLIFIER_MUL + (enemy->state_counter << 2)
+				0x40/10 + (enemy->state_counter << 2)
 				);
 		}
 		else
