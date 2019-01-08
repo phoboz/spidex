@@ -22,7 +22,7 @@ extern const signed char* const mine[];
 const struct enemy_race enemy_races[] =
 {
 	/*	h	w	scale	type					speed	max_hits	special				treshold	shapes	*/
-	{	6,	6,	0x40/10,	ENEMY_TYPE_FLYER,		1,		1,		ENEMY_SPECIAL_NONE,	1,		mosquito	},
+	{	4,	4,	0x40/10,	ENEMY_TYPE_RANDOM,		2,		1,		ENEMY_SPECIAL_NONE,	1,		mosquito	},
 	{	7,	7,	0x40/10,	ENEMY_TYPE_FLYER,		1,		1,		ENEMY_SPECIAL_NONE,	1,		fly		},
 	{	10,	10,	0x40/10,	ENEMY_TYPE_FLYER,		2,		2,		ENEMY_SPECIAL_NONE,	4,		butterfly	},
 	{	10,	10,	0x40/10,	ENEMY_TYPE_FLYER,		2,		5,		ENEMY_SPECIAL_NONE,	2,		bee		},
@@ -114,6 +114,56 @@ void set_state_enemy(
 	}
 }
 
+static void move_random_enemy(
+	struct enemy *enemy
+	)
+{
+	unsigned int rnd;
+
+	animate_character(&enemy->ch);
+
+	if (++enemy->counter >= enemy->num_steps)
+	{
+		enemy->counter = 0;
+
+		rnd = random();
+		if (rnd < ENEMY_RANDOM_RANGE_DOWN)
+		{
+			set_dir_enemy(enemy, DIR_DOWN);
+		}
+		else if (rnd < ENEMY_RANDOM_RANGE_DOWN_RIGHT)
+		{
+			set_dir_enemy(enemy, DIR_DOWN_RIGHT);
+		}
+		else if (rnd < ENEMY_RANDOM_RANGE_RIGHT)
+		{
+			set_dir_enemy(enemy, DIR_RIGHT);
+		}
+		else if (rnd < ENEMY_RANDOM_RANGE_UP_RIGHT)
+		{
+			set_dir_enemy(enemy, DIR_UP_RIGHT);
+		}
+		else if (rnd < ENEMY_RANDOM_RANGE_UP)
+		{
+			set_dir_enemy(enemy, DIR_UP);
+		}
+		else if (rnd < ENEMY_RANDOM_RANGE_UP_LEFT)
+		{
+			set_dir_enemy(enemy, DIR_UP_LEFT);
+		}
+		else if (rnd < ENEMY_RANDOM_RANGE_LEFT)
+		{
+			set_dir_enemy(enemy, DIR_LEFT);
+		}
+		else if (rnd < ENEMY_RANDOM_RANGE_DOWN_LEFT)
+		{
+			set_dir_enemy(enemy, DIR_DOWN_LEFT);
+		}
+	}
+
+	move_character(&enemy->ch);
+}
+
 static void move_flyer_enemy(
 	struct enemy *enemy,
 	unsigned int num_walls,
@@ -121,6 +171,7 @@ static void move_flyer_enemy(
 	)
 {
 	signed int dy, dx;
+
 	animate_character(&enemy->ch);
 
 	if (++enemy->counter >= enemy->path[enemy->step_counter].treshold)
@@ -292,6 +343,10 @@ void move_enemy(
 		{
 			switch (enemy->race->type)
 			{
+				case ENEMY_TYPE_RANDOM:
+					move_random_enemy(enemy);
+					break;
+
 				case ENEMY_TYPE_FLYER:
 					move_flyer_enemy(enemy, num_walls, walls);
 					break;

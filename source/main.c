@@ -154,6 +154,7 @@ int main(void)
 	unsigned int new_wave_index = 1;
 
 	init_input();
+	init_random(5, 27, 3, 19);
 	init_player(&player, 0, 0);
 	clear_enemies();
 	clear_foods();
