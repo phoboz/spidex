@@ -38,30 +38,24 @@ unsigned int hit_object(
 	struct object *obj2
 	)
 {
-	signed int y1, y2;
-	signed int h1, h2;
-	signed int x1, x2;
-	signed int w1, w2;
+	signed int obj1_y1, obj1_x1, obj1_y2, obj1_x2;
+	signed int obj2_y1, obj2_x1, obj2_y2, obj2_x2;
 
 	unsigned int result = 0;
 
 	if (obj1->active && obj2->active)
 	{
-        	x1 = obj1->x - obj1->w_2;
-        	w2 = obj2->w;
-		w1 = obj1->w;
-		x2 = obj2->x - obj2->w_2;
-    		y1 = obj1->y - obj1->h_2;
-    		y2 = obj2->y - obj2->h_2;
-    		h2 = obj2->h;
-    		h1 = obj1->h;
+		obj1_y1 = obj1->y - obj1->h_2;
+		obj1_x1 = obj1->x - obj1->w_2;
+		obj1_y2 = obj1->y + obj1->h_2;
+		obj1_x2 = obj1->x + obj1->w_2;
 
+		obj2_y1 = obj2->y - obj2->h_2;
+		obj2_x1 = obj2->x - obj2->w_2;
+		obj2_y2 = obj2->y + obj2->h_2;
+		obj2_x2 = obj2->x + obj2->w_2;
 
-
-		if (x1 < x2 + w2 &&
-		    x1 + w1 > x2 &&
-		    y1 < y2 + h2 &&
-		    h1 + y1 > y2)
+		if (obj1_y1 < obj2_y2 && obj1_y2 > obj2_y1 && obj1_x1 < obj2_x2 && obj1_x2 > obj2_x1)
 		{
 			result = 1;
 		}

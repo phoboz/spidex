@@ -5,10 +5,10 @@
 
 #define BULLET_NUM_FRAMES	8
 
-#define BULLET_MIN_Y	-118
-#define BULLET_MAX_Y	 118
-#define BULLET_MIN_X	 -96
-#define BULLET_MAX_X	  96
+#define BULLET_MIN_Y	-108
+#define BULLET_MAX_Y	 108
+#define BULLET_MIN_X	-100
+#define BULLET_MAX_X	 100
 
 struct bullet
 {
