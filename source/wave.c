@@ -53,7 +53,7 @@ const struct wave_element wave_1[] =
 	/*	treshold		y		x		object_type				object_index			value */
 	{	0,			40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	3	},
 	{	80,			40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,		0	},
-	{	80,			-40,		-20,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BUTTERFLY,	0	}
+	{	80,			-40,		-20,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BUTTERFLY,	1	}
 };
 
 const struct wave_element wave_2[] =
