@@ -11,17 +11,19 @@
 
 extern const signed char* const spiral[];
 extern const signed char* const fly[];
+extern const signed char* const butterfly[];
 extern const signed char* const bug[];
 extern const signed char* const bee[];
 extern const signed char* const mine[];
 
 const struct enemy_race enemy_races[] =
 {
-	/*	h	w	scale	type				speed	max_hits	special					treshold	shapes	*/
-	{	7,	7,	0x40/10,	ENEMY_TYPE_FLYER,	1,		1,		ENEMY_SPECIAL_NONE,		1,		fly		},
-	{	10,	10,	0x40/10,	ENEMY_TYPE_FLYER,	2,		5,		ENEMY_SPECIAL_NONE,		2,		bee		},
-	{	12,	12,	0x40/10,	ENEMY_TYPE_HOMER,	1,		-1,		ENEMY_SPECIAL_EGG,			3,	bug		},
-	{	7,	7,	8/*0x40/10*/,	ENEMY_TYPE_FLYER,	2,		1,		ENEMY_SPECIAL_EXPLODE,		2,		mine		}
+	/*	h	w	scale	type					speed	max_hits	special				treshold	shapes	*/
+	{	7,	7,	0x40/10,	ENEMY_TYPE_FLYER,		1,		1,		ENEMY_SPECIAL_NONE,	1,		fly		},
+	{	10,	10,	0x40/10,	ENEMY_TYPE_FLYER,		2,		2,		ENEMY_SPECIAL_NONE,	4,		butterfly	},
+	{	10,	10,	0x40/10,	ENEMY_TYPE_FLYER,		2,		5,		ENEMY_SPECIAL_NONE,	2,		bee		},
+	{	12,	12,	0x40/10,	ENEMY_TYPE_HOMER,		1,		-1,		ENEMY_SPECIAL_EGG,		3,		bug		},
+	{	7,	7,	8/*0x40/10*/,	ENEMY_TYPE_FLYER,	2,		1,		ENEMY_SPECIAL_EXPLODE,	2,		mine		}
 };
 #define AMPLIFIER_MUL 10 
 
