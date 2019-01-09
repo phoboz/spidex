@@ -44,6 +44,7 @@ struct wave wave;
 struct enemy enemy[MAX_ENEMIES];
 struct food food[MAX_FOOD];
 struct wall wall[MAX_WALLS];
+unsigned int pause_state;
 
 void clear_enemies(void)
 {
@@ -140,8 +141,6 @@ signed int new_frame(void)
 		Do_Sound();
 	}
 
-	Intensity_5F();
-
 	return Vec_Music_Flag;
 }
 
@@ -160,35 +159,49 @@ int main(void)
 	clear_foods();
 	clear_walls();
 	init_wave(&wave);
+	pause_state = 0;
 ////DEBUG
 	//wave.wave_index = 2;
 ////END DEBUG
 	while(1)
 	{
-		fire_status = move_player(&player, MAX_WALLS, wall);
-		move_enemies();
-		move_foods();
+		update_input();
 
-		enemy_id = interaction_enemies_player(&player, MAX_ENEMIES, enemy);
-		if (enemy_id)
+		if (pause_state)
 		{
-			for (i = 0; i < MAX_FOOD; i++)
+			Intensity_5F();
+			reset0ref();
+			Vec_Text_Width = 64;
+			Print_Str_d(-127, -32, "PAUSE\x80");
+		}
+		else
+		{
+			fire_status = move_player(&player, MAX_WALLS, wall);
+			move_enemies();
+			move_foods();
+
+			enemy_id = interaction_enemies_player(&player, MAX_ENEMIES, enemy);
+			if (enemy_id)
 			{
-				if (!food[i].obj.active)
+				for (i = 0; i < MAX_FOOD; i++)
 				{
-					init_food(
-						&food[i],
-						enemy[enemy_id - 1].ch.obj.y,
-						enemy[enemy_id - 1].ch.obj.x
-						);
-					break;
+					if (!food[i].obj.active)
+					{
+						init_food(
+							&food[i],
+							enemy[enemy_id - 1].ch.obj.y,
+							enemy[enemy_id - 1].ch.obj.x
+							);
+						break;
+					}
 				}
 			}
+			new_wave_index = move_wave(&wave, MAX_ENEMIES, enemy, MAX_WALLS, wall);
+			interaction_food_player(&player, MAX_FOOD, food);
 		}
 
-		interaction_food_player(&player, MAX_FOOD, food);
-
 		status = new_frame();
+		Intensity_5F();
 		if (status)
 		{
 			Vec_Text_Width = 64;
@@ -197,7 +210,6 @@ int main(void)
 		}
 		else
 		{
-			new_wave_index = move_wave(&wave, MAX_ENEMIES, enemy, MAX_WALLS, wall);
 			if (new_wave_index)
 			{
 				clear_enemies();
@@ -230,13 +242,13 @@ int main(void)
 			Vec_Text_Width = 64;
 			if (player.num_lives > 0)
 			{
+				Intensity_5F();
 				Print_Str_d(-127, -46, "LIVES \x80");
 				print_3digit_number(-127, 16, (unsigned long) player.num_lives);
 			}
 			else
 			{
 				Print_Str_d(-127, -46, "GAME OVER\x80");
-				update_input();
 				if (button_1_4_pressed())
 				{
 					init_player(&player, 0, 0);
@@ -248,6 +260,18 @@ int main(void)
 			}
 		}
 
+		if (button_1_1_pressed())
+		{
+			if (!pause_state)
+			{
+				pause_state = 1;
+			}
+			else
+			{
+				pause_state = 0;
+			}
+		}
+
 		print_3digit_number(127, -16, player.score);
 
 		Intensity_1F();
@@ -256,7 +280,6 @@ int main(void)
 		draw_synced_list_c_nm1(web3, 0x80/8-1, 0x80);
 		draw_synced_list_c_nm(web4, 0x80/2-1);
 		draw_synced_list_c_nm(web5, 0x80);
-//		draw_synced_list_c(web, 0, 0, 0x80, 0x80);
 
 		Intensity_5F();
 		draw_walls();

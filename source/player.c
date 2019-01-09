@@ -142,8 +142,6 @@ unsigned int move_player(
 	{
 		if (player->state == PLAYER_STATE_NORMAL || player->state == PLAYER_STATE_INVINSIBLE)
 		{
-			update_input();
-
 			if (!get_fire_input_1())
 			{
 				move_trigger = get_dir_input_1(&dir);
