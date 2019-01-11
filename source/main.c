@@ -44,7 +44,6 @@ struct wave wave;
 struct enemy enemy[MAX_ENEMIES];
 struct food food[MAX_FOOD];
 struct wall wall[MAX_WALLS];
-unsigned int pause_state;
 
 void clear_enemies(void)
 {
@@ -150,7 +149,10 @@ int main(void)
 	unsigned int enemy_id;
 	signed int status;
 	unsigned int fire_status = 0;
-	unsigned int new_wave_index = 1;
+	unsigned int new_wave_index = 0;
+	unsigned int wave_index = 1;
+	unsigned int pause_state = 0;
+	unsigned int dual_joystick = 0;
 
 	init_input();
 	init_random(5, 27, 3, 19);
@@ -159,7 +161,6 @@ int main(void)
 	clear_foods();
 	clear_walls();
 	init_wave(&wave);
-	pause_state = 0;
 ////DEBUG
 	//wave.wave_index = 2;
 ////END DEBUG
@@ -176,7 +177,14 @@ int main(void)
 		}
 		else
 		{
-			fire_status = move_player(&player, MAX_WALLS, wall);
+			if (dual_joystick)
+			{
+				fire_status = move_dual_joystick_player(&player, MAX_WALLS, wall);
+			}
+			else
+			{
+				fire_status = move_single_joystick_player(&player, MAX_WALLS, wall);
+			}
 			move_enemies();
 			move_foods();
 
@@ -206,12 +214,13 @@ int main(void)
 		{
 			Vec_Text_Width = 64;
 			Print_Str_d(-127, -46, "WAVE \x80");
-			print_3digit_number(-127, 16, (unsigned long) new_wave_index);
+			print_3digit_number(-127, 16, (unsigned long) wave_index);
 		}
 		else
 		{
 			if (new_wave_index)
 			{
+				wave_index = new_wave_index;
 				clear_enemies();
 				clear_walls();
 				Vec_Music_Flag = 1;
@@ -272,9 +281,14 @@ int main(void)
 			}
 		}
 
+		if (button_2_4_pressed())
+		{
+			dual_joystick = 1;
+		}
+
 		print_3digit_number(127, -16, player.score);
 
-		Intensity_1F();
+		Intensity_3F();
 		draw_synced_list_c_nm(web1, 0x80/10-1);
 		draw_synced_list_c_nm(web2, 0x80/3-1);
 		draw_synced_list_c_nm1(web3, 0x80/8-1, 0x80);
@@ -284,6 +298,7 @@ int main(void)
 		Intensity_5F();
 		draw_walls();
 
+		Intensity_7F();
 		draw_player(&player);
 		draw_enemies();
 		draw_foods();

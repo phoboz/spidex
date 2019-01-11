@@ -1,6 +1,10 @@
 #ifndef _WALL_H
 #define _WALL_H
 
+#define WALL_MODE_PASS_IN	0
+#define WALL_MODE_PASS_OUT	1
+
+#define WALL_QCHECK_DELTA	32
 #define WALL_CHECK_DELTA	3
 
 struct wall
@@ -26,14 +30,24 @@ void deinit_wall(
 	struct wall *wall
 	);
 
+unsigned int quick_check_wall(
+	struct wall *wall,
+	signed int y,
+	signed int x
+	);
+
 unsigned int check_point_on_wall(
 	struct wall *wall,
 	signed int y,
 	signed int x
 	);
 
-void move_wall(
-	struct wall *wall
+unsigned int object_hit_wall(
+	struct wall *wall,
+	unsigned int mode,
+	struct object *obj,
+	signed int dy,
+	signed int dx
 	);
 
 void draw_wall(

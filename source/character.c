@@ -192,7 +192,7 @@ unsigned int interaction_walls_character(
 	signed int y, x;
 	unsigned int result = 0;
 
-	if (mode == CHARACTER_WALL_MODE_PASS_IN)
+	if (mode == WALL_MODE_PASS_IN)
 	{
 		if (dy != 0 && dx != 0)
 		{
@@ -279,7 +279,7 @@ unsigned int interaction_walls_character(
 			}
 		}
 	}
-	else if (mode == CHARACTER_WALL_MODE_PASS_OUT)
+	else if (mode == WALL_MODE_PASS_OUT)
 	{
 		if (dy != 0 && dx != 0)
 		{

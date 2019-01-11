@@ -9,9 +9,6 @@
 #define CHARACTER_MIN_X	-100
 #define CHARACTER_MAX_X	 100
 
-#define CHARACTER_WALL_MODE_PASS_IN	0
-#define CHARACTER_WALL_MODE_PASS_OUT	1
-
 struct character
 {
 	struct object obj;

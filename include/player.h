@@ -69,7 +69,13 @@ void set_fire_dir_player(
 	unsigned int dir
 	);
 
-unsigned int move_player(
+unsigned int move_single_joystick_player(
+	struct player *player,
+	unsigned int num_walls,
+	struct wall *walls
+	);
+
+unsigned int move_dual_joystick_player(
 	struct player *player,
 	unsigned int num_walls,
 	struct wall *walls

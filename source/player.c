@@ -125,7 +125,7 @@ unsigned int fire_bullet_player(
 	return fire;
 }
 
-unsigned int move_player(
+unsigned int move_single_joystick_player(
 	struct player *player,
 	unsigned int num_walls,
 	struct wall *walls
@@ -135,7 +135,7 @@ unsigned int move_player(
 	signed int dy, dx;
 	unsigned int fire_trigger, move_trigger;
 	unsigned int dir;
-	unsigned int fire_tried = 0;
+	unsigned int hit_wall = 0;
 	unsigned int fire = 0;
 
 	if (player->ch.obj.active)
@@ -151,14 +151,25 @@ unsigned int move_player(
 					animate_character(&player->ch);
 					get_move_character(&player->ch, player->ch.move_speed, &dy, &dx);
 
-					if (!interaction_walls_character(
-							&player->ch,
-							dy,
-							dx,
-							CHARACTER_WALL_MODE_PASS_IN,
-							num_walls,
-							walls
-							))
+					for (i = 0; i < num_walls; i++)
+					{
+						if (quick_check_wall(&walls[i], player->ch.obj.y, player->ch.obj.x))
+						{
+							hit_wall = object_hit_wall(
+								&walls[i],
+								WALL_MODE_PASS_IN,
+								&player->ch.obj,
+								dy,
+								dx
+								);
+							if (hit_wall)
+							{
+								break;
+							}
+						}
+					}
+
+					if (!hit_wall)
 					{
 						player->ch.obj.y += dy;
 						player->ch.obj.x += dx;
@@ -170,14 +181,112 @@ unsigned int move_player(
 			{
 				fire_trigger = get_dir_input_1(&dir);
 				fire = fire_bullet_player(player, dir, fire_trigger);
-				fire_tried = 1;
+			}
+		}
+		else if (player->state == PLAYER_STATE_DYING)
+		{
+			set_fire_dir_player(player, player->fire_dir + 1);
+			if (++player->anim_counter >= PLAYER_SCALE_TRESHOLD)
+			{
+				player->anim_counter = 0;
+				if (--player->ch.obj.scale < 1)
+				{
+					player->ch.obj.scale = 1;
+				}
 			}
 
-			if (!fire && !fire_tried)
+			if (++player->state_counter >= PLAYER_DYING_TRESHOLD)
 			{
-				fire_trigger = get_dir_input_2(&dir);
-				fire = fire_bullet_player(player, dir, fire_trigger);
+				player->ch.obj.scale = SPIDER_SCALE;
+				set_state_player(player, PLAYER_STATE_DEAD);
 			}
+		}
+		
+		if (player->state == PLAYER_STATE_INVINSIBLE)
+		{
+			if (++player->state_counter >= PLAYER_INVINSIBLE_TRESHOLD)
+			{
+				set_state_player(player, PLAYER_STATE_NORMAL);
+			}
+		}
+
+		if (player->state_changed)
+		{
+			player->state_changed = 0;
+		}
+	}
+	else if (player->state == PLAYER_STATE_DEAD)
+	{
+		if (player->num_lives > 0)
+		{
+			if (++player->state_counter >= PLAYER_DEAD_TRESHOLD)
+			{
+				player->num_lives--;
+				set_state_player(player, PLAYER_STATE_INVINSIBLE);
+				player->ch.obj.y = 0;
+				player->ch.obj.x = 0;
+				player->ch.obj.active = 1;
+			}
+		}
+	}
+
+	for (i = 0; i < PLAYER_MAX_BULLETS; i++)
+	{
+		move_bullet(&player->bullet[i]);
+	}
+
+	return fire;
+}
+
+unsigned int move_dual_joystick_player(
+	struct player *player,
+	unsigned int num_walls,
+	struct wall *walls
+	)
+{
+	unsigned int i;
+	signed int dy, dx;
+	unsigned int fire_trigger, move_trigger;
+	unsigned int dir;
+	unsigned int hit_wall = 0;
+	unsigned int fire = 0;
+
+	if (player->ch.obj.active)
+	{
+		if (player->state == PLAYER_STATE_NORMAL || player->state == PLAYER_STATE_INVINSIBLE)
+		{
+			move_trigger = get_dir_input_1(&dir);
+			if (move_trigger)
+			{
+				set_dir_character(&player->ch, dir);
+				animate_character(&player->ch);
+				get_move_character(&player->ch, player->ch.move_speed, &dy, &dx);
+
+				for (i = 0; i < num_walls; i++)
+				{
+					if (quick_check_wall(&walls[i], player->ch.obj.y, player->ch.obj.x))
+					{
+						hit_wall = object_hit_wall(
+							&walls[i],
+							WALL_MODE_PASS_IN,
+							&player->ch.obj,
+							dy,
+							dx
+						);
+						break;
+					}
+				}
+
+				if (!hit_wall)
+				{
+					player->ch.obj.y += dy;
+					player->ch.obj.x += dx;
+					limit_move_character(&player->ch);
+				}
+			}
+
+			fire_trigger = get_dir_input_2(&dir);
+			fire = fire_bullet_player(player, dir, fire_trigger);
 		}
 		else if (player->state == PLAYER_STATE_DYING)
 		{
