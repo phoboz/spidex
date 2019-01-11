@@ -64,15 +64,6 @@ unsigned int retreat_character(
 	struct character *ch
 	);
 
-unsigned int interaction_walls_character(
-	struct character *ch,
-	signed int dy,
-	signed int dx,
-	unsigned int mode,
-	unsigned int num_walls,
-	struct wall *walls
-	);
-
 void draw_character(
 	struct character *ch
 	);

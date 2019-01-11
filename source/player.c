@@ -273,7 +273,10 @@ unsigned int move_dual_joystick_player(
 							dy,
 							dx
 						);
-						break;
+						if (hit_wall)
+						{
+							break;
+						}
 					}
 				}
 
