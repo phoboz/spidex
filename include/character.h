@@ -36,7 +36,13 @@ void init_character(
 	signed int move_speed,
 	unsigned int treshold,
 	unsigned int max_frames,
-	const signed char* const *shapes
+	const signed char* const *shapes,
+	struct object **head
+	);
+
+void deinit_character(
+	struct character *ch,
+	struct object **head
 	);
 
 void set_dir_character(

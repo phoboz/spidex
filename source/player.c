@@ -30,7 +30,8 @@ void init_player(
 		PLAYER_SPEED,
 		PLAYER_ANIM_TRESHOLD,
 		PLAYER_MAX_FRAMES,
-		spider
+		spider,
+		0
 		);
 
 	player->score		= 0;
@@ -50,7 +51,7 @@ void deinit_player(
 	struct player *player
 	)
 {
-	deinit_object(&player->ch.obj);
+	deinit_object(&player->ch.obj, 0);
 }
 
 void set_state_player(
@@ -184,14 +185,13 @@ unsigned int fire_bullet_player(
 }
 
 unsigned int move_single_joystick_player(
-	struct player *player,
-	unsigned int num_walls,
-	struct wall *walls
+	struct player *player
 	)
 {
 	unsigned int i;
 	unsigned int fire_trigger, move_trigger;
 	unsigned int dir;
+	struct wall *wall;
 	unsigned int hit_wall = 0;
 	unsigned int fire = 0;
 
@@ -207,16 +207,18 @@ unsigned int move_single_joystick_player(
 					set_walk_dir_player(player, dir);
 					animate_character(&player->ch);
 
-					for (i = 0; i < num_walls; i++)
+					wall = (struct wall *) wall_list;
+					while (wall != 0)
 					{
-						if (quick_check_wall_character(&player->ch, &walls[i]))
+						if (quick_check_wall_character(&player->ch, wall))
 						{
-							hit_wall = hit_wall_character(&player->ch, &walls[i]);
+							hit_wall = hit_wall_character(&player->ch, wall);
 							if (hit_wall)
 							{
 								break;
 							}
 						}
+						wall = (struct wall *) wall->obj.next;
 					}
 
 					if (!hit_wall)
@@ -287,14 +289,13 @@ unsigned int move_single_joystick_player(
 }
 
 unsigned int move_dual_joystick_player(
-	struct player *player,
-	unsigned int num_walls,
-	struct wall *walls
+	struct player *player
 	)
 {
 	unsigned int i;
 	unsigned int fire_trigger, move_trigger;
 	unsigned int dir;
+	struct wall *wall;
 	unsigned int hit_wall = 0;
 	unsigned int fire = 0;
 
@@ -308,16 +309,18 @@ unsigned int move_dual_joystick_player(
 				set_walk_dir_player(player, dir);
 				animate_character(&player->ch);
 
-				for (i = 0; i < num_walls; i++)
+				wall = (struct wall *) wall_list;
+				while (wall != 0)
 				{
-					if (quick_check_wall_character(&player->ch, &walls[i]))
+					if (quick_check_wall_character(&player->ch, wall))
 					{
-						hit_wall = hit_wall_character(&player->ch, &walls[i]);
+						hit_wall = hit_wall_character(&player->ch, wall);
 						if (hit_wall)
 						{
 							break;
 						}
 					}
+					wall = (struct wall *) wall->obj.next;
 				}
 
 				if (!hit_wall)

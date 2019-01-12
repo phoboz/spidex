@@ -19,7 +19,7 @@ void init_bullet(
 	const signed char* const *shapes
 	)
 {
-	init_object(&bullet->obj, y, x, h, w, scale, shapes[0]);
+	init_object(&bullet->obj, y, x, h, w, scale, shapes[0], 0);
 
 	switch (dir) {
 		case DIR_DOWN:
@@ -76,7 +76,7 @@ void deinit_bullet(
 	struct bullet *bullet
 	)
 {
-	deinit_object(&bullet->obj);
+	deinit_object(&bullet->obj, 0);
 }
 
 void move_bullet(

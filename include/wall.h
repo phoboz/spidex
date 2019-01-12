@@ -1,6 +1,8 @@
 #ifndef _WALL_H
 #define _WALL_H
 
+#include "object.h"
+
 #define WALL_MODE_PASS_IN	0
 #define WALL_MODE_PASS_OUT	1
 
@@ -8,7 +10,7 @@
 
 struct wall
 {
-	unsigned int active;
+	struct object obj;
 	unsigned int index;
 
 	signed int y1, x1;
@@ -35,8 +37,8 @@ unsigned int check_point_on_wall(
 	signed int x
 	);
 
-void draw_wall(
-	struct wall *wall
-	);
+void draw_walls(void);
+
+extern struct object *wall_list;
 
 #endif

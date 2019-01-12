@@ -70,15 +70,11 @@ void set_fire_dir_player(
 	);
 
 unsigned int move_single_joystick_player(
-	struct player *player,
-	unsigned int num_walls,
-	struct wall *walls
+	struct player *player
 	);
 
 unsigned int move_dual_joystick_player(
-	struct player *player,
-	unsigned int num_walls,
-	struct wall *walls
+	struct player *player
 	);
 
 unsigned int interaction_enemies_player(

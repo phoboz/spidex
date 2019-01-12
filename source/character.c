@@ -19,10 +19,11 @@ void init_character(
 	signed int move_speed,
 	unsigned int treshold,
 	unsigned int max_frames,
-	const signed char* const *shapes
+	const signed char* const *shapes,
+	struct object **head
 	)
 {
-	init_object(&ch->obj, y, x, h, w, scale, shapes[0]);
+	init_object(&ch->obj, y, x, h, w, scale, shapes[0], head);
 
 	ch->dir 			= DIR_DOWN;
 	ch->wall_mode		= wall_mode;
@@ -38,6 +39,14 @@ void init_character(
 	ch->max_frames	= max_frames;
 
 	ch->shapes = shapes;
+}
+
+void deinit_character(
+	struct character *ch,
+	struct object **head
+	)
+{
+	deinit_object(&ch->obj, head);
 }
 
 void set_dir_character(
@@ -206,7 +215,7 @@ unsigned int quick_check_wall_character(
 	signed int h_2, w_2;
 	unsigned int result = 0;
 
-	if (wall->active)
+	if (wall->obj.active)
 	{
 		y = ch->obj.y + ch->dy;
 		x = ch->obj.x + ch->dx;

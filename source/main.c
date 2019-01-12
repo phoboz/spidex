@@ -39,11 +39,31 @@ extern const signed char web3[];
 extern const signed char web4[];
 extern const signed char web5[];
 
-struct player player;
+struct player player_1;
 struct wave wave;
 struct enemy enemy[MAX_ENEMIES];
 struct food food[MAX_FOOD];
 struct wall wall[MAX_WALLS];
+
+void first_init(void)
+{
+	unsigned int i;
+
+	for (i = 0; i < MAX_ENEMIES; i++)
+	{
+		enemy[i].ch.obj.active = 0;
+	}
+
+	for (i = 0; i < MAX_FOOD; i++)
+	{
+		food[i].obj.active = 0;
+	}
+
+	for (i = 0; i < MAX_WALLS; i++)
+	{
+		wall[i].obj.active = 0;
+	}
+}
 
 void clear_enemies(void)
 {
@@ -81,47 +101,7 @@ void move_enemies(void)
 
 	for (i = 0; i < MAX_ENEMIES; i++)
 	{
-		move_enemy(&enemy[i], &player.ch.obj, MAX_WALLS, wall);
-	}
-}
-
-void move_foods(void)
-{
-	unsigned int i;
-
-	for (i = 0; i < MAX_FOOD; i++)
-	{
-		move_food(&food[i]);
-	}
-}
-
-void draw_enemies(void)
-{
-	unsigned int i;
-
-	for (i = 0; i < MAX_ENEMIES; i++)
-	{
-		draw_enemy(&enemy[i]);
-	}
-}
-
-void draw_foods(void)
-{
-	unsigned int i;
-
-	for (i = 0; i < MAX_FOOD; i++)
-	{
-		draw_food(&food[i]);
-	}
-}
-
-void draw_walls(void)
-{
-	unsigned int i;
-
-	for (i = 0; i < MAX_WALLS; i++)
-	{
-		draw_wall(&wall[i]);
+		move_enemy(&enemy[i], &player_1.ch.obj);
 	}
 }
 
@@ -156,10 +136,11 @@ int main(void)
 
 	init_input();
 	init_random(5, 27, 3, 19);
-	init_player(&player, 0, 0);
-	clear_enemies();
-	clear_foods();
-	clear_walls();
+	first_init();
+	init_player(&player_1, 0, 0);
+	//clear_enemies();
+	//clear_foods();
+	//clear_walls();
 	init_wave(&wave);
 ////DEBUG
 	//wave.wave_index = 2;
@@ -179,16 +160,16 @@ int main(void)
 		{
 			if (dual_joystick)
 			{
-				fire_status = move_dual_joystick_player(&player, MAX_WALLS, wall);
+				fire_status = move_dual_joystick_player(&player_1);
 			}
 			else
 			{
-				fire_status = move_single_joystick_player(&player, MAX_WALLS, wall);
+				fire_status = move_single_joystick_player(&player_1);
 			}
 			move_enemies();
-			move_foods();
+			move_food();
 
-			enemy_id = interaction_enemies_player(&player, MAX_ENEMIES, enemy);
+			enemy_id = interaction_enemies_player(&player_1, MAX_ENEMIES, enemy);
 			if (enemy_id)
 			{
 				for (i = 0; i < MAX_FOOD; i++)
@@ -205,7 +186,7 @@ int main(void)
 				}
 			}
 			new_wave_index = move_wave(&wave, MAX_ENEMIES, enemy, MAX_WALLS, wall);
-			interaction_food_player(&player, MAX_FOOD, food);
+			interaction_food_player(&player_1, MAX_FOOD, food);
 		}
 
 		status = new_frame();
@@ -221,8 +202,6 @@ int main(void)
 			if (new_wave_index)
 			{
 				wave_index = new_wave_index;
-				clear_enemies();
-				clear_walls();
 				Vec_Music_Flag = 1;
 			}
 
@@ -231,9 +210,9 @@ int main(void)
 				sfx_pointer_1 = (long unsigned int) (&fire_snd_data);
 				sfx_status_1 = 1;
 			}
-			else if (player.state_changed)
+			else if (player_1.state_changed)
 			{
-				if (player.state == PLAYER_STATE_DYING)
+				if (player_1.state == PLAYER_STATE_DYING)
 				{
 					sfx_pointer_1 = (long unsigned int) (&fall_snd_data);
 					sfx_status_1 = 1;
@@ -246,21 +225,21 @@ int main(void)
 			}
 		}
 
-		if (player.state == PLAYER_STATE_DEAD)
+		if (player_1.state == PLAYER_STATE_DEAD)
 		{
 			Vec_Text_Width = 64;
-			if (player.num_lives > 0)
+			if (player_1.num_lives > 0)
 			{
 				Intensity_5F();
 				Print_Str_d(-127, -46, "LIVES \x80");
-				print_3digit_number(-127, 16, (unsigned long) player.num_lives);
+				print_3digit_number(-127, 16, (unsigned long) player_1.num_lives);
 			}
 			else
 			{
 				Print_Str_d(-127, -46, "GAME OVER\x80");
 				if (button_1_4_pressed())
 				{
-					init_player(&player, 0, 0);
+					init_player(&player_1, 0, 0);
 					clear_enemies();
 					clear_foods();
 					clear_walls();
@@ -286,7 +265,7 @@ int main(void)
 			dual_joystick = 1;
 		}
 
-		print_3digit_number(127, -16, player.score);
+		print_3digit_number(127, -16, player_1.score);
 
 		Intensity_a(0x2f);
 		draw_synced_list_c_nm(web1, 0x80/10-1);
@@ -299,9 +278,9 @@ int main(void)
 		draw_walls();
 
 		Intensity_7F();
-		draw_player(&player);
+		draw_player(&player_1);
 		draw_enemies();
-		draw_foods();
+		draw_food();
 	}
 	
 	// if return value is <= 0, then a warm reset will be performed,

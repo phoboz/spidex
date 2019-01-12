@@ -97,9 +97,7 @@ void set_state_enemy(
 
 void move_enemy(
 	struct enemy *enemy,
-	struct object *obj,
-	unsigned int num_walls,
-	struct wall *walls
+	struct object *obj
 	);
 
 unsigned int hit_enemy(
@@ -111,10 +109,9 @@ unsigned int hit_object_enemy(
 	struct object *obj
 	);
 
-void draw_enemy(
-	struct enemy *enemy
-	);
+void draw_enemies(void);
 
 extern const struct enemy_race enemy_races[];
+extern struct object *enemy_list;
 
 #endif

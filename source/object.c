@@ -16,7 +16,8 @@ void init_object(
 	signed int h,
 	signed int w,
 	unsigned int scale,
-	const signed char *shape
+	const signed char *shape,
+	struct object **head
 	)
 {
 	obj->active = 1;
@@ -30,12 +31,53 @@ void init_object(
 
 	obj->scale = scale;
 	obj->shape = shape;
+
+	// Add object to list
+	if (head)
+	{
+		obj->prev = 0;
+		obj->next = *head;
+		*head = obj;
+
+		if (obj->next != 0)
+		{
+			obj->next->prev = obj;
+		}
+	}
+	else
+	{
+		obj->prev = 0;
+		obj->next = 0;
+	}
 }
 
 void deinit_object(
-	struct object *obj
+	struct object *obj,
+	struct object **head
 	)
 {
+	if (obj->active)
+	{
+		// Remove object from list
+		if (head)
+		{
+			if (obj->prev != 0)
+			{
+				obj->prev->next = obj->next;
+			}
+
+			if (obj->next != 0)
+			{
+				obj->next->prev = obj->prev;
+			}
+
+			if (*head == obj)
+			{
+				*head = obj->next;
+			}
+		}
+	}
+
 	obj->active = 0;
 }
 

@@ -24,12 +24,9 @@ void deinit_food(
 	struct food *food
 	);
 
-void move_food(
-	struct food *food
-	);
+void move_food(void);
+void draw_food(void);
 
-void draw_food(
-	struct food *food
-	);
+extern struct object *food_list;
 
 #endif

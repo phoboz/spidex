@@ -20,6 +20,8 @@ struct object
 	signed int h_2, w_2;
 	unsigned int scale;
 	const signed char *shape;
+
+	struct object *prev, *next;
 };
 
 
@@ -30,11 +32,13 @@ void init_object(
 	signed int h,
 	signed int w,
 	unsigned int scale,
-	const signed char *shape
+	const signed char *shape,
+	struct object **head
 	);
 
 void deinit_object(
-	struct object *obj
+	struct object *obj,
+	struct object **head
 	);
 
 unsigned int hit_object(

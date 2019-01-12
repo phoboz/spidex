@@ -159,7 +159,7 @@ unsigned int move_wave(
 			{
 				for (i = 0; i < num_walls; i++)
 				{
-					if (!walls[i].active)
+					if (!walls[i].obj.active)
 					{
 						init_wall(
 							&walls[i],
@@ -174,16 +174,13 @@ unsigned int move_wave(
 			{
 				for (i = 0; i < num_walls; i++)
 				{
-					if (walls[i].active)
+					if (walls[i].obj.active)
 					{
-						if (walls[i].active)
+						if (walls[i].index == waves[wave->wave_index].elements[wave->element_index].object_index)
 						{
-							if (walls[i].index == waves[wave->wave_index].elements[wave->element_index].object_index)
-							{
-								deinit_wall(&walls[i]);
-								wave->retry = 0;
-								break;
-							}
+							deinit_wall(&walls[i]);
+							wave->retry = 0;
+							break;
 						}
 					}
 				}
@@ -214,7 +211,12 @@ unsigned int move_wave(
 
 		for (i = 0; i < num_enemies; i++)
 		{
-			enemies[i].ch.obj.active = 0;
+			deinit_enemy(&enemies[i]);
+		}
+
+		for (i = 0; i < num_walls; i++)
+		{
+			deinit_wall(&walls[i]);
 		}
 
 		if (++wave->wave_index >= MAX_WAVES)

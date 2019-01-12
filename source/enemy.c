@@ -5,6 +5,7 @@
 #include <vectrex.h>
 #include "generic.h"
 #include "draw.h"
+#include "player.h"
 #include "enemy.h"
 
 // ---------------------------------------------------------------------------
@@ -30,6 +31,8 @@ const struct enemy_race enemy_races[] =
 	{	7,	7,	8/*0x40/10*/,	ENEMY_TYPE_FLYER,	2,		1,		ENEMY_SPECIAL_EXPLODE,	2,		mine		}
 };
 
+struct object *enemy_list = 0;
+
 void init_enemy(
 	struct enemy *enemy,
 	signed int y,
@@ -50,7 +53,8 @@ void init_enemy(
 		race->speed,
 		race->treshold,
 		2,
-		race->shapes
+		race->shapes,
+		&enemy_list
 		);
 
 	enemy->race			= race;
@@ -84,7 +88,7 @@ void deinit_enemy(
 	struct enemy *enemy
 	)
 {
-	deinit_object(&enemy->ch.obj);
+	deinit_object(&enemy->ch.obj, &enemy_list);
 }
 
 void set_state_enemy(
@@ -97,7 +101,7 @@ void set_state_enemy(
 
 	if (state == ENEMY_STATE_DEAD)
 	{
-		deinit_object(&enemy->ch.obj);
+		deinit_enemy(enemy);
 	}
 }
 
@@ -160,12 +164,10 @@ static void move_random_enemy(
 }
 
 static void move_flyer_enemy(
-	struct enemy *enemy,
-	unsigned int num_walls,
-	struct wall *walls
+	struct enemy *enemy
 	)
 {
-	unsigned int i;
+	struct wall *wall;
 	unsigned int hit_wall = 0;
 
 	animate_character(&enemy->ch);
@@ -183,16 +185,18 @@ static void move_flyer_enemy(
 
 	if (enemy->race->special == ENEMY_SPECIAL_EXPLODE)
 	{
-		for (i = 0; i < num_walls; i++)
+		wall = (struct wall *) wall_list;
+		while (wall != 0)
 		{
-			if (quick_check_wall_character(&enemy->ch, &walls[i]))
+			if (quick_check_wall_character(&enemy->ch, wall))
 			{
-				hit_wall = hit_wall_character(&enemy->ch, &walls[i]);
+				hit_wall = hit_wall_character(&enemy->ch, wall);
 				if (hit_wall)
 				{
 					break;
 				}
 			}
+			wall = (struct wall *) wall->obj.next;
 		}
 
 		if (!hit_wall)
@@ -228,13 +232,11 @@ static void move_flyer_enemy(
 static void move_homer_enemy(
 	struct enemy *enemy,
 	signed int dest_y,
-	signed int dest_x,
-	unsigned int num_walls,
-	struct wall *walls
+	signed int dest_x
 	)
 {
-	unsigned int i;
 	signed int src_y, src_x;
+	struct wall *wall;
 	unsigned int hit_wall = 0;
 
 	src_y = enemy->ch.obj.y;
@@ -273,16 +275,18 @@ static void move_homer_enemy(
 		set_dir_character(&enemy->ch, DIR_DOWN_LEFT);
 	}
 
-	for (i = 0; i < num_walls; i++)
+	wall = (struct wall *) wall_list;
+	while (wall != 0)
 	{
-		if (quick_check_wall_character(&enemy->ch, &walls[i]))
+		if (quick_check_wall_character(&enemy->ch, wall))
 		{
-			hit_wall = hit_wall_character(&enemy->ch, &walls[i]);
+			hit_wall = hit_wall_character(&enemy->ch, wall);
 			if (hit_wall)
 			{
 				break;
 			}
 		}
+		wall = (struct wall *) wall->obj.next;
 	}
 
 	if (!hit_wall)
@@ -304,8 +308,7 @@ static void move_homer_enemy(
 }
 
 static void move_egg_enemy(
-	struct enemy *enemy,
-	struct object *obj
+	struct enemy *enemy
 	)
 {
 	if (enemy->state == ENEMY_STATE_EGG)
@@ -322,16 +325,11 @@ static void move_egg_enemy(
 			set_state_enemy(enemy, ENEMY_STATE_MOVE);
 		}
 	}
-
-	///TODO
-	obj=obj;
 }
 
 void move_enemy(
 	struct enemy *enemy,
-	struct object *obj,
-	unsigned int num_walls,
-	struct wall *walls
+	struct object *obj
 	)
 {
 	if (enemy->ch.obj.active)
@@ -345,11 +343,11 @@ void move_enemy(
 					break;
 
 				case ENEMY_TYPE_FLYER:
-					move_flyer_enemy(enemy, num_walls, walls);
+					move_flyer_enemy(enemy);
 					break;
 
 				case ENEMY_TYPE_HOMER:
-					move_homer_enemy(enemy, obj->y, obj->x, num_walls, walls);
+					move_homer_enemy(enemy, obj->y, obj->x);
 					break;
 
 				default:
@@ -390,7 +388,7 @@ void move_enemy(
 		}
 		else if (enemy->state == ENEMY_STATE_EGG || enemy->state == ENEMY_STATE_HATCH)
 		{
-			move_egg_enemy(enemy, obj);
+			move_egg_enemy(enemy);
 		}
 	}
 }
@@ -462,44 +460,42 @@ unsigned int hit_object_enemy(
 	return result;
 }
 
-void draw_enemy(
-	struct enemy *enemy
-	)
+void draw_enemies(void)
 {
-	if (enemy->ch.obj.active)
+	struct enemy *enemy;
+
+	enemy = (struct enemy *) enemy_list;
+	while (enemy != 0)
 	{
 		if (enemy->state == ENEMY_STATE_SPAWN)
 		{
-			if (enemy->ch.obj.active)
-			{
-				draw_synced_list_c(
-					spiral[enemy->ch.frame],
-					enemy->ch.obj.y,
-					enemy->ch.obj.x,
-					OBJECT_MOVE_SCALE,
-					0x01 + (enemy->state_counter >> 2)
-					);
-			}
+			draw_synced_list_c(
+				spiral[enemy->ch.frame],
+				enemy->ch.obj.y,
+				enemy->ch.obj.x,
+				OBJECT_MOVE_SCALE,
+				0x01 + (enemy->state_counter >> 2)
+				);
 		}
 		else if (enemy->state == ENEMY_STATE_EGG)
 		{
-				draw_synced_list_c(
-					egg[0],
-					enemy->ch.obj.y,
-					enemy->ch.obj.x,
-					OBJECT_MOVE_SCALE,
-					0x40/10
-					);
+			draw_synced_list_c(
+				egg[0],
+				enemy->ch.obj.y,
+				enemy->ch.obj.x,
+				OBJECT_MOVE_SCALE,
+				0x40/10
+				);
 		}
 		else if (enemy->state == ENEMY_STATE_HATCH)
 		{
-				draw_synced_list_c(
-					egg[1],
-					enemy->ch.obj.y,
-					enemy->ch.obj.x,
-					OBJECT_MOVE_SCALE,
-					0x40/10
-					);
+			draw_synced_list_c(
+				egg[1],
+				enemy->ch.obj.y,
+				enemy->ch.obj.x,
+				OBJECT_MOVE_SCALE,
+				0x40/10
+				);
 		}
 		else if (enemy->state == ENEMY_STATE_EXPLODE)
 		{
@@ -513,8 +509,16 @@ void draw_enemy(
 		}
 		else
 		{
-			draw_character(&enemy->ch);
+			draw_synced_list_c(
+				enemy->ch.shapes[enemy->ch.base_frame + enemy->ch.frame],
+				enemy->ch.obj.y,
+				enemy->ch.obj.x,
+				OBJECT_MOVE_SCALE,
+				enemy->ch.obj.scale
+				);
 		}
+
+		enemy = (struct enemy *) enemy->ch.obj.next;
 	}
 }
 

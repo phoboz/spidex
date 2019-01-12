@@ -3,10 +3,13 @@
 // ***************************************************************************
 
 #include <vectrex.h>
+#include "draw.h"
 #include "food.h"
 
 // ---------------------------------------------------------------------------
 #define AMPLIFIER_MUL 10
+
+struct object *food_list = 0;
 
 static const signed char food_shape[]=
 {	
@@ -19,8 +22,6 @@ static const signed char food_shape[]=
 	(signed char) 0x00, -0x03*AMPLIFIER_MUL, -0x01*AMPLIFIER_MUL, // mode, y, x
 	(signed char) 0xFF, +0x06*AMPLIFIER_MUL, -0x06*AMPLIFIER_MUL, // draw, y, x
 	(signed char) 0x02 // endmarker 	
-
-
 	};
 
 void init_food(
@@ -29,35 +30,66 @@ void init_food(
 	signed int x
 	)
 {
-	init_object(&food->obj, y, x, FOOD_HEIGHT, FOOD_WIDTH, FOOD_SCALE/AMPLIFIER_MUL, food_shape);
+	init_object(
+		&food->obj,
+		y,
+		x,
+		FOOD_HEIGHT,
+		FOOD_WIDTH,
+		FOOD_SCALE/AMPLIFIER_MUL,
+		food_shape,
+		&food_list
+		);
 }
 
 void deinit_food(
 	struct food *food
 	)
 {
-	deinit_object(&food->obj);
+	deinit_object(&food->obj, &food_list);
 }
 
-void move_food(
-	struct food *food
-	)
+void move_food(void)
 {
-	if (food->obj.active)
+	struct food *food;
+	struct food *rem_food;
+
+	food = (struct food *) food_list;
+	while (food != 0)
 	{
+		rem_food = 0;
+
 		if (++food->counter >= FOOD_TRESHOLD)
 		{
 			food->counter = 0;
-			food->obj.active = 0;
+			rem_food = food;
+		}
+
+		food = (struct food *) food->obj.next;
+
+		if (rem_food)
+		{
+			deinit_food(rem_food);
 		}
 	}
 }
 
-void draw_food(
-	struct food *food
-	)
+void draw_food(void)
 {
-	draw_object(&food->obj);
+	struct food *food;
+
+	food = (struct food *) food_list;
+	while (food != 0)
+	{
+		draw_synced_list_c(
+			food->obj.shape,
+			food->obj.y,
+			food->obj.x,
+			OBJECT_MOVE_SCALE,
+			food->obj.scale
+			);
+		food = (struct food *) food->obj.next;
+	}
 }
 
 // ***************************************************************************
