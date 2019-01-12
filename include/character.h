@@ -14,6 +14,7 @@ struct character
 	struct object obj;
 	signed int move_speed;
 	unsigned int dir;
+	signed int dy, dx;
 	unsigned int counter;
 	unsigned int treshold;
 	unsigned int base_frame;
@@ -42,17 +43,6 @@ void set_dir_character(
 	);
 
 unsigned int animate_character(
-	struct character *ch
-	);
-
-void get_move_character(
-	struct character *ch,
-	signed int speed,
-	signed int *dy,
-	signed int *dx
-	);
-
-unsigned int limit_move_character(
 	struct character *ch
 	);
 

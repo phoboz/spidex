@@ -10,6 +10,7 @@
 #define DIR_UP_LEFT		5
 #define DIR_LEFT			6
 #define DIR_DOWN_LEFT		7
+#define DIR_NONE			8
 
 struct object
 {

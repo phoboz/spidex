@@ -26,6 +26,9 @@ void init_character(
 	ch->dir 			= DIR_DOWN;
 	ch->move_speed	= move_speed;
 
+	ch->dy = 0;
+	ch->dx = 0;
+
 	ch->counter		= 0;
 	ch->treshold		= treshold;
 	ch->base_frame	= 0;
@@ -45,6 +48,54 @@ void set_dir_character(
     }
 
 	ch->dir = dir;
+
+	switch (dir)
+	{
+		case DIR_DOWN:
+			ch->dy = -ch->move_speed;
+			ch->dx =  0;
+			break;
+
+		case DIR_DOWN_RIGHT:
+			ch->dy = -ch->move_speed;
+			ch->dx =  ch->move_speed;
+			break;
+
+		case DIR_RIGHT:
+			ch->dy =  0;
+			ch->dx =  ch->move_speed;
+			break;
+
+		case DIR_UP_RIGHT:
+			ch->dy =  ch->move_speed;
+			ch->dx =  ch->move_speed;
+			break;
+
+		case DIR_UP:
+			ch->dy =  ch->move_speed;
+			ch->dx =  0;
+			break;
+
+		case DIR_UP_LEFT:
+			ch->dy =  ch->move_speed;
+			ch->dx = -ch->move_speed;
+			break;
+
+		case DIR_LEFT:
+			ch->dy =  0;
+			ch->dx = -ch->move_speed;
+			break;
+
+		case DIR_DOWN_LEFT:
+			ch->dy = -ch->move_speed;
+			ch->dx = -ch->move_speed;
+			break;
+
+		default:
+			ch->dy =  0;
+			ch->dx =  0;
+			break;
+	}
 }
 
 unsigned int animate_character(
@@ -64,67 +115,14 @@ unsigned int animate_character(
 	return changed;
 }
 
-void get_move_character(
-	struct character *ch,
-	signed int speed,
-	signed int *dy,
-	signed int *dx
-	)
-{
-	switch (ch->dir)
-	{
-		case DIR_DOWN:
-			*dy = -speed;
-			*dx =  0;
-			break;
-
-		case DIR_DOWN_RIGHT:
-			*dy = -speed;
-			*dx =  speed;
-			break;
-
-		case DIR_RIGHT:
-			*dy =  0;
-			*dx =  speed;
-			break;
-
-		case DIR_UP_RIGHT:
-			*dy =  speed;
-			*dx =  speed;
-			break;
-
-		case DIR_UP:
-			*dy =  speed;
-			*dx =  0;
-			break;
-
-		case DIR_UP_LEFT:
-			*dy =  speed;
-			*dx = -speed;
-			break;
-
-		case DIR_LEFT:
-			*dy =  0;
-			*dx = -speed;
-			break;
-
-		case DIR_DOWN_LEFT:
-			*dy = -speed;
-			*dx = -speed;
-			break;
-
-		default:
-			*dy =  0;
-			*dx =  0;
-			break;
-	}
-}
-
-unsigned int limit_move_character(
+unsigned int move_character(
 	struct character *ch
 	)
 {
 	unsigned int stopped = 0;
+
+	ch->obj.y += ch->dy;
+	ch->obj.x += ch->dx;
 
 	if (ch->obj.y < CHARACTER_MIN_Y)
 	{
@@ -153,30 +151,40 @@ unsigned int limit_move_character(
 	return stopped;
 }
 
-unsigned int move_character(
-	struct character *ch
-	)
-{
-	signed int dy, dx;
-
-	get_move_character(ch, ch->move_speed, &dy, &dx);
-	ch->obj.y += dy;
-	ch->obj.x += dx;
-
-	return limit_move_character(ch);
-}
-
 unsigned int retreat_character(
 	struct character *ch
 	)
 {
-	signed int dy, dx;
+	unsigned int stopped = 0;
 
-	get_move_character(ch, ch->move_speed << 1, &dy, &dx);
-	ch->obj.y -= dy;
-	ch->obj.x -= dx;
+	ch->obj.y -= ch->dy << 1;
+	ch->obj.x -= ch->dx << 1;
 
-	return limit_move_character(ch);
+	if (ch->obj.y < CHARACTER_MIN_Y)
+	{
+		ch->obj.y = CHARACTER_MIN_Y;
+		stopped = 1;
+	}
+
+	if (ch->obj.y > CHARACTER_MAX_Y)
+	{
+		ch->obj.y = CHARACTER_MAX_Y;
+		stopped = 1;
+	}
+
+	if (ch->obj.x < CHARACTER_MIN_X)
+	{
+		ch->obj.x = CHARACTER_MIN_X;
+		stopped = 1;
+	}
+
+	if (ch->obj.x > CHARACTER_MAX_X)
+	{
+		ch->obj.x = CHARACTER_MAX_X;
+		stopped = 1;
+	}
+
+	return stopped;
 }
 
 void draw_character(

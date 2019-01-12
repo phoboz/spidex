@@ -178,7 +178,6 @@ static void move_flyer_enemy(
 	struct wall *walls
 	)
 {
-	signed int dy, dx;
 	unsigned int i;
 	unsigned int hit_wall = 0;
 
@@ -197,13 +196,17 @@ static void move_flyer_enemy(
 
 	if (enemy->race->special == ENEMY_SPECIAL_EXPLODE)
 	{
-		get_move_character(&enemy->ch, enemy->ch.move_speed, &dy, &dx);
-
 		for (i = 0; i < num_walls; i++)
 		{
 			if (quick_check_wall(&walls[i], enemy->ch.obj.y, enemy->ch.obj.x))
 			{
-				hit_wall = object_hit_wall(&walls[i], WALL_MODE_PASS_OUT, &enemy->ch.obj, dy, dx);
+				hit_wall = object_hit_wall(
+					&walls[i],
+					WALL_MODE_PASS_OUT,
+					&enemy->ch.obj,
+					enemy->ch.dy,
+					enemy->ch.dx
+					);
 				if (hit_wall)
 				{
 					break;
@@ -214,11 +217,7 @@ static void move_flyer_enemy(
 		if (!hit_wall)
 		{
 			animate_character(&enemy->ch);
-
-			enemy->ch.obj.y += dy;
-			enemy->ch.obj.x += dx;
-
-			if (limit_move_character(&enemy->ch))
+			if (move_character(&enemy->ch))
 			{
 				if (++enemy->step_counter >= enemy->num_steps)
 				{
@@ -255,7 +254,6 @@ static void move_homer_enemy(
 {
 	unsigned int i;
 	signed int src_y, src_x;
-	signed int dy, dx;
 	unsigned int hit_wall = 0;
 
 	src_y = enemy->ch.obj.y;
@@ -294,13 +292,17 @@ static void move_homer_enemy(
 		set_dir_enemy(enemy, DIR_DOWN_LEFT);
 	}
 
-	get_move_character(&enemy->ch, enemy->ch.move_speed, &dy, &dx);
-
 	for (i = 0; i < num_walls; i++)
 	{
 		if (quick_check_wall(&walls[i], enemy->ch.obj.y, enemy->ch.obj.x))
 		{
-			hit_wall = object_hit_wall(&walls[i], WALL_MODE_PASS_OUT, &enemy->ch.obj, dy, dx);
+			hit_wall = object_hit_wall(
+				&walls[i],
+				WALL_MODE_PASS_OUT,
+				&enemy->ch.obj,
+				enemy->ch.dy,
+				enemy->ch.dx
+				);
 			if (hit_wall)
 			{
 				break;
@@ -311,9 +313,7 @@ static void move_homer_enemy(
 	if (!hit_wall)
 	{
 		animate_character(&enemy->ch);
-		enemy->ch.obj.y += dy;
-		enemy->ch.obj.x += dx;
-		limit_move_character(&enemy->ch);
+		move_character(&enemy->ch);
 	}
 	else
 	{

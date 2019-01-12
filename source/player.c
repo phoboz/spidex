@@ -132,7 +132,6 @@ unsigned int move_single_joystick_player(
 	)
 {
 	unsigned int i;
-	signed int dy, dx;
 	unsigned int fire_trigger, move_trigger;
 	unsigned int dir;
 	unsigned int hit_wall = 0;
@@ -149,7 +148,6 @@ unsigned int move_single_joystick_player(
 				{
 					set_dir_character(&player->ch, dir);
 					animate_character(&player->ch);
-					get_move_character(&player->ch, player->ch.move_speed, &dy, &dx);
 
 					for (i = 0; i < num_walls; i++)
 					{
@@ -159,8 +157,8 @@ unsigned int move_single_joystick_player(
 								&walls[i],
 								WALL_MODE_PASS_IN,
 								&player->ch.obj,
-								dy,
-								dx
+								player->ch.dy,
+								player->ch.dx
 								);
 							if (hit_wall)
 							{
@@ -171,9 +169,7 @@ unsigned int move_single_joystick_player(
 
 					if (!hit_wall)
 					{
-						player->ch.obj.y += dy;
-						player->ch.obj.x += dx;
-						limit_move_character(&player->ch);
+						move_character(&player->ch);
 					}
 				}
 			}
@@ -245,7 +241,6 @@ unsigned int move_dual_joystick_player(
 	)
 {
 	unsigned int i;
-	signed int dy, dx;
 	unsigned int fire_trigger, move_trigger;
 	unsigned int dir;
 	unsigned int hit_wall = 0;
@@ -260,7 +255,6 @@ unsigned int move_dual_joystick_player(
 			{
 				set_dir_character(&player->ch, dir);
 				animate_character(&player->ch);
-				get_move_character(&player->ch, player->ch.move_speed, &dy, &dx);
 
 				for (i = 0; i < num_walls; i++)
 				{
@@ -270,8 +264,8 @@ unsigned int move_dual_joystick_player(
 							&walls[i],
 							WALL_MODE_PASS_IN,
 							&player->ch.obj,
-							dy,
-							dx
+							player->ch.dy,
+							player->ch.dx
 						);
 						if (hit_wall)
 						{
@@ -282,9 +276,7 @@ unsigned int move_dual_joystick_player(
 
 				if (!hit_wall)
 				{
-					player->ch.obj.y += dy;
-					player->ch.obj.x += dx;
-					limit_move_character(&player->ch);
+					move_character(&player->ch);
 				}
 			}
 
