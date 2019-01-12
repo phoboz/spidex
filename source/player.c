@@ -68,6 +68,63 @@ void set_state_player(
 	}
 }
 
+void set_walk_dir_player(
+	struct player *player,
+	unsigned int dir
+	)
+{
+	player->ch.dir = dir;
+
+	switch (dir)
+	{
+		case DIR_DOWN:
+			player->ch.dy = -player->ch.move_speed;
+			player->ch.dx =  0;
+			break;
+
+		case DIR_DOWN_RIGHT:
+			player->ch.dy = -player->ch.move_speed;
+			player->ch.dx =  player->ch.move_speed;
+			break;
+
+		case DIR_RIGHT:
+			player->ch.dy =  0;
+			player->ch.dx =  player->ch.move_speed;
+			break;
+
+		case DIR_UP_RIGHT:
+			player->ch.dy =  player->ch.move_speed;
+			player->ch.dx =  player->ch.move_speed;
+			break;
+
+		case DIR_UP:
+			player->ch.dy =  player->ch.move_speed;
+			player->ch.dx =  0;
+			break;
+
+		case DIR_UP_LEFT:
+			player->ch.dy =  player->ch.move_speed;
+			player->ch.dx = -player->ch.move_speed;
+			break;
+
+		case DIR_LEFT:
+			player->ch.dy =  0;
+			player->ch.dx = -player->ch.move_speed;
+			break;
+
+		case DIR_DOWN_LEFT:
+			player->ch.dy = -player->ch.move_speed;
+			player->ch.dx = -player->ch.move_speed;
+			break;
+
+		case DIR_NONE:
+		default:
+			player->ch.dy =  0;
+			player->ch.dx =  0;
+			break;
+	}
+}
+
 void set_fire_dir_player(
 	struct player *player,
 	unsigned int dir
@@ -147,7 +204,7 @@ unsigned int move_single_joystick_player(
 				move_trigger = get_dir_input_1(&dir);
 				if (move_trigger)
 				{
-					set_dir_character(&player->ch, dir);
+					set_walk_dir_player(player, dir);
 					animate_character(&player->ch);
 
 					for (i = 0; i < num_walls; i++)
@@ -248,7 +305,7 @@ unsigned int move_dual_joystick_player(
 			move_trigger = get_dir_input_1(&dir);
 			if (move_trigger)
 			{
-				set_dir_character(&player->ch, dir);
+				set_walk_dir_player(player, dir);
 				animate_character(&player->ch);
 
 				for (i = 0; i < num_walls; i++)

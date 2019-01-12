@@ -90,11 +90,6 @@ void deinit_enemy(
 	struct enemy *enemy
 	);
 
-void set_dir_enemy(
-	struct enemy *enemy,
-	unsigned int dir
-	);
-
 void set_state_enemy(
 	struct enemy *enemy,
 	unsigned int state

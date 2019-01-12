@@ -45,10 +45,6 @@ void set_dir_character(
 	unsigned int dir
 	)
 {
-	if (dir > DIR_DOWN_LEFT) {
-         dir = DIR_DOWN;
-    }
-
 	ch->dir = dir;
 
 	switch (dir)
@@ -93,11 +89,18 @@ void set_dir_character(
 			ch->dx = -ch->move_speed;
 			break;
 
+		case DIR_NONE:
 		default:
 			ch->dy =  0;
 			ch->dx =  0;
 			break;
 	}
+
+	if (dir > DIR_DOWN_LEFT) {
+         dir = DIR_DOWN;
+    }
+
+	ch->base_frame = dir << 1;
 }
 
 unsigned int animate_character(
@@ -108,10 +111,14 @@ unsigned int animate_character(
 
 	if (++ch->counter >= ch->treshold) {
 		ch->counter = 0;
-		if (++ch->frame >= ch->max_frames) {
-			ch->frame = 0;
+		if (ch->dir < DIR_NONE)
+		{
+			if (++ch->frame >= ch->max_frames)
+			{
+				ch->frame = 0;
+			}
+			changed = 1;
 		}
-		changed = 1;
 	}
 
 	return changed;

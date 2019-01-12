@@ -40,18 +40,32 @@ const struct enemy_path l_path[] =
 	{40,				DIR_RIGHT}
 };
 
+const struct enemy_path square_stop_path[] =
+{
+	/* treshold		dir */
+	{24,				DIR_RIGHT},
+	{24,				DIR_NONE},
+	{24,				DIR_DOWN},
+	{24,				DIR_NONE},
+	{24,				DIR_LEFT},
+	{24,				DIR_NONE},
+	{24,				DIR_UP},
+	{24,				DIR_NONE}
+};
+
 const struct path_element enemy_paths[] =
 {
-	/* num_steps				reference */
-	{NUM_ELMTS(square_path),	square_path},
-	{NUM_ELMTS(circular_path),	circular_path},
-	{NUM_ELMTS(l_path),		l_path}
+	/* num_steps					reference */
+	{NUM_ELMTS(square_path),		square_path},
+	{NUM_ELMTS(circular_path),		circular_path},
+	{NUM_ELMTS(l_path),			l_path},
+	{NUM_ELMTS(square_stop_path),	square_stop_path},
 };
 
 const struct wave_element wave_1[] =
 {
 	/*	treshold		y		x		object_type				object_index			value */
-	{	0,			40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	3	},
+	{	0,			40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	2	},
 	{	80,			40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,		0	},
 	{	80,			-40,		-20,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BUTTERFLY,	50	}
 };
@@ -80,8 +94,8 @@ const struct wave_element wave_3[] =
 	{	10,			-100,	80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,		2	},
 	{	10,			-100,	80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,		2	},
 	{	120,			80,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BUG,		0	},
-	{	10,			-40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	6	},
-	{	10,			-40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	6	},
+	{	10,			-40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	3	},
+	{	10,			-40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	3	},
 	{	80,			40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BUTTERFLY,	50	},
 	{	80,			40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BUTTERFLY,	50	}
 };

@@ -63,11 +63,11 @@ void init_enemy(
 
 	if (enemy->race->type == ENEMY_TYPE_FLYER)
 	{
-		set_dir_enemy(enemy, enemy->path[0].dir);
+		set_dir_character(&enemy->ch, enemy->path[0].dir);
 	}
 	else
 	{
-		set_dir_enemy(enemy, DIR_DOWN);
+		set_dir_character(&enemy->ch, DIR_DOWN);
 	}
 
 	if (enemy->race->special == ENEMY_SPECIAL_EGG)
@@ -85,20 +85,6 @@ void deinit_enemy(
 	)
 {
 	deinit_object(&enemy->ch.obj);
-}
-
-void set_dir_enemy(
-	struct enemy *enemy,
-	unsigned int dir
-	)
-{
-	if (dir > DIR_DOWN_LEFT) {
-         dir = DIR_DOWN;
-    }
-
-	set_dir_character(&enemy->ch, dir);
-
-	enemy->ch.base_frame = dir << 1;
 }
 
 void set_state_enemy(
@@ -123,35 +109,35 @@ static void set_random_dir_enemy(
 
 	if (rnd < ENEMY_RANDOM_RANGE_DOWN)
 	{
-		set_dir_enemy(enemy, DIR_DOWN);
+		set_dir_character(&enemy->ch, DIR_DOWN);
 	}
 	else if (rnd < ENEMY_RANDOM_RANGE_DOWN_RIGHT)
 	{
-		set_dir_enemy(enemy, DIR_DOWN_RIGHT);
+		set_dir_character(&enemy->ch, DIR_DOWN_RIGHT);
 	}
 	else if (rnd < ENEMY_RANDOM_RANGE_RIGHT)
 	{
-		set_dir_enemy(enemy, DIR_RIGHT);
+		set_dir_character(&enemy->ch, DIR_RIGHT);
 	}
 	else if (rnd < ENEMY_RANDOM_RANGE_UP_RIGHT)
 	{
-		set_dir_enemy(enemy, DIR_UP_RIGHT);
+		set_dir_character(&enemy->ch, DIR_UP_RIGHT);
 	}
 	else if (rnd < ENEMY_RANDOM_RANGE_UP)
 	{
-		set_dir_enemy(enemy, DIR_UP);
+		set_dir_character(&enemy->ch, DIR_UP);
 	}
 	else if (rnd < ENEMY_RANDOM_RANGE_UP_LEFT)
 	{
-		set_dir_enemy(enemy, DIR_UP_LEFT);
+		set_dir_character(&enemy->ch, DIR_UP_LEFT);
 	}
 	else if (rnd < ENEMY_RANDOM_RANGE_LEFT)
 	{
-		set_dir_enemy(enemy, DIR_LEFT);
+		set_dir_character(&enemy->ch, DIR_LEFT);
 	}
 	else if (rnd < ENEMY_RANDOM_RANGE_DOWN_LEFT)
 	{
-		set_dir_enemy(enemy, DIR_DOWN_LEFT);
+		set_dir_character(&enemy->ch, DIR_DOWN_LEFT);
 	}
 }
 
@@ -192,7 +178,7 @@ static void move_flyer_enemy(
 			enemy->step_counter = 0;
 		}
 
-		set_dir_enemy(enemy, enemy->path[enemy->step_counter].dir);
+		set_dir_character(&enemy->ch, enemy->path[enemy->step_counter].dir);
 	}
 
 	if (enemy->race->special == ENEMY_SPECIAL_EXPLODE)
@@ -218,7 +204,7 @@ static void move_flyer_enemy(
 				{
 					enemy->step_counter = 0;
 				}
-				set_dir_enemy(enemy, enemy->path[enemy->step_counter].dir);
+				set_dir_character(&enemy->ch, enemy->path[enemy->step_counter].dir);
 			}
 		}
 		else
@@ -234,7 +220,7 @@ static void move_flyer_enemy(
 			{
 				enemy->step_counter = 0;
 			}
-			set_dir_enemy(enemy, enemy->path[enemy->step_counter].dir);
+			set_dir_character(&enemy->ch, enemy->path[enemy->step_counter].dir);
 		}
 	}
 }
@@ -256,35 +242,35 @@ static void move_homer_enemy(
 
 	if (src_y < dest_y && src_x < dest_x)
 	{
-		set_dir_enemy(enemy, DIR_UP_RIGHT);
+		set_dir_character(&enemy->ch, DIR_UP_RIGHT);
 	}
 	else if (src_y < dest_y && src_x == dest_x)
 	{
-		set_dir_enemy(enemy, DIR_UP);
+		set_dir_character(&enemy->ch, DIR_UP);
 	}
 	else if (src_y < dest_y && src_x > dest_x)
 	{
-		set_dir_enemy(enemy, DIR_UP_LEFT);
+		set_dir_character(&enemy->ch, DIR_UP_LEFT);
 	}
 	else if (src_y == dest_y && src_x < dest_x)
 	{
-		set_dir_enemy(enemy, DIR_RIGHT);
+		set_dir_character(&enemy->ch, DIR_RIGHT);
 	}
 	else if (src_y == dest_y && src_x > dest_x)
 	{
-		set_dir_enemy(enemy, DIR_LEFT);
+		set_dir_character(&enemy->ch, DIR_LEFT);
 	}
 	else if (src_y > dest_y && src_x < dest_x)
 	{
-		set_dir_enemy(enemy, DIR_DOWN_RIGHT);
+		set_dir_character(&enemy->ch, DIR_DOWN_RIGHT);
 	}
 	else if (src_y > dest_y && src_x == dest_x)
 	{
-		set_dir_enemy(enemy, DIR_DOWN);
+		set_dir_character(&enemy->ch, DIR_DOWN);
 	}
 	else if (src_y > dest_y && src_x > dest_x)
 	{
-		set_dir_enemy(enemy, DIR_DOWN_LEFT);
+		set_dir_character(&enemy->ch, DIR_DOWN_LEFT);
 	}
 
 	for (i = 0; i < num_walls; i++)
