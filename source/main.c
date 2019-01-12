@@ -156,7 +156,7 @@ int main(void)
 			move_enemies();
 			move_food();
 
-			enemy_id = interaction_enemies_player(&player_1, MAX_ENEMIES, enemy);
+			enemy_id = interaction_enemies_player_1();
 			if (enemy_id)
 			{
 				for (i = 0; i < MAX_FOOD; i++)
@@ -172,8 +172,9 @@ int main(void)
 					}
 				}
 			}
+
 			new_wave_index = move_wave(&wave, MAX_ENEMIES, enemy, MAX_WALLS, wall);
-			interaction_food_player(&player_1, MAX_FOOD, food);
+			interaction_food_player_1();
 		}
 
 		status = new_frame();

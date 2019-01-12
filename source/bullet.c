@@ -82,42 +82,14 @@ void deinit_bullet(
 	deinit_object(&bullet->obj, &bullet_list);
 }
 
-void move_bullet(
-	struct bullet *bullet
-	)
-{
-	if (bullet->obj.active)
-	{
-		if (++bullet->frame >= BULLET_NUM_FRAMES)
-		{
-			bullet->frame = 0;
-		}
-
-		bullet->obj.y += bullet->dy;
-		bullet->obj.x += bullet->dx;
-
-		if (bullet->obj.y < BULLET_MIN_Y || bullet->obj.y > BULLET_MAX_Y)
-		{
-			deinit_bullet(bullet);
-		}
-
-		if (bullet->obj.x < BULLET_MIN_X || bullet->obj.x > BULLET_MAX_X)
-		{
-			deinit_bullet(bullet);
-		}
-	}
-}
-
 void move_bullets(void)
 {
 	struct bullet *bullet;
-	struct bullet *rem_bullet;
+	struct bullet *rem_bullet = 0;
 
 	bullet = (struct bullet *) bullet_list;
 	while (bullet != 0)
 	{
-		rem_bullet = 0;
-
 		if (++bullet->frame >= BULLET_NUM_FRAMES)
 		{
 			bullet->frame = 0;
@@ -134,9 +106,10 @@ void move_bullets(void)
 
 		bullet = (struct bullet *) bullet->obj.next;
 
-		if (rem_bullet)
+		if (rem_bullet != 0)
 		{
 			deinit_bullet(rem_bullet);
+			rem_bullet = 0;
 		}
 	}
 }

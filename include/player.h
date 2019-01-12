@@ -72,17 +72,9 @@ void set_fire_dir_player(
 unsigned int move_single_joystick_player_1(void);
 unsigned int move_dual_joystick_player_1(void);
 
-unsigned int interaction_enemies_player(
-	struct player *player,
-	unsigned int num_enemies,
-	struct enemy *enemies
-	);
+unsigned int interaction_enemies_player_1(void);
 
-void interaction_food_player(
-	struct player *player,
-	unsigned int num_food,
-	struct food *food
-	);
+void interaction_food_player_1(void);
 
 void draw_player_1(void);
 

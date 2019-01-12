@@ -66,6 +66,7 @@ struct enemy_race {
 struct enemy
 {
 	struct character ch;
+	unsigned int index;
 	const struct enemy_race *race;
 	signed int num_hits;
 	unsigned int state;
@@ -79,6 +80,7 @@ struct enemy
 
 void init_enemy(
 	struct enemy *enemy,
+	unsigned int index,
 	signed int y,
 	signed int x,
 	const struct enemy_race *race, 

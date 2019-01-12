@@ -52,13 +52,11 @@ void deinit_food(
 void move_food(void)
 {
 	struct food *food;
-	struct food *rem_food;
+	struct food *rem_food = 0;
 
 	food = (struct food *) food_list;
 	while (food != 0)
 	{
-		rem_food = 0;
-
 		if (++food->counter >= FOOD_TRESHOLD)
 		{
 			food->counter = 0;
@@ -67,9 +65,10 @@ void move_food(void)
 
 		food = (struct food *) food->obj.next;
 
-		if (rem_food)
+		if (rem_food != 0)
 		{
 			deinit_food(rem_food);
+			rem_food = 0;
 		}
 	}
 }

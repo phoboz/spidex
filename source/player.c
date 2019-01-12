@@ -374,44 +374,57 @@ unsigned int move_dual_joystick_player_1(void)
 	return fire;
 }
 
-unsigned int interaction_enemies_player(
-	struct player *player,
-	unsigned int num_enemies,
-	struct enemy *enemies
-	)
+unsigned int interaction_enemies_player_1(void)
 {
-	unsigned int i, j;
+	struct enemy *enemy;
+	struct bullet *bullet;
+	struct enemy *rem_enemy = 0;
+	struct bullet *rem_bullet = 0;
 	unsigned int result = 0;
 
-	if (player->ch.obj.active)
+	if (player_1.ch.obj.active)
 	{
-		for (i = 0; i < num_enemies; i++)
+		enemy = (struct enemy *) enemy_list;
+		while (enemy != 0)
 		{
-			if (player->state == PLAYER_STATE_NORMAL && enemies[i].state != ENEMY_STATE_SPAWN)
+			if (player_1.state == PLAYER_STATE_NORMAL && enemy->state != ENEMY_STATE_SPAWN)
 			{
-				if (hit_object_enemy(&enemies[i], &player->ch.obj))
+				if (hit_object_enemy(enemy, &player_1.ch.obj))
 				{
-					set_state_player(player, PLAYER_STATE_DYING);
+					set_state_player(&player_1, PLAYER_STATE_DYING);
 				}
 			}
 
-			for (j = 0; j < PLAYER_MAX_BULLETS; j++)
+			bullet = (struct bullet *) bullet_list;
+			while (bullet != 0)
 			{
-				if (enemies[i].state != ENEMY_STATE_SPAWN)
+				if (enemy->state != ENEMY_STATE_SPAWN)
 				{
-					if (player->bullet[j].obj.active)
+					if (hit_object(&bullet->obj, &enemy->ch.obj))
 					{
-						if (hit_object(&player->bullet[j].obj, &enemies[i].ch.obj))
+						rem_bullet = bullet;
+						if (hit_enemy(enemy))
 						{
-							deinit_bullet(&player->bullet[j]);
-							if (hit_enemy(&enemies[i]))
-							{
-								result = 1 + i;
-							}
-							break;
+							result = 1 + enemy->index;
+							rem_enemy = enemy;
 						}
+						break;
 					}
 				}
+				bullet = (struct bullet *) bullet->obj.next;
+
+				if (rem_bullet != 0)
+				{
+					deinit_bullet(rem_bullet);
+					rem_bullet = 0;
+				}
+			}
+			enemy = (struct enemy *) enemy->ch.obj.next;
+
+			if (rem_enemy != 0)
+			{
+				deinit_enemy(rem_enemy);
+				rem_enemy = 0;
 			}
 		}
 	}
@@ -419,20 +432,25 @@ unsigned int interaction_enemies_player(
 	return result;
 }
 
-void interaction_food_player(
-	struct player *player,
-	unsigned int num_food,
-	struct food *food
-	)
+void interaction_food_player_1(void)
 {
-	unsigned int i;
+	struct food *food;
+	struct food *rem_food = 0;
 
-	for (i = 0; i < num_food; i++)
+	food = (struct food *) food_list;
+	while (food != 0)
 	{
-		if (hit_object(&player->ch.obj, &food[i].obj))
+		if (hit_object(&player_1.ch.obj, &food->obj))
 		{
-			deinit_food(&food[i]);
-			player->score++;
+			rem_food = food;
+			player_1.score++;
+		}
+		food = (struct food *) food->obj.next;
+
+		if (rem_food != 0)
+		{
+			deinit_food(rem_food);
+			rem_food = 0;
 		}
 	}
 }

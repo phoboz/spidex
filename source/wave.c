@@ -144,6 +144,7 @@ unsigned int move_wave(
 					{
 						init_enemy(
 							&enemies[i],
+							i,
 							waves[wave->wave_index].elements[wave->element_index].y,
 							waves[wave->wave_index].elements[wave->element_index].x,
 							&enemy_races[waves[wave->wave_index].elements[wave->element_index].object_index],
