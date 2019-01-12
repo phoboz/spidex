@@ -69,13 +69,8 @@ void set_fire_dir_player(
 	unsigned int dir
 	);
 
-unsigned int move_single_joystick_player(
-	struct player *player
-	);
-
-unsigned int move_dual_joystick_player(
-	struct player *player
-	);
+unsigned int move_single_joystick_player_1(void);
+unsigned int move_dual_joystick_player_1(void);
 
 unsigned int interaction_enemies_player(
 	struct player *player,
@@ -89,8 +84,8 @@ void interaction_food_player(
 	struct food *food
 	);
 
-void draw_player(
-	struct player *player
-	);
+void draw_player_1(void);
+
+extern struct player player_1;
 
 #endif

@@ -230,17 +230,19 @@ static void move_flyer_enemy(
 }
 
 static void move_homer_enemy(
-	struct enemy *enemy,
-	signed int dest_y,
-	signed int dest_x
+	struct enemy *enemy
 	)
 {
 	signed int src_y, src_x;
+	signed int dest_y, dest_x;
 	struct wall *wall;
 	unsigned int hit_wall = 0;
 
 	src_y = enemy->ch.obj.y;
 	src_x = enemy->ch.obj.x;
+
+	dest_y = player_1.ch.obj.y;
+	dest_x = player_1.ch.obj.x;
 
 	if (src_y < dest_y && src_x < dest_x)
 	{
@@ -328,8 +330,7 @@ static void move_egg_enemy(
 }
 
 void move_enemy(
-	struct enemy *enemy,
-	struct object *obj
+	struct enemy *enemy
 	)
 {
 	if (enemy->ch.obj.active)
@@ -347,7 +348,7 @@ void move_enemy(
 					break;
 
 				case ENEMY_TYPE_HOMER:
-					move_homer_enemy(enemy, obj->y, obj->x);
+					move_homer_enemy(enemy);
 					break;
 
 				default:
@@ -390,6 +391,73 @@ void move_enemy(
 		{
 			move_egg_enemy(enemy);
 		}
+	}
+}
+
+void move_enemies(void)
+{
+	struct enemy *enemy;
+
+	enemy = (struct enemy *) enemy_list;
+	while(enemy != 0)
+	{
+		if (enemy->state == ENEMY_STATE_MOVE)
+		{
+			switch (enemy->race->type)
+			{
+				case ENEMY_TYPE_RANDOM:
+					move_random_enemy(enemy);
+					break;
+
+				case ENEMY_TYPE_FLYER:
+					move_flyer_enemy(enemy);
+					break;
+
+				case ENEMY_TYPE_HOMER:
+					move_homer_enemy(enemy);
+					break;
+
+				default:
+					break;
+			}
+		}
+		else if (enemy->state == ENEMY_STATE_SPAWN)
+		{
+			if (++enemy->ch.counter >= ENEMY_SPAWN_ANIM_TRESHOLD)
+			{
+				enemy->ch.counter = 0;
+				if (++enemy->ch.frame >= ENEMY_SPAWN_ANIM_FRAMES)
+				{
+					enemy->ch.frame = 0;
+				}
+			}
+
+			if (++enemy->state_counter >= ENEMY_SPAWN_TRESHOLD)
+			{
+				enemy->ch.counter = 0;
+				enemy->ch.frame = 0;
+				set_state_enemy(enemy, ENEMY_STATE_MOVE);
+			}
+		}
+		else if (enemy->state == ENEMY_STATE_STOP)
+		{
+			if (++enemy->state_counter >= ENEMY_STOP_TRESHOLD)
+			{
+				set_state_enemy(enemy, ENEMY_STATE_MOVE);
+			}
+		}
+		else if (enemy->state == ENEMY_STATE_EXPLODE)
+		{
+			if (++enemy->state_counter >= ENEMY_EXPLODE_TRESHOLD)
+			{
+				set_state_enemy(enemy, ENEMY_STATE_DEAD);
+			}
+		}
+		else if (enemy->state == ENEMY_STATE_EGG || enemy->state == ENEMY_STATE_HATCH)
+		{
+			move_egg_enemy(enemy);
+		}
+		enemy = (struct enemy *) enemy->ch.obj.next;
 	}
 }
 

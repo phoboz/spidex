@@ -39,8 +39,10 @@ void move_bullet(
 	struct bullet *bullet
 	);
 
-void draw_bullet(
-	struct bullet *bullet
-	);
+void move_bullets(void);
+
+void draw_bullets(void);
+
+extern struct object *bullet_list;
 
 #endif

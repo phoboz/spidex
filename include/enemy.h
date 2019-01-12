@@ -95,10 +95,7 @@ void set_state_enemy(
 	unsigned int state
 	);
 
-void move_enemy(
-	struct enemy *enemy,
-	struct object *obj
-	);
+void move_enemies(void);
 
 unsigned int hit_enemy(
 	struct enemy *enemy

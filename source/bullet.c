@@ -3,9 +3,12 @@
 // ***************************************************************************
 
 #include <vectrex.h>
+#include "draw.h"
 #include "bullet.h"
 
 // ---------------------------------------------------------------------------
+
+struct object *bullet_list = 0;
 
 void init_bullet(
 	struct bullet *bullet,
@@ -19,7 +22,7 @@ void init_bullet(
 	const signed char* const *shapes
 	)
 {
-	init_object(&bullet->obj, y, x, h, w, scale, shapes[0], 0);
+	init_object(&bullet->obj, y, x, h, w, scale, shapes[0], &bullet_list);
 
 	switch (dir) {
 		case DIR_DOWN:
@@ -76,7 +79,7 @@ void deinit_bullet(
 	struct bullet *bullet
 	)
 {
-	deinit_object(&bullet->obj, 0);
+	deinit_object(&bullet->obj, &bullet_list);
 }
 
 void move_bullet(
@@ -105,12 +108,55 @@ void move_bullet(
 	}
 }
 
-void draw_bullet(
-	struct bullet *bullet
-	)
+void move_bullets(void)
 {
-	bullet->obj.shape = bullet->shapes[bullet->frame];
-	draw_object(&bullet->obj);
+	struct bullet *bullet;
+	struct bullet *rem_bullet;
+
+	bullet = (struct bullet *) bullet_list;
+	while (bullet != 0)
+	{
+		rem_bullet = 0;
+
+		if (++bullet->frame >= BULLET_NUM_FRAMES)
+		{
+			bullet->frame = 0;
+		}
+
+		bullet->obj.y += bullet->dy;
+		bullet->obj.x += bullet->dx;
+
+		if (bullet->obj.y < BULLET_MIN_Y || bullet->obj.y > BULLET_MAX_Y ||
+			bullet->obj.x < BULLET_MIN_X || bullet->obj.x > BULLET_MAX_X)
+		{
+			rem_bullet = bullet;
+		}
+
+		bullet = (struct bullet *) bullet->obj.next;
+
+		if (rem_bullet)
+		{
+			deinit_bullet(rem_bullet);
+		}
+	}
+}
+
+void draw_bullets(void)
+{
+	struct bullet *bullet;
+
+	bullet = (struct bullet *) bullet_list;
+	while (bullet != 0)
+	{
+		draw_synced_list_c(
+			bullet->shapes[bullet->frame],
+			bullet->obj.y,
+			bullet->obj.x,
+			OBJECT_MOVE_SCALE,
+			bullet->obj.scale
+			);
+		bullet = (struct bullet *) bullet->obj.next;
+	}
 }
 
 // ***************************************************************************

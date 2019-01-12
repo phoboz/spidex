@@ -4,12 +4,15 @@
 
 #include <vectrex.h>
 #include "input.h"
+#include "draw.h"
 #include "player.h"
 
 // ---------------------------------------------------------------------------
 
 extern const signed char* const spider[];
 extern const signed char* const star[];
+
+struct player player_1;
 
 void init_player(
 	struct player *player,
@@ -184,35 +187,32 @@ unsigned int fire_bullet_player(
 	return fire;
 }
 
-unsigned int move_single_joystick_player(
-	struct player *player
-	)
+unsigned int move_single_joystick_player_1(void)
 {
-	unsigned int i;
 	unsigned int fire_trigger, move_trigger;
 	unsigned int dir;
 	struct wall *wall;
 	unsigned int hit_wall = 0;
 	unsigned int fire = 0;
 
-	if (player->ch.obj.active)
+	if (player_1.ch.obj.active)
 	{
-		if (player->state == PLAYER_STATE_NORMAL || player->state == PLAYER_STATE_INVINSIBLE)
+		if (player_1.state == PLAYER_STATE_NORMAL || player_1.state == PLAYER_STATE_INVINSIBLE)
 		{
 			if (!get_fire_input_1())
 			{
 				move_trigger = get_dir_input_1(&dir);
 				if (move_trigger)
 				{
-					set_walk_dir_player(player, dir);
-					animate_character(&player->ch);
+					set_walk_dir_player(&player_1, dir);
+					animate_character(&player_1.ch);
 
 					wall = (struct wall *) wall_list;
 					while (wall != 0)
 					{
-						if (quick_check_wall_character(&player->ch, wall))
+						if (quick_check_wall_character(&player_1.ch, wall))
 						{
-							hit_wall = hit_wall_character(&player->ch, wall);
+							hit_wall = hit_wall_character(&player_1.ch, wall);
 							if (hit_wall)
 							{
 								break;
@@ -223,98 +223,90 @@ unsigned int move_single_joystick_player(
 
 					if (!hit_wall)
 					{
-						move_character(&player->ch);
+						move_character(&player_1.ch);
 					}
 				}
 			}
 			else
 			{
 				fire_trigger = get_dir_input_1(&dir);
-				fire = fire_bullet_player(player, dir, fire_trigger);
+				fire = fire_bullet_player(&player_1, dir, fire_trigger);
 			}
 		}
-		else if (player->state == PLAYER_STATE_DYING)
+		else if (player_1.state == PLAYER_STATE_DYING)
 		{
-			set_fire_dir_player(player, player->fire_dir + 1);
-			if (++player->anim_counter >= PLAYER_SCALE_TRESHOLD)
+			set_fire_dir_player(&player_1, player_1.fire_dir + 1);
+			if (++player_1.anim_counter >= PLAYER_SCALE_TRESHOLD)
 			{
-				player->anim_counter = 0;
-				if (--player->ch.obj.scale < 1)
+				player_1.anim_counter = 0;
+				if (--player_1.ch.obj.scale < 1)
 				{
-					player->ch.obj.scale = 1;
+					player_1.ch.obj.scale = 1;
 				}
 			}
 
-			if (++player->state_counter >= PLAYER_DYING_TRESHOLD)
+			if (++player_1.state_counter >= PLAYER_DYING_TRESHOLD)
 			{
-				player->ch.obj.scale = SPIDER_SCALE;
-				set_state_player(player, PLAYER_STATE_DEAD);
+				player_1.ch.obj.scale = SPIDER_SCALE;
+				set_state_player(&player_1, PLAYER_STATE_DEAD);
 			}
 		}
 		
-		if (player->state == PLAYER_STATE_INVINSIBLE)
+		if (player_1.state == PLAYER_STATE_INVINSIBLE)
 		{
-			if (++player->state_counter >= PLAYER_INVINSIBLE_TRESHOLD)
+			if (++player_1.state_counter >= PLAYER_INVINSIBLE_TRESHOLD)
 			{
-				set_state_player(player, PLAYER_STATE_NORMAL);
+				set_state_player(&player_1, PLAYER_STATE_NORMAL);
 			}
 		}
 
-		if (player->state_changed)
+		if (player_1.state_changed)
 		{
-			player->state_changed = 0;
+			player_1.state_changed = 0;
 		}
 	}
-	else if (player->state == PLAYER_STATE_DEAD)
+	else if (player_1.state == PLAYER_STATE_DEAD)
 	{
-		if (player->num_lives > 0)
+		if (player_1.num_lives > 0)
 		{
-			if (++player->state_counter >= PLAYER_DEAD_TRESHOLD)
+			if (++player_1.state_counter >= PLAYER_DEAD_TRESHOLD)
 			{
-				player->num_lives--;
-				set_state_player(player, PLAYER_STATE_INVINSIBLE);
-				player->ch.obj.y = 0;
-				player->ch.obj.x = 0;
-				player->ch.obj.active = 1;
+				player_1.num_lives--;
+				set_state_player(&player_1, PLAYER_STATE_INVINSIBLE);
+				player_1.ch.obj.y = 0;
+				player_1.ch.obj.x = 0;
+				player_1.ch.obj.active = 1;
 			}
 		}
-	}
-
-	for (i = 0; i < PLAYER_MAX_BULLETS; i++)
-	{
-		move_bullet(&player->bullet[i]);
 	}
 
 	return fire;
 }
 
-unsigned int move_dual_joystick_player(
-	struct player *player
-	)
+unsigned int move_dual_joystick_player_1(void)
 {
-	unsigned int i;
 	unsigned int fire_trigger, move_trigger;
 	unsigned int dir;
 	struct wall *wall;
 	unsigned int hit_wall = 0;
 	unsigned int fire = 0;
 
-	if (player->ch.obj.active)
+	if (player_1.ch.obj.active)
 	{
-		if (player->state == PLAYER_STATE_NORMAL || player->state == PLAYER_STATE_INVINSIBLE)
+		if (player_1.state == PLAYER_STATE_NORMAL || player_1.state == PLAYER_STATE_INVINSIBLE)
 		{
 			move_trigger = get_dir_input_1(&dir);
 			if (move_trigger)
 			{
-				set_walk_dir_player(player, dir);
-				animate_character(&player->ch);
+				set_walk_dir_player(&player_1, dir);
+				animate_character(&player_1.ch);
 
 				wall = (struct wall *) wall_list;
 				while (wall != 0)
 				{
-					if (quick_check_wall_character(&player->ch, wall))
+					if (quick_check_wall_character(&player_1.ch, wall))
 					{
-						hit_wall = hit_wall_character(&player->ch, wall);
+						hit_wall = hit_wall_character(&player_1.ch, wall);
 						if (hit_wall)
 						{
 							break;
@@ -325,63 +317,58 @@ unsigned int move_dual_joystick_player(
 
 				if (!hit_wall)
 				{
-					move_character(&player->ch);
+					move_character(&player_1.ch);
 				}
 			}
 
 			fire_trigger = get_dir_input_2(&dir);
-			fire = fire_bullet_player(player, dir, fire_trigger);
+			fire = fire_bullet_player(&player_1, dir, fire_trigger);
 		}
-		else if (player->state == PLAYER_STATE_DYING)
+		else if (player_1.state == PLAYER_STATE_DYING)
 		{
-			set_fire_dir_player(player, player->fire_dir + 1);
-			if (++player->anim_counter >= PLAYER_SCALE_TRESHOLD)
+			set_fire_dir_player(&player_1, player_1.fire_dir + 1);
+			if (++player_1.anim_counter >= PLAYER_SCALE_TRESHOLD)
 			{
-				player->anim_counter = 0;
-				if (--player->ch.obj.scale < 1)
+				player_1.anim_counter = 0;
+				if (--player_1.ch.obj.scale < 1)
 				{
-					player->ch.obj.scale = 1;
+					player_1.ch.obj.scale = 1;
 				}
 			}
 
-			if (++player->state_counter >= PLAYER_DYING_TRESHOLD)
+			if (++player_1.state_counter >= PLAYER_DYING_TRESHOLD)
 			{
-				player->ch.obj.scale = SPIDER_SCALE;
-				set_state_player(player, PLAYER_STATE_DEAD);
+				player_1.ch.obj.scale = SPIDER_SCALE;
+				set_state_player(&player_1, PLAYER_STATE_DEAD);
 			}
 		}
 		
-		if (player->state == PLAYER_STATE_INVINSIBLE)
+		if (player_1.state == PLAYER_STATE_INVINSIBLE)
 		{
-			if (++player->state_counter >= PLAYER_INVINSIBLE_TRESHOLD)
+			if (++player_1.state_counter >= PLAYER_INVINSIBLE_TRESHOLD)
 			{
-				set_state_player(player, PLAYER_STATE_NORMAL);
+				set_state_player(&player_1, PLAYER_STATE_NORMAL);
 			}
 		}
 
-		if (player->state_changed)
+		if (player_1.state_changed)
 		{
-			player->state_changed = 0;
+			player_1.state_changed = 0;
 		}
 	}
-	else if (player->state == PLAYER_STATE_DEAD)
+	else if (player_1.state == PLAYER_STATE_DEAD)
 	{
-		if (player->num_lives > 0)
+		if (player_1.num_lives > 0)
 		{
-			if (++player->state_counter >= PLAYER_DEAD_TRESHOLD)
+			if (++player_1.state_counter >= PLAYER_DEAD_TRESHOLD)
 			{
-				player->num_lives--;
-				set_state_player(player, PLAYER_STATE_INVINSIBLE);
-				player->ch.obj.y = 0;
-				player->ch.obj.x = 0;
-				player->ch.obj.active = 1;
+				player_1.num_lives--;
+				set_state_player(&player_1, PLAYER_STATE_INVINSIBLE);
+				player_1.ch.obj.y = 0;
+				player_1.ch.obj.x = 0;
+				player_1.ch.obj.active = 1;
 			}
 		}
-	}
-
-	for (i = 0; i < PLAYER_MAX_BULLETS; i++)
-	{
-		move_bullet(&player->bullet[i]);
 	}
 
 	return fire;
@@ -450,31 +437,34 @@ void interaction_food_player(
 	}
 }
 
-void draw_player(
-	struct player *player
-	)
+void draw_player_1(void)
 {
-	unsigned int i;
-
-	if (player->ch.obj.active)
+	if (player_1.ch.obj.active)
 	{
-		if (player->state == PLAYER_STATE_INVINSIBLE)
+		if (player_1.state == PLAYER_STATE_INVINSIBLE)
 		{
-			if (++player->anim_counter >= PLAYER_BLINK_TRESHOLD)
+			if (++player_1.anim_counter >= PLAYER_BLINK_TRESHOLD)
 			{
-				player->anim_counter = 0;
-				draw_character(&player->ch);
+				player_1.anim_counter = 0;
+				draw_synced_list_c(
+					player_1.ch.shapes[player_1.ch.base_frame + player_1.ch.frame],
+					player_1.ch.obj.y,
+					player_1.ch.obj.x,
+					OBJECT_MOVE_SCALE,
+					player_1.ch.obj.scale
+					);
 			}
 		}
-		else if (player->state != PLAYER_STATE_DEAD)
+		else if (player_1.state != PLAYER_STATE_DEAD)
 		{
-			draw_character(&player->ch);
+			draw_synced_list_c(
+				player_1.ch.shapes[player_1.ch.base_frame + player_1.ch.frame],
+				player_1.ch.obj.y,
+				player_1.ch.obj.x,
+				OBJECT_MOVE_SCALE,
+				player_1.ch.obj.scale
+				);
 		}
-	}
-
-	for (i = 0; i < PLAYER_MAX_BULLETS; i++)
-	{
-		draw_bullet(&player->bullet[i]);
 	}
 }
 

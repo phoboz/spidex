@@ -39,7 +39,6 @@ extern const signed char web3[];
 extern const signed char web4[];
 extern const signed char web5[];
 
-struct player player_1;
 struct wave wave;
 struct enemy enemy[MAX_ENEMIES];
 struct food food[MAX_FOOD];
@@ -95,16 +94,6 @@ void clear_walls(void)
 	}
 }
 
-void move_enemies(void)
-{
-	unsigned int i;
-
-	for (i = 0; i < MAX_ENEMIES; i++)
-	{
-		move_enemy(&enemy[i], &player_1.ch.obj);
-	}
-}
-
 signed int new_frame(void)
 {
 	if (Vec_Music_Flag)
@@ -138,9 +127,6 @@ int main(void)
 	init_random(5, 27, 3, 19);
 	first_init();
 	init_player(&player_1, 0, 0);
-	//clear_enemies();
-	//clear_foods();
-	//clear_walls();
 	init_wave(&wave);
 ////DEBUG
 	//wave.wave_index = 2;
@@ -160,12 +146,13 @@ int main(void)
 		{
 			if (dual_joystick)
 			{
-				fire_status = move_dual_joystick_player(&player_1);
+				fire_status = move_dual_joystick_player_1();
 			}
 			else
 			{
-				fire_status = move_single_joystick_player(&player_1);
+				fire_status = move_single_joystick_player_1();
 			}
+			move_bullets();
 			move_enemies();
 			move_food();
 
@@ -278,7 +265,8 @@ int main(void)
 		draw_walls();
 
 		Intensity_7F();
-		draw_player(&player_1);
+		draw_player_1();
+		draw_bullets();
 		draw_enemies();
 		draw_food();
 	}
