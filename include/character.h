@@ -12,6 +12,7 @@
 struct character
 {
 	struct object obj;
+	unsigned int wall_mode;
 	signed int move_speed;
 	unsigned int dir;
 	signed int dy, dx;
@@ -31,6 +32,7 @@ void init_character(
 	signed int h,
 	signed int w,
 	unsigned int scale,
+	unsigned int wall_mode,
 	signed int move_speed,
 	unsigned int treshold,
 	unsigned int max_frames,
@@ -52,6 +54,16 @@ unsigned int move_character(
 
 unsigned int retreat_character(
 	struct character *ch
+	);
+
+unsigned int quick_check_wall_character(
+	struct character *ch,
+	struct wall *wall
+	);
+
+unsigned int hit_wall_character(
+	struct character *ch,
+	struct wall *wall
 	);
 
 void draw_character(

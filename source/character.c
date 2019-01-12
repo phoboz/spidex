@@ -15,6 +15,7 @@ void init_character(
 	signed int h,
 	signed int w,
 	unsigned int scale,
+	unsigned int wall_mode,
 	signed int move_speed,
 	unsigned int treshold,
 	unsigned int max_frames,
@@ -24,6 +25,7 @@ void init_character(
 	init_object(&ch->obj, y, x, h, w, scale, shapes[0]);
 
 	ch->dir 			= DIR_DOWN;
+	ch->wall_mode		= wall_mode;
 	ch->move_speed	= move_speed;
 
 	ch->dy = 0;
@@ -185,6 +187,202 @@ unsigned int retreat_character(
 	}
 
 	return stopped;
+}
+
+unsigned int quick_check_wall_character(
+	struct character *ch,
+	struct wall *wall
+	)
+{
+	signed int y1, x1, y2, x2;
+	signed int y, x;
+	signed int h_2, w_2;
+	unsigned int result = 0;
+
+	if (wall->active)
+	{
+		y = ch->obj.y + ch->dy;
+		x = ch->obj.x + ch->dx;
+
+		h_2 = ch->obj.h_2;
+		w_2 = ch->obj.w_2;
+
+		y1 = wall->y1;
+		x1 = wall->x1;
+
+		y2 = wall->y2;
+		x2 = wall->x2;
+
+		if (y1 == y2 && y >= y1 - h_2 && y <= y1 + h_2)
+		{
+			if (x >= x1 && x <= x2)
+			{
+				result = 1;
+			} 
+		}
+		else if (x1 == x2 && x >= x1 - w_2 && x <= x1 + w_2)
+		{
+			if (y >= y1 && y <= y2)
+			{
+				result = 1;
+			}
+		}
+		else if (y > y1 - h_2 && y < y2 + h_2 && x > x1 - w_2 && x < x2 + w_2)
+		{
+			result = 1;
+		}
+	}
+
+	return result;
+}
+
+unsigned int hit_wall_character(
+	struct character *ch,
+	struct wall *wall
+	)
+{
+	signed int y, x;
+	signed int h_2, w_2;
+	unsigned int result = 0;
+
+	if (ch->wall_mode == WALL_MODE_PASS_IN)
+	{
+		h_2 = ch->obj.h_2;
+		w_2 = ch->obj.w_2;
+
+		if (ch->dy != 0 && ch->dx != 0)
+		{
+			y = ch->obj.y + ch->dy;
+			x = ch->obj.x;
+
+			if ((unsigned int) abs(y) > (unsigned int) abs(ch->obj.y))
+			{
+				if (check_point_on_wall(wall, y - h_2, x - w_2) ||
+					check_point_on_wall(wall, y - h_2, x + w_2) ||
+					check_point_on_wall(wall, y + h_2, x + w_2) ||
+					check_point_on_wall(wall, y + h_2, x - w_2))
+				{
+					result = 1;
+				}
+			}
+	
+			y = ch->obj.y;
+			x = ch->obj.x + ch->dx;
+
+			if ((unsigned int) abs(x) > (unsigned int) abs(ch->obj.x))
+			{
+				if (check_point_on_wall(wall, y - h_2, x - w_2) ||
+					check_point_on_wall(wall, y - h_2, x + w_2) ||
+					check_point_on_wall(wall, y + h_2, x + w_2) ||
+					check_point_on_wall(wall, y + h_2, x - w_2))
+				{
+					result = 1;
+				}
+			}
+		}
+		else if (ch->dy != 0)
+		{
+			y = ch->obj.y + ch->dy;
+			x = ch->obj.x;
+
+			if ((unsigned int) abs(y) > (unsigned int) abs(ch->obj.y))
+			{
+				if (check_point_on_wall(wall, y - h_2, x - w_2) ||
+					check_point_on_wall(wall, y - h_2, x + w_2) ||
+					check_point_on_wall(wall, y + h_2, x + w_2) ||
+					check_point_on_wall(wall, y + h_2, x - w_2))
+				{
+					result = 1;
+				}
+			}
+		}
+		else if (ch->dx != 0)
+		{
+			y = ch->obj.y;
+			x = ch->obj.x + ch->dx;
+
+			if ((unsigned int) abs(x) > (unsigned int) abs(ch->obj.x))
+			{
+				if (check_point_on_wall(wall, y - h_2, x - w_2) ||
+					check_point_on_wall(wall, y - h_2, x + w_2) ||
+					check_point_on_wall(wall, y + h_2, x + w_2) ||
+					check_point_on_wall(wall, y + h_2, x - w_2))
+				{
+					result = 1;
+				}
+			}
+		}
+	}
+	else if (ch->wall_mode == WALL_MODE_PASS_OUT)
+	{
+		h_2 = ch->obj.h_2;
+		w_2 = ch->obj.w_2;
+
+		if (ch->dy != 0 && ch->dx != 0)
+		{
+			y = ch->obj.y + ch->dy;
+			x = ch->obj.x;
+
+			if ((unsigned int) abs(y) < (unsigned int) abs(ch->obj.y))
+			{
+				if (check_point_on_wall(wall, y - h_2, x - w_2) ||
+					check_point_on_wall(wall, y - h_2, x + w_2) ||
+					check_point_on_wall(wall, y + h_2, x + w_2) ||
+					check_point_on_wall(wall, y + h_2, x - w_2))
+				{
+					result = 1;
+				}
+			}
+	
+			y = ch->obj.y;
+			x = ch->obj.x + ch->dx;
+
+			if ((unsigned int) abs(x) < (unsigned int) abs(ch->obj.x))
+			{
+				if (check_point_on_wall(wall, y - h_2, x - w_2) ||
+					check_point_on_wall(wall, y - h_2, x + w_2) ||
+					check_point_on_wall(wall, y + h_2, x + w_2) ||
+					check_point_on_wall(wall, y + h_2, x - w_2))
+				{
+					result = 1;
+				}
+			}
+		}
+		else if (ch->dy != 0)
+		{
+			y = ch->obj.y + ch->dy;
+			x = ch->obj.x;
+
+			if ((unsigned int) abs(y) < (unsigned int) abs(ch->obj.y))
+			{
+				if (check_point_on_wall(wall, y - h_2, x - w_2) ||
+					check_point_on_wall(wall, y - h_2, x + w_2) ||
+					check_point_on_wall(wall, y + h_2, x + w_2) ||
+					check_point_on_wall(wall, y + h_2, x - w_2))
+				{
+					result = 1;
+				}
+			}
+		}
+		else if (ch->dx != 0)
+		{
+			y = ch->obj.y;
+			x = ch->obj.x + ch->dx;
+
+			if ((unsigned int) abs(x) < (unsigned int) abs(ch->obj.x))
+			{
+				if (check_point_on_wall(wall, y - h_2, x - w_2) ||
+					check_point_on_wall(wall, y - h_2, x + w_2) ||
+					check_point_on_wall(wall, y + h_2, x + w_2) ||
+					check_point_on_wall(wall, y + h_2, x - w_2))
+				{
+					result = 1;
+				}
+			}
+		}
+	}
+
+	return result;
 }
 
 void draw_character(

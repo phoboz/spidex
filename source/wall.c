@@ -4,7 +4,6 @@
 
 #include <vectrex.h>
 #include "generic.h"
-#include "object.h"
 #include "draw.h"
 #include "wall.h"
 
@@ -67,47 +66,6 @@ void deinit_wall(
 	wall->active = 0;
 }
 
-unsigned int quick_check_wall(
-	struct wall *wall,
-	signed int y,
-	signed int x
-	)
-{
-	signed int y1, x1, y2, x2;
-	unsigned int result = 0;
-
-	if (wall->active)
-	{
-		y1 = wall->y1;
-		x1 = wall->x1;
-
-		y2 = wall->y2;
-		x2 = wall->x2;
-
-		if (y1 == y2 && y >= y1 - WALL_QCHECK_DELTA && y <= y1 + WALL_QCHECK_DELTA)
-		{
-			if (x >= x1 && x <= x2)
-			{
-				result = 1;
-			} 
-		}
-		else if (x1 == x2 && x >= x1 - WALL_QCHECK_DELTA && x <= x1 + WALL_QCHECK_DELTA)
-		{
-			if (y >= y1 && y <= y2)
-			{
-				result = 1;
-			}
-		}
-		else if (y > y1 - WALL_QCHECK_DELTA && y < y2 + WALL_QCHECK_DELTA &&
-				x > x1 - WALL_QCHECK_DELTA && x < x2 + WALL_QCHECK_DELTA)
-		{
-			result = 1;
-		}
-	}
-
-	return result;
-}
-
 unsigned int check_point_on_wall(
 	struct wall *wall,
 	signed int y,
@@ -151,151 +109,6 @@ unsigned int check_point_on_wall(
 				{
 					result = 1;
 					break;
-				}
-			}
-		}
-	}
-
-	return result;
-}
-
-unsigned int object_hit_wall(
-	struct wall *wall,
-	unsigned int mode,
-	struct object *obj,
-	signed int dy,
-	signed int dx
-	)
-{
-	signed int y, x;
-	unsigned int result = 0;
-
-	if (mode == WALL_MODE_PASS_IN)
-	{
-		if (dy != 0 && dx != 0)
-		{
-			y = obj->y + dy;
-			x = obj->x;
-
-			if ((unsigned int) abs(y) > (unsigned int) abs(obj->y))
-			{
-				if (check_point_on_wall(wall, y - obj->h_2, x - obj->w_2) ||
-					check_point_on_wall(wall, y - obj->h_2, x + obj->w_2) ||
-					check_point_on_wall(wall, y + obj->h_2, x + obj->w_2) ||
-					check_point_on_wall(wall, y + obj->h_2, x - obj->w_2))
-				{
-					result = 1;
-				}
-			}
-	
-			y = obj->y;
-			x = obj->x + dx;
-
-			if ((unsigned int) abs(x) > (unsigned int) abs(obj->x))
-			{
-				if (check_point_on_wall(wall, y - obj->h_2, x - obj->w_2) ||
-					check_point_on_wall(wall, y - obj->h_2, x + obj->w_2) ||
-					check_point_on_wall(wall, y + obj->h_2, x + obj->w_2) ||
-					check_point_on_wall(wall, y + obj->h_2, x - obj->w_2))
-				{
-					result = 1;
-				}
-			}
-		}
-		else if (dy != 0)
-		{
-			y = obj->y + dy;
-			x = obj->x;
-
-			if ((unsigned int) abs(y) > (unsigned int) abs(obj->y))
-			{
-				if (check_point_on_wall(wall, y - obj->h_2, x - obj->w_2) ||
-					check_point_on_wall(wall, y - obj->h_2, x + obj->w_2) ||
-					check_point_on_wall(wall, y + obj->h_2, x + obj->w_2) ||
-					check_point_on_wall(wall, y + obj->h_2, x - obj->w_2))
-				{
-					result = 1;
-				}
-			}
-		}
-		else if (dx != 0)
-		{
-			y = obj->y;
-			x = obj->x + dx;
-
-			if ((unsigned int) abs(x) > (unsigned int) abs(obj->x))
-			{
-				if (check_point_on_wall(wall, y - obj->h_2, x - obj->w_2) ||
-					check_point_on_wall(wall, y - obj->h_2, x + obj->w_2) ||
-					check_point_on_wall(wall, y + obj->h_2, x + obj->w_2) ||
-					check_point_on_wall(wall, y + obj->h_2, x - obj->w_2))
-				{
-					result = 1;
-				}
-			}
-		}
-	}
-	else if (mode == WALL_MODE_PASS_OUT)
-	{
-		if (dy != 0 && dx != 0)
-		{
-			y = obj->y + dy;
-			x = obj->x;
-
-			if ((unsigned int) abs(y) < (unsigned int) abs(obj->y))
-			{
-				if (check_point_on_wall(wall, y - obj->h_2, x - obj->w_2) ||
-					check_point_on_wall(wall, y - obj->h_2, x + obj->w_2) ||
-					check_point_on_wall(wall, y + obj->h_2, x + obj->w_2) ||
-					check_point_on_wall(wall, y + obj->h_2, x - obj->w_2))
-				{
-					result = 1;
-				}
-			}
-	
-			y = obj->y;
-			x = obj->x + dx;
-
-			if ((unsigned int) abs(x) < (unsigned int) abs(obj->x))
-			{
-				if (check_point_on_wall(wall, y - obj->h_2, x - obj->w_2) ||
-					check_point_on_wall(wall, y - obj->h_2, x + obj->w_2) ||
-					check_point_on_wall(wall, y + obj->h_2, x + obj->w_2) ||
-					check_point_on_wall(wall, y + obj->h_2, x - obj->w_2))
-				{
-					result = 1;
-				}
-			}
-		}
-		else if (dy != 0)
-		{
-			y = obj->y + dy;
-			x = obj->x;
-
-			if ((unsigned int) abs(y) < (unsigned int) abs(obj->y))
-			{
-				if (check_point_on_wall(wall, y - obj->h_2, x - obj->w_2) ||
-					check_point_on_wall(wall, y - obj->h_2, x + obj->w_2) ||
-					check_point_on_wall(wall, y + obj->h_2, x + obj->w_2) ||
-					check_point_on_wall(wall, y + obj->h_2, x - obj->w_2))
-				{
-					result = 1;
-				}
-			}
-		}
-		else if (dx != 0)
-		{
-			y = obj->y;
-			x = obj->x + dx;
-
-			if ((unsigned int) abs(x) < (unsigned int) abs(obj->x))
-			{
-				if (check_point_on_wall(wall, y - obj->h_2, x - obj->w_2) ||
-					check_point_on_wall(wall, y - obj->h_2, x + obj->w_2) ||
-					check_point_on_wall(wall, y + obj->h_2, x + obj->w_2) ||
-					check_point_on_wall(wall, y + obj->h_2, x - obj->w_2))
-				{
-					result = 1;
 				}
 			}
 		}

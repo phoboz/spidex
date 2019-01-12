@@ -26,6 +26,7 @@ void init_player(
 		PLAYER_HEIGHT,
 		PLAYER_WIDTH,
 		SPIDER_SCALE,
+		WALL_MODE_PASS_IN,
 		PLAYER_SPEED,
 		PLAYER_ANIM_TRESHOLD,
 		PLAYER_MAX_FRAMES,
@@ -151,15 +152,9 @@ unsigned int move_single_joystick_player(
 
 					for (i = 0; i < num_walls; i++)
 					{
-						if (quick_check_wall(&walls[i], player->ch.obj.y, player->ch.obj.x))
+						if (quick_check_wall_character(&player->ch, &walls[i]))
 						{
-							hit_wall = object_hit_wall(
-								&walls[i],
-								WALL_MODE_PASS_IN,
-								&player->ch.obj,
-								player->ch.dy,
-								player->ch.dx
-								);
+							hit_wall = hit_wall_character(&player->ch, &walls[i]);
 							if (hit_wall)
 							{
 								break;
@@ -258,15 +253,9 @@ unsigned int move_dual_joystick_player(
 
 				for (i = 0; i < num_walls; i++)
 				{
-					if (quick_check_wall(&walls[i], player->ch.obj.y, player->ch.obj.x))
+					if (quick_check_wall_character(&player->ch, &walls[i]))
 					{
-						hit_wall = object_hit_wall(
-							&walls[i],
-							WALL_MODE_PASS_IN,
-							&player->ch.obj,
-							player->ch.dy,
-							player->ch.dx
-						);
+						hit_wall = hit_wall_character(&player->ch, &walls[i]);
 						if (hit_wall)
 						{
 							break;

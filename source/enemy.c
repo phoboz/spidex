@@ -46,6 +46,7 @@ void init_enemy(
 		race->h,
 		race->w,
 		race->scale,
+		WALL_MODE_PASS_OUT,
 		race->speed,
 		race->treshold,
 		2,
@@ -198,15 +199,9 @@ static void move_flyer_enemy(
 	{
 		for (i = 0; i < num_walls; i++)
 		{
-			if (quick_check_wall(&walls[i], enemy->ch.obj.y, enemy->ch.obj.x))
+			if (quick_check_wall_character(&enemy->ch, &walls[i]))
 			{
-				hit_wall = object_hit_wall(
-					&walls[i],
-					WALL_MODE_PASS_OUT,
-					&enemy->ch.obj,
-					enemy->ch.dy,
-					enemy->ch.dx
-					);
+				hit_wall = hit_wall_character(&enemy->ch, &walls[i]);
 				if (hit_wall)
 				{
 					break;
@@ -294,15 +289,9 @@ static void move_homer_enemy(
 
 	for (i = 0; i < num_walls; i++)
 	{
-		if (quick_check_wall(&walls[i], enemy->ch.obj.y, enemy->ch.obj.x))
+		if (quick_check_wall_character(&enemy->ch, &walls[i]))
 		{
-			hit_wall = object_hit_wall(
-				&walls[i],
-				WALL_MODE_PASS_OUT,
-				&enemy->ch.obj,
-				enemy->ch.dy,
-				enemy->ch.dx
-				);
+			hit_wall = hit_wall_character(&enemy->ch, &walls[i]);
 			if (hit_wall)
 			{
 				break;

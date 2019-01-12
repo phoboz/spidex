@@ -2,6 +2,7 @@
 #define _ENEMY_H
 
 #include "character.h"
+#include "wall.h"
 
 #define ENEMY_STATE_SPAWN	0
 #define ENEMY_STATE_EGG	1
