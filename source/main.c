@@ -288,7 +288,7 @@ int main(void)
 
 		print_3digit_number(127, -16, player.score);
 
-		Intensity_3F();
+		Intensity_a(0x2f);
 		draw_synced_list_c_nm(web1, 0x80/10-1);
 		draw_synced_list_c_nm(web2, 0x80/3-1);
 		draw_synced_list_c_nm1(web3, 0x80/8-1, 0x80);
