@@ -142,194 +142,14 @@ static void set_random_dir_enemy(
 	}
 }
 
-static void move_random_enemy(
-	struct enemy *enemy
-	)
-{
-	animate_character(&enemy->ch);
-
-	if (++enemy->path_counter >= enemy->num_steps)
-	{
-		enemy->path_counter = 0;
-		set_random_dir_enemy(enemy);
-	}
-
-	if (move_character(&enemy->ch))
-	{
-		set_random_dir_enemy(enemy);
-	}
-}
-
-static void move_flyer_enemy(
-	struct enemy *enemy
-	)
-{
-	struct wall *wall;
-	unsigned int hit_wall = 0;
-
-	animate_character(&enemy->ch);
-
-	if (++enemy->path_counter >= enemy->path[enemy->step_counter].treshold)
-	{
-		enemy->path_counter = 0;
-		if (++enemy->step_counter >= enemy->num_steps)
-		{
-			enemy->step_counter = 0;
-		}
-
-		set_dir_character(&enemy->ch, enemy->path[enemy->step_counter].dir);
-	}
-
-	if (enemy->race->special == ENEMY_SPECIAL_EXPLODE)
-	{
-		wall = (struct wall *) wall_list;
-		while (wall != 0)
-		{
-			if (quick_check_wall_character(&enemy->ch, wall))
-			{
-				hit_wall = hit_wall_character(&enemy->ch, wall);
-				if (hit_wall)
-				{
-					break;
-				}
-			}
-			wall = (struct wall *) wall->obj.next;
-		}
-
-		if (!hit_wall)
-		{
-			animate_character(&enemy->ch);
-			if (move_character(&enemy->ch))
-			{
-				if (++enemy->step_counter >= enemy->num_steps)
-				{
-					enemy->step_counter = 0;
-				}
-				set_dir_character(&enemy->ch, enemy->path[enemy->step_counter].dir);
-			}
-		}
-		else
-		{
-			set_state_enemy(enemy, ENEMY_STATE_EXPLODE);
-		}
-	}
-	else
-	{
-		if (move_character(&enemy->ch))
-		{
-			if (++enemy->step_counter >= enemy->num_steps)
-			{
-				enemy->step_counter = 0;
-			}
-			set_dir_character(&enemy->ch, enemy->path[enemy->step_counter].dir);
-		}
-	}
-}
-
-static void move_homer_enemy(
-	struct enemy *enemy
-	)
-{
-	signed int src_y, src_x;
-	signed int dest_y, dest_x;
-	struct wall *wall;
-	unsigned int hit_wall = 0;
-
-	src_y = enemy->ch.obj.y;
-	src_x = enemy->ch.obj.x;
-
-	dest_y = player_1.ch.obj.y;
-	dest_x = player_1.ch.obj.x;
-
-	if (src_y < dest_y && src_x < dest_x)
-	{
-		set_dir_character(&enemy->ch, DIR_UP_RIGHT);
-	}
-	else if (src_y < dest_y && src_x == dest_x)
-	{
-		set_dir_character(&enemy->ch, DIR_UP);
-	}
-	else if (src_y < dest_y && src_x > dest_x)
-	{
-		set_dir_character(&enemy->ch, DIR_UP_LEFT);
-	}
-	else if (src_y == dest_y && src_x < dest_x)
-	{
-		set_dir_character(&enemy->ch, DIR_RIGHT);
-	}
-	else if (src_y == dest_y && src_x > dest_x)
-	{
-		set_dir_character(&enemy->ch, DIR_LEFT);
-	}
-	else if (src_y > dest_y && src_x < dest_x)
-	{
-		set_dir_character(&enemy->ch, DIR_DOWN_RIGHT);
-	}
-	else if (src_y > dest_y && src_x == dest_x)
-	{
-		set_dir_character(&enemy->ch, DIR_DOWN);
-	}
-	else if (src_y > dest_y && src_x > dest_x)
-	{
-		set_dir_character(&enemy->ch, DIR_DOWN_LEFT);
-	}
-
-	wall = (struct wall *) wall_list;
-	while (wall != 0)
-	{
-		if (quick_check_wall_character(&enemy->ch, wall))
-		{
-			hit_wall = hit_wall_character(&enemy->ch, wall);
-			if (hit_wall)
-			{
-				break;
-			}
-		}
-		wall = (struct wall *) wall->obj.next;
-	}
-
-	if (!hit_wall)
-	{
-		animate_character(&enemy->ch);
-		move_character(&enemy->ch);
-	}
-	else
-	{
-		if (enemy->race->special == ENEMY_SPECIAL_EXPLODE)
-		{
-			set_state_enemy(enemy, ENEMY_STATE_EXPLODE);
-		}
-		else
-		{
-			set_state_enemy(enemy, ENEMY_STATE_STOP);
-		}
-	}
-}
-
-static void move_egg_enemy(
-	struct enemy *enemy
-	)
-{
-	if (enemy->state == ENEMY_STATE_EGG)
-	{
-		if (++enemy->state_counter >= ENEMY_EGG_TRESHOLD)
-		{
-			set_state_enemy(enemy, ENEMY_STATE_HATCH);
-		}
-	}
-	else if (enemy->state == ENEMY_STATE_HATCH)
-	{
-		if (++enemy->state_counter >= ENEMY_HATCH_TRESHOLD)
-		{
-			set_state_enemy(enemy, ENEMY_STATE_MOVE);
-		}
-	}
-}
-
 void move_enemies(void)
 {
 	struct enemy *enemy;
+	struct wall *wall;
+	signed int src_y, src_x;
+	signed int dest_y, dest_x;
 	struct enemy *rem_enemy = 0;
+	unsigned int hit_wall = 0;
 
 	enemy = (struct enemy *) enemy_list;
 	while(enemy != 0)
@@ -339,15 +159,149 @@ void move_enemies(void)
 			switch (enemy->race->type)
 			{
 				case ENEMY_TYPE_RANDOM:
-					move_random_enemy(enemy);
+					animate_character(&enemy->ch);
+
+					if (++enemy->path_counter >= enemy->num_steps)
+					{
+						enemy->path_counter = 0;
+						set_random_dir_enemy(enemy);
+					}
+
+					if (move_character(&enemy->ch))
+					{
+						set_random_dir_enemy(enemy);
+					}
 					break;
 
 				case ENEMY_TYPE_FLYER:
-					move_flyer_enemy(enemy);
+					animate_character(&enemy->ch);
+
+					if (++enemy->path_counter >= enemy->path[enemy->step_counter].treshold)
+					{
+						enemy->path_counter = 0;
+						if (++enemy->step_counter >= enemy->num_steps)
+						{
+							enemy->step_counter = 0;
+						}
+
+						set_dir_character(&enemy->ch, enemy->path[enemy->step_counter].dir);
+					}
+
+					if (enemy->race->special == ENEMY_SPECIAL_EXPLODE)
+					{
+						wall = (struct wall *) wall_list;
+						while (wall != 0)
+						{
+							if (quick_check_wall_character(&enemy->ch, wall))
+							{
+								hit_wall = hit_wall_character(&enemy->ch, wall);
+								if (hit_wall)
+								{
+									break;
+								}
+							}
+							wall = (struct wall *) wall->obj.next;
+						}
+
+						if (!hit_wall)
+						{
+							if (move_character(&enemy->ch))
+							{
+								if (++enemy->step_counter >= enemy->num_steps)
+								{
+									enemy->step_counter = 0;
+								}
+								set_dir_character(&enemy->ch, enemy->path[enemy->step_counter].dir);
+							}
+						}
+						else
+						{
+							set_state_enemy(enemy, ENEMY_STATE_EXPLODE);
+						}
+					}
+					else
+					{
+						if (move_character(&enemy->ch))
+						{
+							if (++enemy->step_counter >= enemy->num_steps)
+							{
+								enemy->step_counter = 0;
+							}
+							set_dir_character(&enemy->ch, enemy->path[enemy->step_counter].dir);
+						}
+					}
 					break;
 
 				case ENEMY_TYPE_HOMER:
-					move_homer_enemy(enemy);
+					src_y = enemy->ch.obj.y;
+					src_x = enemy->ch.obj.x;
+
+					dest_y = player_1.ch.obj.y;
+					dest_x = player_1.ch.obj.x;
+
+					if (src_y < dest_y && src_x < dest_x)
+					{
+						set_dir_character(&enemy->ch, DIR_UP_RIGHT);
+					}
+					else if (src_y < dest_y && src_x == dest_x)
+					{
+						set_dir_character(&enemy->ch, DIR_UP);
+					}
+					else if (src_y < dest_y && src_x > dest_x)
+					{
+						set_dir_character(&enemy->ch, DIR_UP_LEFT);
+					}
+					else if (src_y == dest_y && src_x < dest_x)
+					{
+						set_dir_character(&enemy->ch, DIR_RIGHT);
+					}
+					else if (src_y == dest_y && src_x > dest_x)
+					{
+						set_dir_character(&enemy->ch, DIR_LEFT);
+					}
+					else if (src_y > dest_y && src_x < dest_x)
+					{
+						set_dir_character(&enemy->ch, DIR_DOWN_RIGHT);
+					}
+					else if (src_y > dest_y && src_x == dest_x)
+					{
+						set_dir_character(&enemy->ch, DIR_DOWN);
+					}
+					else if (src_y > dest_y && src_x > dest_x)
+					{
+						set_dir_character(&enemy->ch, DIR_DOWN_LEFT);
+					}
+
+					wall = (struct wall *) wall_list;
+					while (wall != 0)
+					{
+						if (quick_check_wall_character(&enemy->ch, wall))
+						{
+							hit_wall = hit_wall_character(&enemy->ch, wall);
+							if (hit_wall)
+							{
+								break;
+							}
+						}
+						wall = (struct wall *) wall->obj.next;
+					}
+
+					if (!hit_wall)
+					{
+						animate_character(&enemy->ch);
+						move_character(&enemy->ch);
+					}
+					else
+					{
+						if (enemy->race->special == ENEMY_SPECIAL_EXPLODE)
+						{
+							set_state_enemy(enemy, ENEMY_STATE_EXPLODE);
+						}
+						else
+						{
+							set_state_enemy(enemy, ENEMY_STATE_STOP);
+						}
+					}
 					break;
 
 				default:
@@ -389,7 +343,20 @@ void move_enemies(void)
 		}
 		else if (enemy->state == ENEMY_STATE_EGG || enemy->state == ENEMY_STATE_HATCH)
 		{
-			move_egg_enemy(enemy);
+			if (enemy->state == ENEMY_STATE_EGG)
+			{
+				if (++enemy->state_counter >= ENEMY_EGG_TRESHOLD)
+				{
+					set_state_enemy(enemy, ENEMY_STATE_HATCH);
+				}
+			}
+			else if (enemy->state == ENEMY_STATE_HATCH)
+			{
+				if (++enemy->state_counter >= ENEMY_HATCH_TRESHOLD)
+				{
+					set_state_enemy(enemy, ENEMY_STATE_MOVE);
+				}
+			}
 		}
 		enemy = (struct enemy *) enemy->ch.obj.next;
 
