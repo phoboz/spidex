@@ -78,11 +78,11 @@ void init_enemy(
 
 	if (enemy->race->special == ENEMY_SPECIAL_EGG)
 	{
-		set_state_enemy(enemy, ENEMY_STATE_EGG);
+		enemy->state = ENEMY_STATE_EGG;
 	}
 	else
 	{
-		set_state_enemy(enemy, ENEMY_STATE_SPAWN);
+		enemy->state = ENEMY_STATE_SPAWN;
 	}
 }
 
@@ -91,15 +91,6 @@ void deinit_enemy(
 	)
 {
 	deinit_object(&enemy->ch.obj, &enemy_list);
-}
-
-void set_state_enemy(
-	struct enemy *enemy,
-	unsigned int state
-	)
-{
-	enemy->state = state;
-	enemy->state_counter = 0;
 }
 
 static void set_random_dir_enemy(
@@ -216,7 +207,8 @@ void move_enemies(void)
 						}
 						else
 						{
-							set_state_enemy(enemy, ENEMY_STATE_EXPLODE);
+							enemy->state = ENEMY_STATE_EXPLODE;
+							enemy->state_counter = 0;
 						}
 					}
 					else
@@ -295,11 +287,13 @@ void move_enemies(void)
 					{
 						if (enemy->race->special == ENEMY_SPECIAL_EXPLODE)
 						{
-							set_state_enemy(enemy, ENEMY_STATE_EXPLODE);
+							enemy->state = ENEMY_STATE_EXPLODE;
+							enemy->state_counter = 0;
 						}
 						else
 						{
-							set_state_enemy(enemy, ENEMY_STATE_STOP);
+							enemy->state = ENEMY_STATE_STOP;
+							enemy->state_counter = 0;
 						}
 					}
 					break;
@@ -323,21 +317,24 @@ void move_enemies(void)
 			{
 				enemy->ch.counter = 0;
 				enemy->ch.frame = 0;
-				set_state_enemy(enemy, ENEMY_STATE_MOVE);
+				enemy->state = ENEMY_STATE_MOVE;
+				enemy->state_counter = 0;
 			}
 		}
 		else if (enemy->state == ENEMY_STATE_STOP)
 		{
 			if (++enemy->state_counter >= ENEMY_STOP_TRESHOLD)
 			{
-				set_state_enemy(enemy, ENEMY_STATE_MOVE);
+				enemy->state = ENEMY_STATE_MOVE;
+				enemy->state_counter = 0;
 			}
 		}
 		else if (enemy->state == ENEMY_STATE_EXPLODE)
 		{
 			if (++enemy->state_counter >= ENEMY_EXPLODE_TRESHOLD)
 			{
-				set_state_enemy(enemy, ENEMY_STATE_DEAD);
+				enemy->state = ENEMY_STATE_DEAD;
+				enemy->state_counter = 0;
 				rem_enemy = enemy;
 			}
 		}
@@ -347,14 +344,16 @@ void move_enemies(void)
 			{
 				if (++enemy->state_counter >= ENEMY_EGG_TRESHOLD)
 				{
-					set_state_enemy(enemy, ENEMY_STATE_HATCH);
+					enemy->state = ENEMY_STATE_HATCH;
+					enemy->state_counter = 0;
 				}
 			}
 			else if (enemy->state == ENEMY_STATE_HATCH)
 			{
 				if (++enemy->state_counter >= ENEMY_HATCH_TRESHOLD)
 				{
-					set_state_enemy(enemy, ENEMY_STATE_MOVE);
+					enemy->state = ENEMY_STATE_MOVE;
+					enemy->state_counter = 0;
 				}
 			}
 		}
@@ -380,11 +379,13 @@ unsigned int hit_enemy(
 		{
 			if (enemy->race->special == ENEMY_SPECIAL_EXPLODE)
 			{
-				set_state_enemy(enemy, ENEMY_STATE_EXPLODE);
+				enemy->state = ENEMY_STATE_EXPLODE;
+				enemy->state_counter = 0;
 			}
 			else
 			{
-				set_state_enemy(enemy, ENEMY_STATE_DEAD);
+				enemy->state = ENEMY_STATE_DEAD;
+				enemy->state_counter = 0;
 				result = 1;
 			}
 		}
@@ -395,7 +396,8 @@ unsigned int hit_enemy(
 		if (enemy->ch.obj.active)
 		{
 			retreat_character(&enemy->ch);
-			set_state_enemy(enemy, ENEMY_STATE_STOP);
+			enemy->state = ENEMY_STATE_STOP;
+			enemy->state_counter = 0;
 		}
 	}
 

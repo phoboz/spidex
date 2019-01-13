@@ -92,11 +92,6 @@ void deinit_enemy(
 	struct enemy *enemy
 	);
 
-void set_state_enemy(
-	struct enemy *enemy,
-	unsigned int state
-	);
-
 void move_enemies(void);
 
 unsigned int hit_enemy(
