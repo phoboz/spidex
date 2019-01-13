@@ -169,16 +169,31 @@ const struct wave_element wave_4[] =
 	{	0,			12,		-36,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BEE,		1,	0	}
 };
 
+const struct wave_element wave_5[] =
+{
+	/*	treshold		y		x		object_type				object_index			path	param */
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		24,					0,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		25,					0,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		26,					0,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		27,					0,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		28,					0,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		29,					0,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		30,					0,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		31,					0,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_DRAGONFLY,	0,	8	}
+};
+
 const struct wave_def waves[] =
 {
 	/*	num_elmts				wave_elmts	*/
 	{	NUM_ELMTS(wave_1),		wave_1	},
 	{	NUM_ELMTS(wave_2),		wave_2	},
 	{	NUM_ELMTS(wave_3),		wave_3	},
-	{	NUM_ELMTS(wave_4),		wave_4	}
+	{	NUM_ELMTS(wave_4),		wave_4	},
+	{	NUM_ELMTS(wave_5),		wave_5	},
 };
 
-static unsigned int max_waves = NUM_ELMTS(waves);
+static unsigned int max_waves = 4;
 
 void init_wave(
 	struct wave *wave

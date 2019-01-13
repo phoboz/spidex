@@ -19,6 +19,7 @@ extern const signed char* const butterfly[];
 extern const signed char* const bug[];
 extern const signed char* const bee[];
 extern const signed char* const mine[];
+extern const signed char* const dragonfly[];
 
 const struct enemy_race enemy_races[] =
 {
@@ -28,7 +29,8 @@ const struct enemy_race enemy_races[] =
 	{	10,	10,	0x40/10,	ENEMY_TYPE_RANDOM,		2,		2,		ENEMY_SPECIAL_NONE,	4,		butterfly	},
 	{	10,	10,	0x40/10,	ENEMY_TYPE_FLYER,		2,		5,		ENEMY_SPECIAL_NONE,	2,		bee		},
 	{	12,	12,	0x40/10,	ENEMY_TYPE_HOMER,		1,		-1,		ENEMY_SPECIAL_EGG,		3,		bug		},
-	{	7,	7,	8,		ENEMY_TYPE_FLYER,		2,		1,		ENEMY_SPECIAL_EXPLODE,	2,		mine		}
+	{	7,	7,	8,		ENEMY_TYPE_FLYER,		2,		1,		ENEMY_SPECIAL_EXPLODE,	2,		mine		},
+	{	24,	24,	0x80/10,	ENEMY_TYPE_RANDOM,		6,		80,		ENEMY_SPECIAL_NONE,	2,		dragonfly	}
 };
 
 struct object *enemy_list = 0;

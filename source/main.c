@@ -30,7 +30,7 @@
 
 #define MAX_ENEMIES	3
 #define MAX_FOOD		5
-#define MAX_WALLS		4
+#define MAX_WALLS		8
 
 extern const signed char web[];
 extern const signed char web1[];
@@ -129,7 +129,7 @@ int main(void)
 	init_player(&player_1, 0, 0);
 	init_wave(&wave);
 ////DEBUG
-	//wave.wave_index = 3;
+	//wave.wave_index = 4;
 ////END DEBUG
 	while(1)
 	{
