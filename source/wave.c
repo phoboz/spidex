@@ -183,6 +183,22 @@ const struct wave_element wave_5[] =
 	{	0,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_DRAGONFLY,	0,	8	}
 };
 
+const struct wave_element wave_6[] =
+{
+	/*	treshold		y		x		object_type				object_index			path	param */
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BUG,		0,	0	},
+	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BUTTERFLY,	0,	4	},
+	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BUTTERFLY,	0,	4	},
+	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BUTTERFLY,	0,	5	},
+	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BUTTERFLY,	0,	5	},
+	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BUTTERFLY,	0,	6	},
+	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BUTTERFLY,	0,	6	},
+	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BUTTERFLY,	0,	7	},
+	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BUTTERFLY,	0,	7	},
+	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BUTTERFLY,	0,	8	},
+	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BUTTERFLY,	0,	8	}
+};
+
 const struct wave_def waves[] =
 {
 	/*	num_elmts				wave_elmts	*/
@@ -191,9 +207,10 @@ const struct wave_def waves[] =
 	{	NUM_ELMTS(wave_3),		wave_3	},
 	{	NUM_ELMTS(wave_4),		wave_4	},
 	{	NUM_ELMTS(wave_5),		wave_5	},
+	{	NUM_ELMTS(wave_6),		wave_6	}
 };
 
-static unsigned int max_waves = 4;
+static unsigned int max_waves = NUM_ELMTS(waves);
 
 void init_wave(
 	struct wave *wave
