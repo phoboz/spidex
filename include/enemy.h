@@ -46,11 +46,6 @@
 #define ENEMY_RANDOM_RANGE_LEFT			(7*32U-1)
 #define ENEMY_RANDOM_RANGE_DOWN_LEFT		(8*32U-1)
 
-struct enemy_path {
-	unsigned int treshold;
-	unsigned int dir;
-};
-
 struct enemy_race {
 	signed int h;
 	signed int w;
@@ -61,6 +56,11 @@ struct enemy_race {
 	unsigned int special;
 	unsigned int treshold;
 	const signed char * const *shapes;
+};
+
+struct enemy_path {
+	unsigned int treshold;
+	unsigned int dir;
 };
 
 struct enemy
@@ -75,6 +75,7 @@ struct enemy
 	unsigned int step_counter;
 	unsigned int num_steps;
 	const struct enemy_path *path;
+	unsigned int param;
 	unsigned int state_counter;
 };
 
@@ -85,7 +86,8 @@ void init_enemy(
 	signed int x,
 	const struct enemy_race *race, 
 	unsigned int num_steps,
-	const struct enemy_path *path
+	const struct enemy_path *path,
+	unsigned int param
 	);
 
 void deinit_enemy(

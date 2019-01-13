@@ -558,8 +558,8 @@ const signed char web_wall_coords_3_6[]=
 
 const signed char web_wall_3_7[]=
 {	+1,
-	+12, -60, // move to y, x
-	-24, +0, // draw to y, x
+	+13, -63, // move to y, x
+	-26, +0, // draw to y, x
 };
 
 const signed char web_wall_3_8[]=

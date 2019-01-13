@@ -28,7 +28,7 @@ const struct enemy_race enemy_races[] =
 	{	10,	10,	0x40/10,	ENEMY_TYPE_RANDOM,		2,		2,		ENEMY_SPECIAL_NONE,	4,		butterfly	},
 	{	10,	10,	0x40/10,	ENEMY_TYPE_FLYER,		2,		5,		ENEMY_SPECIAL_NONE,	2,		bee		},
 	{	12,	12,	0x40/10,	ENEMY_TYPE_HOMER,		1,		-1,		ENEMY_SPECIAL_EGG,		3,		bug		},
-	{	7,	7,	8/*0x40/10*/,	ENEMY_TYPE_FLYER,	2,		1,		ENEMY_SPECIAL_EXPLODE,	2,		mine		}
+	{	7,	7,	8,		ENEMY_TYPE_FLYER,		2,		1,		ENEMY_SPECIAL_EXPLODE,	2,		mine		}
 };
 
 struct object *enemy_list = 0;
@@ -40,7 +40,8 @@ void init_enemy(
 	signed int x,
 	const struct enemy_race *race, 
 	unsigned int num_steps,
-	const struct enemy_path *path
+	const struct enemy_path *path,
+	unsigned int param
 	)
 {
 	init_character(
@@ -66,6 +67,7 @@ void init_enemy(
 	enemy->step_counter	= 0;
 	enemy->num_steps		= num_steps;
 	enemy->path			= path;
+	enemy->param			= param;
 
 	if (enemy->race->type == ENEMY_TYPE_FLYER)
 	{
@@ -152,7 +154,7 @@ void move_enemies(void)
 				case ENEMY_TYPE_RANDOM:
 					animate_character(&enemy->ch);
 
-					if (++enemy->path_counter >= enemy->num_steps)
+					if (++enemy->path_counter >= enemy->param)
 					{
 						enemy->path_counter = 0;
 						set_random_dir_enemy(enemy);

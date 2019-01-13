@@ -4,8 +4,6 @@
 #include "enemy.h"
 #include "wall.h"
 
-#define MAX_WAVES		3
-
 #define WAVE_OBJECT_TYPE_ENEMY	0
 #define WAVE_OBJECT_TYPE_WALL	1
 #define WAVE_OBJECT_TYPE_DEWALL	2
@@ -23,7 +21,8 @@ struct wave_element
 	signed int x;
 	unsigned int object_type;
 	unsigned int object_index;
-	unsigned int value;
+	unsigned int path_index;
+	unsigned int param;
 };
 
 struct wave_def
