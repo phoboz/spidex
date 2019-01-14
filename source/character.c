@@ -223,8 +223,8 @@ unsigned int quick_check_wall_character(
 		h_2 = ch->obj.h_2;
 		w_2 = ch->obj.w_2;
 
-		y1 = wall->y1;
-		x1 = wall->x1;
+		y1 = wall->obj.y;
+		x1 = wall->obj.x;
 
 		y2 = wall->y2;
 		x2 = wall->x2;

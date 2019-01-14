@@ -147,14 +147,16 @@ const signed char web[]=
 };
 
 const signed char web_wall_1_1[]=
-{	+1,
+{
 	-10, +4, // move to y, x
+	0,
 	+0, -8, // draw to y, x
 };
 
 const signed char web_wall_1_2[]=
-{	+1,
+{
 	-4, +15, // move to y, x
+	0,
 	-6, -11, // draw to y, x
 };
 
@@ -179,14 +181,16 @@ const signed char web_wall_coords_1_2[]=
 };
 
 const signed char web_wall_1_3[]=
-{	+1,
+{
 	+4, +15, // move to y, x
+	0,
 	-8, +0, // draw to y, x
 };
 
 const signed char web_wall_1_4[]=
-{	+1,
+{
 	+10, +4, // move to y, x
+	0,
 	-6, +11, // draw to y, x
 };
 
@@ -210,14 +214,16 @@ const signed char web_wall_coords_1_4[]=
 };
 
 const signed char web_wall_1_5[]=
-{	+1,
+{
 	+10, -4, // move to y, x
+	0,
 	+0, +8, // draw to y, x
 };
 
 const signed char web_wall_1_6[]=
-{	+1,
+{
 	+4, -15, // move to y, x
+	0,
 	+6, +11, // draw to y, x
 };
 
@@ -241,14 +247,16 @@ const signed char web_wall_coords_1_6[]=
 };
 
 const signed char web_wall_1_7[]=
-{	+1,
+{
 	-4, -15, // move to y, x
+	0,
 	+8, +0, // draw to y, x
 };
 
 const signed char web_wall_1_8[]=
-{	+1,
+{
 	-10, -4, // move to y, x
+	0,
 	+6, -11, // draw to y, x
 };
 
@@ -272,14 +280,16 @@ const signed char web_wall_coords_1_8[]=
 };
 
 const signed char web_wall_2_1[]=
-{	+1,
+{
 	-36, -20, // move to y, x
+	0,
 	+0, +40, // draw to y, x
 };
 
 const signed char web_wall_2_2[]=
-{	+1,
+{
 	-36, +20, // move to y, x
+	0,
 	+28, +16, // draw to y, x
 };
 
@@ -308,14 +318,16 @@ const signed char web_wall_coords_2_2[]=
 };
 
 const signed char web_wall_2_3[]=
-{	+1,
+{
 	-8, +37, // move to y, x
+	0,
 	+16, +0, // draw to y, x
 };
 
 const signed char web_wall_2_4[]=
-{	+1,
+{
 	+8, +36, // move to y, x
+	0,
 	+28, -16, // draw to y, x
 };
 
@@ -344,14 +356,16 @@ const signed char web_wall_coords_2_4[]=
 };
 
 const signed char web_wall_2_5[]=
-{	+1,
+{
 	+36, +20, // move to y, x
+	0,
 	+0, -40, // draw to y, x
 };
 
 const signed char web_wall_2_6[]=
-{	+1,
+{
 	+36, -20, // move to y, x
+	0,
 	-28, -16, // draw to y, x
 };
 
@@ -380,14 +394,16 @@ const signed char web_wall_coords_2_6[]=
 };
 
 const signed char web_wall_2_7[]=
-{	+1,
+{
 	+8, -36, // move to y, x
+	0,
 	-16, +0, // draw to y, x
 };
 
 const signed char web_wall_2_8[]=
-{	+1,
+{
 	-8, -36, // move to y, x
+	0,
 	-28, +16, // draw to y, x
 };
 
@@ -416,14 +432,16 @@ const signed char web_wall_coords_2_8[]=
 };
 
 const signed char web_wall_3_1[]=
-{	+1,
+{
 	-63, -36, // move to y, x
+	0,
 	+0, +73, // draw to y, x
 };
 
 const signed char web_wall_3_2[]=
-{	+1,
+{
 	-63, +36, // move to y, x
+	0,
 	+50, +27, // draw to y, x
 };
 
@@ -463,14 +481,16 @@ const signed char web_wall_coords_3_2[]=
 };
 
 const signed char web_wall_3_3[]=
-{	+1,
+{
 	-13, +63, // move to y, x
+	0,
 	+26, +0, // draw to y, x
 };
 
 const signed char web_wall_3_4[]=
-{	+1,
+{
 	+13, +63, // move to y, x
+	0,
 	+50, -27, // draw to y, x
 };
 
@@ -510,14 +530,16 @@ const signed char web_wall_coords_3_4[]=
 };
 
 const signed char web_wall_3_5[]=
-{	+1,
+{
 	+63, +36, // move to y, x
+	0,
 	+0, -73, // draw to y, x
 };
 
 const signed char web_wall_3_6[]=
-{	+1,
+{
 	+63, -36, // move to y, x
+	0,
 	-50, -27, // draw to y, x
 };
 
@@ -557,14 +579,16 @@ const signed char web_wall_coords_3_6[]=
 };
 
 const signed char web_wall_3_7[]=
-{	+1,
+{
 	+13, -63, // move to y, x
+	0,
 	-26, +0, // draw to y, x
 };
 
 const signed char web_wall_3_8[]=
-{	+1,
+{
 	-13, -63, // move to y, x
+	0,
 	-50, +27, // draw to y, x
 };
 
@@ -604,14 +628,16 @@ const signed char web_wall_coords_3_8[]=
 };
 
 const signed char web_wall_4_1[]=
-{	+1,
+{
 	-90, -52, // move to y, x
+	0,
 	+0, +105, // draw to y, x
 };
 
 const signed char web_wall_4_2[]=
-{	+1,
+{
 	-90, +53, // move to y, x
+	0,
 	+72, +37, // draw to y, x
 };
 
@@ -661,14 +687,16 @@ const signed char web_wall_coords_4_2[]=
 };
 
 const signed char web_wall_4_3[]=
-{	+1,
+{
 	-18, +90, // move to y, x
+	0,
 	+36, +0, // draw to y, x
 };
 
 const signed char web_wall_4_4[]=
-{	+1,
+{
 	+18, +90, // move to y, x
+	0,
 	+72, -37, // draw to y, x
 };
 
@@ -718,14 +746,16 @@ const signed char web_wall_coords_4_4[]=
 };
 
 const signed char web_wall_4_5[]=
-{	+1,
+{
 	+90, +53, // move to y, x
+	0,
 	+0, -106, // draw to y, x
 };
 
 const signed char web_wall_4_6[]=
-{	+1,
+{
 	+90, -53, // move to y, x
+	0,
 	-72, -37, // draw to y, x
 };
 
@@ -775,14 +805,16 @@ const signed char web_wall_coords_4_6[]=
 };
 
 const signed char web_wall_4_7[]=
-{	+1,
+{
 	+18, -90, // move to y, x
+	0,
 	-36, +0, // draw to y, x
 };
 
 const signed char web_wall_4_8[]=
-{	+1,
+{
 	-18, -90, // move to y, x
+	0,
 	-72, +37, // draw to y, x
 };
 

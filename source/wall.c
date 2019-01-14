@@ -24,8 +24,8 @@ void init_wall(
 
 	wall->index = index;
 
-	y1 = web_wall[1];
-	x1 = web_wall[2];
+	y1 = web_wall[0];
+	x1 = web_wall[1];
 
 	y2 = y1 + web_wall[3];
 	x2 = x1 + web_wall[4];
@@ -44,22 +44,13 @@ void init_wall(
 		x2 = temp; 
 	}
 
-	wall->y1 = y1;
-	wall->x1 = x1;
+	init_object(&wall->obj, y1, x1, y2 - y1, x2 - x1, OBJECT_MOVE_SCALE, 0, &wall_list);
 
 	wall->y2 = y2;
 	wall->x2 = x2;
 
-	wall->coords = web_wall_coords[index];
-
-	wall->pos[0] = web_wall[1];
-	wall->pos[1] = web_wall[2];
-
-	wall->vec[0] = web_wall[0] - 1;
-	wall->vec[1] = web_wall[3];
-	wall->vec[2] = web_wall[4];
-
-	init_object(&wall->obj, y1, x1, y2 - y1, x2 - x1, OBJECT_MOVE_SCALE, 0, &wall_list);
+	wall->coords =	web_wall_coords[index];
+	wall->pos_vlist =	web_wall;
 }
 
 void deinit_wall(
@@ -81,8 +72,8 @@ unsigned int check_point_on_wall(
 
 	if (wall->obj.active)
 	{
-		y1 = wall->y1;
-		x1 = wall->x1;
+		y1 = wall->obj.y;
+		x1 = wall->obj.x;
 
 		y2 = wall->y2;
 		x2 = wall->x2;
@@ -128,8 +119,8 @@ void draw_walls(void)
 	while (wall != 0)
 	{
 		reset0ref();
-		moveto(wall->pos[0], wall->pos[1]);
-		draw_vlist_c((const signed char *) wall->vec);
+		moveto(wall->pos_vlist[0], wall->pos_vlist[1]);
+		draw_vlist_c(&wall->pos_vlist[2]);
 		wall = (struct wall *) wall->obj.next;
 	}
 }

@@ -13,13 +13,10 @@ struct wall
 	struct object obj;
 	unsigned int index;
 
-	signed int y1, x1;
 	signed int y2, x2;
 
 	const signed char *coords;
- 
-	signed int pos[2];
-	signed int vec[3];
+	const signed char *pos_vlist;
 };
 
 void init_wall(
