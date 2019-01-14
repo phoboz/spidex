@@ -22,6 +22,7 @@ extern const signed char* const bug[];
 extern const signed char* const bee[];
 extern const signed char* const mine[];
 extern const signed char* const dragonfly[];
+extern const signed char* const ant[];
 
 const struct enemy_race enemy_races[] =
 {
@@ -32,7 +33,8 @@ const struct enemy_race enemy_races[] =
 	{	10,	10,	0x40/10,	ENEMY_TYPE_PATH,		2,		5,		ENEMY_SPECIAL_NONE,	2,		bee		},
 	{	12,	12,	0x40/10,	ENEMY_TYPE_HOMING,		1,		-1,		ENEMY_SPECIAL_EGG,		3,		bug		},
 	{	7,	7,	8,		ENEMY_TYPE_PATH,		2,		1,		ENEMY_SPECIAL_EXPLODE,	2,		mine		},
-	{	24,	24,	0x80/10,	ENEMY_TYPE_RANDOM,		6,		80,		ENEMY_SPECIAL_NONE,	2,		dragonfly	}
+	{	24,	24,	0x80/10,	ENEMY_TYPE_RANDOM,		6,		80,		ENEMY_SPECIAL_NONE,	2,		dragonfly	},
+	{	14,	14,	0x40/10,	ENEMY_TYPE_HOMING,		1,		25,		ENEMY_SPECIAL_NONE,	2,		ant		}
 };
 
 struct object *enemy_list = 0;
@@ -180,10 +182,12 @@ static unsigned int shoot_projectile_enemy(
 void move_enemies(void)
 {
 	struct enemy *enemy;
+	struct enemy *other;
 	struct wall *wall;
 	signed int src_y, src_x;
 	signed int dest_y, dest_x;
 	struct enemy *rem_enemy = 0;
+	struct enemy *rem_other = 0;
 	unsigned int hit_wall = 0;
 
 	enemy = (struct enemy *) enemy_list;
@@ -375,6 +379,34 @@ void move_enemies(void)
 		}
 		else if (enemy->state == ENEMY_STATE_EXPLODE)
 		{
+			other = (struct enemy *) enemy_list;
+			while (other)
+			{
+				if (other != enemy)
+				{
+					if (other->num_hits > 0 &&
+						explosion_hit_object_enemy(enemy, &other->ch.obj))
+					{
+						rem_other = other;
+					}
+					other = (struct enemy *) other->ch.obj.next;
+
+					if (rem_other != 0)
+					{
+						// TODO: Other explode enemies shall explode instead of dissappearing
+						rem_other->num_hits = 0;
+						rem_other->state = ENEMY_STATE_DEAD;
+						rem_other->state_counter = 0;
+						deinit_enemy(rem_other);
+						rem_other = 0;
+					}
+				}
+				else
+				{
+					other = (struct enemy *) other->ch.obj.next;
+				}
+			}
+
 			if (++enemy->state_counter >= ENEMY_EXPLODE_TRESHOLD)
 			{
 				enemy->state = ENEMY_STATE_DEAD;
@@ -448,34 +480,21 @@ unsigned int hit_enemy(
 	return result;
 }
 
-unsigned int hit_object_enemy(
+unsigned int explosion_hit_object_enemy(
 	struct enemy *enemy,
 	struct object *obj
 	)
 {
-	unsigned int r;
 	signed int dy, dx;
+	unsigned int r;
 	unsigned int result = 0;
 
-	if (enemy->ch.obj.active)
+	dy = enemy->ch.obj.y - obj->y;
+	dx = enemy->ch.obj.x - obj->x;
+	r = ENEMY_EXPLOSION_RADIUS + (enemy->state_counter << 2);
+	if ((unsigned int) abs(dy) + (unsigned int) abs(dx) < r)
 	{
-		if (enemy->state == ENEMY_STATE_STOP || enemy->state == ENEMY_STATE_MOVE)
-		{
-			if (hit_object(obj, &enemy->ch.obj))
-			{
-				result = 1;
-			}
-		}
-		else if (enemy->state == ENEMY_STATE_EXPLODE)
-		{
-			dy = enemy->ch.obj.y - obj->y;
-			dx = enemy->ch.obj.x - obj->x;
-			r = ENEMY_EXPLOSION_RADIUS + (enemy->state_counter << 2);
-			if ((unsigned int) abs(dy) + (unsigned int) abs(dx) < r)
-			{
-				result = 1;
-			}
-		}
+		result = 1;
 	}
 
 	return result;

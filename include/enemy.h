@@ -28,6 +28,7 @@
 #define ENEMY_RACE_BUG			4
 #define ENEMY_RACE_MINE		5
 #define ENEMY_RACE_DRAGONFLY	6
+#define ENEMY_RACE_ANT			7
 
 #define ENEMY_PROJECTILE_HEIGHT	4
 #define ENEMY_PROJECTILE_WIDTH	4
@@ -112,7 +113,7 @@ unsigned int hit_enemy(
 	struct enemy *enemy
 	);
 
-unsigned int hit_object_enemy(
+unsigned int explosion_hit_object_enemy(
 	struct enemy *enemy,
 	struct object *obj
 	);

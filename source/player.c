@@ -390,9 +390,19 @@ unsigned int interaction_enemies_player_1(void)
 		{
 			if (player_1.state == PLAYER_STATE_NORMAL && enemy->state != ENEMY_STATE_SPAWN)
 			{
-				if (hit_object_enemy(enemy, &player_1.ch.obj))
+				if (enemy->state == ENEMY_STATE_STOP || enemy->state == ENEMY_STATE_MOVE)
 				{
-					set_state_player(&player_1, PLAYER_STATE_DYING);
+					if (hit_object(&player_1.ch.obj, &enemy->ch.obj))
+					{
+						set_state_player(&player_1, PLAYER_STATE_DYING);
+					}
+				}
+				else if (enemy->state == ENEMY_STATE_EXPLODE)
+				{
+					if (explosion_hit_object_enemy(enemy, &player_1.ch.obj))
+					{
+						set_state_player(&player_1, PLAYER_STATE_DYING);
+					}
 				}
 			}
 

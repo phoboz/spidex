@@ -24,7 +24,6 @@ const struct enemy_path circular_path[] =
 	{	12,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
 	{	12,			DIR_DOWN_RIGHT,	ENEMY_ACTION_MOVE	},
 	{	12,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
-	{	0,			DIR_DOWN_LEFT,	ENEMY_ACTION_SHOOT	},
 	{	12,			DIR_UP_RIGHT,		ENEMY_ACTION_MOVE	},
 	{	12,			DIR_UP,			ENEMY_ACTION_MOVE	},
 	{	12,			DIR_UP_LEFT,		ENEMY_ACTION_MOVE	},
@@ -68,6 +67,34 @@ const struct enemy_path l_path_4[] =
 	{	40,			DIR_DOWN,			ENEMY_ACTION_MOVE	}
 };
 
+const struct enemy_path circular_sdl_path[] =
+{
+	/*	treshold		dir				action			*/
+	{	12,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
+	{	12,			DIR_DOWN_RIGHT,	ENEMY_ACTION_MOVE	},
+	{	12,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	0,			DIR_DOWN_LEFT,	ENEMY_ACTION_SHOOT	},
+	{	12,			DIR_UP_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	12,			DIR_UP,			ENEMY_ACTION_MOVE	},
+	{	12,			DIR_UP_LEFT,		ENEMY_ACTION_MOVE	},
+	{	12,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
+	{	12,			DIR_DOWN_LEFT,	ENEMY_ACTION_MOVE	}
+};
+
+const struct enemy_path circular_sur_path[] =
+{
+	/*	treshold		dir				action			*/
+	{	12,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
+	{	12,			DIR_DOWN_RIGHT,	ENEMY_ACTION_MOVE	},
+	{	12,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	12,			DIR_UP_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	12,			DIR_UP,			ENEMY_ACTION_MOVE	},
+	{	12,			DIR_UP_LEFT,		ENEMY_ACTION_MOVE	},
+	{	12,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
+	{	0,			DIR_UP_RIGHT,		ENEMY_ACTION_SHOOT	},
+	{	12,			DIR_DOWN_LEFT,	ENEMY_ACTION_MOVE	}
+};
+
 const struct path_element enemy_paths[] =
 {
 	/*	num_steps						reference			*/
@@ -76,7 +103,9 @@ const struct path_element enemy_paths[] =
 	{	NUM_ELMTS(l_path_1),			l_path_1			},
 	{	NUM_ELMTS(l_path_2),			l_path_2			},
 	{	NUM_ELMTS(l_path_3),			l_path_3			},
-	{	NUM_ELMTS(l_path_4),			l_path_4			}
+	{	NUM_ELMTS(l_path_4),			l_path_4			},
+	{	NUM_ELMTS(circular_sdl_path),	circular_sdl_path	},
+	{	NUM_ELMTS(circular_sur_path),	circular_sur_path	}
 };
 
 const struct wave_element wave_1[] =
@@ -97,7 +126,7 @@ const struct wave_element wave_2[] =
 	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		23,					0,	0	},
 	{	80,			-40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,		0,	0	},
 	{	80,			-40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,		0,	0	},
-	{	80,			20,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BEE,		1,	2	},
+	{	80,			20,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BEE,		6,	2	},
 	{	120,			-40,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BUG,		0,	0	}
 };
 
@@ -153,7 +182,7 @@ const struct wave_element wave_4[] =
 	{	10,			10,		-10,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	5	},
 	{	10,			-10,		-10,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	5	},
 	{	10,			-10,		10,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	5	},
-	{	0,			12,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BEE,		1,	2	}
+	{	0,			12,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BEE,		6,	2	}
 };
 
 const struct wave_element wave_5[] =
@@ -186,6 +215,35 @@ const struct wave_element wave_6[] =
 	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BUTTERFLY,	0,	8	}
 };
 
+const struct wave_element wave_7[] =
+{
+	/*	treshold		y		x		object_type				object_index			path	param */
+	{	0,			80,		80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_ANT,		0,	0	},
+	{	100,			80,		-80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_ANT,		0,	0	},
+	{	100,			-80,		-80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_ANT,		0,	0	},
+	{	100,			-80,		80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_ANT,		0,	0	},
+	{	0,			-100,	80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,		2,	0	},
+	{	100,			60,		60,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_ANT,		0,	0	},
+	{	100,			60,		-60,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_ANT,		0,	0	},
+	{	100,			-60,		-60,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_ANT,		0,	0	},
+	{	100,			-60,		60,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_ANT,		0,	0	},
+	{	0,			100,		100,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,		3,	0	},
+	{	100,			40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_ANT,		0,	0	},
+	{	100,			40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_ANT,		0,	0	},
+	{	100,			-40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_ANT,		0,	0	},
+	{	100,			-40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_ANT,		0,	0	},
+	{	0,			100,		-80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,		4,	0	},
+	{	100,			20,		20,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_ANT,		0,	0	},
+	{	100,			20,		-20,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_ANT,		0,	0	},
+	{	100,			-20,		-20,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_ANT,		0,	0	},
+	{	100,			-20,		20,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_ANT,		0,	0	},
+	{	0,			-100,	-100,	WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,		5,	0	},
+	{	100,			10,		10,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_ANT,		0,	0	},
+	{	100,			10,		-10,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_ANT,		0,	0	},
+	{	100,			-10,		-10,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_ANT,		0,	0	},
+	{	100,			-10,		10,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_ANT,		0,	0	}
+};
+
 const struct wave_def waves[] =
 {
 	/*	num_elmts				wave_elmts	*/
@@ -194,7 +252,8 @@ const struct wave_def waves[] =
 	{	NUM_ELMTS(wave_3),		wave_3	},
 	{	NUM_ELMTS(wave_4),		wave_4	},
 	{	NUM_ELMTS(wave_5),		wave_5	},
-	{	NUM_ELMTS(wave_6),		wave_6	}
+	{	NUM_ELMTS(wave_6),		wave_6	},
+	{	NUM_ELMTS(wave_7),		wave_7	}
 };
 
 static unsigned int max_waves = NUM_ELMTS(waves);
