@@ -22,7 +22,7 @@ struct wave_element
 	unsigned int object_type;
 	unsigned int object_index;
 	unsigned int path_index;
-	unsigned int param;
+	signed int param;
 };
 
 struct wave_def

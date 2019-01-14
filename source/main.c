@@ -8,7 +8,9 @@
 #include "input.h"
 #include "draw.h"
 #include "player.h"
+#include "bullet.h"
 #include "enemy.h"
+#include "projectile.h"
 #include "food.h"
 #include "wall.h"
 #include "wave.h"
@@ -129,7 +131,7 @@ int main(void)
 	init_player(&player_1, 0, 0);
 	init_wave(&wave);
 ////DEBUG
-	//wave.wave_index = 4;
+	//wave.wave_index = 3;
 ////END DEBUG
 	while(1)
 	{
@@ -154,6 +156,7 @@ int main(void)
 			}
 			move_bullets();
 			move_enemies();
+			move_projectiles();
 			move_food();
 
 			enemy_id = interaction_enemies_player_1();
@@ -172,7 +175,7 @@ int main(void)
 					}
 				}
 			}
-
+			interaction_projectiles_player_1();
 			new_wave_index = move_wave(&wave, MAX_ENEMIES, enemy, MAX_WALLS, wall);
 			interaction_food_player_1();
 		}
@@ -267,9 +270,10 @@ int main(void)
 
 		Intensity_7F();
 		draw_player_1();
-		draw_bullets();
 		draw_enemies();
 		draw_food();
+		draw_bullets();
+		draw_projectiles();
 	}
 	
 	// if return value is <= 0, then a warm reset will be performed,

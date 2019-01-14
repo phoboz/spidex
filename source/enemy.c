@@ -6,6 +6,7 @@
 #include "generic.h"
 #include "draw.h"
 #include "player.h"
+#include "projectile.h"
 #include "enemy.h"
 
 // ---------------------------------------------------------------------------
@@ -13,6 +14,7 @@
 extern const signed char cicle[];
 extern const signed char* const spiral[];
 extern const signed char* const egg[];
+extern const signed char* const spike[];
 extern const signed char* const mosquito[];
 extern const signed char* const fly[];
 extern const signed char* const butterfly[];
@@ -25,11 +27,11 @@ const struct enemy_race enemy_races[] =
 {
 	/*	h	w	scale	type					speed	max_hits	special				treshold	shapes	*/
 	{	4,	4,	0x40/10,	ENEMY_TYPE_RANDOM,		2,		1,		ENEMY_SPECIAL_NONE,	1,		mosquito	},
-	{	7,	7,	0x40/10,	ENEMY_TYPE_FLYER,		1,		1,		ENEMY_SPECIAL_NONE,	1,		fly		},
+	{	7,	7,	0x40/10,	ENEMY_TYPE_PATH,		1,		1,		ENEMY_SPECIAL_NONE,	1,		fly		},
 	{	10,	10,	0x40/10,	ENEMY_TYPE_RANDOM,		2,		2,		ENEMY_SPECIAL_NONE,	4,		butterfly	},
-	{	10,	10,	0x40/10,	ENEMY_TYPE_FLYER,		2,		5,		ENEMY_SPECIAL_NONE,	2,		bee		},
-	{	12,	12,	0x40/10,	ENEMY_TYPE_HOMER,		1,		-1,		ENEMY_SPECIAL_EGG,		3,		bug		},
-	{	7,	7,	8,		ENEMY_TYPE_FLYER,		2,		1,		ENEMY_SPECIAL_EXPLODE,	2,		mine		},
+	{	10,	10,	0x40/10,	ENEMY_TYPE_PATH,		2,		5,		ENEMY_SPECIAL_NONE,	2,		bee		},
+	{	12,	12,	0x40/10,	ENEMY_TYPE_HOMING,		1,		-1,		ENEMY_SPECIAL_EGG,		3,		bug		},
+	{	7,	7,	8,		ENEMY_TYPE_PATH,		2,		1,		ENEMY_SPECIAL_EXPLODE,	2,		mine		},
 	{	24,	24,	0x80/10,	ENEMY_TYPE_RANDOM,		6,		80,		ENEMY_SPECIAL_NONE,	2,		dragonfly	}
 };
 
@@ -43,9 +45,11 @@ void init_enemy(
 	const struct enemy_race *race, 
 	unsigned int num_steps,
 	const struct enemy_path *path,
-	unsigned int param
+	signed int param
 	)
 {
+	unsigned int i;
+
 	init_character(
 		&enemy->ch,
 		y,
@@ -71,7 +75,7 @@ void init_enemy(
 	enemy->path			= path;
 	enemy->param			= param;
 
-	if (enemy->race->type == ENEMY_TYPE_FLYER)
+	if (enemy->race->type == ENEMY_TYPE_PATH)
 	{
 		set_dir_character(&enemy->ch, enemy->path[0].dir);
 	}
@@ -87,6 +91,10 @@ void init_enemy(
 	else
 	{
 		enemy->state = ENEMY_STATE_SPAWN;
+	}
+
+	for (i = 0; i < ENEMY_MAX_PROJECTILES; i++) {
+		enemy->projectile[i].obj.active = 0;
 	}
 }
 
@@ -137,6 +145,37 @@ static void set_random_dir_enemy(
 	}
 }
 
+static unsigned int shoot_projectile_enemy(
+	struct enemy *enemy,
+	unsigned int dir
+	)
+{
+	unsigned int i;
+	unsigned int fire = 0;
+
+	for (i = 0; i < ENEMY_MAX_PROJECTILES; i++)
+	{
+		if (!enemy->projectile[i].obj.active)
+		{
+			init_projectile(
+				&enemy->projectile[i],
+				enemy->ch.obj.y,
+				enemy->ch.obj.x,
+				ENEMY_PROJECTILE_HEIGHT,
+				ENEMY_PROJECTILE_WIDTH,
+				dir,
+				enemy->param,
+				ENEMY_PROJECTILE_SCALE/10,
+				spike
+				);
+			fire = i + 1;
+			break;
+		}
+	}
+
+	return fire;
+}
+
 void move_enemies(void)
 {
 	struct enemy *enemy;
@@ -156,7 +195,7 @@ void move_enemies(void)
 				case ENEMY_TYPE_RANDOM:
 					animate_character(&enemy->ch);
 
-					if (++enemy->path_counter >= enemy->param)
+					if (++enemy->path_counter >= (unsigned int) enemy->param)
 					{
 						enemy->path_counter = 0;
 						set_random_dir_enemy(enemy);
@@ -168,7 +207,7 @@ void move_enemies(void)
 					}
 					break;
 
-				case ENEMY_TYPE_FLYER:
+				case ENEMY_TYPE_PATH:
 					animate_character(&enemy->ch);
 
 					if (++enemy->path_counter >= enemy->path[enemy->step_counter].treshold)
@@ -179,7 +218,14 @@ void move_enemies(void)
 							enemy->step_counter = 0;
 						}
 
-						set_dir_character(&enemy->ch, enemy->path[enemy->step_counter].dir);
+						if (enemy->path[enemy->step_counter].action == ENEMY_ACTION_MOVE)
+						{
+							set_dir_character(&enemy->ch, enemy->path[enemy->step_counter].dir);
+						}
+						else if (enemy->path[enemy->step_counter].action == ENEMY_ACTION_SHOOT)
+						{
+							shoot_projectile_enemy(enemy, enemy->path[enemy->step_counter].dir);
+						}
 					}
 
 					if (enemy->race->special == ENEMY_SPECIAL_EXPLODE)
@@ -217,18 +263,11 @@ void move_enemies(void)
 					}
 					else
 					{
-						if (move_character(&enemy->ch))
-						{
-							if (++enemy->step_counter >= enemy->num_steps)
-							{
-								enemy->step_counter = 0;
-							}
-							set_dir_character(&enemy->ch, enemy->path[enemy->step_counter].dir);
-						}
+						move_character(&enemy->ch);
 					}
 					break;
 
-				case ENEMY_TYPE_HOMER:
+				case ENEMY_TYPE_HOMING:
 					src_y = enemy->ch.obj.y;
 					src_x = enemy->ch.obj.x;
 

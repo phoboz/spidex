@@ -455,6 +455,29 @@ void interaction_food_player_1(void)
 	}
 }
 
+void interaction_projectiles_player_1(void)
+{
+	struct projectile *proj;
+	struct projectile *rem_proj = 0;
+
+	proj = (struct projectile *) projectile_list;
+	while (proj != 0)
+	{
+		if (hit_object(&player_1.ch.obj, &proj->obj))
+		{
+			rem_proj = proj;
+			set_state_player(&player_1, PLAYER_STATE_DYING);
+		}
+		proj = (struct projectile *) proj->obj.next;
+
+		if (rem_proj != 0)
+		{
+			deinit_projectile(rem_proj);
+			rem_proj = 0;
+		}
+	}
+}
+
 void draw_player_1(void)
 {
 	if (player_1.ch.obj.active)

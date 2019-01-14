@@ -76,6 +76,8 @@ unsigned int interaction_enemies_player_1(void);
 
 void interaction_food_player_1(void);
 
+void interaction_projectiles_player_1(void);
+
 void draw_player_1(void);
 
 extern struct player player_1;

@@ -2,6 +2,7 @@
 #define _ENEMY_H
 
 #include "character.h"
+#include "projectile.h"
 #include "wall.h"
 
 #define ENEMY_STATE_SPAWN	0
@@ -13,8 +14,8 @@
 #define ENEMY_STATE_DEAD	6
 
 #define ENEMY_TYPE_RANDOM	0
-#define ENEMY_TYPE_FLYER	1
-#define ENEMY_TYPE_HOMER	2
+#define ENEMY_TYPE_PATH	1
+#define ENEMY_TYPE_HOMING	2
 
 #define ENEMY_SPECIAL_NONE		0
 #define ENEMY_SPECIAL_EXPLODE	1
@@ -27,6 +28,14 @@
 #define ENEMY_RACE_BUG			4
 #define ENEMY_RACE_MINE		5
 #define ENEMY_RACE_DRAGONFLY	6
+
+#define ENEMY_PROJECTILE_HEIGHT	4
+#define ENEMY_PROJECTILE_WIDTH	4
+#define ENEMY_PROJECTILE_SCALE	0x40
+#define ENEMY_MAX_PROJECTILES	3
+
+#define ENEMY_ACTION_MOVE		1
+#define ENEMY_ACTION_SHOOT		2
 
 #define ENEMY_EXPLOSION_RADIUS	16
 
@@ -62,6 +71,7 @@ struct enemy_race {
 struct enemy_path {
 	unsigned int treshold;
 	unsigned int dir;
+	unsigned int action;
 };
 
 struct enemy
@@ -76,8 +86,9 @@ struct enemy
 	unsigned int step_counter;
 	unsigned int num_steps;
 	const struct enemy_path *path;
-	unsigned int param;
+	signed int param;
 	unsigned int state_counter;
+	struct projectile projectile[ENEMY_MAX_PROJECTILES];
 };
 
 void init_enemy(
@@ -88,7 +99,7 @@ void init_enemy(
 	const struct enemy_race *race, 
 	unsigned int num_steps,
 	const struct enemy_path *path,
-	unsigned int param
+	signed int param
 	);
 
 void deinit_enemy(

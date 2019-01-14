@@ -11,73 +11,61 @@
 
 const struct enemy_path square_path[] =
 {
-	/* treshold		dir */
-	{12,				DIR_RIGHT},
-	{12,				DIR_DOWN},
-	{12,				DIR_LEFT},
-	{12,				DIR_UP}
+	/*	treshold		dir				action 			*/
+	{	12,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	12,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
+	{	12,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
+	{	12,			DIR_UP,			ENEMY_ACTION_MOVE	}
 };
 
 const struct enemy_path circular_path[] =
 {
-	/* treshold		dir */
-	{12,				DIR_DOWN},
-	{12,				DIR_DOWN_RIGHT},
-	{12,				DIR_RIGHT},
-	{12,				DIR_UP_RIGHT},
-	{12,				DIR_UP},
-	{12,				DIR_UP_LEFT},
-	{12,				DIR_LEFT},
-	{12,				DIR_DOWN_LEFT}
+	/*	treshold		dir				action			*/
+	{	12,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
+	{	12,			DIR_DOWN_RIGHT,	ENEMY_ACTION_MOVE	},
+	{	12,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	0,			DIR_DOWN_LEFT,	ENEMY_ACTION_SHOOT	},
+	{	12,			DIR_UP_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	12,			DIR_UP,			ENEMY_ACTION_MOVE	},
+	{	12,			DIR_UP_LEFT,		ENEMY_ACTION_MOVE	},
+	{	12,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
+	{	12,			DIR_DOWN_LEFT,	ENEMY_ACTION_MOVE	}
 };
 
 const struct enemy_path l_path_1[] =
 {
-	/* treshold		dir */
-	{40,				DIR_LEFT},
-	{100,			DIR_UP},
-	{100,			DIR_DOWN},
-	{40,				DIR_RIGHT}
+	/*	treshold		dir				action			*/
+	{	40,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
+	{	100,			DIR_UP,			ENEMY_ACTION_MOVE	},
+	{	100,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
+	{	40,			DIR_RIGHT,		ENEMY_ACTION_MOVE	}
 };
 
 const struct enemy_path l_path_2[] =
 {
-	/* treshold		dir */
-	{50,				DIR_DOWN},
-	{100,			DIR_LEFT},
-	{100,			DIR_RIGHT},
-	{50,				DIR_UP}
+	/*	treshold		dir				action			*/
+	{	50,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
+	{	100,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
+	{	100,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	50,			DIR_UP,			ENEMY_ACTION_MOVE	}
 };
 
 const struct enemy_path l_path_3[] =
 {
-	/* treshold		dir */
-	{40,				DIR_RIGHT},
-	{100,			DIR_DOWN},
-	{100,			DIR_UP},
-	{40,				DIR_LEFT}
+	/*	treshold		dir				action			*/
+	{	40,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	100,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
+	{	100,			DIR_UP,			ENEMY_ACTION_MOVE	},
+	{	40,			DIR_LEFT,			ENEMY_ACTION_MOVE	}
 };
 
 const struct enemy_path l_path_4[] =
 {
-	/* treshold		dir */
-	{50,				DIR_UP},
-	{100,			DIR_RIGHT},
-	{100,			DIR_LEFT},
-	{40,				DIR_DOWN}
-};
-
-const struct enemy_path square_stop_path[] =
-{
-	/* treshold		dir */
-	{24,				DIR_RIGHT},
-	{24,				DIR_NONE},
-	{24,				DIR_DOWN},
-	{24,				DIR_NONE},
-	{24,				DIR_LEFT},
-	{24,				DIR_NONE},
-	{24,				DIR_UP},
-	{24,				DIR_NONE}
+	/*	treshold		dir				action			*/
+	{	50,			DIR_UP,			ENEMY_ACTION_MOVE	},
+	{	100,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	100,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
+	{	40,			DIR_DOWN,			ENEMY_ACTION_MOVE	}
 };
 
 const struct path_element enemy_paths[] =
@@ -88,8 +76,7 @@ const struct path_element enemy_paths[] =
 	{	NUM_ELMTS(l_path_1),			l_path_1			},
 	{	NUM_ELMTS(l_path_2),			l_path_2			},
 	{	NUM_ELMTS(l_path_3),			l_path_3			},
-	{	NUM_ELMTS(l_path_4),			l_path_4			},
-	{	NUM_ELMTS(square_stop_path),	square_stop_path	},
+	{	NUM_ELMTS(l_path_4),			l_path_4			}
 };
 
 const struct wave_element wave_1[] =
@@ -110,7 +97,7 @@ const struct wave_element wave_2[] =
 	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		23,					0,	0	},
 	{	80,			-40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,		0,	0	},
 	{	80,			-40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,		0,	0	},
-	{	80,			20,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BEE,		1,	0	},
+	{	80,			20,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BEE,		1,	2	},
 	{	120,			-40,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BUG,		0,	0	}
 };
 
@@ -166,7 +153,7 @@ const struct wave_element wave_4[] =
 	{	10,			10,		-10,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	5	},
 	{	10,			-10,		-10,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	5	},
 	{	10,			-10,		10,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	5	},
-	{	0,			12,		-36,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BEE,		1,	0	}
+	{	0,			12,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BEE,		1,	2	}
 };
 
 const struct wave_element wave_5[] =
