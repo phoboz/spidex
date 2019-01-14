@@ -72,8 +72,4 @@ unsigned int hit_wall_character(
 	struct wall *wall
 	);
 
-void draw_character(
-	struct character *ch
-	);
-
 #endif

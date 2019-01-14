@@ -93,7 +93,8 @@ void init_enemy(
 		enemy->state = ENEMY_STATE_SPAWN;
 	}
 
-	for (i = 0; i < ENEMY_MAX_PROJECTILES; i++) {
+	for (i = 0; i < ENEMY_MAX_PROJECTILES; i++)
+	{
 		enemy->projectile[i].obj.active = 0;
 	}
 }

@@ -4,7 +4,6 @@
 
 #include <vectrex.h>
 #include "object.h"
-#include "draw.h"
 
 // ---------------------------------------------------------------------------
 
@@ -110,16 +109,6 @@ unsigned int hit_object(
 	}
 
 	return result;
-}
-
-void draw_object(
-	struct object *obj
-	)
-{
-	if (obj->active)
-	{
-		draw_synced_list_c(obj->shape, obj->y, obj->x, OBJECT_MOVE_SCALE, obj->scale);
-	}
 }
 
 // ***************************************************************************

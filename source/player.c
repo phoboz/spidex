@@ -45,7 +45,8 @@ void init_player(
 
 	set_state_player(player, PLAYER_STATE_NORMAL);
 
-	for (i = 0; i < PLAYER_MAX_BULLETS; i++) {
+	for (i = 0; i < PLAYER_MAX_BULLETS; i++)
+	{
 		player->bullet[i].obj.active = 0;
 	}
 }

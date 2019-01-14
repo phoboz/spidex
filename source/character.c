@@ -401,15 +401,6 @@ unsigned int hit_wall_character(
 	return result;
 }
 
-void draw_character(
-	struct character *ch
-	)
-{
-	ch->obj.shape = ch->shapes[ch->base_frame + ch->frame];
-	draw_object(&ch->obj);
-}
-
-
 // ***************************************************************************
 // end of file
 // ***************************************************************************

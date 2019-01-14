@@ -2,6 +2,7 @@
 #define _OBJECT_H
 
 #define OBJECT_MOVE_SCALE	0x80
+
 #define DIR_DOWN			0
 #define DIR_DOWN_RIGHT		1
 #define DIR_RIGHT			2
@@ -44,10 +45,6 @@ void deinit_object(
 unsigned int hit_object(
 	struct object *obj1,
 	struct object *obj2
-	);
-
-void draw_object(
-	struct object *obj
 	);
 
 #endif
