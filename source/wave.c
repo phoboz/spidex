@@ -9,16 +9,20 @@
 
 #define NUM_ELMTS(item)	(sizeof(item) / sizeof(item[0]))
 
-const struct enemy_path square_path[] =
+const struct enemy_path circular_path_6[] =
 {
-	/*	treshold		dir				action 			*/
-	{	12,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
-	{	12,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
-	{	12,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
-	{	12,			DIR_UP,			ENEMY_ACTION_MOVE	}
+	/*	treshold		dir				action			*/
+	{	6,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
+	{	6,			DIR_DOWN_RIGHT,	ENEMY_ACTION_MOVE	},
+	{	6,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	6,			DIR_UP_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	6,			DIR_UP,			ENEMY_ACTION_MOVE	},
+	{	6,			DIR_UP_LEFT,		ENEMY_ACTION_MOVE	},
+	{	6,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
+	{	6,			DIR_DOWN_LEFT,	ENEMY_ACTION_MOVE	}
 };
 
-const struct enemy_path circular_path[] =
+const struct enemy_path circular_path_12[] =
 {
 	/*	treshold		dir				action			*/
 	{	12,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
@@ -95,17 +99,45 @@ const struct enemy_path circular_sur_path[] =
 	{	12,			DIR_DOWN_LEFT,	ENEMY_ACTION_MOVE	}
 };
 
+const struct enemy_path circular_path_18[] =
+{
+	/*	treshold		dir				action			*/
+	{	18,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
+	{	18,			DIR_DOWN_RIGHT,	ENEMY_ACTION_MOVE	},
+	{	18,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	18,			DIR_UP_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	18,			DIR_UP,			ENEMY_ACTION_MOVE	},
+	{	18,			DIR_UP_LEFT,		ENEMY_ACTION_MOVE	},
+	{	18,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
+	{	18,			DIR_DOWN_LEFT,	ENEMY_ACTION_MOVE	}
+};
+
+const struct enemy_path circular_path_24[] =
+{
+	/*	treshold		dir				action			*/
+	{	24,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
+	{	24,			DIR_DOWN_RIGHT,	ENEMY_ACTION_MOVE	},
+	{	24,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	24,			DIR_UP_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	24,			DIR_UP,			ENEMY_ACTION_MOVE	},
+	{	24,			DIR_UP_LEFT,		ENEMY_ACTION_MOVE	},
+	{	24,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
+	{	24,			DIR_DOWN_LEFT,	ENEMY_ACTION_MOVE	}
+};
+
 const struct path_element enemy_paths[] =
 {
 	/*	num_steps						reference			*/
-	{	NUM_ELMTS(square_path),		square_path		},
-	{	NUM_ELMTS(circular_path),		circular_path		},
+	{	NUM_ELMTS(circular_path_6),		circular_path_6	},
+	{	NUM_ELMTS(circular_path_12),	circular_path_12	},
 	{	NUM_ELMTS(l_path_1),			l_path_1			},
 	{	NUM_ELMTS(l_path_2),			l_path_2			},
 	{	NUM_ELMTS(l_path_3),			l_path_3			},
 	{	NUM_ELMTS(l_path_4),			l_path_4			},
 	{	NUM_ELMTS(circular_sdl_path),	circular_sdl_path	},
-	{	NUM_ELMTS(circular_sur_path),	circular_sur_path	}
+	{	NUM_ELMTS(circular_sur_path),	circular_sur_path	},
+	{	NUM_ELMTS(circular_path_18),	circular_path_18	},
+	{	NUM_ELMTS(circular_path_24),	circular_path_24	}
 };
 
 const struct wave_element wave_1[] =
@@ -244,6 +276,19 @@ const struct wave_element wave_7[] =
 	{	100,			-10,		10,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_ANT,		0,	0	}
 };
 
+const struct wave_element wave_8[] =
+{
+	/*	treshold		y		x		object_type				object_index			path	param */
+	{	0,			6,		-28,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	0,	0	},
+	{	20,			12,		-56,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	1,	0	},
+	{	20,			18,		-84,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	8,	0	},
+	{	20,			24,		-112,	WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	9,	0	},
+	{	0,			6,		-28,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	0,	0	},
+	{	20,			12,		-56,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	1,	0	},
+	{	20,			18,		-84,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	8,	0	},
+	{	20,			24,		-112,	WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	9,	0	}
+};
+
 const struct wave_def waves[] =
 {
 	/*	num_elmts				wave_elmts	*/
@@ -253,7 +298,8 @@ const struct wave_def waves[] =
 	{	NUM_ELMTS(wave_4),		wave_4	},
 	{	NUM_ELMTS(wave_5),		wave_5	},
 	{	NUM_ELMTS(wave_6),		wave_6	},
-	{	NUM_ELMTS(wave_7),		wave_7	}
+	{	NUM_ELMTS(wave_7),		wave_7	},
+	{	NUM_ELMTS(wave_8),		wave_8	}
 };
 
 static unsigned int max_waves = NUM_ELMTS(waves);

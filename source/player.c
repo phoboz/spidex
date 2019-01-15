@@ -387,9 +387,9 @@ unsigned int interaction_enemies_player_1(void)
 		enemy = (struct enemy *) enemy_list;
 		while (enemy != 0)
 		{
-			if (player_1.state == PLAYER_STATE_NORMAL && enemy->state != ENEMY_STATE_SPAWN)
+			if (player_1.state == PLAYER_STATE_NORMAL)
 			{
-				if (enemy->state == ENEMY_STATE_STOP || enemy->state == ENEMY_STATE_MOVE)
+				if (enemy->state == ENEMY_STATE_MOVE || enemy->state == ENEMY_STATE_STOP)
 				{
 					if (hit_object(&player_1.ch.obj, &enemy->ch.obj))
 					{
