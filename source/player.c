@@ -379,7 +379,6 @@ unsigned int interaction_enemies_player_1(void)
 {
 	struct enemy *enemy;
 	struct bullet *bullet;
-	struct enemy *rem_enemy = 0;
 	struct bullet *rem_bullet = 0;
 	unsigned int result = 0;
 
@@ -409,7 +408,7 @@ unsigned int interaction_enemies_player_1(void)
 			bullet = (struct bullet *) bullet_list;
 			while (bullet != 0)
 			{
-				if (enemy->state != ENEMY_STATE_SPAWN)
+				if (enemy->state == ENEMY_STATE_MOVE || enemy->state == ENEMY_STATE_STOP)
 				{
 					if (hit_object(&bullet->obj, &enemy->ch.obj))
 					{
@@ -417,7 +416,6 @@ unsigned int interaction_enemies_player_1(void)
 						if (hit_enemy(enemy))
 						{
 							result = 1 + enemy->index;
-							rem_enemy = enemy;
 						}
 						break;
 					}
@@ -431,12 +429,6 @@ unsigned int interaction_enemies_player_1(void)
 				}
 			}
 			enemy = (struct enemy *) enemy->ch.obj.next;
-
-			if (rem_enemy != 0)
-			{
-				deinit_enemy(rem_enemy);
-				rem_enemy = 0;
-			}
 		}
 	}
 

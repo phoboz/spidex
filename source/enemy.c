@@ -186,8 +186,8 @@ void move_enemies(void)
 	struct wall *wall;
 	signed int src_y, src_x;
 	signed int dest_y, dest_x;
+	unsigned int i, none_left;
 	struct enemy *rem_enemy = 0;
-	struct enemy *rem_other = 0;
 	unsigned int hit_wall = 0;
 
 	enemy = (struct enemy *) enemy_list;
@@ -377,43 +377,6 @@ void move_enemies(void)
 				enemy->state_counter = 0;
 			}
 		}
-		else if (enemy->state == ENEMY_STATE_EXPLODE)
-		{
-			other = (struct enemy *) enemy_list;
-			while (other)
-			{
-				if (other != enemy)
-				{
-					if (other->num_hits > 0 &&
-						explosion_hit_object_enemy(enemy, &other->ch.obj))
-					{
-						rem_other = other;
-					}
-					other = (struct enemy *) other->ch.obj.next;
-
-					if (rem_other != 0)
-					{
-						// TODO: Other explode enemies shall explode instead of dissappearing
-						rem_other->num_hits = 0;
-						rem_other->state = ENEMY_STATE_DEAD;
-						rem_other->state_counter = 0;
-						deinit_enemy(rem_other);
-						rem_other = 0;
-					}
-				}
-				else
-				{
-					other = (struct enemy *) other->ch.obj.next;
-				}
-			}
-
-			if (++enemy->state_counter >= ENEMY_EXPLODE_TRESHOLD)
-			{
-				enemy->state = ENEMY_STATE_DEAD;
-				enemy->state_counter = 0;
-				rem_enemy = enemy;
-			}
-		}
 		else if (enemy->state == ENEMY_STATE_EGG || enemy->state == ENEMY_STATE_HATCH)
 		{
 			if (enemy->state == ENEMY_STATE_EGG)
@@ -431,6 +394,51 @@ void move_enemies(void)
 					enemy->state = ENEMY_STATE_MOVE;
 					enemy->state_counter = 0;
 				}
+			}
+		}
+		else if (enemy->state == ENEMY_STATE_EXPLODE)
+		{
+			other = (struct enemy *) enemy_list;
+			while (other)
+			{
+				if (other != enemy)
+				{
+					if (other->num_hits > 0 &&
+						explosion_hit_object_enemy(enemy, &other->ch.obj))
+					{
+						// TODO: Other explode enemies shall explode instead of dissappearing
+						other->num_hits = 0;
+						other->state = ENEMY_STATE_DYING;
+						other->state_counter = 0;
+					}
+				}
+				other = (struct enemy *) other->ch.obj.next;
+			}
+
+			if (++enemy->state_counter >= ENEMY_EXPLODE_TRESHOLD)
+			{
+				enemy->state = ENEMY_STATE_DYING;
+				enemy->state_counter = 0;
+				rem_enemy = enemy;
+			}
+		}
+		else if (enemy->state == ENEMY_STATE_DYING)
+		{
+			none_left = 1;
+			for (i = 0; i < ENEMY_MAX_PROJECTILES; i++)
+			{
+				if (enemy->projectile[i].obj.active)
+				{
+					none_left = 0;
+					break;
+				}
+			}
+
+			if (none_left)
+			{
+				enemy->state = ENEMY_STATE_DEAD;
+				enemy->state_counter = 0;
+				rem_enemy = enemy;
 			}
 		}
 		enemy = (struct enemy *) enemy->ch.obj.next;
@@ -460,7 +468,7 @@ unsigned int hit_enemy(
 			}
 			else
 			{
-				enemy->state = ENEMY_STATE_DEAD;
+				enemy->state = ENEMY_STATE_DYING;
 				enemy->state_counter = 0;
 				result = 1;
 			}
@@ -469,7 +477,7 @@ unsigned int hit_enemy(
 
 	if (enemy->state != ENEMY_STATE_EXPLODE)
 	{
-		if (enemy->ch.obj.active)
+		if (enemy->state != ENEMY_STATE_DYING)
 		{
 			retreat_character(&enemy->ch);
 			enemy->state = ENEMY_STATE_STOP;
@@ -507,7 +515,17 @@ void draw_enemies(void)
 	enemy = (struct enemy *) enemy_list;
 	while (enemy != 0)
 	{
-		if (enemy->state == ENEMY_STATE_SPAWN)
+		if (enemy->state == ENEMY_STATE_MOVE || enemy->state == ENEMY_STATE_STOP)
+		{
+			draw_synced_list_c(
+				enemy->ch.shapes[enemy->ch.base_frame + enemy->ch.frame],
+				enemy->ch.obj.y,
+				enemy->ch.obj.x,
+				OBJECT_MOVE_SCALE,
+				enemy->ch.obj.scale
+				);
+		}
+		else if (enemy->state == ENEMY_STATE_SPAWN)
 		{
 			draw_synced_list_c(
 				spiral[enemy->ch.frame],
@@ -547,17 +565,6 @@ void draw_enemies(void)
 				0x40/10 + (enemy->state_counter << 2)
 				);
 		}
-		else
-		{
-			draw_synced_list_c(
-				enemy->ch.shapes[enemy->ch.base_frame + enemy->ch.frame],
-				enemy->ch.obj.y,
-				enemy->ch.obj.x,
-				OBJECT_MOVE_SCALE,
-				enemy->ch.obj.scale
-				);
-		}
-
 		enemy = (struct enemy *) enemy->ch.obj.next;
 	}
 }
