@@ -417,7 +417,6 @@ unsigned int interaction_enemies_player_1(void)
 						{
 							result = 1 + enemy->index;
 						}
-						break;
 					}
 				}
 				bullet = (struct bullet *) bullet->obj.next;

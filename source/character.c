@@ -120,14 +120,11 @@ unsigned int animate_character(
 
 	if (++ch->counter >= ch->treshold) {
 		ch->counter = 0;
-		if (ch->dir < DIR_NONE)
+		if (++ch->frame >= ch->max_frames)
 		{
-			if (++ch->frame >= ch->max_frames)
-			{
-				ch->frame = 0;
-			}
-			changed = 1;
+			ch->frame = 0;
 		}
+		changed = 1;
 	}
 
 	return changed;

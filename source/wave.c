@@ -9,6 +9,12 @@
 
 #define NUM_ELMTS(item)	(sizeof(item) / sizeof(item[0]))
 
+const struct enemy_path still_path[] =
+{
+	/*	treshold		dir				action			*/
+	{	100,			DIR_NONE,			ENEMY_ACTION_MOVE	}
+};
+
 const struct enemy_path circular_path_6[] =
 {
 	/*	treshold		dir				action			*/
@@ -20,19 +26,6 @@ const struct enemy_path circular_path_6[] =
 	{	6,			DIR_UP_LEFT,		ENEMY_ACTION_MOVE	},
 	{	6,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
 	{	6,			DIR_DOWN_LEFT,	ENEMY_ACTION_MOVE	}
-};
-
-const struct enemy_path circular_path_12[] =
-{
-	/*	treshold		dir				action			*/
-	{	12,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
-	{	12,			DIR_DOWN_RIGHT,	ENEMY_ACTION_MOVE	},
-	{	12,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
-	{	12,			DIR_UP_RIGHT,		ENEMY_ACTION_MOVE	},
-	{	12,			DIR_UP,			ENEMY_ACTION_MOVE	},
-	{	12,			DIR_UP_LEFT,		ENEMY_ACTION_MOVE	},
-	{	12,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
-	{	12,			DIR_DOWN_LEFT,	ENEMY_ACTION_MOVE	}
 };
 
 const struct enemy_path l_path_1[] =
@@ -99,6 +92,19 @@ const struct enemy_path circular_sur_path[] =
 	{	12,			DIR_DOWN_LEFT,	ENEMY_ACTION_MOVE	}
 };
 
+const struct enemy_path circular_path_12[] =
+{
+	/*	treshold		dir				action			*/
+	{	12,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
+	{	12,			DIR_DOWN_RIGHT,	ENEMY_ACTION_MOVE	},
+	{	12,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	12,			DIR_UP_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	12,			DIR_UP,			ENEMY_ACTION_MOVE	},
+	{	12,			DIR_UP_LEFT,		ENEMY_ACTION_MOVE	},
+	{	12,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
+	{	12,			DIR_DOWN_LEFT,	ENEMY_ACTION_MOVE	}
+};
+
 const struct enemy_path circular_path_18[] =
 {
 	/*	treshold		dir				action			*/
@@ -125,39 +131,104 @@ const struct enemy_path circular_path_24[] =
 	{	24,			DIR_DOWN_LEFT,	ENEMY_ACTION_MOVE	}
 };
 
+const struct enemy_path down_path[] =
+{
+	/*	treshold		dir				action			*/
+	{	38,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
+	{	38,			DIR_UP,			ENEMY_ACTION_MOVE	}
+};
+
+const struct enemy_path down_right_path[] =
+{
+	/*	treshold		dir				action			*/
+	{	34,			DIR_DOWN_RIGHT,	ENEMY_ACTION_MOVE	},
+	{	34,			DIR_UP_LEFT,		ENEMY_ACTION_MOVE	}
+};
+
+const struct enemy_path right_path[] =
+{
+	/*	treshold		dir				action			*/
+	{	34,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	34,			DIR_LEFT,			ENEMY_ACTION_MOVE	}
+};
+
+const struct enemy_path up_right_path[] =
+{
+	/*	treshold		dir				action			*/
+	{	34,			DIR_UP_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	34,			DIR_DOWN_LEFT,	ENEMY_ACTION_MOVE	}
+};
+
+const struct enemy_path up_path[] =
+{
+	/*	treshold		dir				action			*/
+	{	38,			DIR_UP,			ENEMY_ACTION_MOVE	},
+	{	38,			DIR_DOWN,			ENEMY_ACTION_MOVE	}
+};
+
+const struct enemy_path up_left_path[] =
+{
+	/*	treshold		dir				action			*/
+	{	34,			DIR_UP_LEFT,		ENEMY_ACTION_MOVE	},
+	{	34,			DIR_DOWN_RIGHT,	ENEMY_ACTION_MOVE	}
+};
+
+const struct enemy_path left_path[] =
+{
+	/*	treshold		dir				action			*/
+	{	34,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
+	{	34,			DIR_RIGHT,		ENEMY_ACTION_MOVE	}
+};
+
+const struct enemy_path down_left_path[] =
+{
+	/*	treshold		dir				action			*/
+	{	34,			DIR_DOWN_LEFT,	ENEMY_ACTION_MOVE	},
+	{	34,			DIR_UP_RIGHT,		ENEMY_ACTION_MOVE	}
+};
+
 const struct path_element enemy_paths[] =
 {
-	/*	num_steps						reference			*/
-	{	NUM_ELMTS(circular_path_6),		circular_path_6	},
-	{	NUM_ELMTS(circular_path_12),	circular_path_12	},
-	{	NUM_ELMTS(l_path_1),			l_path_1			},
-	{	NUM_ELMTS(l_path_2),			l_path_2			},
-	{	NUM_ELMTS(l_path_3),			l_path_3			},
-	{	NUM_ELMTS(l_path_4),			l_path_4			},
-	{	NUM_ELMTS(circular_sdl_path),	circular_sdl_path	},
-	{	NUM_ELMTS(circular_sur_path),	circular_sur_path	},
-	{	NUM_ELMTS(circular_path_18),	circular_path_18	},
-	{	NUM_ELMTS(circular_path_24),	circular_path_24	}
+	/*	id		num_steps						reference			*/
+	{	/*0 */	NUM_ELMTS(still_path),			still_path		},
+	{	/*1 */	NUM_ELMTS(circular_path_6),		circular_path_6	},
+	{	/*2 */	NUM_ELMTS(l_path_1),			l_path_1			},
+	{	/*3 */	NUM_ELMTS(l_path_2),			l_path_2			},
+	{	/*4 */	NUM_ELMTS(l_path_3),			l_path_3			},
+	{	/*5 */	NUM_ELMTS(l_path_4),			l_path_4			},
+	{	/*6 */	NUM_ELMTS(circular_sdl_path),	circular_sdl_path	},
+	{	/*7 */	NUM_ELMTS(circular_sur_path),	circular_sur_path	},
+	{	/*8 */	NUM_ELMTS(circular_path_12),	circular_path_12	},
+	{	/*9 */	NUM_ELMTS(circular_path_18),	circular_path_18	},
+	{	/*10*/	NUM_ELMTS(circular_path_24),	circular_path_24	},
+	{	/*11*/	NUM_ELMTS(down_path),			down_path			},
+	{	/*12*/	NUM_ELMTS(down_right_path),		down_right_path	},
+	{	/*13*/	NUM_ELMTS(right_path),			right_path		},
+	{	/*14 */	NUM_ELMTS(up_right_path),		up_right_path		},
+	{	/*15 */	NUM_ELMTS(up_path),			up_path			},
+	{	/*16 */	NUM_ELMTS(up_left_path),		up_left_path		},
+	{	/*17*/	NUM_ELMTS(left_path),			left_path			},
+	{	/*18*/	NUM_ELMTS(down_left_path),		down_left_path	},
 };
 
 const struct wave_element wave_1[] =
 {
 	/*	treshold		y		x		object_type				object_index			path	param */
 	{	0,			40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	2	},
-	{	80,			40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,		0,	0	},
+	{	80,			40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,		1,	0	},
 	{	80,			-40,		-20,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BUTTERFLY,	0,	2	}
 };
 
 const struct wave_element wave_2[] =
 {
 	/*	treshold		y		x		object_type				object_index			path	param*/
-	{	0,			40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,		0,	0	},
-	{	80,			40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,		0,	0	},
+	{	0,			40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,		1,	0	},
+	{	80,			40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,		1,	0	},
 	{	40,			0,		0,		WAVE_OBJECT_TYPE_WALL,		16,					0,	0	},
 	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		17,					0,	0	},
 	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		23,					0,	0	},
-	{	80,			-40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,		0,	0	},
-	{	80,			-40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,		0,	0	},
+	{	80,			-40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,		1,	0	},
+	{	80,			-40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_FLY,		1,	0	},
 	{	80,			20,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BEE,		6,	2	},
 	{	120,			-40,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BUG,		0,	0	}
 };
@@ -279,14 +350,68 @@ const struct wave_element wave_7[] =
 const struct wave_element wave_8[] =
 {
 	/*	treshold		y		x		object_type				object_index			path	param */
-	{	0,			6,		-28,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	0,	0	},
-	{	20,			12,		-56,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	1,	0	},
-	{	20,			18,		-84,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	8,	0	},
-	{	20,			24,		-112,	WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	9,	0	},
-	{	0,			6,		-28,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	0,	0	},
-	{	20,			12,		-56,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	1,	0	},
-	{	20,			18,		-84,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	8,	0	},
-	{	20,			24,		-112,	WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	9,	0	}
+	{	0,			6,		-28,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	1,	0	},
+	{	40,			12,		-56,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	8,	0	},
+	{	40,			18,		-84,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	9,	0	},
+	{	40,			18,		-84,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	10,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	18,	0	},
+	{	0,			6,		-28,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	1,	0	},
+	{	40,			12,		-56,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	8,	0	},
+	{	40,			18,		-84,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	9,	0	},
+	{	40,			18,		-84,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	10,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	17,	0	},
+	{	0,			6,		-28,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	1,	0	},
+	{	40,			12,		-56,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	8,	0	},
+	{	40,			18,		-84,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	9,	0	},
+	{	40,			18,		-84,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	10,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	16,	0	},
+	{	0,			6,		-28,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	1,	0	},
+	{	40,			12,		-56,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	8,	0	},
+	{	40,			18,		-84,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	9,	0	},
+	{	40,			18,		-84,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	10,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	15,	0	},
+	{	0,			6,		-28,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	1,	0	},
+	{	40,			12,		-56,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	8,	0	},
+	{	40,			18,		-84,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	9,	0	},
+	{	40,			18,		-84,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	10,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	14,	0	},
+	{	0,			6,		-28,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	1,	0	},
+	{	40,			12,		-56,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	8,	0	},
+	{	40,			18,		-84,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	9,	0	},
+	{	40,			18,		-84,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	10,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	13,	0	},
+	{	0,			6,		-28,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	1,	0	},
+	{	40,			12,		-56,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	8,	0	},
+	{	40,			18,		-84,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	9,	0	},
+	{	40,			18,		-84,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	10,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	12,	0	},
+	{	0,			6,		-28,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	1,	0	},
+	{	40,			12,		-56,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	8,	0	},
+	{	40,			18,		-84,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	9,	0	},
+	{	40,			18,		-84,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	10,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SWALLOW,	11,	0	}
+
+};
+
+const struct wave_element wave_9[] =
+{
+	/*	treshold		y		x		object_type				object_index			path	param */
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BUG,		0,	0	},
+	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	4	},
+	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	4	},
+	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	4	},
+	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	5	},
+	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	5	},
+	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	5	},
+	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	6	},
+	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	6	},
+	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	6	},
+	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	7	},
+	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	7	},
+	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	7	},
+	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	8	},
+	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	8	},
+	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	8	}
 };
 
 const struct wave_def waves[] =
@@ -299,10 +424,11 @@ const struct wave_def waves[] =
 	{	NUM_ELMTS(wave_5),		wave_5	},
 	{	NUM_ELMTS(wave_6),		wave_6	},
 	{	NUM_ELMTS(wave_7),		wave_7	},
-	{	NUM_ELMTS(wave_8),		wave_8	}
+	{	NUM_ELMTS(wave_8),		wave_8	},
+	{	NUM_ELMTS(wave_9),		wave_9	}
 };
 
-static unsigned int max_waves = NUM_ELMTS(waves);
+static unsigned int max_waves = 9;
 
 void init_wave(
 	struct wave *wave
@@ -417,7 +543,7 @@ unsigned int move_wave(
 			deinit_wall(&walls[i]);
 		}
 
-		if (++wave->wave_index > max_waves)
+		if (++wave->wave_index >= max_waves)
 		{
 			wave->wave_index = 0;
 		}

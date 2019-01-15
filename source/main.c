@@ -131,7 +131,7 @@ int main(void)
 	init_player(&player_1, 0, 0);
 	init_wave(&wave);
 ////DEBUG
-	wave.wave_index = 7;
+	//wave.wave_index = 7;
 ////END DEBUG
 	while(1)
 	{
