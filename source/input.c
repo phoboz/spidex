@@ -9,7 +9,15 @@
 
 // ---------------------------------------------------------------------------
 
-void init_input(void)
+void init_single_input(void)
+{
+	enable_controller_1_x();
+	enable_controller_1_y();
+	disable_controller_2_x();
+	disable_controller_2_y();
+}
+
+void init_dual_input(void)
 {
 	enable_controller_1_x();
 	enable_controller_1_y();

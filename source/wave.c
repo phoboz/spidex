@@ -78,14 +78,17 @@ const struct enemy_path circular_sdl_path[] =
 	{	12,			DIR_DOWN_LEFT,	ENEMY_ACTION_MOVE	}
 };
 
-const struct enemy_path circular_sur_path[] =
+const struct enemy_path circular_sdia_path[] =
 {
 	/*	treshold		dir				action			*/
 	{	12,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
+	{	0,			DIR_UP_LEFT,		ENEMY_ACTION_SHOOT	},
 	{	12,			DIR_DOWN_RIGHT,	ENEMY_ACTION_MOVE	},
 	{	12,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	0,			DIR_DOWN_LEFT,	ENEMY_ACTION_SHOOT	},
 	{	12,			DIR_UP_RIGHT,		ENEMY_ACTION_MOVE	},
 	{	12,			DIR_UP,			ENEMY_ACTION_MOVE	},
+	{	0,			DIR_DOWN_RIGHT,	ENEMY_ACTION_SHOOT	},
 	{	12,			DIR_UP_LEFT,		ENEMY_ACTION_MOVE	},
 	{	12,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
 	{	0,			DIR_UP_RIGHT,		ENEMY_ACTION_SHOOT	},
@@ -187,6 +190,134 @@ const struct enemy_path down_left_path[] =
 	{	34,			DIR_UP_RIGHT,		ENEMY_ACTION_MOVE	}
 };
 
+const struct enemy_path stump_path[] =
+{
+	/*	treshold		dir				action			*/
+	{	60,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+
+	/* fire cluster of 3 projectiles in 4 directions  ccw */
+	{	0,			DIR_DOWN_LEFT,	ENEMY_ACTION_SHOOT	},
+	{	0,			DIR_DOWN,			ENEMY_ACTION_SHOOT	},
+	{	0,			DIR_DOWN_RIGHT,	ENEMY_ACTION_SHOOT	},
+	{	60,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	0,			DIR_DOWN_RIGHT,	ENEMY_ACTION_SHOOT	},
+	{	0,			DIR_RIGHT,		ENEMY_ACTION_SHOOT	},
+	{	0,			DIR_UP_RIGHT,		ENEMY_ACTION_SHOOT	},
+	{	60,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	0,			DIR_UP_RIGHT,		ENEMY_ACTION_SHOOT	},
+	{	0,			DIR_UP,			ENEMY_ACTION_SHOOT	},
+	{	0,			DIR_UP_LEFT,		ENEMY_ACTION_SHOOT	},
+	{	60,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	0,			DIR_UP_LEFT,		ENEMY_ACTION_SHOOT	},
+	{	0,			DIR_LEFT,			ENEMY_ACTION_SHOOT	},
+	{	0,			DIR_DOWN_LEFT,	ENEMY_ACTION_SHOOT	},
+	{	30,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+
+	/* move to 4 corners and fire cluster of 3 projectiles 2 inwards, and 1 outward in each corner */
+	{	50,			DIR_UP_LEFT,		ENEMY_ACTION_MOVE	},
+	{	0,			DIR_DOWN,			ENEMY_ACTION_SHOOT	},
+	{	0,			DIR_RIGHT,		ENEMY_ACTION_SHOOT	},
+	{	0,			DIR_UP_LEFT,		ENEMY_ACTION_SHOOT	},
+	{	40,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+
+	{	100,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	0,			DIR_DOWN,			ENEMY_ACTION_SHOOT	},
+	{	0,			DIR_LEFT,			ENEMY_ACTION_SHOOT	},
+	{	0,			DIR_UP_RIGHT,		ENEMY_ACTION_SHOOT	},
+	{	40,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+
+	{	100,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
+	{	0,			DIR_UP,			ENEMY_ACTION_SHOOT	},
+	{	0,			DIR_LEFT,			ENEMY_ACTION_SHOOT	},
+	{	0,			DIR_DOWN_RIGHT,	ENEMY_ACTION_SHOOT	},
+	{	40,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+
+	{	100,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
+	{	0,			DIR_UP,			ENEMY_ACTION_SHOOT	},
+	{	0,			DIR_RIGHT,		ENEMY_ACTION_SHOOT	},
+	{	0,			DIR_DOWN_LEFT,	ENEMY_ACTION_SHOOT	},
+	{	40,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+
+	/* Move back to the center */
+	{	50,			DIR_UP_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	0,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
+	{	20,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+
+	/* Fire rapidly in all directions ccw */
+	{	10,			DIR_DOWN,			ENEMY_ACTION_SHOOT	},
+	{	10,			DIR_DOWN_RIGHT,	ENEMY_ACTION_SHOOT	},
+	{	10,			DIR_RIGHT,		ENEMY_ACTION_SHOOT	},
+	{	10,			DIR_UP_RIGHT,		ENEMY_ACTION_SHOOT	},
+	{	10,			DIR_UP,			ENEMY_ACTION_SHOOT	},
+	{	10,			DIR_UP_LEFT,		ENEMY_ACTION_SHOOT	},
+	{	10,			DIR_LEFT,			ENEMY_ACTION_SHOOT	},
+	{	10,			DIR_DOWN_LEFT,	ENEMY_ACTION_SHOOT	},
+	{	20,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+
+	/* move to 4 far corners and fire cluster of 3 projectiles inwards in each stop point */
+	{	100,			DIR_UP_LEFT,		ENEMY_ACTION_MOVE	},
+	{	0,			DIR_DOWN,			ENEMY_ACTION_SHOOT	},
+	{	0,			DIR_DOWN_RIGHT,	ENEMY_ACTION_SHOOT	},
+	{	0,			DIR_RIGHT,		ENEMY_ACTION_SHOOT	},
+
+	/* middle point */
+	{	100,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	0,			DIR_DOWN_LEFT,	ENEMY_ACTION_SHOOT	},
+	{	0,			DIR_DOWN,			ENEMY_ACTION_SHOOT	},
+	{	0,			DIR_DOWN_RIGHT,	ENEMY_ACTION_SHOOT	},
+
+	/* corner */
+	{	100,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	0,			DIR_LEFT,			ENEMY_ACTION_SHOOT	},
+	{	0,			DIR_DOWN_LEFT,	ENEMY_ACTION_SHOOT	},
+	{	0,			DIR_DOWN,			ENEMY_ACTION_SHOOT	},
+
+	/* middle point */
+	{	100,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
+	{	0,			DIR_UP_LEFT,		ENEMY_ACTION_SHOOT	},
+	{	0,			DIR_LEFT,			ENEMY_ACTION_SHOOT	},
+	{	0,			DIR_DOWN_LEFT,	ENEMY_ACTION_SHOOT	},
+
+	/* corner */
+	{	100,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
+	{	0,			DIR_UP,			ENEMY_ACTION_SHOOT	},
+	{	0,			DIR_UP_LEFT,		ENEMY_ACTION_SHOOT	},
+	{	0,			DIR_LEFT,			ENEMY_ACTION_SHOOT	},
+
+	/* middle point */
+	{	100,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
+	{	0,			DIR_UP_LEFT,		ENEMY_ACTION_SHOOT	},
+	{	0,			DIR_UP,			ENEMY_ACTION_SHOOT	},
+	{	0,			DIR_UP_RIGHT,		ENEMY_ACTION_SHOOT	},
+
+	/* corner */
+	{	100,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
+	{	0,			DIR_UP,			ENEMY_ACTION_SHOOT	},
+	{	0,			DIR_UP_RIGHT,		ENEMY_ACTION_SHOOT	},
+	{	0,			DIR_RIGHT,		ENEMY_ACTION_SHOOT	},
+
+	/* middle point */
+	{	100,			DIR_UP,			ENEMY_ACTION_MOVE	},
+	{	0,			DIR_UP_RIGHT,		ENEMY_ACTION_SHOOT	},
+	{	0,			DIR_RIGHT,		ENEMY_ACTION_SHOOT	},
+	{	0,			DIR_DOWN_RIGHT,	ENEMY_ACTION_SHOOT	},
+
+	/* move back to middle */
+	{	100,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	0,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
+	{	20,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+
+	/* Fire rapidly in all directions cw */
+	{	10,			DIR_DOWN,			ENEMY_ACTION_SHOOT	},
+	{	10,			DIR_DOWN_LEFT,	ENEMY_ACTION_SHOOT	},
+	{	10,			DIR_LEFT,			ENEMY_ACTION_SHOOT	},
+	{	10,			DIR_UP_LEFT,		ENEMY_ACTION_SHOOT	},
+	{	10,			DIR_UP,			ENEMY_ACTION_SHOOT	},
+	{	10,			DIR_UP_RIGHT,		ENEMY_ACTION_SHOOT	},
+	{	10,			DIR_RIGHT,		ENEMY_ACTION_SHOOT	},
+	{	10,			DIR_DOWN_RIGHT,	ENEMY_ACTION_SHOOT	}
+};
+
 const struct path_element enemy_paths[] =
 {
 	/*	id		num_steps						reference			*/
@@ -197,7 +328,7 @@ const struct path_element enemy_paths[] =
 	{	/*4 */	NUM_ELMTS(l_path_3),			l_path_3			},
 	{	/*5 */	NUM_ELMTS(l_path_4),			l_path_4			},
 	{	/*6 */	NUM_ELMTS(circular_sdl_path),	circular_sdl_path	},
-	{	/*7 */	NUM_ELMTS(circular_sur_path),	circular_sur_path	},
+	{	/*7 */	NUM_ELMTS(circular_sdia_path),	circular_sdia_path	},
 	{	/*8 */	NUM_ELMTS(circular_path_12),	circular_path_12	},
 	{	/*9 */	NUM_ELMTS(circular_path_18),	circular_path_18	},
 	{	/*10*/	NUM_ELMTS(circular_path_24),	circular_path_24	},
@@ -209,6 +340,7 @@ const struct path_element enemy_paths[] =
 	{	/*16 */	NUM_ELMTS(up_left_path),		up_left_path		},
 	{	/*17*/	NUM_ELMTS(left_path),			left_path			},
 	{	/*18*/	NUM_ELMTS(down_left_path),		down_left_path	},
+	{	/*19*/	NUM_ELMTS(stump_path),			stump_path		}
 };
 
 const struct wave_element wave_1[] =
@@ -239,7 +371,7 @@ const struct wave_element wave_3[] =
 	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		19,					0,	0	},
 	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		20,					0,	0	},
 	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		21,					0,	0	},
-	{	0,			-100,	80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,		2,	0	},
+	{	30,			-100,	80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,		2,	0	},
 	{	10,			-100,	80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,		2,	0	},
 	{	10,			-100,	80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,		2,	0	},
 	{	120,			80,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BUG,		0,	0	},
@@ -285,7 +417,7 @@ const struct wave_element wave_4[] =
 	{	10,			10,		-10,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	5	},
 	{	10,			-10,		-10,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	5	},
 	{	10,			-10,		10,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	5	},
-	{	0,			12,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BEE,		6,	2	}
+	{	0,			12,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BEE,		7,	2	}
 };
 
 const struct wave_element wave_5[] =
@@ -299,7 +431,7 @@ const struct wave_element wave_5[] =
 	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		29,					0,	0	},
 	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		30,					0,	0	},
 	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		31,					0,	0	},
-	{	0,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_DRAGONFLY,	0,	8	}
+	{	60,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_DRAGONFLY,	0,	8	}
 };
 
 const struct wave_element wave_6[] =
@@ -414,6 +546,12 @@ const struct wave_element wave_9[] =
 	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	8	}
 };
 
+const struct wave_element wave_10[] =
+{
+	/*	treshold		y		x		object_type				object_index			path	param */
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_STUMP,		19,	6	}
+};
+
 const struct wave_def waves[] =
 {
 	/*	num_elmts				wave_elmts	*/
@@ -425,10 +563,11 @@ const struct wave_def waves[] =
 	{	NUM_ELMTS(wave_6),		wave_6	},
 	{	NUM_ELMTS(wave_7),		wave_7	},
 	{	NUM_ELMTS(wave_8),		wave_8	},
-	{	NUM_ELMTS(wave_9),		wave_9	}
+	{	NUM_ELMTS(wave_9),		wave_9	},
+	{	NUM_ELMTS(wave_10),	wave_10	}
 };
 
-static unsigned int max_waves = 9;
+static const unsigned int max_waves = 10;/*NUM_ELMTS(waves) + 1;*/
 
 void init_wave(
 	struct wave *wave
@@ -441,6 +580,30 @@ void init_wave(
 	wave->new_wave =		0;
 }
 
+void close_wave(
+	struct wave *wave,
+	unsigned int num_enemies,
+	struct enemy *enemies,
+	unsigned int num_walls,
+	struct wall *walls
+	)
+{
+	unsigned int i;
+
+	for (i = 0; i < num_enemies; i++)
+	{
+		enemies[i].state = ENEMY_STATE_DYING;
+		enemies[i].state_counter = 0;
+	}
+
+	for (i = 0; i < num_walls; i++)
+	{
+		deinit_wall(&walls[i]);
+	}
+
+	wave->new_wave = 0;
+}
+	
 unsigned int move_wave(
 	struct wave *wave,
 	unsigned int num_enemies,
@@ -533,22 +696,12 @@ unsigned int move_wave(
 			}
 		}
 
-		for (i = 0; i < num_enemies; i++)
-		{
-			deinit_enemy(&enemies[i]);
-		}
-
-		for (i = 0; i < num_walls; i++)
-		{
-			deinit_wall(&walls[i]);
-		}
+		close_wave(wave, num_enemies, enemies, num_walls, walls);
 
 		if (++wave->wave_index >= max_waves)
 		{
 			wave->wave_index = 0;
 		}
-
-		wave->new_wave = 0;
 
 		return wave->wave_index + 1;
 	}

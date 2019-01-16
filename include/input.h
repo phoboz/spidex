@@ -3,7 +3,8 @@
 
 #define INPUT_JOY_SENSE		10
 
-void init_input(void);
+void init_single_input(void);
+void init_dual_input(void);
 
 void update_input(void);
 

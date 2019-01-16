@@ -27,19 +27,34 @@ static const signed char food_shape[]=
 void init_food(
 	struct food *food,
 	signed int y,
-	signed int x
+	signed int x,
+	signed int value
 	)
 {
+	signed int inc_scale;
+
+	if (value < FOOD_MAX_SCALE_INCREASE)
+	{
+		inc_scale = value;
+	}
+	else
+	{
+		inc_scale = FOOD_MAX_SCALE_INCREASE;
+	}
+
 	init_object(
 		&food->obj,
 		y,
 		x,
-		FOOD_HEIGHT,
-		FOOD_WIDTH,
-		FOOD_SCALE/AMPLIFIER_MUL,
+		FOOD_HEIGHT + inc_scale,
+		FOOD_WIDTH + inc_scale,
+		FOOD_SCALE/AMPLIFIER_MUL + (unsigned int) inc_scale,
 		food_shape,
 		&food_list
 		);
+
+	food->counter	= 0;
+	food->value	= value;
 }
 
 void deinit_food(

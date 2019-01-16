@@ -24,6 +24,7 @@ extern const signed char* const mine[];
 extern const signed char* const dragonfly[];
 extern const signed char* const ant[];
 extern const signed char* const swallow[];
+extern const signed char* const stump[];
 
 const struct enemy_race enemy_races[] =
 {
@@ -36,7 +37,8 @@ const struct enemy_race enemy_races[] =
 	{	7,	7,	8,		ENEMY_TYPE_PATH,		2,		1,		ENEMY_SPECIAL_EXPLODE,	2,		mine		},
 	{	24,	24,	0x80/10,	ENEMY_TYPE_RANDOM,		4,		25,		ENEMY_SPECIAL_NONE,	2,		dragonfly	},
 	{	14,	14,	0x40/10,	ENEMY_TYPE_HOMING,		1,		10,		ENEMY_SPECIAL_NONE,	2,		ant		},
-	{	12,	12,	0x40/10,	ENEMY_TYPE_PATH,		3,		3,		ENEMY_SPECIAL_NONE,	10,		swallow	}
+	{	12,	12,	0x40/10,	ENEMY_TYPE_PATH,		3,		3,		ENEMY_SPECIAL_NONE,	10,		swallow	},
+	{	40,	40,	0x80/10,	ENEMY_TYPE_PATH,		1,		127,		ENEMY_SPECIAL_HEAVY,	10,		stump	}
 };
 
 struct object *enemy_list = 0;
@@ -188,7 +190,7 @@ void move_enemies(void)
 	struct wall *wall;
 	signed int src_y, src_x;
 	signed int dest_y, dest_x;
-	unsigned int i, none_left;
+	unsigned int i, proj_left;
 	struct enemy *rem_enemy = 0;
 	unsigned int hit_wall = 0;
 
@@ -426,20 +428,25 @@ void move_enemies(void)
 		}
 		else if (enemy->state == ENEMY_STATE_DYING)
 		{
-			none_left = 1;
-			for (i = 0; i < ENEMY_MAX_PROJECTILES; i++)
+			if (projectile_list != 0)
 			{
-				if (enemy->projectile[i].obj.active)
+				proj_left = 0;
+				for (i = 0; i < ENEMY_MAX_PROJECTILES; i++)
 				{
-					none_left = 0;
-					break;
+					if (enemy->projectile[i].obj.active)
+					{
+						proj_left = 1;
+						break;
+					}
+				}
+
+				if (!proj_left)
+				{
+					rem_enemy = enemy;
 				}
 			}
-
-			if (none_left)
+			else
 			{
-				enemy->state = ENEMY_STATE_DEAD;
-				enemy->state_counter = 0;
 				rem_enemy = enemy;
 			}
 		}
@@ -447,6 +454,8 @@ void move_enemies(void)
 
 		if (rem_enemy != 0)
 		{
+			rem_enemy->state = ENEMY_STATE_DEAD;
+			rem_enemy->state_counter = 0;
 			deinit_enemy(rem_enemy);
 			rem_enemy = 0;
 		}
@@ -477,9 +486,9 @@ unsigned int hit_enemy(
 		}
 	}
 
-	if (enemy->state != ENEMY_STATE_EXPLODE)
+	if (enemy->state != ENEMY_STATE_EXPLODE && enemy->state != ENEMY_STATE_DYING)
 	{
-		if (enemy->state != ENEMY_STATE_DYING)
+		if (enemy->race->special != ENEMY_SPECIAL_HEAVY)
 		{
 			retreat_character(&enemy->ch);
 			enemy->state = ENEMY_STATE_STOP;

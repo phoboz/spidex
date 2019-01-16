@@ -31,13 +31,15 @@
 #define PLAYER_SCALE_TRESHOLD		10
 #define PLAYER_DYING_TRESHOLD		48
 #define PLAYER_DEAD_TRESHOLD		48
-#define PLAYER_INVINSIBLE_TRESHOLD	48
+#define PLAYER_INVINSIBLE_TRESHOLD	64
 
 
 struct player
 {
 	struct character ch;
 	unsigned int state;
+	signed int start_y;
+	signed int start_x;
 	unsigned long score;
 	unsigned int num_lives;
 	unsigned int fire_dir;
@@ -51,8 +53,8 @@ struct player
 
 void init_player(
 	struct player *player,
-	signed int y,
-	signed int x
+	signed int start_y,
+	signed int start_x
 	);
 
 void deinit_player(

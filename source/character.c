@@ -105,11 +105,10 @@ void set_dir_character(
 			break;
 	}
 
-	if (dir > DIR_DOWN_LEFT) {
-         dir = DIR_DOWN;
-    }
-
-	ch->base_frame = dir << 1;
+	if (dir < DIR_NONE)
+	{
+		ch->base_frame = dir << 1;
+	}
 }
 
 unsigned int animate_character(
@@ -120,9 +119,12 @@ unsigned int animate_character(
 
 	if (++ch->counter >= ch->treshold) {
 		ch->counter = 0;
-		if (++ch->frame >= ch->max_frames)
+		if (ch->dir < DIR_NONE)
 		{
-			ch->frame = 0;
+			if (++ch->frame >= ch->max_frames)
+			{
+				ch->frame = 0;
+			}
 		}
 		changed = 1;
 	}

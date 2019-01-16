@@ -44,6 +44,14 @@ void init_wave(
 	struct wave *wave
 	);
 
+void close_wave(
+	struct wave *wave,
+	unsigned int num_enemies,
+	struct enemy *enemies,
+	unsigned int num_walls,
+	struct wall *walls
+	);
+
 unsigned int move_wave(
 	struct wave *wave,
 	unsigned int num_enemies,

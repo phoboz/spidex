@@ -16,16 +16,16 @@ struct player player_1;
 
 void init_player(
 	struct player *player,
-	signed int y,
-	signed int x
+	signed int start_y,
+	signed int start_x
 	)
 {
 	unsigned int i;
 
 	init_character(
 		&player->ch,
-		y,
-		x,
+		start_y,
+		start_x,
 		PLAYER_HEIGHT,
 		PLAYER_WIDTH,
 		SPIDER_SCALE,
@@ -36,6 +36,11 @@ void init_player(
 		spider,
 		0
 		);
+
+	set_fire_dir_player(player, DIR_UP);
+
+	player->start_y	= start_y;
+	player->start_x	= start_x;
 
 	player->score		= 0;
 	player->num_lives	= PLAYER_NUM_LIVES;
@@ -135,7 +140,8 @@ void set_fire_dir_player(
 	unsigned int dir
 	)
 {
-	if (dir > DIR_DOWN_LEFT) {
+	if (dir > DIR_DOWN_LEFT)
+	{
          dir = DIR_DOWN;
     }
 
@@ -273,9 +279,10 @@ unsigned int move_single_joystick_player_1(void)
 			if (++player_1.state_counter >= PLAYER_DEAD_TRESHOLD)
 			{
 				player_1.num_lives--;
+				player_1.ch.obj.y = player_1.start_y;
+				player_1.ch.obj.x = player_1.start_x;
+				set_fire_dir_player(&player_1, DIR_UP);
 				set_state_player(&player_1, PLAYER_STATE_INVINSIBLE);
-				player_1.ch.obj.y = 0;
-				player_1.ch.obj.x = 0;
 				player_1.ch.obj.active = 1;
 			}
 		}
@@ -364,9 +371,10 @@ unsigned int move_dual_joystick_player_1(void)
 			if (++player_1.state_counter >= PLAYER_DEAD_TRESHOLD)
 			{
 				player_1.num_lives--;
+				player_1.ch.obj.y = player_1.start_y;
+				player_1.ch.obj.x = player_1.start_x;
+				set_fire_dir_player(&player_1, DIR_UP);
 				set_state_player(&player_1, PLAYER_STATE_INVINSIBLE);
-				player_1.ch.obj.y = 0;
-				player_1.ch.obj.x = 0;
 				player_1.ch.obj.active = 1;
 			}
 		}
@@ -445,7 +453,7 @@ void interaction_food_player_1(void)
 		if (hit_object(&player_1.ch.obj, &food->obj))
 		{
 			rem_food = food;
-			player_1.score++;
+			player_1.score += (unsigned int) food->value;
 		}
 		food = (struct food *) food->obj.next;
 

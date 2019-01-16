@@ -20,6 +20,9 @@
 #include "fire_snd.h"
 #include "fall_snd.h"
 
+#define PLAYER_1_START_Y	-40
+#define PLAYER_1_START_X	0
+
 // ---------------------------------------------------------------------------
 // cold reset: the vectrex logo is shown, all ram data is cleared
 // warm reset: skip vectrex logo and keep ram data
@@ -45,6 +48,12 @@ struct wave wave;
 struct enemy enemy[MAX_ENEMIES];
 struct food food[MAX_FOOD];
 struct wall wall[MAX_WALLS];
+signed int status;
+unsigned int fire_status = 0;
+unsigned int new_wave_index = 0;
+unsigned int wave_index = 1;
+unsigned int pause_state = 0;
+unsigned int dual_joystick = 0;
 
 void first_init(void)
 {
@@ -118,20 +127,14 @@ int main(void)
 {
 	unsigned int i;
 	unsigned int enemy_id;
-	signed int status;
-	unsigned int fire_status = 0;
-	unsigned int new_wave_index = 0;
-	unsigned int wave_index = 1;
-	unsigned int pause_state = 0;
-	unsigned int dual_joystick = 0;
 
-	init_input();
+	init_single_input();
 	init_random(5, 27, 3, 19);
 	first_init();
-	init_player(&player_1, 0, 0);
+	init_player(&player_1, PLAYER_1_START_Y, PLAYER_1_START_X);
 	init_wave(&wave);
 ////DEBUG
-	//wave.wave_index = 7;
+	//wave.wave_index = 9;
 ////END DEBUG
 	while(1)
 	{
@@ -169,7 +172,8 @@ int main(void)
 						init_food(
 							&food[i],
 							enemy[enemy_id - 1].ch.obj.y,
-							enemy[enemy_id - 1].ch.obj.x
+							enemy[enemy_id - 1].ch.obj.x,
+							enemy[enemy_id - 1].race->max_hits
 							);
 						break;
 					}
@@ -230,10 +234,9 @@ int main(void)
 				Print_Str_d(-127, -46, "GAME OVER\x80");
 				if (button_1_4_pressed())
 				{
-					init_player(&player_1, 0, 0);
-					clear_enemies();
+					close_wave(&wave, MAX_ENEMIES, enemy, MAX_WALLS, wall);
 					clear_foods();
-					clear_walls();
+					init_player(&player_1, PLAYER_1_START_Y, PLAYER_1_START_X);;
 					init_wave(&wave);
 				}
 			}
@@ -253,6 +256,7 @@ int main(void)
 
 		if (button_2_4_pressed())
 		{
+			init_dual_input();
 			dual_joystick = 1;
 		}
 
