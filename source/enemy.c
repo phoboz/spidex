@@ -277,78 +277,87 @@ void move_enemies(void)
 					break;
 
 				case ENEMY_TYPE_HOMING:
-					src_y = enemy->ch.obj.y;
-					src_x = enemy->ch.obj.x;
+					if (player_1.state == PLAYER_STATE_NORMAL ||
+						player_1.state == PLAYER_STATE_INVINSIBLE)
+					{
+						src_y = enemy->ch.obj.y;
+						src_x = enemy->ch.obj.x;
 
-					dest_y = player_1.ch.obj.y;
-					dest_x = player_1.ch.obj.x;
+						dest_y = player_1.ch.obj.y;
+						dest_x = player_1.ch.obj.x;
 
-					if (src_y < dest_y && src_x < dest_x)
-					{
-						set_dir_character(&enemy->ch, DIR_UP_RIGHT);
-					}
-					else if (src_y < dest_y && src_x == dest_x)
-					{
-						set_dir_character(&enemy->ch, DIR_UP);
-					}
-					else if (src_y < dest_y && src_x > dest_x)
-					{
-						set_dir_character(&enemy->ch, DIR_UP_LEFT);
-					}
-					else if (src_y == dest_y && src_x < dest_x)
-					{
-						set_dir_character(&enemy->ch, DIR_RIGHT);
-					}
-					else if (src_y == dest_y && src_x > dest_x)
-					{
-						set_dir_character(&enemy->ch, DIR_LEFT);
-					}
-					else if (src_y > dest_y && src_x < dest_x)
-					{
-						set_dir_character(&enemy->ch, DIR_DOWN_RIGHT);
-					}
-					else if (src_y > dest_y && src_x == dest_x)
-					{
-						set_dir_character(&enemy->ch, DIR_DOWN);
-					}
-					else if (src_y > dest_y && src_x > dest_x)
-					{
-						set_dir_character(&enemy->ch, DIR_DOWN_LEFT);
-					}
-
-					wall = (struct wall *) wall_list;
-					while (wall != 0)
-					{
-						if (quick_check_wall_character(&enemy->ch, wall))
+						if (src_y < dest_y && src_x < dest_x)
 						{
-							hit_wall = hit_wall_character(&enemy->ch, wall);
-							if (hit_wall)
-							{
-								break;
-							}
+							set_dir_character(&enemy->ch, DIR_UP_RIGHT);
 						}
-						wall = (struct wall *) wall->obj.next;
-					}
-
-					if (!hit_wall)
-					{
-						animate_character(&enemy->ch);
-						move_character(&enemy->ch);
-					}
-					else
-					{
-						if (enemy->race->special == ENEMY_SPECIAL_EXPLODE)
+						else if (src_y < dest_y && src_x == dest_x)
 						{
-							enemy->state = ENEMY_STATE_EXPLODE;
-							enemy->state_counter = 0;
+							set_dir_character(&enemy->ch, DIR_UP);
+						}
+						else if (src_y < dest_y && src_x > dest_x)
+						{
+							set_dir_character(&enemy->ch, DIR_UP_LEFT);
+						}
+						else if (src_y == dest_y && src_x < dest_x)
+						{
+							set_dir_character(&enemy->ch, DIR_RIGHT);
+						}
+						else if (src_y == dest_y && src_x > dest_x)
+						{
+							set_dir_character(&enemy->ch, DIR_LEFT);
+						}
+						else if (src_y > dest_y && src_x < dest_x)
+						{
+							set_dir_character(&enemy->ch, DIR_DOWN_RIGHT);
+						}
+						else if (src_y > dest_y && src_x == dest_x)
+						{
+							set_dir_character(&enemy->ch, DIR_DOWN);
+						}
+						else if (src_y > dest_y && src_x > dest_x)
+						{
+							set_dir_character(&enemy->ch, DIR_DOWN_LEFT);
+						}
+
+						wall = (struct wall *) wall_list;
+						while (wall != 0)
+						{
+							if (quick_check_wall_character(&enemy->ch, wall))
+							{
+								hit_wall = hit_wall_character(&enemy->ch, wall);
+								if (hit_wall)
+								{
+									break;
+								}
+							}
+							wall = (struct wall *) wall->obj.next;
+						}
+
+						if (!hit_wall)
+						{
+							animate_character(&enemy->ch);
+							move_character(&enemy->ch);
 						}
 						else
 						{
-							enemy->state = ENEMY_STATE_STOP;
-							enemy->state_counter = 0;
+							if (enemy->race->special == ENEMY_SPECIAL_EXPLODE)
+							{
+								enemy->state = ENEMY_STATE_EXPLODE;
+								enemy->state_counter = 0;
+							}
+							else
+							{
+								enemy->state = ENEMY_STATE_STOP;
+								enemy->state_counter = 0;
+							}
 						}
 					}
-					break;
+					else
+					{
+						enemy->state = ENEMY_STATE_STOP;
+						enemy->state_counter = 0;
+					}
+					break;						
 
 				default:
 					break;

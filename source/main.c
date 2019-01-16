@@ -134,7 +134,7 @@ int main(void)
 	init_player(&player_1, PLAYER_1_START_Y, PLAYER_1_START_X);
 	init_wave(&wave);
 ////DEBUG
-	//wave.wave_index = 9;
+	//wave.wave_index = 1;
 ////END DEBUG
 	while(1)
 	{
@@ -272,10 +272,12 @@ int main(void)
 		Intensity_5F();
 		draw_walls();
 
-		Intensity_7F();
+		Intensity_a(0x6f);
 		draw_player_1();
 		draw_enemies();
 		draw_food();
+
+		Intensity_7F();
 		draw_bullets();
 		draw_projectiles();
 	}
