@@ -30,7 +30,6 @@ extern const signed char web5[];
 
 unsigned int fire_status = 0;
 unsigned int new_wave_index = 0;
-unsigned int dual_joystick = 0;
 unsigned int enemy_id = 0;
 
 // ---------------------------------------------------------------------------
@@ -55,9 +54,28 @@ int main(void)
 	{
 		update_input();
 
-		if (game_state != GAME_STATE_PAUSE)
+		if (button_1_1_pressed())
 		{
-			if (dual_joystick)
+			if (game_state == GAME_STATE_NORMAL)
+			{
+				game_state = GAME_STATE_PAUSE;
+			}
+			else
+			{
+				game_state = GAME_STATE_NORMAL;
+			}
+		}
+
+		if (game_state == GAME_STATE_PAUSE)
+		{
+			if (button_1_4_pressed())
+			{
+				toggle_control_method_game();
+			}
+		}
+		else
+		{
+			if (game_options & GAME_OPTIONS_DUAL_JOYSTICKS)
 			{
 				fire_status = move_dual_joystick_player_1();
 			}
@@ -138,24 +156,6 @@ int main(void)
 					game_state = GAME_STATE_NORMAL;
 				}
 			}
-		}
-
-		if (button_1_1_pressed())
-		{
-			if (game_state == GAME_STATE_NORMAL)
-			{
-				game_state = GAME_STATE_PAUSE;
-			}
-			else
-			{
-				game_state = GAME_STATE_NORMAL;
-			}
-		}
-
-		if (button_2_4_pressed())
-		{
-			init_dual_input();
-			dual_joystick = 1;
 		}
 
 		Intensity_5F();

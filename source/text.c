@@ -10,10 +10,13 @@
 
 // ---------------------------------------------------------------------------
 
-static const char pause_text[]		= "PAUSE\x80";
 static const char wave_text[]		= "WAVE \x80";
 static const char lives_text[]		= "LIVES \x80";
 static const char game_over_text[]	= "GAME OVER\x80";
+
+static const char options_control_text[]	= "SELECT CONTROL:\x80";
+static const char options_single_text[]	= "SINGLE JOYSTICK\x80";
+static const char options_dual_text[]	= "DUAL JOYSTICKS\x80";
 
 static const unsigned long text_muls[] = { 100, 10, 1 };
 static char text_buffer[4];
@@ -51,7 +54,7 @@ void print_3digit_number(
 	)
 {
 	itoa(number, text_buffer);
-	Vec_Text_Width = 64;
+	Vec_Text_Width = TEXT_WIDTH;
 	Print_Str_d(y, x, text_buffer);
 }
 
@@ -63,7 +66,15 @@ void print_info_text(void)
 	switch (game_state)
 	{
 		case GAME_STATE_PAUSE:
-			Print_Str_d(TEXT_INFO_Y, -32, (char *) pause_text);
+			Print_Str_d(TEXT_INFO_Y, -127, (char *) options_control_text);
+			if (game_options & GAME_OPTIONS_DUAL_JOYSTICKS)
+			{
+				Print_Str_d(TEXT_INFO_Y, 8, (char *) options_dual_text);
+			}
+			else
+			{
+				Print_Str_d(TEXT_INFO_Y, 8, (char *) options_single_text);
+			}
 			break;
 
 		case GAME_STATE_NEW_WAVE:

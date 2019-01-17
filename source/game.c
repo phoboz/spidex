@@ -3,6 +3,7 @@
 // ***************************************************************************
 
 #include <vectrex.h>
+#include "input.h"
 #include "player.h"
 #include "enemy.h"
 #include "food.h"
@@ -21,6 +22,7 @@ struct wall game_walls[GAME_MAX_WALLS];
 unsigned int game_state = GAME_STATE_NORMAL;
 unsigned int game_wave_index = 1;
 
+unsigned int game_options = GAME_OPTIONS_NONE;
 
 void init_game(void)
 {
@@ -81,6 +83,20 @@ void init_food_game(
 				);
 			break;
 		}
+	}
+}
+
+void toggle_control_method_game(void)
+{
+	if (game_options & GAME_OPTIONS_DUAL_JOYSTICKS)
+	{
+		init_single_input();
+		game_options &= ~GAME_OPTIONS_DUAL_JOYSTICKS;
+	}
+	else
+	{
+		init_dual_input();
+		game_options |= GAME_OPTIONS_DUAL_JOYSTICKS;
 	}
 }
 
