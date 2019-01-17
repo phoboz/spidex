@@ -21,9 +21,6 @@
 #include "fire_snd.h"
 #include "fall_snd.h"
 
-#define PLAYER_1_START_Y	-40
-#define PLAYER_1_START_X	0
-
 extern const signed char web[];
 extern const signed char web1[];
 extern const signed char web2[];
@@ -51,8 +48,6 @@ int main(void)
 	init_single_input();
 	init_random(5, 27, 3, 19);
 	init_game();
-	init_player(&player_1, PLAYER_1_START_Y, PLAYER_1_START_X);
-	init_wave(&game_wave);
 ////DEBUG
 	//game_wave.wave_index = 1;
 ////END DEBUG
@@ -139,16 +134,7 @@ int main(void)
 				game_state = GAME_STATE_OVER;
 				if (button_1_4_pressed())
 				{
-					close_wave(
-						&game_wave,
-						GAME_MAX_ENEMIES,
-						game_enemies,
-						GAME_MAX_WALLS,
-						game_walls
-						);
-					clear_foods_game();
-					init_player(&player_1, PLAYER_1_START_Y, PLAYER_1_START_X);;
-					init_wave(&game_wave);
+					restart_game();
 					game_state = GAME_STATE_NORMAL;
 				}
 			}

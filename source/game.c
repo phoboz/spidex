@@ -3,6 +3,7 @@
 // ***************************************************************************
 
 #include <vectrex.h>
+#include "player.h"
 #include "enemy.h"
 #include "food.h"
 #include "wall.h"
@@ -39,9 +40,12 @@ void init_game(void)
 	{
 		game_walls[i].obj.active = 0;
 	}
+
+	init_player(&player_1, GAME_PLAYER_1_START_Y, GAME_PLAYER_1_START_X);
+	init_wave(&game_wave);
 }
 
-void clear_foods_game(void)
+static void clear_foods_game(void)
 {
 	unsigned int i;
 
@@ -49,6 +53,14 @@ void clear_foods_game(void)
 	{
 		deinit_food(&game_food[i]);
 	}
+}
+
+void restart_game(void)
+{
+	close_wave(&game_wave, GAME_MAX_ENEMIES, game_enemies, GAME_MAX_WALLS, game_walls);
+	clear_foods_game();
+	init_player(&player_1, GAME_PLAYER_1_START_Y, GAME_PLAYER_1_START_X);;
+	init_wave(&game_wave);
 }
 
 void init_food_game(

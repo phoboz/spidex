@@ -5,6 +5,10 @@
 #include "food.h"
 #include "wall.h"
 
+
+#define GAME_PLAYER_1_START_Y	-40
+#define GAME_PLAYER_1_START_X	0
+
 #define GAME_MAX_ENEMIES		3
 #define GAME_MAX_FOOD			5
 #define GAME_MAX_WALLS			8
@@ -17,7 +21,7 @@
 
 void init_game(void);
 
-void clear_foods_game(void);
+void restart_game(void);
 
 void init_food_game(
 	unsigned int enemy_index
