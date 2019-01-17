@@ -52,7 +52,8 @@ int main(void)
 ////END DEBUG
 	while(1)
 	{
-		update_input();
+		check_joysticks();
+		check_buttons();
 
 		if (button_1_1_pressed())
 		{

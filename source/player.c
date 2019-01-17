@@ -3,6 +3,7 @@
 // ***************************************************************************
 
 #include <vectrex.h>
+#include "controller.h"
 #include "input.h"
 #include "draw.h"
 #include "player.h"
@@ -206,7 +207,7 @@ unsigned int move_single_joystick_player_1(void)
 	{
 		if (player_1.state == PLAYER_STATE_NORMAL || player_1.state == PLAYER_STATE_INVINSIBLE)
 		{
-			if (!get_fire_input_1())
+			if (!button_1_4_held())
 			{
 				move_trigger = get_dir_input_1(&dir);
 				if (move_trigger)

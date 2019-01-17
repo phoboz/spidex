@@ -6,10 +6,6 @@
 void init_single_input(void);
 void init_dual_input(void);
 
-void update_input(void);
-
-unsigned int get_fire_input_1(void);
-
 unsigned int get_dir_input_1(
 	unsigned int *dir
 	);
