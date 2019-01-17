@@ -3,9 +3,17 @@
 // ***************************************************************************
 
 #include <vectrex.h>
+#include "player.h"
+#include "game.h"
+#include "draw.h"
 #include "text.h"
 
 // ---------------------------------------------------------------------------
+
+static const char pause_text[]		= "PAUSE\x80";
+static const char wave_text[]		= "WAVE \x80";
+static const char lives_text[]		= "LIVES \x80";
+static const char game_over_text[]	= "GAME OVER\x80";
 
 static const unsigned long text_muls[] = { 100, 10, 1 };
 static char text_buffer[4];
@@ -45,6 +53,33 @@ void print_3digit_number(
 	itoa(number, text_buffer);
 	Vec_Text_Width = 64;
 	Print_Str_d(y, x, text_buffer);
+}
+
+void print_info_text(void)
+{
+	reset0ref();
+	Vec_Text_Width = TEXT_WIDTH;
+
+	switch (game_state)
+	{
+		case GAME_STATE_PAUSE:
+			Print_Str_d(TEXT_INFO_Y, -32, (char *) pause_text);
+			break;
+
+		case GAME_STATE_NEW_WAVE:
+			Print_Str_d(TEXT_INFO_Y, -46, (char *) wave_text);
+			print_3digit_number(-127, 16, (unsigned long) game_wave_index);
+			break;
+
+		case GAME_STATE_DEAD:
+				Print_Str_d(TEXT_INFO_Y, -46, (char *) lives_text);
+				print_3digit_number(-127, 16, (unsigned long) (unsigned long) player_1.num_lives);
+			break;
+
+		case GAME_STATE_OVER:
+			Print_Str_d(TEXT_INFO_Y, -46, (char *) game_over_text);
+			break;
+	}
 }
 
 // ***************************************************************************

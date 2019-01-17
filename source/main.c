@@ -15,6 +15,7 @@
 #include "wall.h"
 #include "wave.h"
 #include "draw.h"
+#include "game.h"
 #include "text.h"
 #include "ayfxPlayer.h"
 #include "fire_snd.h"
@@ -22,6 +23,18 @@
 
 #define PLAYER_1_START_Y	-40
 #define PLAYER_1_START_X	0
+
+extern const signed char web[];
+extern const signed char web1[];
+extern const signed char web2[];
+extern const signed char web3[];
+extern const signed char web4[];
+extern const signed char web5[];
+
+unsigned int fire_status = 0;
+unsigned int new_wave_index = 0;
+unsigned int dual_joystick = 0;
+unsigned int enemy_id = 0;
 
 // ---------------------------------------------------------------------------
 // cold reset: the vectrex logo is shown, all ram data is cleared
@@ -33,121 +46,21 @@
 // after each reset, the cartridge title is shown and then main() is called
 // ---------------------------------------------------------------------------
 
-#define MAX_ENEMIES	3
-#define MAX_FOOD		5
-#define MAX_WALLS		8
-
-extern const signed char web[];
-extern const signed char web1[];
-extern const signed char web2[];
-extern const signed char web3[];
-extern const signed char web4[];
-extern const signed char web5[];
-
-struct wave wave;
-struct enemy enemy[MAX_ENEMIES];
-struct food food[MAX_FOOD];
-struct wall wall[MAX_WALLS];
-signed int status;
-unsigned int fire_status = 0;
-unsigned int new_wave_index = 0;
-unsigned int wave_index = 1;
-unsigned int pause_state = 0;
-unsigned int dual_joystick = 0;
-
-void first_init(void)
-{
-	unsigned int i;
-
-	for (i = 0; i < MAX_ENEMIES; i++)
-	{
-		enemy[i].ch.obj.active = 0;
-	}
-
-	for (i = 0; i < MAX_FOOD; i++)
-	{
-		food[i].obj.active = 0;
-	}
-
-	for (i = 0; i < MAX_WALLS; i++)
-	{
-		wall[i].obj.active = 0;
-	}
-}
-
-void clear_enemies(void)
-{
-	unsigned int i;
-
-	for (i = 0; i < MAX_ENEMIES; i++)
-	{
-		deinit_enemy(&enemy[i]);
-	}
-}
-
-void clear_foods(void)
-{
-	unsigned int i;
-
-	for (i = 0; i < MAX_FOOD; i++)
-	{
-		deinit_food(&food[i]);
-	}
-}
-
-void clear_walls(void)
-{
-	unsigned int i;
-
-	for (i = 0; i < MAX_WALLS; i++)
-	{
-		deinit_wall(&wall[i]);
-	}
-}
-
-signed int new_frame(void)
-{
-	if (Vec_Music_Flag)
-	{
-		DP_to_C8();
-		Init_Music_chk(&Vec_Music_9);
-	}
-
-	Wait_Recal();
-
-	if (Vec_Music_Flag || sfx_status_1 == 1)
-	{
-		Do_Sound();
-	}
-
-	return Vec_Music_Flag;
-}
-
 int main(void)
 {
-	unsigned int i;
-	unsigned int enemy_id;
-
 	init_single_input();
 	init_random(5, 27, 3, 19);
-	first_init();
+	init_game();
 	init_player(&player_1, PLAYER_1_START_Y, PLAYER_1_START_X);
-	init_wave(&wave);
+	init_wave(&game_wave);
 ////DEBUG
-	//wave.wave_index = 1;
+	//game_wave.wave_index = 1;
 ////END DEBUG
 	while(1)
 	{
 		update_input();
 
-		if (pause_state)
-		{
-			Intensity_5F();
-			reset0ref();
-			Vec_Text_Width = 64;
-			Print_Str_d(-127, -32, "PAUSE\x80");
-		}
-		else
+		if (game_state != GAME_STATE_PAUSE)
 		{
 			if (dual_joystick)
 			{
@@ -165,38 +78,33 @@ int main(void)
 			enemy_id = interaction_enemies_player_1();
 			if (enemy_id)
 			{
-				for (i = 0; i < MAX_FOOD; i++)
-				{
-					if (!food[i].obj.active)
-					{
-						init_food(
-							&food[i],
-							enemy[enemy_id - 1].ch.obj.y,
-							enemy[enemy_id - 1].ch.obj.x,
-							enemy[enemy_id - 1].race->max_hits
-							);
-						break;
-					}
-				}
+				init_food_game(enemy_id - 1);
 			}
 			interaction_projectiles_player_1();
-			new_wave_index = move_wave(&wave, MAX_ENEMIES, enemy, MAX_WALLS, wall);
+			new_wave_index = move_wave(
+				&game_wave,
+				GAME_MAX_ENEMIES,
+				game_enemies,
+				GAME_MAX_WALLS,
+				game_walls
+				);
 			interaction_food_player_1();
 		}
 
-		status = new_frame();
-		Intensity_5F();
-		if (status)
+		if (new_frame_game())
 		{
-			Vec_Text_Width = 64;
-			Print_Str_d(-127, -46, "WAVE \x80");
-			print_3digit_number(-127, 16, (unsigned long) wave_index);
+			game_state = GAME_STATE_NEW_WAVE;
 		}
 		else
 		{
+			if (game_state != GAME_STATE_PAUSE)
+			{
+				game_state = GAME_STATE_NORMAL;
+			}
+
 			if (new_wave_index)
 			{
-				wave_index = new_wave_index;
+				game_wave_index = new_wave_index;
 				Vec_Music_Flag = 1;
 			}
 
@@ -222,35 +130,39 @@ int main(void)
 
 		if (player_1.state == PLAYER_STATE_DEAD)
 		{
-			Vec_Text_Width = 64;
 			if (player_1.num_lives > 0)
 			{
-				Intensity_5F();
-				Print_Str_d(-127, -46, "LIVES \x80");
-				print_3digit_number(-127, 16, (unsigned long) player_1.num_lives);
+				game_state = GAME_STATE_DEAD;
 			}
 			else
 			{
-				Print_Str_d(-127, -46, "GAME OVER\x80");
+				game_state = GAME_STATE_OVER;
 				if (button_1_4_pressed())
 				{
-					close_wave(&wave, MAX_ENEMIES, enemy, MAX_WALLS, wall);
-					clear_foods();
+					close_wave(
+						&game_wave,
+						GAME_MAX_ENEMIES,
+						game_enemies,
+						GAME_MAX_WALLS,
+						game_walls
+						);
+					clear_foods_game();
 					init_player(&player_1, PLAYER_1_START_Y, PLAYER_1_START_X);;
-					init_wave(&wave);
+					init_wave(&game_wave);
+					game_state = GAME_STATE_NORMAL;
 				}
 			}
 		}
 
 		if (button_1_1_pressed())
 		{
-			if (!pause_state)
+			if (game_state == GAME_STATE_NORMAL)
 			{
-				pause_state = 1;
+				game_state = GAME_STATE_PAUSE;
 			}
 			else
 			{
-				pause_state = 0;
+				game_state = GAME_STATE_NORMAL;
 			}
 		}
 
@@ -260,6 +172,7 @@ int main(void)
 			dual_joystick = 1;
 		}
 
+		Intensity_5F();
 		print_3digit_number(127, -16, player_1.score);
 
 		Intensity_a(0x2f);
@@ -280,6 +193,9 @@ int main(void)
 		Intensity_7F();
 		draw_bullets();
 		draw_projectiles();
+
+		Intensity_5F();
+		print_info_text();
 	}
 	
 	// if return value is <= 0, then a warm reset will be performed,
