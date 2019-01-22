@@ -3,6 +3,7 @@
 // ***************************************************************************
 
 #include <vectrex.h>
+#include <macro.h>
 #include "generic.h"
 #include "draw.h"
 #include "player.h"
@@ -106,7 +107,7 @@ void deinit_enemy(
 	give_object(&enemy->ch.obj, &enemy_free_list);
 }
 
-static void set_random_dir_enemy(
+__INLINE void set_random_dir_enemy(
 	struct enemy *enemy
 	)
 {
@@ -146,31 +147,47 @@ static void set_random_dir_enemy(
 	}
 }
 
-static unsigned int shoot_projectile_enemy(
-	struct enemy *enemy,
-	unsigned int dir
+__INLINE void set_follow_dir_enemy(
+	struct enemy *enemy
 	)
 {
-	unsigned int fire = 0;
+	signed int src_y = enemy->ch.obj.y;
+	signed int src_x = enemy->ch.obj.x;
+	signed int dest_y = player_1.ch.obj.y;
+	signed int dest_x = player_1.ch.obj.x;
 
-	if (projectile_free_list != 0)
+	if (src_y > dest_y && src_x == dest_x)
 	{
-		init_projectile(
-			(struct projectile *) projectile_free_list,
-			&enemy->ch.obj,
-			enemy->ch.obj.y,
-			enemy->ch.obj.x,
-			ENEMY_PROJECTILE_HEIGHT,
-			ENEMY_PROJECTILE_WIDTH,
-			dir,
-			enemy->param,
-			ENEMY_PROJECTILE_SCALE/10,
-			spike
-			);
-		fire = 1;
+		set_dir_character(&enemy->ch, DIR_DOWN);
 	}
-
-	return fire;
+	else if (src_y > dest_y && src_x < dest_x)
+	{
+		set_dir_character(&enemy->ch, DIR_DOWN_RIGHT);
+	}
+	else if (src_y == dest_y && src_x < dest_x)
+	{
+		set_dir_character(&enemy->ch, DIR_RIGHT);
+	}
+	else if (src_y < dest_y && src_x < dest_x)
+	{
+		set_dir_character(&enemy->ch, DIR_UP_RIGHT);
+	}
+	else if (src_y < dest_y && src_x == dest_x)
+	{
+		set_dir_character(&enemy->ch, DIR_UP);
+	}
+	else if (src_y < dest_y && src_x > dest_x)
+	{
+		set_dir_character(&enemy->ch, DIR_UP_LEFT);
+	}
+	else if (src_y == dest_y && src_x > dest_x)
+	{
+		set_dir_character(&enemy->ch, DIR_LEFT);
+	}
+	else if (src_y > dest_y && src_x > dest_x)
+	{
+		set_dir_character(&enemy->ch, DIR_DOWN_LEFT);
+	}
 }
 
 void move_enemies(void)
@@ -178,8 +195,6 @@ void move_enemies(void)
 	struct enemy *enemy;
 	struct enemy *other;
 	struct wall *wall;
-	signed int src_y, src_x;
-	signed int dest_y, dest_x;
 	unsigned int proj_left;
 	struct projectile *proj;
 	struct enemy *rem_enemy = 0;
@@ -224,7 +239,21 @@ void move_enemies(void)
 						}
 						else if (enemy->path[enemy->step_counter].action == ENEMY_ACTION_SHOOT)
 						{
-							shoot_projectile_enemy(enemy, enemy->path[enemy->step_counter].dir);
+							if (projectile_free_list != 0)
+							{
+								init_projectile(
+									(struct projectile *) projectile_free_list,
+									&enemy->ch.obj,
+									enemy->ch.obj.y,
+									enemy->ch.obj.x,
+									ENEMY_PROJECTILE_HEIGHT,
+									ENEMY_PROJECTILE_WIDTH,
+									enemy->path[enemy->step_counter].dir,
+									enemy->param,
+									ENEMY_PROJECTILE_SCALE/10,
+									spike
+									);
+							}
 						}
 					}
 
@@ -271,43 +300,14 @@ void move_enemies(void)
 					if (player_1.state == PLAYER_STATE_NORMAL ||
 						player_1.state == PLAYER_STATE_INVINSIBLE)
 					{
-						src_y = enemy->ch.obj.y;
-						src_x = enemy->ch.obj.x;
-
-						dest_y = player_1.ch.obj.y;
-						dest_x = player_1.ch.obj.x;
-
-						if (src_y < dest_y && src_x < dest_x)
+						if (enemy->step_counter < DIR_NONE)
 						{
-							set_dir_character(&enemy->ch, DIR_UP_RIGHT);
+							set_follow_dir_enemy(enemy);
 						}
-						else if (src_y < dest_y && src_x == dest_x)
+						else if (++enemy->path_counter >= (unsigned int) enemy->param)
 						{
-							set_dir_character(&enemy->ch, DIR_UP);
-						}
-						else if (src_y < dest_y && src_x > dest_x)
-						{
-							set_dir_character(&enemy->ch, DIR_UP_LEFT);
-						}
-						else if (src_y == dest_y && src_x < dest_x)
-						{
-							set_dir_character(&enemy->ch, DIR_RIGHT);
-						}
-						else if (src_y == dest_y && src_x > dest_x)
-						{
-							set_dir_character(&enemy->ch, DIR_LEFT);
-						}
-						else if (src_y > dest_y && src_x < dest_x)
-						{
-							set_dir_character(&enemy->ch, DIR_DOWN_RIGHT);
-						}
-						else if (src_y > dest_y && src_x == dest_x)
-						{
-							set_dir_character(&enemy->ch, DIR_DOWN);
-						}
-						else if (src_y > dest_y && src_x > dest_x)
-						{
-							set_dir_character(&enemy->ch, DIR_DOWN_LEFT);
+							enemy->path_counter = 0;
+							enemy->step_counter = DIR_DOWN;
 						}
 
 						wall = (struct wall *) wall_list;
@@ -338,8 +338,8 @@ void move_enemies(void)
 							}
 							else
 							{
-								enemy->state = ENEMY_STATE_STOP;
-								enemy->state_counter = 0;
+								enemy->step_counter = DIR_NONE;
+								set_random_dir_enemy(enemy);
 							}
 						}
 					}

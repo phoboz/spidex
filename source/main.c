@@ -30,7 +30,6 @@ extern const signed char web5[];
 
 unsigned int fire_status = 0;
 unsigned int new_wave_index = 0;
-//unsigned int enemy_id = 0;
 struct enemy *slain_enemy = 0;
 
 // ---------------------------------------------------------------------------

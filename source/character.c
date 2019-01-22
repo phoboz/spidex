@@ -260,7 +260,23 @@ unsigned int hit_wall_character(
 	signed int h_2, w_2;
 	unsigned int result = 0;
 
-	if (ch->wall_mode == WALL_MODE_PASS_IN)
+	if (ch->wall_mode == WALL_MODE_PASS_NONE)
+	{
+		h_2 = ch->obj.h_2;
+		w_2 = ch->obj.w_2;
+
+		y = ch->obj.y + ch->dy;
+		x = ch->obj.x + ch->dx;
+
+		if (check_point_on_wall(wall, y - h_2, x - w_2) ||
+			check_point_on_wall(wall, y - h_2, x + w_2) ||
+			check_point_on_wall(wall, y + h_2, x + w_2) ||
+			check_point_on_wall(wall, y + h_2, x - w_2))
+		{
+			result = 1;
+		}
+	}
+	else if (ch->wall_mode == WALL_MODE_PASS_IN)
 	{
 		h_2 = ch->obj.h_2;
 		w_2 = ch->obj.w_2;

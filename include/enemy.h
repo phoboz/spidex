@@ -1,7 +1,6 @@
 #ifndef _ENEMY_H
 #define _ENEMY_H
 
-#include <macro.h>
 #include "character.h"
 #include "projectile.h"
 #include "wall.h"
