@@ -21,8 +21,6 @@ void init_player(
 	signed int start_x
 	)
 {
-	unsigned int i;
-
 	init_character(
 		&player->ch,
 		start_y,
@@ -50,11 +48,6 @@ void init_player(
 	player->anim_counter	= 0;
 
 	set_state_player(player, PLAYER_STATE_NORMAL);
-
-	for (i = 0; i < PLAYER_MAX_BULLETS; i++)
-	{
-		player->bullet[i].obj.active = 0;
-	}
 }
 
 void deinit_player(
@@ -157,7 +150,6 @@ unsigned int fire_bullet_player(
 	unsigned int trigger
 	)
 {
-	unsigned int i;
 	unsigned int fire = 0;
 
 	if (trigger)
@@ -170,24 +162,20 @@ unsigned int fire_bullet_player(
 		if (trigger)
 		{
 			player->fire_counter = 0;
-			for (i = 0; i < PLAYER_MAX_BULLETS; i++)
+			if (bullet_free_list != 0)
 			{
-				if (!player->bullet[i].obj.active)
-				{
-					init_bullet(
-						&player->bullet[i],
-						player->ch.obj.y,
-						player->ch.obj.x,
-						PLAYER_BULLET_HEIGHT,
-						PLAYER_BULLET_WIDTH,
-						player->fire_dir,
-						PLAYER_BULLET_SPEED,
-						PLAYER_SCALE/10,
-						star
-						);
-					fire = i + 1;
-					break;
-				}
+				init_bullet(
+					(struct bullet *) bullet_free_list,
+					player->ch.obj.y,
+					player->ch.obj.x,
+					PLAYER_BULLET_HEIGHT,
+					PLAYER_BULLET_WIDTH,
+					player->fire_dir,
+					PLAYER_BULLET_SPEED,
+					PLAYER_SCALE/10,
+					star
+					);
+				fire = 1;
 			}
 		}
 	}
@@ -384,12 +372,12 @@ unsigned int move_dual_joystick_player_1(void)
 	return fire;
 }
 
-unsigned int interaction_enemies_player_1(void)
+struct enemy* interaction_enemies_player_1(void)
 {
 	struct enemy *enemy;
 	struct bullet *bullet;
 	struct bullet *rem_bullet = 0;
-	unsigned int result = 0;
+	struct enemy *result = 0;
 
 	if (player_1.ch.obj.active)
 	{
@@ -424,7 +412,7 @@ unsigned int interaction_enemies_player_1(void)
 						rem_bullet = bullet;
 						if (hit_enemy(enemy))
 						{
-							result = 1 + enemy->index;
+							result = enemy;
 						}
 					}
 				}

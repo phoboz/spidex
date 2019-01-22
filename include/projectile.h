@@ -11,12 +11,14 @@
 struct projectile
 {
 	struct object obj;
+	struct object *owner;
 	signed int dy;
 	signed int dx;
 };
 
 void init_projectile(
 	struct projectile *proj,
+	struct object *owner,
 	signed int y,
 	signed int x,
 	signed int h,
@@ -35,5 +37,6 @@ void move_projectiles(void);
 void draw_projectiles(void);
 
 extern struct object *projectile_list;
+extern struct object *projectile_free_list;
 
 #endif

@@ -42,10 +42,10 @@ const struct enemy_race enemy_races[] =
 };
 
 struct object *enemy_list = 0;
+struct object *enemy_free_list = 0;
 
 void init_enemy(
 	struct enemy *enemy,
-	unsigned int index,
 	signed int y,
 	signed int x,
 	const struct enemy_race *race, 
@@ -54,8 +54,7 @@ void init_enemy(
 	signed int param
 	)
 {
-	unsigned int i;
-
+	take_object(&enemy->ch.obj, &enemy_free_list);
 	init_character(
 		&enemy->ch,
 		y,
@@ -71,7 +70,6 @@ void init_enemy(
 		&enemy_list
 		);
 
-	enemy->index			= index;
 	enemy->race			= race;
 	enemy->num_hits		= race->max_hits;
 	enemy->path_counter	= 0;
@@ -98,11 +96,6 @@ void init_enemy(
 	{
 		enemy->state = ENEMY_STATE_SPAWN;
 	}
-
-	for (i = 0; i < ENEMY_MAX_PROJECTILES; i++)
-	{
-		enemy->projectile[i].obj.active = 0;
-	}
 }
 
 void deinit_enemy(
@@ -110,6 +103,7 @@ void deinit_enemy(
 	)
 {
 	deinit_object(&enemy->ch.obj, &enemy_list);
+	give_object(&enemy->ch.obj, &enemy_free_list);
 }
 
 static void set_random_dir_enemy(
@@ -157,27 +151,23 @@ static unsigned int shoot_projectile_enemy(
 	unsigned int dir
 	)
 {
-	unsigned int i;
 	unsigned int fire = 0;
 
-	for (i = 0; i < ENEMY_MAX_PROJECTILES; i++)
+	if (projectile_free_list != 0)
 	{
-		if (!enemy->projectile[i].obj.active)
-		{
-			init_projectile(
-				&enemy->projectile[i],
-				enemy->ch.obj.y,
-				enemy->ch.obj.x,
-				ENEMY_PROJECTILE_HEIGHT,
-				ENEMY_PROJECTILE_WIDTH,
-				dir,
-				enemy->param,
-				ENEMY_PROJECTILE_SCALE/10,
-				spike
-				);
-			fire = i + 1;
-			break;
-		}
+		init_projectile(
+			(struct projectile *) projectile_free_list,
+			&enemy->ch.obj,
+			enemy->ch.obj.y,
+			enemy->ch.obj.x,
+			ENEMY_PROJECTILE_HEIGHT,
+			ENEMY_PROJECTILE_WIDTH,
+			dir,
+			enemy->param,
+			ENEMY_PROJECTILE_SCALE/10,
+			spike
+			);
+		fire = 1;
 	}
 
 	return fire;
@@ -190,7 +180,8 @@ void move_enemies(void)
 	struct wall *wall;
 	signed int src_y, src_x;
 	signed int dest_y, dest_x;
-	unsigned int i, proj_left;
+	unsigned int proj_left;
+	struct projectile *proj;
 	struct enemy *rem_enemy = 0;
 	unsigned int hit_wall = 0;
 
@@ -440,13 +431,16 @@ void move_enemies(void)
 			if (projectile_list != 0)
 			{
 				proj_left = 0;
-				for (i = 0; i < ENEMY_MAX_PROJECTILES; i++)
+				proj = (struct projectile *) projectile_list;
+				while (proj != 0)
 				{
-					if (enemy->projectile[i].obj.active)
+					if (proj->owner == &enemy->ch.obj)
 					{
 						proj_left = 1;
 						break;
 					}
+
+					proj = (struct projectile *) proj->obj.next;
 				}
 
 				if (!proj_left)

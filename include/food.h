@@ -32,5 +32,6 @@ void move_food(void);
 void draw_food(void);
 
 extern struct object *food_list;
+extern struct object *food_free_list;
 
 #endif

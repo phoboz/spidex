@@ -1,6 +1,7 @@
 #ifndef _ENEMY_H
 #define _ENEMY_H
 
+#include <macro.h>
 #include "character.h"
 #include "projectile.h"
 #include "wall.h"
@@ -37,7 +38,6 @@
 #define ENEMY_PROJECTILE_HEIGHT	4
 #define ENEMY_PROJECTILE_WIDTH	4
 #define ENEMY_PROJECTILE_SCALE	0x40
-#define ENEMY_MAX_PROJECTILES	3
 
 #define ENEMY_ACTION_MOVE		1
 #define ENEMY_ACTION_SHOOT		2
@@ -82,7 +82,6 @@ struct enemy_path {
 struct enemy
 {
 	struct character ch;
-	unsigned int index;
 	const struct enemy_race *race;
 	signed int num_hits;
 	unsigned int state;
@@ -93,12 +92,11 @@ struct enemy
 	const struct enemy_path *path;
 	signed int param;
 	unsigned int state_counter;
-	struct projectile projectile[ENEMY_MAX_PROJECTILES];
 };
+
 
 void init_enemy(
 	struct enemy *enemy,
-	unsigned int index,
 	signed int y,
 	signed int x,
 	const struct enemy_race *race, 
@@ -126,5 +124,6 @@ void draw_enemies(void);
 
 extern const struct enemy_race enemy_races[];
 extern struct object *enemy_list;
+extern struct object *enemy_free_list;
 
 #endif

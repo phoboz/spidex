@@ -17,7 +17,6 @@
 
 #define PLAYER_BULLET_HEIGHT	6
 #define PLAYER_BULLET_WIDTH		6
-#define PLAYER_MAX_BULLETS		3
 #define PLAYER_FIRE_THRESHOLD	8
 #define PLAYER_BULLET_SPEED		6
 #define PLAYER_NUM_LIVES		2
@@ -48,7 +47,6 @@ struct player
 	unsigned int anim_counter;
 	unsigned int invinsible_counter;
 	unsigned int state_changed;
-	struct bullet bullet[PLAYER_MAX_BULLETS];
 };
 
 void init_player(
@@ -74,7 +72,7 @@ void set_fire_dir_player(
 unsigned int move_single_joystick_player_1(void);
 unsigned int move_dual_joystick_player_1(void);
 
-unsigned int interaction_enemies_player_1(void);
+struct enemy* interaction_enemies_player_1(void);
 
 void interaction_food_player_1(void);
 

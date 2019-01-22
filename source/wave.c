@@ -581,38 +581,39 @@ void init_wave(
 }
 
 void close_wave(
-	struct wave *wave,
-	unsigned int num_enemies,
-	struct enemy *enemies,
-	unsigned int num_walls,
-	struct wall *walls
+	struct wave *wave
 	)
 {
-	unsigned int i;
+	struct enemy *enemy;
+	struct wall *wall;
+	struct wall *rem_wall;
 
-	for (i = 0; i < num_enemies; i++)
+	enemy = (struct enemy *) enemy_list;
+	while (enemy != 0)
 	{
-		enemies[i].state = ENEMY_STATE_DYING;
-		enemies[i].state_counter = 0;
+		enemy->state = ENEMY_STATE_DYING;
+		enemy->state_counter = 0;
+		enemy = (struct enemy *) enemy->ch.obj.next;
 	}
 
-	for (i = 0; i < num_walls; i++)
+	wall = (struct wall *) wall_list;
+	while (wall != 0)
 	{
-		deinit_wall(&walls[i]);
+		rem_wall = wall;
+		wall = (struct wall *) wall->obj.next;
+		deinit_wall(rem_wall);
 	}
 
 	wave->new_wave = 0;
 }
 	
 unsigned int move_wave(
-	struct wave *wave,
-	unsigned int num_enemies,
-	struct enemy *enemies,
-	unsigned int num_walls,
-	struct wall *walls
+	struct wave *wave
 	)
 {
-	unsigned int i;
+	struct enemy *enemy;
+	struct wall *wall;
+	unsigned int result = 0;
 
 	if (!wave->new_wave)
 	{
@@ -623,53 +624,44 @@ unsigned int move_wave(
 			wave->retry = 1;
 			if (waves[wave->wave_index].elements[wave->element_index].object_type == WAVE_OBJECT_TYPE_ENEMY)
 			{
-				for (i = 0; i < num_enemies; i++)
+				if (enemy_free_list != 0)
 				{
-					if (!enemies[i].ch.obj.active)
-					{
-						init_enemy(
-							&enemies[i],
-							i,
-							waves[wave->wave_index].elements[wave->element_index].y,
-							waves[wave->wave_index].elements[wave->element_index].x,
-							&enemy_races[waves[wave->wave_index].elements[wave->element_index].object_index],
-							enemy_paths[waves[wave->wave_index].elements[wave->element_index].path_index].num_steps,
-							enemy_paths[waves[wave->wave_index].elements[wave->element_index].path_index].path,
-							waves[wave->wave_index].elements[wave->element_index].param
-							);
-						wave->retry = 0;
-						break;
-					}
+					init_enemy(
+						(struct enemy *) enemy_free_list,
+						waves[wave->wave_index].elements[wave->element_index].y,
+						waves[wave->wave_index].elements[wave->element_index].x,
+						&enemy_races[waves[wave->wave_index].elements[wave->element_index].object_index],
+						enemy_paths[waves[wave->wave_index].elements[wave->element_index].path_index].num_steps,
+						enemy_paths[waves[wave->wave_index].elements[wave->element_index].path_index].path,
+						waves[wave->wave_index].elements[wave->element_index].param
+						);
+					wave->retry = 0;
 				}
 			}
 			else if (waves[wave->wave_index].elements[wave->element_index].object_type == WAVE_OBJECT_TYPE_WALL)
 			{
-				for (i = 0; i < num_walls; i++)
+				if (wall_free_list != 0)
 				{
-					if (!walls[i].obj.active)
-					{
-						init_wall(
-							&walls[i],
-							waves[wave->wave_index].elements[wave->element_index].object_index
-							);
-						wave->retry = 0;
-						break;
-					}
+					init_wall(
+						(struct wall *) wall_free_list,
+						waves[wave->wave_index].elements[wave->element_index].object_index
+						);
+					wave->retry = 0;
 				}
 			}
 			else if (waves[wave->wave_index].elements[wave->element_index].object_type == WAVE_OBJECT_TYPE_DEWALL)
 			{
-				for (i = 0; i < num_walls; i++)
+				wall = (struct wall *) wall_list;
+				while (wall != 0)
 				{
-					if (walls[i].obj.active)
+					if (wall->index == waves[wave->wave_index].elements[wave->element_index].object_index)
 					{
-						if (walls[i].index == waves[wave->wave_index].elements[wave->element_index].object_index)
-						{
-							deinit_wall(&walls[i]);
-							wave->retry = 0;
-							break;
-						}
+						deinit_wall(wall);
+						wave->retry = 0;
+						break;
 					}
+
+					wall = (struct wall *) wall->obj.next;
 				}
 			}
 
@@ -688,25 +680,31 @@ unsigned int move_wave(
 
 	if (wave->new_wave)
 	{
-		for (i = 0; i < num_enemies; i++)
+		result = wave->wave_index + 1;
+		enemy = (struct enemy *) enemy_list;
+		while (enemy != 0)
 		{
-			if (enemies[i].ch.obj.active && enemies[i].num_hits > 0)
+			if (enemy->num_hits > 0)
 			{
-				return 0;
+				result = 0;
+				break;
+			}
+
+			enemy = (struct enemy *) enemy->ch.obj.next;
+		}
+
+		if (result)
+		{
+			close_wave(wave);
+
+			if (++wave->wave_index >= max_waves)
+			{
+				wave->wave_index = 0;
 			}
 		}
-
-		close_wave(wave, num_enemies, enemies, num_walls, walls);
-
-		if (++wave->wave_index >= max_waves)
-		{
-			wave->wave_index = 0;
-		}
-
-		return wave->wave_index + 1;
 	}
 
-	return 0;
+	return result;
 }
 
 // ***************************************************************************

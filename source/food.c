@@ -10,6 +10,7 @@
 #define AMPLIFIER_MUL 10
 
 struct object *food_list = 0;
+struct object *food_free_list = 0;
 
 static const signed char food_shape[]=
 {	
@@ -42,6 +43,7 @@ void init_food(
 		inc_scale = FOOD_MAX_SCALE_INCREASE;
 	}
 
+	take_object(&food->obj, &food_free_list);
 	init_object(
 		&food->obj,
 		y,
@@ -62,6 +64,7 @@ void deinit_food(
 	)
 {
 	deinit_object(&food->obj, &food_list);
+	give_object(&food->obj, &food_free_list);
 }
 
 void move_food(void)

@@ -15,7 +15,9 @@
 // ---------------------------------------------------------------------------
 
 struct wave game_wave;
+struct bullet game_bullets[GAME_MAX_BULLETS];
 struct enemy game_enemies[GAME_MAX_ENEMIES];
+struct projectile game_projectiles[GAME_MAX_PROJECTILES];
 struct food game_food[GAME_MAX_FOOD];
 struct wall game_walls[GAME_MAX_WALLS];
 
@@ -28,19 +30,29 @@ void init_game(void)
 {
 	unsigned int i;
 
+	for (i = 0; i < GAME_MAX_BULLETS; i++)
+	{
+		give_object(&game_bullets[i].obj, &bullet_free_list);
+	}
+
 	for (i = 0; i < GAME_MAX_ENEMIES; i++)
 	{
-		game_enemies[i].ch.obj.active = 0;
+		give_object(&game_enemies[i].ch.obj, &enemy_free_list);
+	}
+
+	for (i = 0; i < GAME_MAX_PROJECTILES; i++)
+	{
+		give_object(&game_projectiles[i].obj, &projectile_free_list);
 	}
 
 	for (i = 0; i < GAME_MAX_FOOD; i++)
 	{
-		game_food[i].obj.active = 0;
+		give_object(&game_food[i].obj, &food_free_list);
 	}
 
 	for (i = 0; i < GAME_MAX_WALLS; i++)
 	{
-		game_walls[i].obj.active = 0;
+		give_object(&game_walls[i].obj, &wall_free_list);
 	}
 
 	init_player(&player_1, GAME_PLAYER_1_START_Y, GAME_PLAYER_1_START_X);
@@ -59,30 +71,25 @@ static void clear_foods_game(void)
 
 void restart_game(void)
 {
-	close_wave(&game_wave, GAME_MAX_ENEMIES, game_enemies, GAME_MAX_WALLS, game_walls);
+	close_wave(&game_wave);
 	clear_foods_game();
 	init_player(&player_1, GAME_PLAYER_1_START_Y, GAME_PLAYER_1_START_X);;
 	init_wave(&game_wave);
 }
 
 void init_food_game(
-	unsigned int enemy_index
+	struct enemy *enemy
 	)
-{
-	unsigned int i;
 
-	for (i = 0; i < GAME_MAX_FOOD; i++)
+{
+	if (food_free_list != 0)
 	{
-		if (!game_food[i].obj.active)
-		{
-			init_food(
-				&game_food[i],
-				game_enemies[enemy_index].ch.obj.y,
-				game_enemies[enemy_index].ch.obj.x,
-				game_enemies[enemy_index].race->max_hits
-				);
-			break;
-		}
+		init_food(
+			(struct food *) food_free_list,
+			enemy->ch.obj.y,
+			enemy->ch.obj.x,
+			enemy->race->max_hits
+			);
 	}
 }
 

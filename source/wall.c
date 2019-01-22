@@ -13,6 +13,7 @@ extern const signed char* const web_walls[];
 extern const signed char* const web_wall_coords[];
 
 struct object *wall_list = 0;
+struct object *wall_free_list = 0;
 
 void init_wall(
 	struct wall *wall,
@@ -44,6 +45,7 @@ void init_wall(
 		x2 = temp; 
 	}
 
+	take_object(&wall->obj, &wall_free_list);
 	init_object(&wall->obj, y1, x1, y2 - y1, x2 - x1, OBJECT_MOVE_SCALE, 0, &wall_list);
 
 	wall->y2 = y2;
@@ -58,6 +60,7 @@ void deinit_wall(
 	)
 {
 	deinit_object(&wall->obj, &wall_list);
+	give_object(&wall->obj, &wall_free_list);
 }
 
 unsigned int check_point_on_wall(

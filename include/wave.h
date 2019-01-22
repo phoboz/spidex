@@ -45,19 +45,11 @@ void init_wave(
 	);
 
 void close_wave(
-	struct wave *wave,
-	unsigned int num_enemies,
-	struct enemy *enemies,
-	unsigned int num_walls,
-	struct wall *walls
+	struct wave *wave
 	);
 
 unsigned int move_wave(
-	struct wave *wave,
-	unsigned int num_enemies,
-	struct enemy *enemies,
-	unsigned int num_walls,
-	struct wall *walls
+	struct wave *wave
 	);
 
 extern const struct path_element enemy_paths[];

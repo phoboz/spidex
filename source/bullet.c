@@ -9,6 +9,7 @@
 // ---------------------------------------------------------------------------
 
 struct object *bullet_list = 0;
+struct object *bullet_free_list = 0;
 
 void init_bullet(
 	struct bullet *bullet,
@@ -22,6 +23,7 @@ void init_bullet(
 	const signed char* const *shapes
 	)
 {
+	take_object(&bullet->obj, &bullet_free_list);
 	init_object(&bullet->obj, y, x, h, w, scale, shapes[0], &bullet_list);
 
 	switch (dir) {
@@ -80,6 +82,7 @@ void deinit_bullet(
 	)
 {
 	deinit_object(&bullet->obj, &bullet_list);
+	give_object(&bullet->obj, &bullet_free_list);
 }
 
 void move_bullets(void)

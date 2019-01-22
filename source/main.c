@@ -30,7 +30,8 @@ extern const signed char web5[];
 
 unsigned int fire_status = 0;
 unsigned int new_wave_index = 0;
-unsigned int enemy_id = 0;
+//unsigned int enemy_id = 0;
+struct enemy *slain_enemy = 0;
 
 // ---------------------------------------------------------------------------
 // cold reset: the vectrex logo is shown, all ram data is cleared
@@ -89,19 +90,13 @@ int main(void)
 			move_projectiles();
 			move_food();
 
-			enemy_id = interaction_enemies_player_1();
-			if (enemy_id)
+			slain_enemy = interaction_enemies_player_1();
+			if (slain_enemy)
 			{
-				init_food_game(enemy_id - 1);
+				init_food_game(slain_enemy);
 			}
 			interaction_projectiles_player_1();
-			new_wave_index = move_wave(
-				&game_wave,
-				GAME_MAX_ENEMIES,
-				game_enemies,
-				GAME_MAX_WALLS,
-				game_walls
-				);
+			new_wave_index = move_wave(&game_wave);
 			interaction_food_player_1();
 		}
 

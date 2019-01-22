@@ -9,9 +9,11 @@
 // ---------------------------------------------------------------------------
 
 struct object *projectile_list = 0;
+struct object *projectile_free_list = 0;
 
 void init_projectile(
 	struct projectile *proj,
+	struct object *owner,
 	signed int y,
 	signed int x,
 	signed int h,
@@ -22,7 +24,10 @@ void init_projectile(
 	const signed char* const *shapes
 	)
 {
+	take_object(&proj->obj, &projectile_free_list);
 	init_object(&proj->obj, y, x, h, w, scale, shapes[dir], &projectile_list);
+
+	proj->owner = owner;
 
 	switch (dir) {
 		case DIR_DOWN:
@@ -77,6 +82,7 @@ void deinit_projectile(
 	)
 {
 	deinit_object(&proj->obj, &projectile_list);
+	give_object(&proj->obj, &projectile_free_list);
 }
 
 void move_projectiles(void)

@@ -37,5 +37,6 @@ unsigned int check_point_on_wall(
 void draw_walls(void);
 
 extern struct object *wall_list;
+extern struct object *wall_free_list;
 
 #endif

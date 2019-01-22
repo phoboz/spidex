@@ -40,5 +40,6 @@ void move_bullets(void);
 void draw_bullets(void);
 
 extern struct object *bullet_list;
+extern struct object *bullet_free_list;
 
 #endif

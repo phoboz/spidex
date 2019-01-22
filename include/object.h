@@ -25,6 +25,15 @@ struct object
 	struct object *prev, *next;
 };
 
+void give_object(
+	struct object *obj,
+	struct object **head
+	);
+
+void take_object(
+	struct object *obj,
+	struct object **head
+	);
 
 void init_object(
 	struct object *obj,
