@@ -372,6 +372,71 @@ unsigned int move_dual_joystick_player_1(void)
 	return fire;
 }
 
+unsigned int goto_player_1(
+	signed int dest_y,
+	signed int dest_x
+	)
+{
+	unsigned int result = 0;
+	signed int src_y = player_1.ch.obj.y;
+	signed int src_x = player_1.ch.obj.x;
+
+	if (src_y > dest_y && src_x == dest_x)
+	{
+		set_walk_dir_player(&player_1, DIR_DOWN);
+	}
+	else if (src_y > dest_y && src_x < dest_x)
+	{
+		set_walk_dir_player(&player_1, DIR_DOWN_RIGHT);
+	}
+	else if (src_y == dest_y && src_x < dest_x)
+	{
+		set_walk_dir_player(&player_1, DIR_RIGHT);
+	}
+	else if (src_y < dest_y && src_x < dest_x)
+	{
+		set_walk_dir_player(&player_1, DIR_UP_RIGHT);
+	}
+	else if (src_y < dest_y && src_x == dest_x)
+	{
+		set_walk_dir_player(&player_1, DIR_UP);
+	}
+	else if (src_y < dest_y && src_x > dest_x)
+	{
+		set_walk_dir_player(&player_1, DIR_UP_LEFT);
+	}
+	else if (src_y == dest_y && src_x > dest_x)
+	{
+		set_walk_dir_player(&player_1, DIR_LEFT);
+	}
+	else if (src_y > dest_y && src_x > dest_x)
+	{
+		set_walk_dir_player(&player_1, DIR_DOWN_LEFT);
+	}
+
+	animate_character(&player_1.ch);
+	move_character(&player_1.ch);
+
+	if (player_1.ch.obj.y > dest_y - player_1.ch.move_speed &&
+		player_1.ch.obj.y < dest_y + player_1.ch.move_speed &&
+		player_1.ch.obj.x > dest_x - player_1.ch.move_speed &&
+		player_1.ch.obj.x < dest_x + player_1.ch.move_speed)
+	{
+		result = 1;
+	}
+
+	return result;
+}
+
+void perform_dance_player_1(void)
+{
+	if (++player_1.ch.counter >= PLAYER_ANIM_TRESHOLD)
+	{
+		player_1.ch.counter = 0;
+		set_fire_dir_player(&player_1, player_1.fire_dir + 1);
+	}
+}
+
 struct enemy* interaction_enemies_player_1(void)
 {
 	struct enemy *enemy;

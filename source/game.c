@@ -21,6 +21,8 @@ struct projectile game_projectiles[GAME_MAX_PROJECTILES];
 struct food game_food[GAME_MAX_FOOD];
 struct wall game_walls[GAME_MAX_WALLS];
 
+unsigned int game_frame_number = 0;
+unsigned int game_flashing_intensity = 0;
 unsigned int game_state = GAME_STATE_NORMAL;
 unsigned int game_wave_index = 1;
 
@@ -73,7 +75,7 @@ void restart_game(void)
 {
 	close_wave(&game_wave);
 	clear_foods_game();
-	init_player(&player_1, GAME_PLAYER_1_START_Y, GAME_PLAYER_1_START_X);;
+	init_player(&player_1, GAME_PLAYER_1_START_Y, GAME_PLAYER_1_START_X);
 	init_wave(&game_wave);
 }
 
@@ -116,6 +118,17 @@ signed int new_frame_game(void)
 	}
 
 	Wait_Recal();
+
+	if ((game_frame_number & 16) == 0)
+	{
+		game_flashing_intensity += 4;
+	}
+	else
+	{
+		game_flashing_intensity -= 4;
+	}
+
+	game_frame_number++;
 
 	if (Vec_Music_Flag || sfx_status_1 == 1)
 	{

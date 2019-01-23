@@ -5,7 +5,7 @@
 #include "food.h"
 #include "wall.h"
 
-#define GAME_PLAYER_1_START_Y	-40
+#define GAME_PLAYER_1_START_Y	-48
 #define GAME_PLAYER_1_START_X	0
 
 #define GAME_MAX_BULLETS		3
@@ -40,6 +40,8 @@ extern struct enemy game_enemies[];
 extern struct food game_food[];
 extern struct wall game_walls[];
 
+extern unsigned int game_frame_number;
+extern unsigned int game_flashing_intensity;
 extern unsigned int game_state;
 extern unsigned int game_wave_index;
 

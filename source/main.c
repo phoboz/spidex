@@ -29,9 +29,10 @@ extern const signed char web3[];
 extern const signed char web4[];
 extern const signed char web5[];
 
-unsigned int fire_status = 0;
-unsigned int new_wave_index = 0;
-struct enemy *slain_enemy = 0;
+static unsigned int player_home;
+static unsigned int fire_status = 0;
+static unsigned int new_wave_index = 0;
+static struct enemy *slain_enemy = 0;
 
 // ---------------------------------------------------------------------------
 // cold reset: the vectrex logo is shown, all ram data is cleared
@@ -75,6 +76,19 @@ int main(void)
 				toggle_control_method_game();
 			}
 		}
+		else if (game_state == GAME_STATE_NEW_WAVE)
+		{
+			if (!player_home)
+			{
+				player_home = goto_player_1(GAME_PLAYER_1_START_Y, GAME_PLAYER_1_START_X);
+			}
+			else
+			{
+				perform_dance_player_1();
+			}
+			move_bullets();
+			move_projectiles();
+		}
 		else
 		{
 			if (game_options & GAME_OPTIONS_DUAL_JOYSTICKS)
@@ -85,6 +99,7 @@ int main(void)
 			{
 				fire_status = move_single_joystick_player_1();
 			}
+
 			move_bullets();
 			move_enemies();
 			move_projectiles();
@@ -95,25 +110,28 @@ int main(void)
 			{
 				init_food_game(slain_enemy);
 			}
+
 			interaction_projectiles_player_1();
 			new_wave_index = move_wave(&game_wave);
 			interaction_food_player_1();
 		}
 
-		if (new_frame_game())
-		{
-			game_state = GAME_STATE_NEW_WAVE;
-		}
-		else
+		if (new_frame_game() == 0)
 		{
 			if (game_state != GAME_STATE_PAUSE)
 			{
 				game_state = GAME_STATE_NORMAL;
 			}
+		}
 
+		if (game_state != GAME_STATE_NEW_WAVE)
+		{
 			if (new_wave_index)
 			{
 				game_wave_index = new_wave_index;
+				new_wave_index = 0;
+				player_home = 0;
+				game_state = GAME_STATE_NEW_WAVE;
 				Vec_Music_Flag = 1;
 			}
 
@@ -157,21 +175,35 @@ int main(void)
 		Intensity_5F();
 		print_3digit_number(127, -16, player_1.score);
 
-		Intensity_a(0x2f);
-		drawWeb();
-		dp_VIA_t1_cnt_lo = 0x80;
+		if (game_state == GAME_STATE_NEW_WAVE)
+		{
+			Intensity_a(game_flashing_intensity << 1);
+			drawWeb();
+			dp_VIA_t1_cnt_lo = 0x80;
 
-		Intensity_5F();
-		draw_walls();
+			draw_player_1();
+			draw_food();
+			draw_bullets();
+			draw_projectiles();
+		}
+		else
+		{
+			Intensity_a(0x2f);
+			drawWeb();
+			dp_VIA_t1_cnt_lo = 0x80;
 
-		Intensity_a(0x6f);
-		draw_player_1();
-		draw_enemies();
-		draw_food();
+			Intensity_5F();
+			draw_walls();
 
-		Intensity_7F();
-		draw_bullets();
-		draw_projectiles();
+			Intensity_a(0x6f);
+			draw_player_1();
+			draw_enemies();
+			draw_food();
+
+			Intensity_7F();
+			draw_bullets();
+			draw_projectiles();
+		}
 
 		Intensity_5F();
 		print_info_text();
