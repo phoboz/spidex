@@ -63,7 +63,7 @@ void init_enemy(
 		race->h,
 		race->w,
 		race->scale,
-		WALL_MODE_PASS_OUT,
+		CHARACTER_WALL_PASS_OUT,
 		race->speed,
 		race->treshold,
 		2,

@@ -4,6 +4,10 @@
 #include "object.h"
 #include "wall.h"
 
+#define CHARACTER_WALL_PASS_NONE	0
+#define CHARACTER_WALL_PASS_IN		1
+#define CHARACTER_WALL_PASS_OUT		2
+
 #define CHARACTER_MIN_Y	-108
 #define CHARACTER_MAX_Y	 108
 #define CHARACTER_MIN_X	-100

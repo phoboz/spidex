@@ -260,7 +260,7 @@ unsigned int hit_wall_character(
 	signed int h_2, w_2;
 	unsigned int result = 0;
 
-	if (ch->wall_mode == WALL_MODE_PASS_NONE)
+	if (ch->wall_mode == CHARACTER_WALL_PASS_NONE)
 	{
 		h_2 = ch->obj.h_2;
 		w_2 = ch->obj.w_2;
@@ -276,7 +276,7 @@ unsigned int hit_wall_character(
 			result = 1;
 		}
 	}
-	else if (ch->wall_mode == WALL_MODE_PASS_IN)
+	else if (ch->wall_mode == CHARACTER_WALL_PASS_IN)
 	{
 		h_2 = ch->obj.h_2;
 		w_2 = ch->obj.w_2;
@@ -344,7 +344,7 @@ unsigned int hit_wall_character(
 			}
 		}
 	}
-	else if (ch->wall_mode == WALL_MODE_PASS_OUT)
+	else if (ch->wall_mode == CHARACTER_WALL_PASS_OUT)
 	{
 		h_2 = ch->obj.h_2;
 		w_2 = ch->obj.w_2;

@@ -3,10 +3,6 @@
 
 #include "object.h"
 
-#define WALL_MODE_PASS_NONE		0
-#define WALL_MODE_PASS_IN		1
-#define WALL_MODE_PASS_OUT		2
-
 #define WALL_CHECK_DELTA	3
 
 struct wall
