@@ -3,8 +3,9 @@
 // ***************************************************************************
 
 #include <vectrex.h>
-
+/*
 // ---------------------------------------------------------------------------
+
 #define WEB1_BLOW_UP 10
 const signed char web1[]=
 {	(signed char) 0x01, -0x04*WEB1_BLOW_UP, +0x0B*WEB1_BLOW_UP, // sync and move to y, x
@@ -145,7 +146,7 @@ const signed char web[]=
 	
 	
 };
-
+*/
 const signed char web_wall_1_1[]=
 {
 	-10, +4, // move to y, x

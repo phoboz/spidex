@@ -123,7 +123,11 @@ void draw_walls(void)
 	{
 		reset0ref();
 		moveto(wall->pos_vlist[0], wall->pos_vlist[1]);
-		draw_vlist_c(&wall->pos_vlist[2]);
+//		draw_vlist_c(&wall->pos_vlist[2]);
+		// $aa = 10101010 pattern
+		// $cc = 11001100 pattern
+		// $f0 = 11110000 pattern
+		draw_vlist_c_pattern(&wall->pos_vlist[2], (signed char) 0xf0);
 		wall = (struct wall *) wall->obj.next;
 	}
 }

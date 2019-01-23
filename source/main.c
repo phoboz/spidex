@@ -7,6 +7,7 @@
 #include "controller.h"
 #include "input.h"
 #include "draw.h"
+#include "DrawWebToC.h"
 #include "player.h"
 #include "bullet.h"
 #include "enemy.h"
@@ -157,11 +158,8 @@ int main(void)
 		print_3digit_number(127, -16, player_1.score);
 
 		Intensity_a(0x2f);
-		draw_synced_list_c_nm(web1, 0x80/10-1);
-		draw_synced_list_c_nm(web2, 0x80/3-1);
-		draw_synced_list_c_nm1(web3, 0x80/8-1, 0x80);
-		draw_synced_list_c_nm(web4, 0x80/2-1);
-		draw_synced_list_c_nm(web5, 0x80);
+		drawWeb();
+		dp_VIA_t1_cnt_lo = 0x80;
 
 		Intensity_5F();
 		draw_walls();
