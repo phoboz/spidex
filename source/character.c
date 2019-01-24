@@ -268,10 +268,14 @@ unsigned int hit_wall_character(
 		y = ch->obj.y + ch->dy;
 		x = ch->obj.x + ch->dx;
 
+#ifdef CHARACTER_WALL_CHECK_CORNERS
 		if (check_point_on_wall(wall, y - h_2, x - w_2) ||
 			check_point_on_wall(wall, y - h_2, x + w_2) ||
 			check_point_on_wall(wall, y + h_2, x + w_2) ||
 			check_point_on_wall(wall, y + h_2, x - w_2))
+#else
+		if (check_point_on_wall(wall, y, x))
+#endif
 		{
 			result = 1;
 		}
@@ -288,10 +292,14 @@ unsigned int hit_wall_character(
 
 			if ((unsigned int) abs(y) > (unsigned int) abs(ch->obj.y))
 			{
+#ifdef CHARACTER_WALL_CHECK_CORNERS
 				if (check_point_on_wall(wall, y - h_2, x - w_2) ||
 					check_point_on_wall(wall, y - h_2, x + w_2) ||
 					check_point_on_wall(wall, y + h_2, x + w_2) ||
 					check_point_on_wall(wall, y + h_2, x - w_2))
+#else
+				if (check_point_on_wall(wall, y, x))
+#endif
 				{
 					result = 1;
 				}
@@ -302,10 +310,14 @@ unsigned int hit_wall_character(
 
 			if ((unsigned int) abs(x) > (unsigned int) abs(ch->obj.x))
 			{
+#ifdef CHARACTER_WALL_CHECK_CORNERS
 				if (check_point_on_wall(wall, y - h_2, x - w_2) ||
 					check_point_on_wall(wall, y - h_2, x + w_2) ||
 					check_point_on_wall(wall, y + h_2, x + w_2) ||
 					check_point_on_wall(wall, y + h_2, x - w_2))
+#else
+				if (check_point_on_wall(wall, y, x))
+#endif
 				{
 					result = 1;
 				}
@@ -318,10 +330,14 @@ unsigned int hit_wall_character(
 
 			if ((unsigned int) abs(y) > (unsigned int) abs(ch->obj.y))
 			{
+#ifdef CHARACTER_WALL_CHECK_CORNERS
 				if (check_point_on_wall(wall, y - h_2, x - w_2) ||
 					check_point_on_wall(wall, y - h_2, x + w_2) ||
 					check_point_on_wall(wall, y + h_2, x + w_2) ||
 					check_point_on_wall(wall, y + h_2, x - w_2))
+#else
+				if (check_point_on_wall(wall, y, x))
+#endif
 				{
 					result = 1;
 				}
@@ -334,10 +350,14 @@ unsigned int hit_wall_character(
 
 			if ((unsigned int) abs(x) > (unsigned int) abs(ch->obj.x))
 			{
+#ifdef CHARACTER_WALL_CHECK_CORNERS
 				if (check_point_on_wall(wall, y - h_2, x - w_2) ||
 					check_point_on_wall(wall, y - h_2, x + w_2) ||
 					check_point_on_wall(wall, y + h_2, x + w_2) ||
 					check_point_on_wall(wall, y + h_2, x - w_2))
+#else
+				if (check_point_on_wall(wall, y, x))
+#endif
 				{
 					result = 1;
 				}
@@ -356,10 +376,15 @@ unsigned int hit_wall_character(
 
 			if ((unsigned int) abs(y) < (unsigned int) abs(ch->obj.y))
 			{
+#ifdef CHARACTER_WALL_CHECK_CORNERS
 				if (check_point_on_wall(wall, y - h_2, x - w_2) ||
 					check_point_on_wall(wall, y - h_2, x + w_2) ||
 					check_point_on_wall(wall, y + h_2, x + w_2) ||
 					check_point_on_wall(wall, y + h_2, x - w_2))
+#else
+				if (check_point_on_wall(wall, y, x))
+#endif
+
 				{
 					result = 1;
 				}
@@ -370,10 +395,14 @@ unsigned int hit_wall_character(
 
 			if ((unsigned int) abs(x) < (unsigned int) abs(ch->obj.x))
 			{
+#ifdef CHARACTER_WALL_CHECK_CORNERS
 				if (check_point_on_wall(wall, y - h_2, x - w_2) ||
 					check_point_on_wall(wall, y - h_2, x + w_2) ||
 					check_point_on_wall(wall, y + h_2, x + w_2) ||
 					check_point_on_wall(wall, y + h_2, x - w_2))
+#else
+				if (check_point_on_wall(wall, y, x))
+#endif
 				{
 					result = 1;
 				}
@@ -386,10 +415,14 @@ unsigned int hit_wall_character(
 
 			if ((unsigned int) abs(y) < (unsigned int) abs(ch->obj.y))
 			{
+#ifdef CHARACTER_WALL_CHECK_CORNERS
 				if (check_point_on_wall(wall, y - h_2, x - w_2) ||
 					check_point_on_wall(wall, y - h_2, x + w_2) ||
 					check_point_on_wall(wall, y + h_2, x + w_2) ||
 					check_point_on_wall(wall, y + h_2, x - w_2))
+#else
+				if (check_point_on_wall(wall, y, x))
+#endif
 				{
 					result = 1;
 				}
@@ -402,10 +435,14 @@ unsigned int hit_wall_character(
 
 			if ((unsigned int) abs(x) < (unsigned int) abs(ch->obj.x))
 			{
+#ifdef CHARACTER_WALL_CHECK_CORNERS
 				if (check_point_on_wall(wall, y - h_2, x - w_2) ||
 					check_point_on_wall(wall, y - h_2, x + w_2) ||
 					check_point_on_wall(wall, y + h_2, x + w_2) ||
 					check_point_on_wall(wall, y + h_2, x - w_2))
+#else
+				if (check_point_on_wall(wall, y, x))
+#endif
 				{
 					result = 1;
 				}
