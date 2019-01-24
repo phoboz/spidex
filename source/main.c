@@ -29,10 +29,13 @@ extern const signed char web3[];
 extern const signed char web4[];
 extern const signed char web5[];
 
-static unsigned int player_home;
 static unsigned int fire_status = 0;
 static unsigned int new_wave_index = 0;
 static struct enemy *slain_enemy = 0;
+
+#ifdef PLAYER_GO_HOME
+static unsigned int player_home;
+#endif
 
 // ---------------------------------------------------------------------------
 // cold reset: the vectrex logo is shown, all ram data is cleared
@@ -76,16 +79,20 @@ int main(void)
 				toggle_control_method_game();
 			}
 		}
-		else if (game_state == GAME_STATE_NEW_WAVE)
+		else if (game_state == GAME_STATE_WAVE_DONE)
 		{
+#ifdef PLAYER_GO_HOME
 			if (!player_home)
 			{
 				player_home = goto_player_1(GAME_PLAYER_1_START_Y, GAME_PLAYER_1_START_X);
 			}
-			else
+
+			if (player_home)
 			{
-				perform_dance_player_1();
+				set_fire_dir_player(&player_1, DIR_UP);
 			}
+#endif
+
 			move_bullets();
 			move_projectiles();
 		}
@@ -124,14 +131,16 @@ int main(void)
 			}
 		}
 
-		if (game_state != GAME_STATE_NEW_WAVE)
+		if (game_state != GAME_STATE_WAVE_DONE)
 		{
 			if (new_wave_index)
 			{
 				game_wave_index = new_wave_index;
 				new_wave_index = 0;
+#ifdef PLAYER_GO_HOME
 				player_home = 0;
-				game_state = GAME_STATE_NEW_WAVE;
+#endif
+				game_state = GAME_STATE_WAVE_DONE;
 				Vec_Music_Flag = 1;
 			}
 
@@ -175,14 +184,17 @@ int main(void)
 		Intensity_5F();
 		print_3digit_number(127, -16, player_1.score);
 
-		if (game_state == GAME_STATE_NEW_WAVE)
+		if (game_state == GAME_STATE_WAVE_DONE)
 		{
 			Intensity_a(game_flashing_intensity << 1);
 			drawWeb();
 			dp_VIA_t1_cnt_lo = 0x80;
 
+			Intensity_a(0x6f);
 			draw_player_1();
 			draw_food();
+
+			Intensity_7F();
 			draw_bullets();
 			draw_projectiles();
 		}

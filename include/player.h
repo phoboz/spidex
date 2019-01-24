@@ -77,8 +77,6 @@ unsigned int goto_player_1(
 	signed int dest_y
 	);
 
-void perform_dance_player_1(void);
-
 struct enemy* interaction_enemies_player_1(void);
 
 void interaction_food_player_1(void);

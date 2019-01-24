@@ -428,15 +428,6 @@ unsigned int goto_player_1(
 	return result;
 }
 
-void perform_dance_player_1(void)
-{
-	if (++player_1.ch.counter >= PLAYER_ANIM_TRESHOLD)
-	{
-		player_1.ch.counter = 0;
-		set_fire_dir_player(&player_1, player_1.fire_dir + 1);
-	}
-}
-
 struct enemy* interaction_enemies_player_1(void)
 {
 	struct enemy *enemy;

@@ -16,7 +16,7 @@
 
 #define GAME_STATE_NORMAL		0
 #define GAME_STATE_PAUSE		1
-#define GAME_STATE_NEW_WAVE		2
+#define GAME_STATE_WAVE_DONE	2
 #define GAME_STATE_DEAD		3
 #define GAME_STATE_OVER		4
 

@@ -11,6 +11,7 @@
 // ---------------------------------------------------------------------------
 
 static const char wave_text[]		= "WAVE \x80";
+static const char done_text[]		= "DONE\x80";
 static const char lives_text[]		= "LIVES \x80";
 static const char game_over_text[]	= "GAME OVER\x80";
 
@@ -77,14 +78,15 @@ void print_info_text(void)
 			}
 			break;
 
-		case GAME_STATE_NEW_WAVE:
-			Print_Str_d(TEXT_INFO_Y, -46, (char *) wave_text);
-			print_3digit_number(-127, 16, (unsigned long) game_wave_index);
+		case GAME_STATE_WAVE_DONE:
+			Print_Str_d(TEXT_INFO_Y, -64, (char *) wave_text);
+			print_3digit_number(TEXT_INFO_Y, -20, (unsigned long) game_wave_index);
+			Print_Str_d(TEXT_INFO_Y, 16, (char *) done_text);
 			break;
 
 		case GAME_STATE_DEAD:
 				Print_Str_d(TEXT_INFO_Y, -46, (char *) lives_text);
-				print_3digit_number(-127, 16, (unsigned long) (unsigned long) player_1.num_lives);
+				print_3digit_number(TEXT_INFO_Y, 16, (unsigned long) (unsigned long) player_1.num_lives);
 			break;
 
 		case GAME_STATE_OVER:
