@@ -9,7 +9,7 @@
 #define GAME_PLAYER_1_START_X	0
 
 #define GAME_MAX_BULLETS		3
-#define GAME_MAX_ENEMIES		4
+#define GAME_MAX_ENEMIES		3
 #define GAME_MAX_PROJECTILES	3
 #define GAME_MAX_FOOD			5
 #define GAME_MAX_WALLS			8

@@ -190,6 +190,264 @@ const struct enemy_path down_left_path[] =
 	{	34,			DIR_UP_RIGHT,		ENEMY_ACTION_MOVE	}
 };
 
+const struct enemy_path circular_spath_1[] =
+{
+	/*	treshold		dir				action			*/
+	{	28,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
+
+	/* stop and shoot right */
+	{	0,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_RIGHT,		ENEMY_ACTION_SHOOT	},
+
+	{	28,			DIR_DOWN_RIGHT,	ENEMY_ACTION_MOVE	},
+
+	/* stop and shoot up */
+	{	0,			DIR_UP,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_UP,			ENEMY_ACTION_SHOOT	},
+
+	{	28,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
+
+	/* stop and shoot up */
+	{	0,			DIR_UP,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_UP,			ENEMY_ACTION_SHOOT	},
+
+	{	28,			DIR_UP_RIGHT,		ENEMY_ACTION_MOVE	},
+
+	/* stop and shoot left */
+	{	0,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_LEFT,			ENEMY_ACTION_SHOOT	},
+
+	{	28,			DIR_UP,			ENEMY_ACTION_MOVE	},
+
+	/* stop and shoot left */
+	{	0,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_LEFT,			ENEMY_ACTION_SHOOT	},
+
+	{	28,			DIR_UP_LEFT,		ENEMY_ACTION_MOVE	},
+
+	/* stop and shoot down */
+	{	0,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_DOWN,			ENEMY_ACTION_SHOOT	},
+
+	{	28,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
+
+	/* stop and shoot down */
+	{	0,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_DOWN,			ENEMY_ACTION_SHOOT	},
+
+	{	28,			DIR_DOWN_LEFT,	ENEMY_ACTION_MOVE	},
+
+	/* stop and shoot right */
+	{	0,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_RIGHT,		ENEMY_ACTION_SHOOT	}
+};
+
+const struct enemy_path circular_spath_2[] =
+{
+	/*	treshold		dir				action			*/
+	{	14,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
+
+	/* stop and shoot right */
+	{	0,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_RIGHT,		ENEMY_ACTION_SHOOT	},
+
+	{	14,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
+	{	14,			DIR_DOWN_RIGHT,	ENEMY_ACTION_MOVE	},
+
+	/* stop and shoot up right */
+	{	0,			DIR_UP_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_UP_RIGHT,		ENEMY_ACTION_SHOOT	},
+
+	{	14,			DIR_DOWN_RIGHT,	ENEMY_ACTION_MOVE	},
+	{	14,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
+
+	/* stop and shoot up */
+	{	0,			DIR_UP,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_UP,			ENEMY_ACTION_SHOOT	},
+
+	{	14,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	14,			DIR_UP_RIGHT,		ENEMY_ACTION_MOVE	},
+
+	/* stop and shoot up left */
+	{	0,			DIR_UP_LEFT,		ENEMY_ACTION_MOVE	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_UP_LEFT,		ENEMY_ACTION_SHOOT	},
+
+	{	14,			DIR_UP_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	14,			DIR_UP,			ENEMY_ACTION_MOVE	},
+
+	/* stop and shoot left */
+	{	0,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_LEFT,			ENEMY_ACTION_SHOOT	},
+
+	{	14,			DIR_UP,			ENEMY_ACTION_MOVE	},
+	{	14,			DIR_UP_LEFT,		ENEMY_ACTION_MOVE	},
+
+	/* stop and shoot down left */
+	{	0,			DIR_DOWN_LEFT,	ENEMY_ACTION_MOVE	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_DOWN_LEFT,	ENEMY_ACTION_SHOOT	},
+
+	{	14,			DIR_UP_LEFT,		ENEMY_ACTION_MOVE	},
+	{	14,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
+
+	/* stop and shoot down */
+	{	0,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_DOWN,			ENEMY_ACTION_SHOOT	},
+
+	{	14,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
+	{	14,			DIR_DOWN_LEFT,	ENEMY_ACTION_MOVE	},
+
+	/* stop and shoot down right */
+	{	0,			DIR_DOWN_RIGHT,	ENEMY_ACTION_MOVE	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_DOWN_RIGHT,	ENEMY_ACTION_SHOOT	},
+
+	{	14,			DIR_DOWN_LEFT,	ENEMY_ACTION_MOVE	}
+};
+
+const struct enemy_path circular_spath_3[] =
+{
+	/*	treshold		dir				action			*/
+	{	16,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
+
+	/* stop and shoot left */
+	{	0,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_LEFT,			ENEMY_ACTION_SHOOT	},
+
+	{	16,			DIR_DOWN_RIGHT,	ENEMY_ACTION_MOVE	},
+
+	/* stop and shoot down */
+	{	0,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_DOWN,			ENEMY_ACTION_SHOOT	},
+
+	{	16,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
+
+	/* stop and shoot down */
+	{	0,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_DOWN,			ENEMY_ACTION_SHOOT	},
+
+	{	16,			DIR_UP_RIGHT,		ENEMY_ACTION_MOVE	},
+
+	/* stop and shoot right */
+	{	0,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_RIGHT,		ENEMY_ACTION_SHOOT	},
+
+	{	16,			DIR_UP,			ENEMY_ACTION_MOVE	},
+
+	/* stop and shoot right */
+	{	0,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_RIGHT,		ENEMY_ACTION_SHOOT	},
+
+	{	16,			DIR_UP_LEFT,		ENEMY_ACTION_MOVE	},
+
+	/* stop and shoot up */
+	{	0,			DIR_UP,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_UP,			ENEMY_ACTION_SHOOT	},
+
+	{	16,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
+
+	/* stop and shoot up */
+	{	0,			DIR_UP,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_UP,			ENEMY_ACTION_SHOOT	},
+
+	{	16,			DIR_DOWN_LEFT,	ENEMY_ACTION_MOVE	},
+
+	/* stop and shoot left */
+	{	0,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_LEFT,			ENEMY_ACTION_SHOOT	}
+};
+
+const struct enemy_path circular_spath_4[] =
+{
+	/*	treshold		dir				action			*/
+	{	7,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
+
+	/* stop and shoot left */
+	{	0,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_LEFT,			ENEMY_ACTION_SHOOT	},
+
+	{	7,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
+	{	7,			DIR_DOWN_RIGHT,	ENEMY_ACTION_MOVE	},
+
+	/* stop and shoot down left */
+	{	0,			DIR_DOWN_LEFT,	ENEMY_ACTION_MOVE	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_DOWN_LEFT,	ENEMY_ACTION_SHOOT	},
+
+	{	7,			DIR_DOWN_RIGHT,	ENEMY_ACTION_MOVE	},
+	{	7,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
+
+	/* stop and shoot down */
+	{	0,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_DOWN,			ENEMY_ACTION_SHOOT	},
+
+	{	7,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	7,			DIR_UP_RIGHT,		ENEMY_ACTION_MOVE	},
+
+	/* stop and shoot down right */
+	{	0,			DIR_DOWN_RIGHT,	ENEMY_ACTION_MOVE	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_DOWN_RIGHT,	ENEMY_ACTION_SHOOT	},
+
+	{	7,			DIR_UP_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	7,			DIR_UP,			ENEMY_ACTION_MOVE	},
+
+	/* stop and shoot right */
+	{	0,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_RIGHT,		ENEMY_ACTION_SHOOT	},
+
+	{	7,			DIR_UP,			ENEMY_ACTION_MOVE	},
+	{	7,			DIR_UP_LEFT,		ENEMY_ACTION_MOVE	},
+
+	/* stop and shoot up right */
+	{	0,			DIR_UP_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_UP_RIGHT,		ENEMY_ACTION_SHOOT	},
+
+	{	7,			DIR_UP_LEFT,		ENEMY_ACTION_MOVE	},
+	{	7,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
+
+	/* stop and shoot up */
+	{	0,			DIR_UP,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_UP,			ENEMY_ACTION_SHOOT	},
+
+	{	7,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
+	{	7,			DIR_DOWN_LEFT,	ENEMY_ACTION_MOVE	},
+
+	/* stop and shoot up left */
+	{	0,			DIR_UP_LEFT,		ENEMY_ACTION_MOVE	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_UP_LEFT,		ENEMY_ACTION_SHOOT	},
+
+	{	7,			DIR_DOWN_LEFT,	ENEMY_ACTION_MOVE	}
+};
+
 const struct enemy_path stump_path[] =
 {
 	/*	treshold		dir				action			*/
@@ -340,7 +598,11 @@ const struct path_element enemy_paths[] =
 	{	/*16 */	NUM_ELMTS(up_left_path),		up_left_path		},
 	{	/*17*/	NUM_ELMTS(left_path),			left_path			},
 	{	/*18*/	NUM_ELMTS(down_left_path),		down_left_path	},
-	{	/*19*/	NUM_ELMTS(stump_path),			stump_path		}
+	{	/*19*/	NUM_ELMTS(circular_spath_1),	circular_spath_1	},
+	{	/*20*/	NUM_ELMTS(circular_spath_2),	circular_spath_2	},
+	{	/*21*/	NUM_ELMTS(circular_spath_1),	circular_spath_3	},
+	{	/*22*/	NUM_ELMTS(circular_spath_2),	circular_spath_4	},
+	{	/*23*/	NUM_ELMTS(stump_path),			stump_path		}
 };
 
 const struct wave_element wave_1[] =
@@ -453,6 +715,10 @@ const struct wave_element wave_6[] =
 const struct wave_element wave_7[] =
 {
 	/*	treshold		y		x		object_type				object_index			path	param */
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		17,					0,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		23,					0,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		19,					0,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		21,					0,	0	},
 	{	0,			80,		80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_ANT,		0,	14	},
 	{	100,			80,		-80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_ANT,		0,	14	},
 	{	100,			-80,		-80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_ANT,		0,	14	},
@@ -528,28 +794,26 @@ const struct wave_element wave_8[] =
 const struct wave_element wave_9[] =
 {
 	/*	treshold		y		x		object_type				object_index			path	param */
-	{	0,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BUG,		0,	14	},
-	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	4	},
-	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	4	},
-	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	4	},
-	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	5	},
-	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	5	},
-	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	5	},
-	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	6	},
-	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	6	},
-	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	6	},
-	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	7	},
-	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	7	},
-	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	7	},
-	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	8	},
-	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	8	},
-	{	10,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	8	}
+	{	0,			28,		-82,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SPIT_ANT,	19,	3	},
+	{	120,			28,		-82,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SPIT_ANT,	20,	3	},
+	{	120,			28,		-82,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SPIT_ANT,	19,	3	},
+	{	120,			28,		-82,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SPIT_ANT,	20,	3	},
+
+	{	120,			14,		-41,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SPIT_ANT,	20,	3	},
+	{	120,			14,		-41,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SPIT_ANT,	21,	3	},
+	{	120,			14,		-41,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SPIT_ANT,	20,	3	},
+	{	120,			14,		-41,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SPIT_ANT,	21,	3	},
+
+	{	120,			28,		-82,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SPIT_ANT,	19,	3	},
+	{	120,			28,		-82,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SPIT_ANT,	20,	3	},
+	{	120,			14,		-41,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SPIT_ANT,	21,	3	},
+	{	120,			14,		-41,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SPIT_ANT,	22,	3	}
 };
 
 const struct wave_element wave_10[] =
 {
 	/*	treshold		y		x		object_type				object_index			path	param */
-	{	0,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_STUMP,		19,	6	}
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_STUMP,		23,	6	}
 };
 
 const struct wave_def waves[] =

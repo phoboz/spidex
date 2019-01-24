@@ -466,7 +466,7 @@ const signed char ant_2_7[]=
 };
 const signed char* const ant[]=
 {	 ant_1_0, // list of all single vectorlists in this
-	 ant_2_1,
+	 ant_2_0,
 	 ant_1_1,
 	 ant_2_1,
 	 ant_1_2,

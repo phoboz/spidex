@@ -10,7 +10,7 @@
 		<MainFile></MainFile>
 		<Description></Description>
 		<Version>1.0</Version>
-		<Author>Alex</Author>
+		<Author>phoboz</Author>
 		<Bankswitching>none</Bankswitching>
 		<createBankswitchCode>false</createBankswitchCode>
 		<createGameLoopCode>false</createGameLoopCode>
@@ -27,7 +27,7 @@
 			<BankDefines></BankDefines>
 		</BankDefiness>
 		<WheelName></WheelName>
-		<IsCDebugging>true</IsCDebugging>
+		<IsCDebugging>false</IsCDebugging>
 		<IsCPeephole>true</IsCPeephole>
 		<IsCKeepEnriched>false</IsCKeepEnriched>
 		<IsCProject>false</IsCProject>
