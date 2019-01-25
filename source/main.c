@@ -149,7 +149,10 @@ int main(void)
 
 		if (new_frame_game() == 0)
 		{
-			game_state = GAME_STATE_NORMAL;
+			if (game_state != GAME_STATE_PAUSE)
+			{
+				game_state = GAME_STATE_NORMAL;
+			}
 		}
 
 		if (player_1.state == PLAYER_STATE_DEAD)
