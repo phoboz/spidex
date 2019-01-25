@@ -145,30 +145,30 @@ int main(void)
 					}
 				}
 			}
+
+			if (player_1.state == PLAYER_STATE_DEAD)
+			{
+				if (player_1.num_lives > 0)
+				{
+					game_state = GAME_STATE_DEAD;
+				}
+				else
+				{
+					game_state = GAME_STATE_OVER;
+					if (button_1_4_pressed())
+					{
+						restart_game();
+						game_state = GAME_STATE_NORMAL;
+					}
+				}
+			}
 		}
 
 		if (new_frame_game() == 0)
 		{
-			if (game_state != GAME_STATE_PAUSE)
+			if (game_state == GAME_STATE_WAVE_DONE)
 			{
 				game_state = GAME_STATE_NORMAL;
-			}
-		}
-
-		if (player_1.state == PLAYER_STATE_DEAD)
-		{
-			if (player_1.num_lives > 0)
-			{
-				game_state = GAME_STATE_DEAD;
-			}
-			else
-			{
-				game_state = GAME_STATE_OVER;
-				if (button_1_4_pressed())
-				{
-					restart_game();
-					game_state = GAME_STATE_NORMAL;
-				}
 			}
 		}
 
