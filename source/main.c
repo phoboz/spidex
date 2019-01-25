@@ -53,7 +53,7 @@ int main(void)
 	init_random(5, 27, 3, 19);
 	init_game();
 ////DEBUG
-	//game_wave.wave_index = 9;
+	//game_wave.wave_index = 11;
 ////END DEBUG
 	while(1)
 	{
@@ -72,7 +72,7 @@ int main(void)
 				toggle_control_method_game();
 			}
 		}
-		else if (game_state == GAME_STATE_WAVE_DONE)
+		else if (game_state == GAME_STATE_WAVE_DONE || game_state == GAME_STATE_FINNISH)
 		{
 #ifdef PLAYER_GO_HOME
 			if (!player_home)
@@ -121,12 +121,20 @@ int main(void)
 			new_wave_index = move_wave(&game_wave);
 			if (new_wave_index)
 			{
-				game_wave_index = new_wave_index;
-				new_wave_index = 0;
+				if (new_wave_index < 255)
+				{
+					game_wave_index = new_wave_index;
+					game_state = GAME_STATE_WAVE_DONE;
+				}
+				else
+				{
+					game_wave_index = 0;
+					game_state = GAME_STATE_FINNISH;
+				}
 #ifdef PLAYER_GO_HOME
 				player_home = 0;
 #endif
-				game_state = GAME_STATE_WAVE_DONE;
+				new_wave_index = 0;
 				Vec_Music_Flag = 1;
 			}
 			else
@@ -166,7 +174,7 @@ int main(void)
 
 		if (new_frame_game() == 0)
 		{
-			if (game_state == GAME_STATE_WAVE_DONE)
+			if (game_state == GAME_STATE_WAVE_DONE || game_state == GAME_STATE_FINNISH)
 			{
 				game_state = GAME_STATE_NORMAL;
 			}
@@ -175,7 +183,7 @@ int main(void)
 		Intensity_5F();
 		print_3digit_number(127, -16, player_1.score);
 
-		if (game_state == GAME_STATE_WAVE_DONE)
+		if (game_state == GAME_STATE_WAVE_DONE || game_state == GAME_STATE_FINNISH)
 		{
 			Intensity_a(game_flashing_intensity << 1);
 			drawWeb();

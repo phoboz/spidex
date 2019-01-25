@@ -883,6 +883,43 @@ const struct wave_element wave_10[] =
 const struct wave_element wave_11[] =
 {
 	/*	treshold		y		x		object_type				object_index			path	param */
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		40,					0,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		41,					0,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		42,					0,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		43,					0,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		44,					0,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		45,					0,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		46,					0,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		47,					0,	0	},
+	{	20,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BUG,		0,	14	},
+	{	40,			40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SPIKEY,		0,	32	},
+	{	40,			40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SPIKEY,		0,	32	},
+	{	40,			-40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SPIKEY,		0,	32	},
+	{	40,			-40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SPIKEY,		0,	32	},
+	{	40,			40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SPIKEY,		0,	32	},
+	{	40,			-40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SPIKEY,		0,	32	},
+	{	40,			-40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SPIKEY,		0,	32	},
+	{	40,			40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SPIKEY,		0,	32	},
+	{	20,			40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SPIKEY,		0,	32	},
+	{	20,			-40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SPIKEY,		0,	32	},
+	{	20,			40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SPIKEY,		0,	32	},
+	{	20,			-40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SPIKEY,		0,	32	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_DEWALL,	41,					0,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_DEWALL,	43,					0,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_DEWALL,	45,					0,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_DEWALL,	47,					0,	0	},
+	{	20,			40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SPIKEY,		0,	32	},
+	{	20,			40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_SPIKEY,		0,	32	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_DEWALL,	40,					0,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_DEWALL,	42,					0,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_DEWALL,	44,					0,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_DEWALL,	46,					0,	0	},
+	{	0,			12,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BEE,		7,	2	}
+};
+
+const struct wave_element wave_12[] =
+{
+	/*	treshold		y		x		object_type				object_index			path	param */
 	{	60,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_STUMP,		25,	6	}
 };
 
@@ -899,10 +936,11 @@ const struct wave_def waves[] =
 	{	NUM_ELMTS(wave_8),		wave_8	},
 	{	NUM_ELMTS(wave_9),		wave_9	},
 	{	NUM_ELMTS(wave_10),	wave_10	},
-	{	NUM_ELMTS(wave_11),	wave_11	}
+	{	NUM_ELMTS(wave_11),	wave_11	},
+	{	NUM_ELMTS(wave_12),	wave_12	}
 };
 
-static const unsigned int max_waves = 11;/*NUM_ELMTS(waves) + 1;*/
+static const unsigned int max_waves = 12;/*NUM_ELMTS(waves) + 1;*/
 
 void init_wave(
 	struct wave *wave
@@ -1035,6 +1073,7 @@ unsigned int move_wave(
 			if (++wave->wave_index >= max_waves)
 			{
 				wave->wave_index = 0;
+				result = 255;
 			}
 		}
 	}

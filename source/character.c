@@ -264,7 +264,7 @@ unsigned int hit_wall_character(
 	signed int h_2, w_2;
 	unsigned int result = 0;
 
-	if (ch->wall_mode == CHARACTER_WALL_PASS_NONE)
+	if (wall->type == WALL_TYPE_SOLID)
 	{
 		h_2 = ch->obj.h_2;
 		w_2 = ch->obj.w_2;

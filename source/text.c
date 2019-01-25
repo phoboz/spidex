@@ -10,10 +10,11 @@
 
 // ---------------------------------------------------------------------------
 
-static const char wave_text[]		= "WAVE \x80";
-static const char done_text[]		= "DONE\x80";
-static const char lives_text[]		= "LIVES \x80";
-static const char game_over_text[]	= "GAME OVER\x80";
+static const char wave_text[]			= "WAVE \x80";
+static const char done_text[]			= "DONE\x80";
+static const char lives_text[]			= "LIVES \x80";
+static const char game_over_text[]		= "GAME OVER\x80";
+static const char game_finnish_text[]	= "CONGRATULATIONS, WELL DONE!\x80";
 
 static const char options_control_text[]	= "CONTROL:\x80";
 static const char options_single_text[]	= "SINGLE JOYSTICK\x80";
@@ -91,6 +92,13 @@ void print_info_text(void)
 
 		case GAME_STATE_OVER:
 			Print_Str_d(TEXT_INFO_Y, -46, (char *) game_over_text);
+			break;
+
+		case GAME_STATE_FINNISH:
+			Print_Str_d(TEXT_INFO_Y, -127, (char *) game_finnish_text);
+			break;
+
+		default:
 			break;
 	}
 }

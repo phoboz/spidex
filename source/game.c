@@ -148,7 +148,14 @@ signed int new_frame_game(void)
 	if (Vec_Music_Flag)
 	{
 		DP_to_C8();
-		Init_Music_chk(&Vec_Music_9);
+		if (game_state == GAME_STATE_FINNISH)
+		{
+			Init_Music_chk(&Vec_Music_4);
+		}
+		else
+		{
+			Init_Music_chk(&Vec_Music_9);
+		}
 	}
 
 	Wait_Recal();

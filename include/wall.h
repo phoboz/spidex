@@ -3,12 +3,18 @@
 
 #include "object.h"
 
+#define WALL_SOLID_INDEX_START	32
+
+#define WALL_TYPE_DASHED	0
+#define WALL_TYPE_SOLID	1
+
 #define WALL_CHECK_DELTA	3
 
 struct wall
 {
 	struct object obj;
 	unsigned int index;
+	unsigned int type;
 
 	signed int y2, x2;
 

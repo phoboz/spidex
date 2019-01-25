@@ -21,9 +21,23 @@ void init_wall(
 	)
 {
 	signed int y1, x1, y2, x2, temp;
-	const signed char *web_wall = web_walls[index];
+	unsigned int wall_id;
+	const signed char *web_wall;
 
 	wall->index = index;
+
+	if (index < WALL_SOLID_INDEX_START)
+	{
+		wall_id		= index;
+		wall->type	= WALL_TYPE_DASHED;
+	}
+	else
+	{
+		wall_id		= index - WALL_SOLID_INDEX_START;
+		wall->type	= WALL_TYPE_SOLID;
+	}
+
+	web_wall	= web_walls[wall_id];
 
 	y1 = web_wall[0];
 	x1 = web_wall[1];
@@ -51,7 +65,7 @@ void init_wall(
 	wall->y2 = y2;
 	wall->x2 = x2;
 
-	wall->coords =	web_wall_coords[index];
+	wall->coords =	web_wall_coords[wall_id];
 	wall->pos_vlist =	web_wall;
 }
 
@@ -123,11 +137,17 @@ void draw_walls(void)
 	{
 		reset0ref();
 		moveto(wall->pos_vlist[0], wall->pos_vlist[1]);
-//		draw_vlist_c(&wall->pos_vlist[2]);
-		// $aa = 10101010 pattern
-		// $cc = 11001100 pattern
-		// $f0 = 11110000 pattern
-		draw_vlist_c_pattern(&wall->pos_vlist[2], (signed char) 0xf0);
+		if (wall->type == WALL_TYPE_DASHED)
+		{
+			// $aa = 10101010 pattern
+			// $cc = 11001100 pattern
+			// $f0 = 11110000 pattern
+			draw_vlist_c_pattern(&wall->pos_vlist[2], (signed char) 0xf0);
+		}
+		else
+		{
+			draw_vlist_c(&wall->pos_vlist[2]);
+		}
 		wall = (struct wall *) wall->obj.next;
 	}
 }

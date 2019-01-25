@@ -25,6 +25,7 @@ extern const signed char* const mine[];
 extern const signed char* const dragonfly[];
 extern const signed char* const ant[];
 extern const signed char* const swallow[];
+extern const signed char* const spikey[];
 extern const signed char* const stump[];
 
 const struct enemy_race enemy_races[] =
@@ -41,73 +42,12 @@ const struct enemy_race enemy_races[] =
 	{	14,	14,	0x40/10,	ENEMY_TYPE_HOMING,		1,		10,		ENEMY_SPECIAL_NONE,	2,		ant		},
 	{	10,	10,	0x30/10,	ENEMY_TYPE_PATH,		2,		6,		ENEMY_SPECIAL_NONE,	2,		ant		},
 	{	12,	12,	0x40/10,	ENEMY_TYPE_PATH,		3,		3,		ENEMY_SPECIAL_NONE,	10,		swallow	},
+	{	12,	12,	0x40/10,	ENEMY_TYPE_RANDOM,		3,		1,		ENEMY_SPECIAL_EXPLODE,	4,		spikey	},
 	{	40,	40,	0x80/10,	ENEMY_TYPE_PATH,		1,		127,		ENEMY_SPECIAL_HEAVY,	10,		stump	}
 };
 
 struct object *enemy_list = 0;
 struct object *enemy_free_list = 0;
-
-void init_enemy(
-	struct enemy *enemy,
-	signed int y,
-	signed int x,
-	const struct enemy_race *race, 
-	unsigned int num_steps,
-	const struct enemy_path *path,
-	signed int param
-	)
-{
-	take_object(&enemy->ch.obj, &enemy_free_list);
-	init_character(
-		&enemy->ch,
-		y,
-		x,
-		race->h,
-		race->w,
-		race->scale,
-		CHARACTER_WALL_PASS_OUT,
-		race->speed,
-		race->treshold,
-		2,
-		race->shapes,
-		&enemy_list
-		);
-
-	enemy->race			= race;
-	enemy->num_hits		= race->max_hits;
-	enemy->path_counter	= 0;
-	enemy->spawn_counter	= 0;
-	enemy->step_counter	= 0;
-	enemy->num_steps		= num_steps;
-	enemy->path			= path;
-	enemy->param			= param;
-
-	if (enemy->race->type == ENEMY_TYPE_PATH)
-	{
-		set_dir_character(&enemy->ch, enemy->path[0].dir);
-	}
-	else
-	{
-		set_dir_character(&enemy->ch, DIR_DOWN);
-	}
-
-	if (enemy->race->special == ENEMY_SPECIAL_EGG)
-	{
-		enemy->state = ENEMY_STATE_EGG;
-	}
-	else
-	{
-		enemy->state = ENEMY_STATE_SPAWN;
-	}
-}
-
-void deinit_enemy(
-	struct enemy *enemy
-	)
-{
-	deinit_object(&enemy->ch.obj, &enemy_list);
-	give_object(&enemy->ch.obj, &enemy_free_list);
-}
 
 __INLINE void set_random_dir_enemy(
 	struct enemy *enemy
@@ -192,6 +132,72 @@ __INLINE void set_follow_dir_enemy(
 	}
 }
 
+void init_enemy(
+	struct enemy *enemy,
+	signed int y,
+	signed int x,
+	const struct enemy_race *race, 
+	unsigned int num_steps,
+	const struct enemy_path *path,
+	signed int param
+	)
+{
+	take_object(&enemy->ch.obj, &enemy_free_list);
+	init_character(
+		&enemy->ch,
+		y,
+		x,
+		race->h,
+		race->w,
+		race->scale,
+		CHARACTER_WALL_PASS_OUT,
+		race->speed,
+		race->treshold,
+		2,
+		race->shapes,
+		&enemy_list
+		);
+
+	enemy->race			= race;
+	enemy->num_hits		= race->max_hits;
+	enemy->path_counter	= 0;
+	enemy->spawn_counter	= 0;
+	enemy->step_counter	= 0;
+	enemy->num_steps		= num_steps;
+	enemy->path			= path;
+	enemy->param			= param;
+
+	if (enemy->race->type == ENEMY_TYPE_RANDOM)
+	{
+		set_random_dir_enemy(enemy);
+	}
+	else if (enemy->race->type == ENEMY_TYPE_PATH)
+	{
+		set_dir_character(&enemy->ch, enemy->path[0].dir);
+	}
+	else
+	{
+		set_dir_character(&enemy->ch, DIR_DOWN);
+	}
+
+	if (enemy->race->special == ENEMY_SPECIAL_EGG)
+	{
+		enemy->state = ENEMY_STATE_EGG;
+	}
+	else
+	{
+		enemy->state = ENEMY_STATE_SPAWN;
+	}
+}
+
+void deinit_enemy(
+	struct enemy *enemy
+	)
+{
+	deinit_object(&enemy->ch.obj, &enemy_list);
+	give_object(&enemy->ch.obj, &enemy_free_list);
+}
+
 void move_enemies(void)
 {
 	struct enemy *enemy;
@@ -218,9 +224,41 @@ void move_enemies(void)
 						set_random_dir_enemy(enemy);
 					}
 
-					if (move_character(&enemy->ch))
+					if (enemy->race->special == ENEMY_SPECIAL_EXPLODE)
 					{
-						set_random_dir_enemy(enemy);
+						wall = (struct wall *) wall_list;
+						while (wall != 0)
+						{
+							if (quick_check_wall_character(&enemy->ch, wall))
+							{
+								hit_wall = hit_wall_character(&enemy->ch, wall);
+								if (hit_wall)
+								{
+									break;
+								}
+							}
+							wall = (struct wall *) wall->obj.next;
+						}
+
+						if (!hit_wall)
+						{
+							if (move_character(&enemy->ch))
+							{
+								set_random_dir_enemy(enemy);
+							}
+						}
+						else
+						{
+							enemy->state = ENEMY_STATE_EXPLODE;
+							enemy->state_counter = 0;
+						}
+					}
+					else
+					{
+						if (move_character(&enemy->ch))
+						{
+							set_random_dir_enemy(enemy);
+						}
 					}
 					break;
 
