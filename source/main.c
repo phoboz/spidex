@@ -117,8 +117,8 @@ int main(void)
 			}
 
 			interaction_projectiles_player_1();
-			new_wave_index = move_wave(&game_wave);
 			interaction_food_player_1();
+			new_wave_index = move_wave(&game_wave);
 		}
 
 		if (new_frame_game() == 0)
@@ -141,18 +141,20 @@ int main(void)
 				game_state = GAME_STATE_WAVE_DONE;
 				Vec_Music_Flag = 1;
 			}
-
-			if (fire_status && !new_wave_index)
+			else
 			{
-				sfx_pointer_1 = (long unsigned int) (&fire_snd_data);
-				sfx_status_1 = 1;
-			}
-			else if (player_1.state_changed)
-			{
-				if (player_1.state == PLAYER_STATE_DYING)
+				if (fire_status)
 				{
-					sfx_pointer_1 = (long unsigned int) (&fall_snd_data);
+					sfx_pointer_1 = (long unsigned int) (&fire_snd_data);
 					sfx_status_1 = 1;
+				}
+				else if (player_1.state_changed)
+				{
+					if (player_1.state == PLAYER_STATE_DYING)
+					{
+						sfx_pointer_1 = (long unsigned int) (&fall_snd_data);
+						sfx_status_1 = 1;
+					}
 				}
 			}
 
