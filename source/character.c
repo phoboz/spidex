@@ -251,6 +251,8 @@ unsigned int quick_check_wall_character(
 	return result;
 }
 
+#define CHARACTER_WALL_CHECK_CORNERS
+#define DELTA	4
 unsigned int hit_wall_character(
 	struct character *ch,
 	struct wall *wall
@@ -269,10 +271,10 @@ unsigned int hit_wall_character(
 		x = ch->obj.x + ch->dx;
 
 #ifdef CHARACTER_WALL_CHECK_CORNERS
-		if (check_point_on_wall(wall, y - h_2, x - w_2) ||
-			check_point_on_wall(wall, y - h_2, x + w_2) ||
-			check_point_on_wall(wall, y + h_2, x + w_2) ||
-			check_point_on_wall(wall, y + h_2, x - w_2))
+		if (check_point_on_wall(wall, y - h_2 + DELTA, x - w_2 + DELTA) ||
+			check_point_on_wall(wall, y - h_2 + DELTA, x + w_2 - DELTA) ||
+			check_point_on_wall(wall, y + h_2 - DELTA, x + w_2 - DELTA) ||
+			check_point_on_wall(wall, y + h_2 - DELTA, x - w_2 + DELTA))
 #else
 		if (check_point_on_wall(wall, y, x))
 #endif
@@ -293,10 +295,10 @@ unsigned int hit_wall_character(
 			if ((unsigned int) abs(y) > (unsigned int) abs(ch->obj.y))
 			{
 #ifdef CHARACTER_WALL_CHECK_CORNERS
-				if (check_point_on_wall(wall, y - h_2, x - w_2) ||
-					check_point_on_wall(wall, y - h_2, x + w_2) ||
-					check_point_on_wall(wall, y + h_2, x + w_2) ||
-					check_point_on_wall(wall, y + h_2, x - w_2))
+				if (check_point_on_wall(wall, y - h_2 + DELTA, x - w_2 + DELTA) ||
+					check_point_on_wall(wall, y - h_2 + DELTA, x + w_2 - DELTA) ||
+					check_point_on_wall(wall, y + h_2 - DELTA, x + w_2 - DELTA) ||
+					check_point_on_wall(wall, y + h_2 - DELTA, x - w_2 + DELTA))
 #else
 				if (check_point_on_wall(wall, y, x))
 #endif
@@ -311,10 +313,10 @@ unsigned int hit_wall_character(
 			if ((unsigned int) abs(x) > (unsigned int) abs(ch->obj.x))
 			{
 #ifdef CHARACTER_WALL_CHECK_CORNERS
-				if (check_point_on_wall(wall, y - h_2, x - w_2) ||
-					check_point_on_wall(wall, y - h_2, x + w_2) ||
-					check_point_on_wall(wall, y + h_2, x + w_2) ||
-					check_point_on_wall(wall, y + h_2, x - w_2))
+				if (check_point_on_wall(wall, y - h_2 + DELTA, x - w_2 + DELTA) ||
+					check_point_on_wall(wall, y - h_2 + DELTA, x + w_2 - DELTA) ||
+					check_point_on_wall(wall, y + h_2 - DELTA, x + w_2 - DELTA) ||
+					check_point_on_wall(wall, y + h_2 - DELTA, x - w_2 + DELTA))
 #else
 				if (check_point_on_wall(wall, y, x))
 #endif
@@ -331,10 +333,10 @@ unsigned int hit_wall_character(
 			if ((unsigned int) abs(y) > (unsigned int) abs(ch->obj.y))
 			{
 #ifdef CHARACTER_WALL_CHECK_CORNERS
-				if (check_point_on_wall(wall, y - h_2, x - w_2) ||
-					check_point_on_wall(wall, y - h_2, x + w_2) ||
-					check_point_on_wall(wall, y + h_2, x + w_2) ||
-					check_point_on_wall(wall, y + h_2, x - w_2))
+				if (check_point_on_wall(wall, y - h_2 + DELTA, x - w_2 + DELTA) ||
+					check_point_on_wall(wall, y - h_2 + DELTA, x + w_2 - DELTA) ||
+					check_point_on_wall(wall, y + h_2 - DELTA, x + w_2 - DELTA) ||
+					check_point_on_wall(wall, y + h_2 - DELTA, x - w_2 + DELTA))
 #else
 				if (check_point_on_wall(wall, y, x))
 #endif
@@ -351,10 +353,10 @@ unsigned int hit_wall_character(
 			if ((unsigned int) abs(x) > (unsigned int) abs(ch->obj.x))
 			{
 #ifdef CHARACTER_WALL_CHECK_CORNERS
-				if (check_point_on_wall(wall, y - h_2, x - w_2) ||
-					check_point_on_wall(wall, y - h_2, x + w_2) ||
-					check_point_on_wall(wall, y + h_2, x + w_2) ||
-					check_point_on_wall(wall, y + h_2, x - w_2))
+				if (check_point_on_wall(wall, y - h_2 + DELTA, x - w_2 + DELTA) ||
+					check_point_on_wall(wall, y - h_2 + DELTA, x + w_2 - DELTA) ||
+					check_point_on_wall(wall, y + h_2 - DELTA, x + w_2 - DELTA) ||
+					check_point_on_wall(wall, y + h_2 - DELTA, x - w_2 + DELTA))
 #else
 				if (check_point_on_wall(wall, y, x))
 #endif
@@ -377,10 +379,10 @@ unsigned int hit_wall_character(
 			if ((unsigned int) abs(y) < (unsigned int) abs(ch->obj.y))
 			{
 #ifdef CHARACTER_WALL_CHECK_CORNERS
-				if (check_point_on_wall(wall, y - h_2, x - w_2) ||
-					check_point_on_wall(wall, y - h_2, x + w_2) ||
-					check_point_on_wall(wall, y + h_2, x + w_2) ||
-					check_point_on_wall(wall, y + h_2, x - w_2))
+				if (check_point_on_wall(wall, y - h_2 + DELTA, x - w_2 + DELTA) ||
+					check_point_on_wall(wall, y - h_2 + DELTA, x + w_2 - DELTA) ||
+					check_point_on_wall(wall, y + h_2 - DELTA, x + w_2 - DELTA) ||
+					check_point_on_wall(wall, y + h_2 - DELTA, x - w_2 + DELTA))
 #else
 				if (check_point_on_wall(wall, y, x))
 #endif
@@ -396,10 +398,10 @@ unsigned int hit_wall_character(
 			if ((unsigned int) abs(x) < (unsigned int) abs(ch->obj.x))
 			{
 #ifdef CHARACTER_WALL_CHECK_CORNERS
-				if (check_point_on_wall(wall, y - h_2, x - w_2) ||
-					check_point_on_wall(wall, y - h_2, x + w_2) ||
-					check_point_on_wall(wall, y + h_2, x + w_2) ||
-					check_point_on_wall(wall, y + h_2, x - w_2))
+				if (check_point_on_wall(wall, y - h_2 + DELTA, x - w_2 + DELTA) ||
+					check_point_on_wall(wall, y - h_2 + DELTA, x + w_2 - DELTA) ||
+					check_point_on_wall(wall, y + h_2 - DELTA, x + w_2 - DELTA) ||
+					check_point_on_wall(wall, y + h_2 - DELTA, x - w_2 + DELTA))
 #else
 				if (check_point_on_wall(wall, y, x))
 #endif
@@ -416,10 +418,10 @@ unsigned int hit_wall_character(
 			if ((unsigned int) abs(y) < (unsigned int) abs(ch->obj.y))
 			{
 #ifdef CHARACTER_WALL_CHECK_CORNERS
-				if (check_point_on_wall(wall, y - h_2, x - w_2) ||
-					check_point_on_wall(wall, y - h_2, x + w_2) ||
-					check_point_on_wall(wall, y + h_2, x + w_2) ||
-					check_point_on_wall(wall, y + h_2, x - w_2))
+				if (check_point_on_wall(wall, y - h_2 + DELTA, x - w_2 + DELTA) ||
+					check_point_on_wall(wall, y - h_2 + DELTA, x + w_2 - DELTA) ||
+					check_point_on_wall(wall, y + h_2 - DELTA, x + w_2 - DELTA) ||
+					check_point_on_wall(wall, y + h_2 - DELTA, x - w_2 + DELTA))
 #else
 				if (check_point_on_wall(wall, y, x))
 #endif
@@ -436,10 +438,10 @@ unsigned int hit_wall_character(
 			if ((unsigned int) abs(x) < (unsigned int) abs(ch->obj.x))
 			{
 #ifdef CHARACTER_WALL_CHECK_CORNERS
-				if (check_point_on_wall(wall, y - h_2, x - w_2) ||
-					check_point_on_wall(wall, y - h_2, x + w_2) ||
-					check_point_on_wall(wall, y + h_2, x + w_2) ||
-					check_point_on_wall(wall, y + h_2, x - w_2))
+				if (check_point_on_wall(wall, y - h_2 + DELTA, x - w_2 + DELTA) ||
+					check_point_on_wall(wall, y - h_2 + DELTA, x + w_2 - DELTA) ||
+					check_point_on_wall(wall, y + h_2 - DELTA, x + w_2 - DELTA) ||
+					check_point_on_wall(wall, y + h_2 - DELTA, x - w_2 + DELTA))
 #else
 				if (check_point_on_wall(wall, y, x))
 #endif
@@ -452,6 +454,7 @@ unsigned int hit_wall_character(
 
 	return result;
 }
+#undef DELTA
 
 // ***************************************************************************
 // end of file
