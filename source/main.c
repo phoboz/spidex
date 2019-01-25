@@ -60,20 +60,13 @@ int main(void)
 		check_joysticks();
 		check_buttons();
 
-		if (button_1_1_pressed())
+		if (game_state == GAME_STATE_PAUSE)
 		{
-			if (game_state == GAME_STATE_NORMAL)
-			{
-				game_state = GAME_STATE_PAUSE;
-			}
-			else
+			if (button_1_1_pressed())
 			{
 				game_state = GAME_STATE_NORMAL;
 			}
-		}
 
-		if (game_state == GAME_STATE_PAUSE)
-		{
 			if (button_1_4_pressed())
 			{
 				toggle_control_method_game();
@@ -98,6 +91,11 @@ int main(void)
 		}
 		else
 		{
+			if (button_1_1_pressed())
+			{
+				game_state = GAME_STATE_PAUSE;
+			}
+
 			if (game_options & GAME_OPTIONS_DUAL_JOYSTICKS)
 			{
 				fire_status = move_dual_joystick_player_1();
