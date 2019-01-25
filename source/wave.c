@@ -448,6 +448,44 @@ const struct enemy_path circular_spath_4[] =
 	{	7,			DIR_DOWN_LEFT,	ENEMY_ACTION_MOVE	}
 };
 
+const struct enemy_path left_curve_path_1[] =
+{
+	/*	treshold		dir				action			*/
+	{	44,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
+	{	34,			DIR_UP_LEFT,		ENEMY_ACTION_MOVE	},
+	{	32,			DIR_UP,			ENEMY_ACTION_MOVE	},
+	{	20,			DIR_UP_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	16,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	36,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
+
+	/* return */
+	{	36,			DIR_UP,			ENEMY_ACTION_MOVE	},
+	{	16,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
+	{	20,			DIR_DOWN_LEFT,	ENEMY_ACTION_MOVE	},
+	{	32,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
+	{	34,			DIR_DOWN_RIGHT,	ENEMY_ACTION_MOVE	},
+	{	44,			DIR_RIGHT,		ENEMY_ACTION_MOVE	}
+};
+
+const struct enemy_path right_curve_path_1[] =
+{
+	/*	treshold		dir				action			*/
+	{	44,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	34,			DIR_UP_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	32,			DIR_UP,			ENEMY_ACTION_MOVE	},
+	{	20,			DIR_UP_LEFT,		ENEMY_ACTION_MOVE	},
+	{	16,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
+	{	36,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
+
+	/* return */
+	{	36,			DIR_UP,			ENEMY_ACTION_MOVE	},
+	{	16,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
+	{	20,			DIR_DOWN_RIGHT,	ENEMY_ACTION_MOVE	},
+	{	32,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
+	{	34,			DIR_DOWN_LEFT,	ENEMY_ACTION_MOVE	},
+	{	44,			DIR_LEFT,			ENEMY_ACTION_MOVE	}
+};
+
 const struct enemy_path stump_path[] =
 {
 	/*	treshold		dir				action			*/
@@ -602,7 +640,9 @@ const struct path_element enemy_paths[] =
 	{	/*20*/	NUM_ELMTS(circular_spath_2),	circular_spath_2	},
 	{	/*21*/	NUM_ELMTS(circular_spath_1),	circular_spath_3	},
 	{	/*22*/	NUM_ELMTS(circular_spath_2),	circular_spath_4	},
-	{	/*23*/	NUM_ELMTS(stump_path),			stump_path		}
+	{	/*23*/	NUM_ELMTS(left_curve_path_1),	left_curve_path_1	},
+	{	/*24*/	NUM_ELMTS(right_curve_path_1),	right_curve_path_1	},
+	{	/*25*/	NUM_ELMTS(stump_path),			stump_path		}
 };
 
 const struct wave_element wave_1[] =
@@ -693,7 +733,7 @@ const struct wave_element wave_5[] =
 	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		29,					0,	0	},
 	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		30,					0,	0	},
 	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		31,					0,	0	},
-	{	60,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_DRAGONFLY,	0,	8	}
+	{	60,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_DRAGONFLYB,	0,	8	}
 };
 
 const struct wave_element wave_6[] =
@@ -813,7 +853,37 @@ const struct wave_element wave_9[] =
 const struct wave_element wave_10[] =
 {
 	/*	treshold		y		x		object_type				object_index			path	param */
-	{	0,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_STUMP,		23,	6	}
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		12,					0,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		16,					0,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		17,					0,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		18,					0,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		19,					0,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		21,					0,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		22,					0,	0	},
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_WALL,		23,					0,	0	},
+	{	0,			40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_DRAGONFLY,	0,	6	},
+	{	80,			-100,	80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,		23,	0	},
+	{	0,			40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_DRAGONFLY,	0,	6	},
+	{	80,			-100,	-80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,		24,	0	},
+	{	80,			40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_DRAGONFLY,	0,	6	},
+	{	80,			-100,	80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,		23,	0	},
+	{	0,			40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_DRAGONFLY,	0,	6	},
+	{	80,			-100,	-80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,		24,	0	},
+	{	120,			44,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BUG,		0,	14	},
+	{	80,			40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_DRAGONFLY,	0,	6	},
+	{	80,			-100,	80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,		23,	0	},
+	{	0,			40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_DRAGONFLY,	0,	6	},
+	{	80,			-100,	-80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,		24,	0	},
+	{	80,			40,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_DRAGONFLY,	0,	6	},
+	{	80,			-100,	80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,		23,	0	},
+	{	0,			40,		40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_DRAGONFLY,	0,	6	},
+	{	80,			-100,	-80,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MINE,		24,	0	}
+};
+
+const struct wave_element wave_11[] =
+{
+	/*	treshold		y		x		object_type				object_index			path	param */
+	{	0,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_STUMP,		25,	6	}
 };
 
 const struct wave_def waves[] =
@@ -828,10 +898,11 @@ const struct wave_def waves[] =
 	{	NUM_ELMTS(wave_7),		wave_7	},
 	{	NUM_ELMTS(wave_8),		wave_8	},
 	{	NUM_ELMTS(wave_9),		wave_9	},
-	{	NUM_ELMTS(wave_10),	wave_10	}
+	{	NUM_ELMTS(wave_10),	wave_10	},
+	{	NUM_ELMTS(wave_11),	wave_11	}
 };
 
-static const unsigned int max_waves = 10;/*NUM_ELMTS(waves) + 1;*/
+static const unsigned int max_waves = 11;/*NUM_ELMTS(waves) + 1;*/
 
 void init_wave(
 	struct wave *wave

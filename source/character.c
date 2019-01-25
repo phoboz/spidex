@@ -251,8 +251,10 @@ unsigned int quick_check_wall_character(
 	return result;
 }
 
-#define CHARACTER_WALL_CHECK_CORNERS
-#define DELTA	4
+//#define CHARACTER_WALL_CHECK_CORNERS_PASS_NONE
+#define CHARACTER_WALL_CHECK_CORNERS_PASS_IN
+//#define CHARACTER_WALL_CHECK_CORNERS_PASS_OUT
+#define DELTA	6
 unsigned int hit_wall_character(
 	struct character *ch,
 	struct wall *wall
@@ -270,7 +272,7 @@ unsigned int hit_wall_character(
 		y = ch->obj.y + ch->dy;
 		x = ch->obj.x + ch->dx;
 
-#ifdef CHARACTER_WALL_CHECK_CORNERS
+#ifdef CHARACTER_WALL_CHECK_CORNERS_PASS_NONE
 		if (check_point_on_wall(wall, y - h_2 + DELTA, x - w_2 + DELTA) ||
 			check_point_on_wall(wall, y - h_2 + DELTA, x + w_2 - DELTA) ||
 			check_point_on_wall(wall, y + h_2 - DELTA, x + w_2 - DELTA) ||
@@ -294,7 +296,7 @@ unsigned int hit_wall_character(
 
 			if ((unsigned int) abs(y) > (unsigned int) abs(ch->obj.y))
 			{
-#ifdef CHARACTER_WALL_CHECK_CORNERS
+#ifdef CHARACTER_WALL_CHECK_CORNERS_PASS_IN
 				if (check_point_on_wall(wall, y - h_2 + DELTA, x - w_2 + DELTA) ||
 					check_point_on_wall(wall, y - h_2 + DELTA, x + w_2 - DELTA) ||
 					check_point_on_wall(wall, y + h_2 - DELTA, x + w_2 - DELTA) ||
@@ -312,7 +314,7 @@ unsigned int hit_wall_character(
 
 			if ((unsigned int) abs(x) > (unsigned int) abs(ch->obj.x))
 			{
-#ifdef CHARACTER_WALL_CHECK_CORNERS
+#ifdef CHARACTER_WALL_CHECK_CORNERS_PASS_IN
 				if (check_point_on_wall(wall, y - h_2 + DELTA, x - w_2 + DELTA) ||
 					check_point_on_wall(wall, y - h_2 + DELTA, x + w_2 - DELTA) ||
 					check_point_on_wall(wall, y + h_2 - DELTA, x + w_2 - DELTA) ||
@@ -332,7 +334,7 @@ unsigned int hit_wall_character(
 
 			if ((unsigned int) abs(y) > (unsigned int) abs(ch->obj.y))
 			{
-#ifdef CHARACTER_WALL_CHECK_CORNERS
+#ifdef CHARACTER_WALL_CHECK_CORNERS_PASS_IN
 				if (check_point_on_wall(wall, y - h_2 + DELTA, x - w_2 + DELTA) ||
 					check_point_on_wall(wall, y - h_2 + DELTA, x + w_2 - DELTA) ||
 					check_point_on_wall(wall, y + h_2 - DELTA, x + w_2 - DELTA) ||
@@ -352,7 +354,7 @@ unsigned int hit_wall_character(
 
 			if ((unsigned int) abs(x) > (unsigned int) abs(ch->obj.x))
 			{
-#ifdef CHARACTER_WALL_CHECK_CORNERS
+#ifdef CHARACTER_WALL_CHECK_CORNERS_PASS_IN
 				if (check_point_on_wall(wall, y - h_2 + DELTA, x - w_2 + DELTA) ||
 					check_point_on_wall(wall, y - h_2 + DELTA, x + w_2 - DELTA) ||
 					check_point_on_wall(wall, y + h_2 - DELTA, x + w_2 - DELTA) ||
@@ -378,7 +380,7 @@ unsigned int hit_wall_character(
 
 			if ((unsigned int) abs(y) < (unsigned int) abs(ch->obj.y))
 			{
-#ifdef CHARACTER_WALL_CHECK_CORNERS
+#ifdef CHARACTER_WALL_CHECK_CORNERS_PASS_OUT
 				if (check_point_on_wall(wall, y - h_2 + DELTA, x - w_2 + DELTA) ||
 					check_point_on_wall(wall, y - h_2 + DELTA, x + w_2 - DELTA) ||
 					check_point_on_wall(wall, y + h_2 - DELTA, x + w_2 - DELTA) ||
@@ -397,7 +399,7 @@ unsigned int hit_wall_character(
 
 			if ((unsigned int) abs(x) < (unsigned int) abs(ch->obj.x))
 			{
-#ifdef CHARACTER_WALL_CHECK_CORNERS
+#ifdef CHARACTER_WALL_CHECK_CORNERS_PASS_OUT
 				if (check_point_on_wall(wall, y - h_2 + DELTA, x - w_2 + DELTA) ||
 					check_point_on_wall(wall, y - h_2 + DELTA, x + w_2 - DELTA) ||
 					check_point_on_wall(wall, y + h_2 - DELTA, x + w_2 - DELTA) ||
@@ -417,7 +419,7 @@ unsigned int hit_wall_character(
 
 			if ((unsigned int) abs(y) < (unsigned int) abs(ch->obj.y))
 			{
-#ifdef CHARACTER_WALL_CHECK_CORNERS
+#ifdef CHARACTER_WALL_CHECK_CORNERS_PASS_OUT
 				if (check_point_on_wall(wall, y - h_2 + DELTA, x - w_2 + DELTA) ||
 					check_point_on_wall(wall, y - h_2 + DELTA, x + w_2 - DELTA) ||
 					check_point_on_wall(wall, y + h_2 - DELTA, x + w_2 - DELTA) ||
@@ -437,7 +439,7 @@ unsigned int hit_wall_character(
 
 			if ((unsigned int) abs(x) < (unsigned int) abs(ch->obj.x))
 			{
-#ifdef CHARACTER_WALL_CHECK_CORNERS
+#ifdef CHARACTER_WALL_CHECK_CORNERS_PASS_OUT
 				if (check_point_on_wall(wall, y - h_2 + DELTA, x - w_2 + DELTA) ||
 					check_point_on_wall(wall, y - h_2 + DELTA, x + w_2 - DELTA) ||
 					check_point_on_wall(wall, y + h_2 - DELTA, x + w_2 - DELTA) ||

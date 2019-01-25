@@ -36,6 +36,7 @@ const struct enemy_race enemy_races[] =
 	{	10,	10,	0x40/10,	ENEMY_TYPE_PATH,		2,		5,		ENEMY_SPECIAL_NONE,	2,		bee		},
 	{	12,	12,	0x40/10,	ENEMY_TYPE_HOMING,		1,		-1,		ENEMY_SPECIAL_EGG,		3,		bug		},
 	{	7,	7,	8,		ENEMY_TYPE_PATH,		2,		1,		ENEMY_SPECIAL_EXPLODE,	2,		mine		},
+	{	12,	12,	0x40/10,	ENEMY_TYPE_RANDOM,		2,		8,		ENEMY_SPECIAL_NONE,	2,		dragonfly	},
 	{	24,	24,	0x80/10,	ENEMY_TYPE_RANDOM,		4,		25,		ENEMY_SPECIAL_NONE,	2,		dragonfly	},
 	{	14,	14,	0x40/10,	ENEMY_TYPE_HOMING,		1,		10,		ENEMY_SPECIAL_NONE,	2,		ant		},
 	{	10,	10,	0x30/10,	ENEMY_TYPE_PATH,		2,		6,		ENEMY_SPECIAL_NONE,	2,		ant		},
