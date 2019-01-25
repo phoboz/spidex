@@ -164,8 +164,13 @@ signed int new_frame_game(void)
 
 	game_frame_number++;
 
-	if (Vec_Music_Flag || sfx_status_1 == 1)
+	if (Vec_Music_Flag)
 	{
+		Do_Sound();
+	}
+	else if (sfx_status_1 == 1)
+	{
+		ayfx_sound1();
 		Do_Sound();
 	}
 

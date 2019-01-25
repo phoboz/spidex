@@ -119,18 +119,6 @@ int main(void)
 			interaction_projectiles_player_1();
 			interaction_food_player_1();
 			new_wave_index = move_wave(&game_wave);
-		}
-
-		if (new_frame_game() == 0)
-		{
-			if (game_state != GAME_STATE_PAUSE)
-			{
-				game_state = GAME_STATE_NORMAL;
-			}
-		}
-
-		if (game_state != GAME_STATE_WAVE_DONE)
-		{
 			if (new_wave_index)
 			{
 				game_wave_index = new_wave_index;
@@ -157,11 +145,11 @@ int main(void)
 					}
 				}
 			}
+		}
 
-			if (sfx_status_1 == 1)
-			{
-				ayfx_sound1();
-			}
+		if (new_frame_game() == 0)
+		{
+			game_state = GAME_STATE_NORMAL;
 		}
 
 		if (player_1.state == PLAYER_STATE_DEAD)
