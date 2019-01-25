@@ -883,7 +883,7 @@ const struct wave_element wave_10[] =
 const struct wave_element wave_11[] =
 {
 	/*	treshold		y		x		object_type				object_index			path	param */
-	{	0,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_STUMP,		25,	6	}
+	{	60,			0,		0,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_STUMP,		25,	6	}
 };
 
 const struct wave_def waves[] =
