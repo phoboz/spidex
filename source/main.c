@@ -91,11 +91,6 @@ int main(void)
 		}
 		else
 		{
-			if (button_1_1_pressed())
-			{
-				game_state = GAME_STATE_PAUSE;
-			}
-
 			if (game_options & GAME_OPTIONS_DUAL_JOYSTICKS)
 			{
 				fire_status = move_dual_joystick_player_1();
@@ -144,30 +139,48 @@ int main(void)
 					sfx_pointer_1 = (long unsigned int) (&fire_snd_data);
 					sfx_status_1 = 1;
 				}
-				else if (player_1.state_changed)
+			}
+
+			if (player_1.state_changed)
+			{
+				if (player_1.state == PLAYER_STATE_DYING)
 				{
-					if (player_1.state == PLAYER_STATE_DYING)
+					if (game_state != GAME_STATE_WAVE_DONE)
 					{
 						sfx_pointer_1 = (long unsigned int) (&fall_snd_data);
 						sfx_status_1 = 1;
 					}
 				}
+				else if (player_1.state == PLAYER_STATE_DEAD)
+				{
+					if (player_1.num_lives > 0)
+					{
+						game_state = GAME_STATE_DEAD;
+					}
+					else
+					{
+						game_state = GAME_STATE_OVER;
+					}
+				}
+				else if (player_1.state == PLAYER_STATE_INVINSIBLE)
+				{
+					game_state = GAME_STATE_NORMAL;
+				}
 			}
 
-			if (player_1.state == PLAYER_STATE_DEAD)
+			if (game_state == GAME_STATE_NORMAL)
 			{
-				if (player_1.num_lives > 0)
+				if (button_1_1_pressed())
 				{
-					game_state = GAME_STATE_DEAD;
+					game_state = GAME_STATE_PAUSE;
 				}
-				else
+			}
+			else if (game_state == GAME_STATE_OVER)
+			{
+				if (button_1_4_pressed())
 				{
-					game_state = GAME_STATE_OVER;
-					if (button_1_4_pressed())
-					{
-						restart_game();
-						game_state = GAME_STATE_NORMAL;
-					}
+					restart_game();
+					game_state = GAME_STATE_NORMAL;
 				}
 			}
 		}

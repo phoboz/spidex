@@ -191,6 +191,11 @@ unsigned int move_single_joystick_player_1(void)
 	unsigned int hit_wall = 0;
 	unsigned int fire = 0;
 
+	if (player_1.state_changed)
+	{
+		player_1.state_changed = 0;
+	}
+
 	if (player_1.ch.obj.active)
 	{
 		if (player_1.state == PLAYER_STATE_NORMAL || player_1.state == PLAYER_STATE_INVINSIBLE)
@@ -255,11 +260,6 @@ unsigned int move_single_joystick_player_1(void)
 				set_state_player(&player_1, PLAYER_STATE_NORMAL);
 			}
 		}
-
-		if (player_1.state_changed)
-		{
-			player_1.state_changed = 0;
-		}
 	}
 	else if (player_1.state == PLAYER_STATE_DEAD)
 	{
@@ -287,6 +287,11 @@ unsigned int move_dual_joystick_player_1(void)
 	struct wall *wall;
 	unsigned int hit_wall = 0;
 	unsigned int fire = 0;
+
+	if (player_1.state_changed)
+	{
+		player_1.state_changed = 0;
+	}
 
 	if (player_1.ch.obj.active)
 	{
@@ -346,11 +351,6 @@ unsigned int move_dual_joystick_player_1(void)
 			{
 				set_state_player(&player_1, PLAYER_STATE_NORMAL);
 			}
-		}
-
-		if (player_1.state_changed)
-		{
-			player_1.state_changed = 0;
 		}
 	}
 	else if (player_1.state == PLAYER_STATE_DEAD)
