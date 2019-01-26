@@ -175,9 +175,17 @@ signed int new_frame_game(void)
 	{
 		Do_Sound();
 	}
-	else if (sfx_status_1 == 1)
+	else if (sfx_status_1 == 1 || sfx_status_2 == 1)
 	{
-		ayfx_sound1();
+		if (sfx_status_1 == 1)
+		{
+			ayfx_sound1();
+		}
+
+		if (sfx_status_2 == 1)
+		{
+			ayfx_sound2();
+		}
 		Do_Sound();
 	}
 

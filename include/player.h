@@ -75,7 +75,7 @@ unsigned int move_dual_joystick_player_1(void);
 
 struct enemy* interaction_enemies_player_1(void);
 
-void interaction_food_player_1(void);
+unsigned int interaction_food_player_1(void);
 
 void interaction_projectiles_player_1(void);
 

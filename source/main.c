@@ -21,6 +21,7 @@
 #include "ayfxPlayer.h"
 #include "fire_snd.h"
 #include "fall_snd.h"
+#include "eat_snd.h"
 
 extern const signed char web[];
 extern const signed char web1[];
@@ -30,8 +31,9 @@ extern const signed char web4[];
 extern const signed char web5[];
 
 static unsigned int fire_status = 0;
+static unsigned int eat_status = 0;
 static unsigned int new_wave_index = 0;
-static struct enemy *slain_enemy = 0;
+static struct enemy *caught_enemy = 0;
 
 // ---------------------------------------------------------------------------
 // cold reset: the vectrex logo is shown, all ram data is cleared
@@ -91,14 +93,14 @@ int main(void)
 			move_projectiles();
 			move_food();
 
-			slain_enemy = interaction_enemies_player_1();
-			if (slain_enemy)
+			caught_enemy = interaction_enemies_player_1();
+			if (caught_enemy)
 			{
-				init_food_game(slain_enemy);
+				init_food_game(caught_enemy);
 			}
 
 			interaction_projectiles_player_1();
-			interaction_food_player_1();
+			eat_status = interaction_food_player_1();
 			new_wave_index = move_wave(&game_wave);
 			if (new_wave_index)
 			{
@@ -121,6 +123,12 @@ int main(void)
 				{
 					sfx_pointer_1 = (long unsigned int) (&fire_snd_data);
 					sfx_status_1 = 1;
+				}
+
+				if (eat_status)
+				{
+					sfx_pointer_2 = (long unsigned int) (&eat_snd_data);
+					sfx_status_2 = 1;
 				}
 			}
 

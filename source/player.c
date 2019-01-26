@@ -511,10 +511,11 @@ struct enemy* interaction_enemies_player_1(void)
 	return result;
 }
 
-void interaction_food_player_1(void)
+unsigned int interaction_food_player_1(void)
 {
 	struct food *food;
 	struct food *rem_food = 0;
+	unsigned int result = 0;
 
 	food = (struct food *) food_list;
 	while (food != 0)
@@ -523,6 +524,7 @@ void interaction_food_player_1(void)
 		{
 			rem_food = food;
 			player_1.score += (unsigned int) food->value;
+			result = 1;
 		}
 		food = (struct food *) food->obj.next;
 
@@ -532,6 +534,8 @@ void interaction_food_player_1(void)
 			rem_food = 0;
 		}
 	}
+
+	return result;
 }
 
 void interaction_projectiles_player_1(void)
