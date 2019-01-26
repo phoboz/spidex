@@ -118,6 +118,8 @@ int main(void)
 					game_state = GAME_STATE_FINNISH;
 				}
 				new_wave_index = 0;
+				sfx_status_1 = 0;
+				sfx_status_2 = 0;
 				Vec_Music_Flag = 1;
 			}
 			else
