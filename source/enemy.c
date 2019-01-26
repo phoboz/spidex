@@ -434,7 +434,7 @@ unsigned int move_enemies(void)
 				{
 					enemy->state = ENEMY_STATE_HATCH;
 					enemy->state_counter = 0;
-					result |= ENEMY_STATUS_HATCH_1;
+					result |= ENEMY_STATUS_EGG_CRACK;
 				}
 			}
 			else if (enemy->state == ENEMY_STATE_HATCH)
@@ -443,7 +443,7 @@ unsigned int move_enemies(void)
 				{
 					enemy->state = ENEMY_STATE_MOVE;
 					enemy->state_counter = 0;
-					result |= ENEMY_STATUS_HATCH_2;
+					result |= ENEMY_STATUS_EGG_HATCH;
 					
 				}
 			}

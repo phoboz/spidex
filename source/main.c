@@ -23,6 +23,7 @@
 #include "fall_snd.h"
 #include "eat_snd.h"
 #include "explosion_snd.h"
+#include "hatch_snd.h"
 
 extern const signed char web[];
 extern const signed char web1[];
@@ -53,7 +54,7 @@ int main(void)
 	init_random(5, 27, 3, 19);
 	init_game();
 ////DEBUG
-	game_wave.wave_index = 2;
+	//game_wave.wave_index = 2;
 ////END DEBUG
 	while(1)
 	{
@@ -121,17 +122,6 @@ int main(void)
 			}
 			else
 			{
-				if (fire_status)
-				{
-					sfx_pointer_1 = (long unsigned int) (&fire_snd_data);
-					sfx_status_1 = 1;
-				}
-				else if (eat_status)
-				{
-					sfx_pointer_1 = (long unsigned int) (&eat_snd_data);
-					sfx_status_1 = 1;
-				}
-
 				if (enemy_status)
 				{
 					if ((enemy_status & ENEMY_STATUS_EXPLODE) == ENEMY_STATUS_EXPLODE)
@@ -139,6 +129,22 @@ int main(void)
 						sfx_pointer_1 = (long unsigned int) (&explosion_snd_data);
 						sfx_status_1 = 1;
 					}
+					else if ((enemy_status & ENEMY_STATUS_EGG_HATCH) == ENEMY_STATUS_EGG_HATCH)
+					{
+						sfx_pointer_1 = (long unsigned int) (&hatch_snd_data);
+						sfx_status_1 = 1;
+					}
+				}
+
+				if (fire_status)
+				{
+					sfx_pointer_2 = (long unsigned int) (&fire_snd_data);
+					sfx_status_2 = 1;
+				}
+				else if (eat_status)
+				{
+					sfx_pointer_2 = (long unsigned int) (&eat_snd_data);
+					sfx_status_2 = 1;
 				}
 			}
 
@@ -148,8 +154,8 @@ int main(void)
 				{
 					if (game_state != GAME_STATE_WAVE_DONE)
 					{
-						sfx_pointer_1 = (long unsigned int) (&fall_snd_data);
-						sfx_status_1 = 1;
+						sfx_pointer_2 = (long unsigned int) (&fall_snd_data);
+						sfx_status_2 = 1;
 					}
 				}
 				else if (player_1.state == PLAYER_STATE_DEAD)
