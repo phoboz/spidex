@@ -7,8 +7,8 @@
 #include "food.h"
 #include "bullet.h"
 
-#define PLAYER_HEIGHT			14
-#define PLAYER_WIDTH			14
+#define PLAYER_HEIGHT			13
+#define PLAYER_WIDTH			13
 #define PLAYER_SCALE			0x40
 #define SPIDER_SCALE			PLAYER_SCALE/10
 #define PLAYER_SPEED			4

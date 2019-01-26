@@ -14,10 +14,8 @@
 #define ENEMY_STATE_DYING	6
 #define ENEMY_STATE_DEAD	7
 
-#define ENEMY_STATUS_SPAWN			0x01
-#define ENEMY_STATUS_EGG_CRACK		0x02
-#define ENEMY_STATUS_EGG_HATCH		0x04
-#define ENEMY_STATUS_EXPLODE		0x08
+#define ENEMY_STATUS_HIT			0x01
+#define ENEMY_STATUS_EXPLODE		0x02
 
 #define ENEMY_TYPE_RANDOM	0
 #define ENEMY_TYPE_PATH	1
@@ -116,7 +114,7 @@ void deinit_enemy(
 	struct enemy *enemy
 	);
 
-unsigned int move_enemies(void);
+void move_enemies(void);
 
 unsigned int hit_enemy(
 	struct enemy *enemy
@@ -130,6 +128,7 @@ unsigned int explosion_hit_object_enemy(
 void draw_enemies(void);
 
 extern const struct enemy_race enemy_races[];
+extern unsigned int enemy_status;
 extern struct object *enemy_list;
 extern struct object *enemy_free_list;
 

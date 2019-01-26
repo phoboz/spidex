@@ -46,6 +46,7 @@ const struct enemy_race enemy_races[] =
 	{	40,	40,	0x80/10,	ENEMY_TYPE_PATH,		1,		127,		ENEMY_SPECIAL_HEAVY,	10,		stump	}
 };
 
+unsigned int enemy_status = 0;
 struct object *enemy_list = 0;
 struct object *enemy_free_list = 0;
 
@@ -198,7 +199,7 @@ void deinit_enemy(
 	give_object(&enemy->ch.obj, &enemy_free_list);
 }
 
-unsigned int move_enemies(void)
+void move_enemies(void)
 {
 	struct enemy *enemy;
 	struct enemy *other;
@@ -207,7 +208,8 @@ unsigned int move_enemies(void)
 	struct projectile *proj;
 	struct enemy *rem_enemy = 0;
 	unsigned int hit_wall = 0;
-	unsigned int result = 0;
+
+	enemy_status = 0;
 
 	enemy = (struct enemy *) enemy_list;
 	while(enemy != 0)
@@ -252,7 +254,7 @@ unsigned int move_enemies(void)
 						{
 							enemy->state = ENEMY_STATE_EXPLODE;
 							enemy->state_counter = 0;
-							result |= ENEMY_STATUS_EXPLODE;
+							enemy_status |= ENEMY_STATUS_EXPLODE;
 						}
 					}
 					else
@@ -330,7 +332,7 @@ unsigned int move_enemies(void)
 						{
 							enemy->state = ENEMY_STATE_EXPLODE;
 							enemy->state_counter = 0;
-							result |= ENEMY_STATUS_EXPLODE;
+							enemy_status |= ENEMY_STATUS_EXPLODE;
 						}
 					}
 					else
@@ -378,7 +380,7 @@ unsigned int move_enemies(void)
 							{
 								enemy->state = ENEMY_STATE_EXPLODE;
 								enemy->state_counter = 0;
-								result |= ENEMY_STATUS_EXPLODE;
+								enemy_status |= ENEMY_STATUS_EXPLODE;
 							}
 							else
 							{
@@ -415,7 +417,6 @@ unsigned int move_enemies(void)
 				enemy->ch.frame = 0;
 				enemy->state = ENEMY_STATE_MOVE;
 				enemy->state_counter = 0;
-				result |= ENEMY_STATUS_SPAWN;
 			}
 		}
 		else if (enemy->state == ENEMY_STATE_STOP)
@@ -434,7 +435,6 @@ unsigned int move_enemies(void)
 				{
 					enemy->state = ENEMY_STATE_HATCH;
 					enemy->state_counter = 0;
-					result |= ENEMY_STATUS_EGG_CRACK;
 				}
 			}
 			else if (enemy->state == ENEMY_STATE_HATCH)
@@ -443,7 +443,6 @@ unsigned int move_enemies(void)
 				{
 					enemy->state = ENEMY_STATE_MOVE;
 					enemy->state_counter = 0;
-					result |= ENEMY_STATUS_EGG_HATCH;
 					
 				}
 			}
@@ -511,8 +510,6 @@ unsigned int move_enemies(void)
 			rem_enemy = 0;
 		}
 	}
-
-	return result;
 }
 
 unsigned int hit_enemy(
@@ -529,6 +526,7 @@ unsigned int hit_enemy(
 			{
 				enemy->state = ENEMY_STATE_EXPLODE;
 				enemy->state_counter = 0;
+				enemy_status |= ENEMY_STATUS_EXPLODE;
 			}
 			else
 			{
@@ -547,6 +545,7 @@ unsigned int hit_enemy(
 			enemy->state = ENEMY_STATE_STOP;
 			enemy->state_counter = 0;
 		}
+		enemy_status |= ENEMY_STATUS_HIT;
 	}
 
 	return result;

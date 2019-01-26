@@ -23,7 +23,7 @@
 #include "fall_snd.h"
 #include "eat_snd.h"
 #include "explosion_snd.h"
-#include "hatch_snd.h"
+#include "hit_snd.h"
 
 extern const signed char web[];
 extern const signed char web1[];
@@ -34,7 +34,6 @@ extern const signed char web5[];
 
 static unsigned int fire_status = 0;
 static unsigned int eat_status = 0;
-static unsigned int enemy_status = 0;
 static unsigned int new_wave_index = 0;
 static struct enemy *caught_enemy = 0;
 
@@ -92,7 +91,7 @@ int main(void)
 			}
 
 			move_bullets();
-			enemy_status = move_enemies();
+			move_enemies();
 			move_projectiles();
 			move_food();
 
@@ -131,9 +130,9 @@ int main(void)
 						sfx_pointer_1 = (long unsigned int) (&explosion_snd_data);
 						sfx_status_1 = 1;
 					}
-					else if ((enemy_status & ENEMY_STATUS_EGG_HATCH) == ENEMY_STATUS_EGG_HATCH)
+					else if ((enemy_status & ENEMY_STATUS_HIT) == ENEMY_STATUS_HIT)
 					{
-						sfx_pointer_1 = (long unsigned int) (&hatch_snd_data);
+						sfx_pointer_1 = (long unsigned int) (&hit_snd_data);
 						sfx_status_1 = 1;
 					}
 				}
