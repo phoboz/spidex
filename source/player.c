@@ -183,6 +183,92 @@ unsigned int fire_bullet_player(
 	return fire;
 }
 
+void move_player_1_no_fire(void)
+{
+	unsigned int move_trigger;
+	unsigned int dir;
+	struct wall *wall;
+	unsigned int hit_wall = 0;
+
+	player_1.state_changed = 0;
+
+	if (player_1.ch.obj.active)
+	{
+		if (player_1.state == PLAYER_STATE_NORMAL || player_1.state == PLAYER_STATE_INVINSIBLE)
+		{
+			if (!button_1_4_held())
+			{
+				move_trigger = get_dir_input_1(&dir);
+				if (move_trigger)
+				{
+					set_walk_dir_player(&player_1, dir);
+					animate_character(&player_1.ch);
+
+					wall = (struct wall *) wall_list;
+					while (wall != 0)
+					{
+						if (quick_check_wall_character(&player_1.ch, wall))
+						{
+							hit_wall = hit_wall_character(&player_1.ch, wall);
+							if (hit_wall)
+							{
+								break;
+							}
+						}
+						wall = (struct wall *) wall->obj.next;
+					}
+
+					if (!hit_wall)
+					{
+						move_character(&player_1.ch);
+					}
+				}
+			}
+		}
+		else if (player_1.state == PLAYER_STATE_DYING)
+		{
+			set_fire_dir_player(&player_1, player_1.fire_dir + 1);
+			if (++player_1.anim_counter >= PLAYER_SCALE_TRESHOLD)
+			{
+				player_1.anim_counter = 0;
+				if (--player_1.ch.obj.scale < 1)
+				{
+					player_1.ch.obj.scale = 1;
+				}
+			}
+
+			if (++player_1.state_counter >= PLAYER_DYING_TRESHOLD)
+			{
+				player_1.ch.obj.scale = SPIDER_SCALE;
+				set_state_player(&player_1, PLAYER_STATE_DEAD);
+			}
+		}
+		
+		if (player_1.state == PLAYER_STATE_INVINSIBLE)
+		{
+			if (++player_1.state_counter >= PLAYER_INVINSIBLE_TRESHOLD)
+			{
+				set_state_player(&player_1, PLAYER_STATE_NORMAL);
+			}
+		}
+	}
+	else if (player_1.state == PLAYER_STATE_DEAD)
+	{
+		if (player_1.num_lives > 0)
+		{
+			if (++player_1.state_counter >= PLAYER_DEAD_TRESHOLD)
+			{
+				player_1.num_lives--;
+				player_1.ch.obj.y = player_1.start_y;
+				player_1.ch.obj.x = player_1.start_x;
+				set_fire_dir_player(&player_1, DIR_UP);
+				set_state_player(&player_1, PLAYER_STATE_INVINSIBLE);
+				player_1.ch.obj.active = 1;
+			}
+		}
+	}
+}
+
 unsigned int move_single_joystick_player_1(void)
 {
 	unsigned int fire_trigger, move_trigger;
@@ -191,10 +277,7 @@ unsigned int move_single_joystick_player_1(void)
 	unsigned int hit_wall = 0;
 	unsigned int fire = 0;
 
-	if (player_1.state_changed)
-	{
-		player_1.state_changed = 0;
-	}
+	player_1.state_changed = 0;
 
 	if (player_1.ch.obj.active)
 	{
@@ -288,10 +371,7 @@ unsigned int move_dual_joystick_player_1(void)
 	unsigned int hit_wall = 0;
 	unsigned int fire = 0;
 
-	if (player_1.state_changed)
-	{
-		player_1.state_changed = 0;
-	}
+	player_1.state_changed = 0;
 
 	if (player_1.ch.obj.active)
 	{
@@ -370,62 +450,6 @@ unsigned int move_dual_joystick_player_1(void)
 	}
 
 	return fire;
-}
-
-unsigned int goto_player_1(
-	signed int dest_y,
-	signed int dest_x
-	)
-{
-	unsigned int result = 0;
-	signed int src_y = player_1.ch.obj.y;
-	signed int src_x = player_1.ch.obj.x;
-
-	if (src_y > dest_y && src_x == dest_x)
-	{
-		set_walk_dir_player(&player_1, DIR_DOWN);
-	}
-	else if (src_y > dest_y && src_x < dest_x)
-	{
-		set_walk_dir_player(&player_1, DIR_DOWN_RIGHT);
-	}
-	else if (src_y == dest_y && src_x < dest_x)
-	{
-		set_walk_dir_player(&player_1, DIR_RIGHT);
-	}
-	else if (src_y < dest_y && src_x < dest_x)
-	{
-		set_walk_dir_player(&player_1, DIR_UP_RIGHT);
-	}
-	else if (src_y < dest_y && src_x == dest_x)
-	{
-		set_walk_dir_player(&player_1, DIR_UP);
-	}
-	else if (src_y < dest_y && src_x > dest_x)
-	{
-		set_walk_dir_player(&player_1, DIR_UP_LEFT);
-	}
-	else if (src_y == dest_y && src_x > dest_x)
-	{
-		set_walk_dir_player(&player_1, DIR_LEFT);
-	}
-	else if (src_y > dest_y && src_x > dest_x)
-	{
-		set_walk_dir_player(&player_1, DIR_DOWN_LEFT);
-	}
-
-	animate_character(&player_1.ch);
-	move_character(&player_1.ch);
-
-	if (player_1.ch.obj.y > dest_y - player_1.ch.move_speed &&
-		player_1.ch.obj.y < dest_y + player_1.ch.move_speed &&
-		player_1.ch.obj.x > dest_x - player_1.ch.move_speed &&
-		player_1.ch.obj.x < dest_x + player_1.ch.move_speed)
-	{
-		result = 1;
-	}
-
-	return result;
 }
 
 struct enemy* interaction_enemies_player_1(void)

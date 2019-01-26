@@ -33,10 +33,6 @@ static unsigned int fire_status = 0;
 static unsigned int new_wave_index = 0;
 static struct enemy *slain_enemy = 0;
 
-#ifdef PLAYER_GO_HOME
-static unsigned int player_home;
-#endif
-
 // ---------------------------------------------------------------------------
 // cold reset: the vectrex logo is shown, all ram data is cleared
 // warm reset: skip vectrex logo and keep ram data
@@ -74,18 +70,8 @@ int main(void)
 		}
 		else if (game_state == GAME_STATE_WAVE_DONE || game_state == GAME_STATE_FINNISH)
 		{
-#ifdef PLAYER_GO_HOME
-			if (!player_home)
-			{
-				player_home = goto_player_1(GAME_PLAYER_1_START_Y, GAME_PLAYER_1_START_X);
-			}
-
-			if (player_home)
-			{
-				set_fire_dir_player(&player_1, DIR_UP);
-			}
-#endif
-
+			move_player_1_no_fire();
+			interaction_food_player_1();
 			move_bullets();
 			move_projectiles();
 		}
@@ -126,9 +112,6 @@ int main(void)
 					game_wave_index = 0;
 					game_state = GAME_STATE_FINNISH;
 				}
-#ifdef PLAYER_GO_HOME
-				player_home = 0;
-#endif
 				new_wave_index = 0;
 				Vec_Music_Flag = 1;
 			}

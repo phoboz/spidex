@@ -69,13 +69,9 @@ void set_fire_dir_player(
 	unsigned int dir
 	);
 
+void move_player_1_no_fire(void);
 unsigned int move_single_joystick_player_1(void);
 unsigned int move_dual_joystick_player_1(void);
-
-unsigned int goto_player_1(
-	signed int dest_x,
-	signed int dest_y
-	);
 
 struct enemy* interaction_enemies_player_1(void);
 
