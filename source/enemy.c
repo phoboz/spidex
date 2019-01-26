@@ -198,7 +198,7 @@ void deinit_enemy(
 	give_object(&enemy->ch.obj, &enemy_free_list);
 }
 
-void move_enemies(void)
+unsigned int move_enemies(void)
 {
 	struct enemy *enemy;
 	struct enemy *other;
@@ -207,6 +207,7 @@ void move_enemies(void)
 	struct projectile *proj;
 	struct enemy *rem_enemy = 0;
 	unsigned int hit_wall = 0;
+	unsigned int result = 0;
 
 	enemy = (struct enemy *) enemy_list;
 	while(enemy != 0)
@@ -251,6 +252,7 @@ void move_enemies(void)
 						{
 							enemy->state = ENEMY_STATE_EXPLODE;
 							enemy->state_counter = 0;
+							result |= ENEMY_STATUS_EXPLODE;
 						}
 					}
 					else
@@ -328,6 +330,7 @@ void move_enemies(void)
 						{
 							enemy->state = ENEMY_STATE_EXPLODE;
 							enemy->state_counter = 0;
+							result |= ENEMY_STATUS_EXPLODE;
 						}
 					}
 					else
@@ -375,6 +378,7 @@ void move_enemies(void)
 							{
 								enemy->state = ENEMY_STATE_EXPLODE;
 								enemy->state_counter = 0;
+								result |= ENEMY_STATUS_EXPLODE;
 							}
 							else
 							{
@@ -411,6 +415,7 @@ void move_enemies(void)
 				enemy->ch.frame = 0;
 				enemy->state = ENEMY_STATE_MOVE;
 				enemy->state_counter = 0;
+				result |= ENEMY_STATUS_SPAWN;
 			}
 		}
 		else if (enemy->state == ENEMY_STATE_STOP)
@@ -429,6 +434,7 @@ void move_enemies(void)
 				{
 					enemy->state = ENEMY_STATE_HATCH;
 					enemy->state_counter = 0;
+					result |= ENEMY_STATUS_HATCH_1;
 				}
 			}
 			else if (enemy->state == ENEMY_STATE_HATCH)
@@ -437,6 +443,8 @@ void move_enemies(void)
 				{
 					enemy->state = ENEMY_STATE_MOVE;
 					enemy->state_counter = 0;
+					result |= ENEMY_STATUS_HATCH_2;
+					
 				}
 			}
 		}
@@ -503,6 +511,8 @@ void move_enemies(void)
 			rem_enemy = 0;
 		}
 	}
+
+	return result;
 }
 
 unsigned int hit_enemy(

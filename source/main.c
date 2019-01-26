@@ -22,6 +22,7 @@
 #include "fire_snd.h"
 #include "fall_snd.h"
 #include "eat_snd.h"
+#include "explosion_snd.h"
 
 extern const signed char web[];
 extern const signed char web1[];
@@ -32,6 +33,7 @@ extern const signed char web5[];
 
 static unsigned int fire_status = 0;
 static unsigned int eat_status = 0;
+static unsigned int enemy_status = 0;
 static unsigned int new_wave_index = 0;
 static struct enemy *caught_enemy = 0;
 
@@ -51,7 +53,7 @@ int main(void)
 	init_random(5, 27, 3, 19);
 	init_game();
 ////DEBUG
-	//game_wave.wave_index = 6;
+	game_wave.wave_index = 2;
 ////END DEBUG
 	while(1)
 	{
@@ -89,7 +91,7 @@ int main(void)
 			}
 
 			move_bullets();
-			move_enemies();
+			enemy_status = move_enemies();
 			move_projectiles();
 			move_food();
 
@@ -124,11 +126,19 @@ int main(void)
 					sfx_pointer_1 = (long unsigned int) (&fire_snd_data);
 					sfx_status_1 = 1;
 				}
-
-				if (eat_status)
+				else if (eat_status)
 				{
-					sfx_pointer_2 = (long unsigned int) (&eat_snd_data);
-					sfx_status_2 = 1;
+					sfx_pointer_1 = (long unsigned int) (&eat_snd_data);
+					sfx_status_1 = 1;
+				}
+
+				if (enemy_status)
+				{
+					if ((enemy_status & ENEMY_STATUS_EXPLODE) == ENEMY_STATUS_EXPLODE)
+					{
+						sfx_pointer_1 = (long unsigned int) (&explosion_snd_data);
+						sfx_status_1 = 1;
+					}
 				}
 			}
 

@@ -14,6 +14,11 @@
 #define ENEMY_STATE_DYING	6
 #define ENEMY_STATE_DEAD	7
 
+#define ENEMY_STATUS_SPAWN			0x01
+#define ENEMY_STATUS_HATCH_1		0x02
+#define ENEMY_STATUS_HATCH_2		0x04
+#define ENEMY_STATUS_EXPLODE		0x08
+
 #define ENEMY_TYPE_RANDOM	0
 #define ENEMY_TYPE_PATH	1
 #define ENEMY_TYPE_HOMING	2
@@ -111,7 +116,7 @@ void deinit_enemy(
 	struct enemy *enemy
 	);
 
-void move_enemies(void);
+unsigned int move_enemies(void);
 
 unsigned int hit_enemy(
 	struct enemy *enemy
