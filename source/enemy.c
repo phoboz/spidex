@@ -562,7 +562,7 @@ unsigned int explosion_hit_object_enemy(
 
 	dy = enemy->ch.obj.y - obj->y;
 	dx = enemy->ch.obj.x - obj->x;
-	r = ENEMY_EXPLOSION_RADIUS + (enemy->state_counter << 2);
+	r = ENEMY_EXPLOSION_RADIUS + (enemy->state_counter << 2) + (enemy->state_counter << 1);
 	if ((unsigned int) abs(dy) + (unsigned int) abs(dx) < r)
 	{
 		result = 1;
