@@ -251,10 +251,10 @@ unsigned int quick_check_wall_character(
 	return result;
 }
 
-//#define CHARACTER_WALL_CHECK_CORNERS_PASS_NONE
+#define CHARACTER_WALL_CHECK_CORNERS_PASS_NONE
 #define CHARACTER_WALL_CHECK_CORNERS_PASS_IN
-//#define CHARACTER_WALL_CHECK_CORNERS_PASS_OUT
-#define DELTA	6
+#define CHARACTER_WALL_CHECK_CORNERS_PASS_OUT
+#define DELTA	0
 unsigned int hit_wall_character(
 	struct character *ch,
 	struct wall *wall
