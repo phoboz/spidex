@@ -251,44 +251,105 @@ unsigned int quick_check_wall_character(
 	return result;
 }
 
-#define CHARACTER_WALL_CHECK_CORNERS_PASS_NONE
-#define CHARACTER_WALL_CHECK_CORNERS_PASS_IN
-#define CHARACTER_WALL_CHECK_CORNERS_PASS_OUT
-#define DELTA	0
+static unsigned int check_wall_character(
+	struct character *ch,
+	signed int y,
+	signed int x,
+	struct wall *wall
+	)
+{
+	unsigned int result = 0;
+
+	switch (ch->dir)
+	{
+		case DIR_DOWN:
+			if (check_point_on_wall(wall, y - ch->obj.h_2, x - ch->obj.w_2) ||
+				check_point_on_wall(wall, y - ch->obj.h_2, x + ch->obj.w_2))
+			{
+				result = 1;
+			}
+			break;
+
+		case DIR_DOWN_RIGHT:
+			if (check_point_on_wall(wall, y - ch->obj.h_2, x) ||
+				check_point_on_wall(wall, y - ch->obj.h_2, x + ch->obj.w_2) ||
+				check_point_on_wall(wall, y, x + ch->obj.w_2))
+			{
+				result = 1;
+			}
+			break;
+
+		case DIR_RIGHT:
+			if (check_point_on_wall(wall, y - ch->obj.h_2, x + ch->obj.w_2) ||
+				check_point_on_wall(wall, y + ch->obj.h_2, x + ch->obj.w_2))
+			{
+				result = 1;
+			}
+			break;
+
+		case DIR_UP_RIGHT:
+			if (check_point_on_wall(wall, y, x + ch->obj.w_2) ||
+				check_point_on_wall(wall, y + ch->obj.h_2, x + ch->obj.w_2) ||
+				check_point_on_wall(wall, y + ch->obj.h_2, x))
+			{
+				result = 1;
+			}
+			break;
+
+		case DIR_UP:
+			if (check_point_on_wall(wall, y + ch->obj.h_2, x + ch->obj.w_2) ||
+				check_point_on_wall(wall, y + ch->obj.h_2, x - ch->obj.w_2))
+			{
+				result = 1;
+			}
+			break;
+
+		case DIR_UP_LEFT:
+			if (check_point_on_wall(wall, y + ch->obj.h_2, x) ||
+				check_point_on_wall(wall, y + ch->obj.h_2, x - ch->obj.w_2) ||
+				check_point_on_wall(wall, y, x + ch->obj.w_2))
+			{
+				result = 1;
+			}
+			break;
+
+		case DIR_LEFT:
+			if (check_point_on_wall(wall, y + ch->obj.h_2, x - ch->obj.w_2) ||
+				check_point_on_wall(wall, y - ch->obj.h_2, x - ch->obj.w_2))
+			{
+				result = 1;
+			}
+			break;
+
+		case DIR_DOWN_LEFT:
+			if (check_point_on_wall(wall, y, x - ch->obj.w_2) ||
+				check_point_on_wall(wall, y - ch->obj.h_2, x - ch->obj.w_2) ||
+				check_point_on_wall(wall, y - ch->obj.h_2, x))
+			{
+				result = 1;
+			}
+			break;
+	}
+
+	return result;
+}
+
 unsigned int hit_wall_character(
 	struct character *ch,
 	struct wall *wall
 	)
 {
 	signed int y, x;
-	signed int h_2, w_2;
-	unsigned int result = 0;
 
 	if (wall->type == WALL_TYPE_SOLID)
 	{
-		h_2 = ch->obj.h_2;
-		w_2 = ch->obj.w_2;
-
 		y = ch->obj.y + ch->dy;
 		x = ch->obj.x + ch->dx;
 
-#ifdef CHARACTER_WALL_CHECK_CORNERS_PASS_NONE
-		if (check_point_on_wall(wall, y - h_2 + DELTA, x - w_2 + DELTA) ||
-			check_point_on_wall(wall, y - h_2 + DELTA, x + w_2 - DELTA) ||
-			check_point_on_wall(wall, y + h_2 - DELTA, x + w_2 - DELTA) ||
-			check_point_on_wall(wall, y + h_2 - DELTA, x - w_2 + DELTA))
-#else
-		if (check_point_on_wall(wall, y, x))
-#endif
-		{
-			result = 1;
-		}
+		return check_wall_character(ch, y, x, wall);
 	}
 	else if (ch->wall_mode == CHARACTER_WALL_PASS_IN)
 	{
-		h_2 = ch->obj.h_2;
-		w_2 = ch->obj.w_2;
-
 		if (ch->dy != 0 && ch->dx != 0)
 		{
 			y = ch->obj.y + ch->dy;
@@ -296,17 +357,7 @@ unsigned int hit_wall_character(
 
 			if ((unsigned int) abs(y) > (unsigned int) abs(ch->obj.y))
 			{
-#ifdef CHARACTER_WALL_CHECK_CORNERS_PASS_IN
-				if (check_point_on_wall(wall, y - h_2 + DELTA, x - w_2 + DELTA) ||
-					check_point_on_wall(wall, y - h_2 + DELTA, x + w_2 - DELTA) ||
-					check_point_on_wall(wall, y + h_2 - DELTA, x + w_2 - DELTA) ||
-					check_point_on_wall(wall, y + h_2 - DELTA, x - w_2 + DELTA))
-#else
-				if (check_point_on_wall(wall, y, x))
-#endif
-				{
-					result = 1;
-				}
+				return check_wall_character(ch, y, x, wall);
 			}
 	
 			y = ch->obj.y;
@@ -314,17 +365,7 @@ unsigned int hit_wall_character(
 
 			if ((unsigned int) abs(x) > (unsigned int) abs(ch->obj.x))
 			{
-#ifdef CHARACTER_WALL_CHECK_CORNERS_PASS_IN
-				if (check_point_on_wall(wall, y - h_2 + DELTA, x - w_2 + DELTA) ||
-					check_point_on_wall(wall, y - h_2 + DELTA, x + w_2 - DELTA) ||
-					check_point_on_wall(wall, y + h_2 - DELTA, x + w_2 - DELTA) ||
-					check_point_on_wall(wall, y + h_2 - DELTA, x - w_2 + DELTA))
-#else
-				if (check_point_on_wall(wall, y, x))
-#endif
-				{
-					result = 1;
-				}
+				return check_wall_character(ch, y, x, wall);
 			}
 		}
 		else if (ch->dy != 0)
@@ -334,17 +375,7 @@ unsigned int hit_wall_character(
 
 			if ((unsigned int) abs(y) > (unsigned int) abs(ch->obj.y))
 			{
-#ifdef CHARACTER_WALL_CHECK_CORNERS_PASS_IN
-				if (check_point_on_wall(wall, y - h_2 + DELTA, x - w_2 + DELTA) ||
-					check_point_on_wall(wall, y - h_2 + DELTA, x + w_2 - DELTA) ||
-					check_point_on_wall(wall, y + h_2 - DELTA, x + w_2 - DELTA) ||
-					check_point_on_wall(wall, y + h_2 - DELTA, x - w_2 + DELTA))
-#else
-				if (check_point_on_wall(wall, y, x))
-#endif
-				{
-					result = 1;
-				}
+				return check_wall_character(ch, y, x, wall);
 			}
 		}
 		else if (ch->dx != 0)
@@ -354,25 +385,12 @@ unsigned int hit_wall_character(
 
 			if ((unsigned int) abs(x) > (unsigned int) abs(ch->obj.x))
 			{
-#ifdef CHARACTER_WALL_CHECK_CORNERS_PASS_IN
-				if (check_point_on_wall(wall, y - h_2 + DELTA, x - w_2 + DELTA) ||
-					check_point_on_wall(wall, y - h_2 + DELTA, x + w_2 - DELTA) ||
-					check_point_on_wall(wall, y + h_2 - DELTA, x + w_2 - DELTA) ||
-					check_point_on_wall(wall, y + h_2 - DELTA, x - w_2 + DELTA))
-#else
-				if (check_point_on_wall(wall, y, x))
-#endif
-				{
-					result = 1;
-				}
+				return check_wall_character(ch, y, x, wall);
 			}
 		}
 	}
 	else if (ch->wall_mode == CHARACTER_WALL_PASS_OUT)
 	{
-		h_2 = ch->obj.h_2;
-		w_2 = ch->obj.w_2;
-
 		if (ch->dy != 0 && ch->dx != 0)
 		{
 			y = ch->obj.y + ch->dy;
@@ -380,18 +398,7 @@ unsigned int hit_wall_character(
 
 			if ((unsigned int) abs(y) < (unsigned int) abs(ch->obj.y))
 			{
-#ifdef CHARACTER_WALL_CHECK_CORNERS_PASS_OUT
-				if (check_point_on_wall(wall, y - h_2 + DELTA, x - w_2 + DELTA) ||
-					check_point_on_wall(wall, y - h_2 + DELTA, x + w_2 - DELTA) ||
-					check_point_on_wall(wall, y + h_2 - DELTA, x + w_2 - DELTA) ||
-					check_point_on_wall(wall, y + h_2 - DELTA, x - w_2 + DELTA))
-#else
-				if (check_point_on_wall(wall, y, x))
-#endif
-
-				{
-					result = 1;
-				}
+				return check_wall_character(ch, y, x, wall);
 			}
 	
 			y = ch->obj.y;
@@ -399,17 +406,7 @@ unsigned int hit_wall_character(
 
 			if ((unsigned int) abs(x) < (unsigned int) abs(ch->obj.x))
 			{
-#ifdef CHARACTER_WALL_CHECK_CORNERS_PASS_OUT
-				if (check_point_on_wall(wall, y - h_2 + DELTA, x - w_2 + DELTA) ||
-					check_point_on_wall(wall, y - h_2 + DELTA, x + w_2 - DELTA) ||
-					check_point_on_wall(wall, y + h_2 - DELTA, x + w_2 - DELTA) ||
-					check_point_on_wall(wall, y + h_2 - DELTA, x - w_2 + DELTA))
-#else
-				if (check_point_on_wall(wall, y, x))
-#endif
-				{
-					result = 1;
-				}
+				return check_wall_character(ch, y, x, wall);
 			}
 		}
 		else if (ch->dy != 0)
@@ -419,17 +416,7 @@ unsigned int hit_wall_character(
 
 			if ((unsigned int) abs(y) < (unsigned int) abs(ch->obj.y))
 			{
-#ifdef CHARACTER_WALL_CHECK_CORNERS_PASS_OUT
-				if (check_point_on_wall(wall, y - h_2 + DELTA, x - w_2 + DELTA) ||
-					check_point_on_wall(wall, y - h_2 + DELTA, x + w_2 - DELTA) ||
-					check_point_on_wall(wall, y + h_2 - DELTA, x + w_2 - DELTA) ||
-					check_point_on_wall(wall, y + h_2 - DELTA, x - w_2 + DELTA))
-#else
-				if (check_point_on_wall(wall, y, x))
-#endif
-				{
-					result = 1;
-				}
+				return check_wall_character(ch, y, x, wall);
 			}
 		}
 		else if (ch->dx != 0)
@@ -439,24 +426,13 @@ unsigned int hit_wall_character(
 
 			if ((unsigned int) abs(x) < (unsigned int) abs(ch->obj.x))
 			{
-#ifdef CHARACTER_WALL_CHECK_CORNERS_PASS_OUT
-				if (check_point_on_wall(wall, y - h_2 + DELTA, x - w_2 + DELTA) ||
-					check_point_on_wall(wall, y - h_2 + DELTA, x + w_2 - DELTA) ||
-					check_point_on_wall(wall, y + h_2 - DELTA, x + w_2 - DELTA) ||
-					check_point_on_wall(wall, y + h_2 - DELTA, x - w_2 + DELTA))
-#else
-				if (check_point_on_wall(wall, y, x))
-#endif
-				{
-					result = 1;
-				}
+				return check_wall_character(ch, y, x, wall);
 			}
 		}
 	}
 
-	return result;
+	return 0;
 }
-#undef DELTA
 
 // ***************************************************************************
 // end of file

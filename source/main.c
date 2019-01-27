@@ -53,7 +53,7 @@ int main(void)
 	init_random(5, 27, 3, 19);
 	init_game();
 ////DEBUG
-	//game_wave.wave_index = 2;
+	//game_wave.wave_index = 6;
 ////END DEBUG
 	while(1)
 	{
