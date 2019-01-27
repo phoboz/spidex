@@ -143,45 +143,91 @@ unsigned int get_dir_input_2(
 	return trigger;
 }
 
-static unsigned int input_1_left = 0;
+static unsigned int input_status = 0;
+#define INPUT_1_LEFT	0x01
+#define INPUT_1_RIGHT	0x02
+#define INPUT_1_UP		0x04
+#define INPUT_1_DOWN	0x08
+
 unsigned int pressed_left_input_1(void)
 {
 	unsigned int result = 0;
 
 	if (joystick_1_left())
 	{
-		if (!input_1_left)
+		if ((input_status & INPUT_1_LEFT) == 0x00)
 		{
 			result = 1;
 		}
 
-		input_1_left = 1;
+		input_status |= INPUT_1_LEFT;
 	}
 	else
 	{
-		input_1_left = 0;
+		input_status &= ~INPUT_1_LEFT;
 	}
 
 	return result;
 }
 
-static unsigned int input_1_right = 0;
 unsigned int pressed_right_input_1(void)
 {
 	unsigned int result = 0;
 
 	if (joystick_1_right())
 	{
-		if (!input_1_right)
+		if ((input_status & INPUT_1_RIGHT) == 0x00)
 		{
 			result = 1;
 		}
 
-		input_1_right = 1;
+		input_status |= INPUT_1_RIGHT;
 	}
 	else
 	{
-		input_1_right = 0;
+		input_status &= ~INPUT_1_RIGHT;
+	}
+
+	return result;
+}
+
+unsigned int pressed_up_input_1(void)
+{
+	unsigned int result = 0;
+
+	if (joystick_1_up())
+	{
+		if ((input_status & INPUT_1_UP) == 0x00)
+		{
+			result = 1;
+		}
+
+		input_status |= INPUT_1_UP;
+	}
+	else
+	{
+		input_status &= ~INPUT_1_UP;
+	}
+
+	return result;
+}
+
+unsigned int pressed_down_input_1(void)
+{
+	unsigned int result = 0;
+
+	if (joystick_1_down())
+	{
+		if ((input_status & INPUT_1_DOWN) == 0x00)
+		{
+			result = 1;
+		}
+
+		input_status |= INPUT_1_DOWN;
+	}
+	else
+	{
+		input_status &= ~INPUT_1_DOWN;
 	}
 
 	return result;
