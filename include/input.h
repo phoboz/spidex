@@ -14,4 +14,7 @@ unsigned int get_dir_input_2(
 	unsigned int *dir
 	);
 
+unsigned int pressed_left_input_1(void);
+unsigned int pressed_right_input_1(void);
+
 #endif

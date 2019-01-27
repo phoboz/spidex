@@ -67,7 +67,7 @@ int main(void)
 				game_state = GAME_STATE_NORMAL;
 			}
 
-			if (button_1_4_pressed())
+			if (pressed_left_input_1() || pressed_right_input_1() || button_1_4_pressed())
 			{
 				toggle_control_method_game();
 			}

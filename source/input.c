@@ -143,6 +143,50 @@ unsigned int get_dir_input_2(
 	return trigger;
 }
 
+static unsigned int input_1_left = 0;
+unsigned int pressed_left_input_1(void)
+{
+	unsigned int result = 0;
+
+	if (joystick_1_left())
+	{
+		if (!input_1_left)
+		{
+			result = 1;
+		}
+
+		input_1_left = 1;
+	}
+	else
+	{
+		input_1_left = 0;
+	}
+
+	return result;
+}
+
+static unsigned int input_1_right = 0;
+unsigned int pressed_right_input_1(void)
+{
+	unsigned int result = 0;
+
+	if (joystick_1_right())
+	{
+		if (!input_1_right)
+		{
+			result = 1;
+		}
+
+		input_1_right = 1;
+	}
+	else
+	{
+		input_1_right = 0;
+	}
+
+	return result;
+}
+
 // ***************************************************************************
 // end of file
 // ***************************************************************************
