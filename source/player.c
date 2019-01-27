@@ -377,7 +377,7 @@ unsigned int move_dual_joystick_player_1(void)
 	{
 		if (player_1.state == PLAYER_STATE_NORMAL || player_1.state == PLAYER_STATE_INVINSIBLE)
 		{
-			move_trigger = get_dir_input_2(&dir);
+			move_trigger = get_dir_input_1(&dir);
 			if (move_trigger)
 			{
 				set_walk_dir_player(&player_1, dir);
@@ -403,7 +403,7 @@ unsigned int move_dual_joystick_player_1(void)
 				}
 			}
 
-			fire_trigger = get_dir_input_1(&dir);
+			fire_trigger = get_dir_input_2(&dir);
 			fire = fire_bullet_player(&player_1, dir, fire_trigger);
 		}
 		else if (player_1.state == PLAYER_STATE_DYING)
