@@ -719,7 +719,15 @@ const struct wave_element wave_4[] =
 	{	10,			10,		-10,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	5	},
 	{	10,			-10,		-10,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	5	},
 	{	10,			-10,		10,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_MOSQUITO,	0,	5	},
-	{	0,			12,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BEE,		7,	2	}
+	{	0,			12,		-40,		WAVE_OBJECT_TYPE_ENEMY,	ENEMY_RACE_BEE,		7,	2	},
+	{	255,			0,		0,		WAVE_OBJECT_TYPE_WALL,		24,					0,	0	},
+	{	30,			0,		0,		WAVE_OBJECT_TYPE_WALL,		25,					0,	0	},
+	{	30,			0,		0,		WAVE_OBJECT_TYPE_WALL,		26,					0,	0	},
+	{	30,			0,		0,		WAVE_OBJECT_TYPE_WALL,		27,					0,	0	},
+	{	30,			0,		0,		WAVE_OBJECT_TYPE_WALL,		28,					0,	0	},
+	{	30,			0,		0,		WAVE_OBJECT_TYPE_WALL,		29,					0,	0	},
+	{	30,			0,		0,		WAVE_OBJECT_TYPE_WALL,		30,					0,	0	},
+	{	30,			0,		0,		WAVE_OBJECT_TYPE_WALL,		31,					0,	0	}
 };
 
 const struct wave_element wave_5[] =
@@ -1068,8 +1076,6 @@ unsigned int move_wave(
 
 		if (result)
 		{
-			close_wave(wave);
-
 			if (++wave->wave_index >= max_waves)
 			{
 				wave->wave_index = 0;

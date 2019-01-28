@@ -87,40 +87,41 @@ unsigned int check_point_on_wall(
 	signed int y1, x1, y2, x2;
 	unsigned int result = 0;
 
-	if (wall->obj.active)
+	y1 = wall->obj.y;
+	x1 = wall->obj.x;
+
+	y2 = wall->y2;
+	x2 = wall->x2;
+
+	if (y1 == y2)
 	{
-		y1 = wall->obj.y;
-		x1 = wall->obj.x;
-
-		y2 = wall->y2;
-		x2 = wall->x2;
-
-		if (y1 == y2 && y >= y1 - WALL_CHECK_DELTA && y <= y1 + WALL_CHECK_DELTA)
+		if (y >= y1 - WALL_CHECK_DELTA && y <= y1 + WALL_CHECK_DELTA)
 		{
 			if (x >= x1 && x <= x2)
 			{
 				result = 1;
-			} 
-		}
-		else if (x1 == x2 && x >= x1 - WALL_CHECK_DELTA && x <= x1 + WALL_CHECK_DELTA)
+			}
+		} 
+	}
+	else if (x1 == x2)
+	{
+		if (x >= x1 - WALL_CHECK_DELTA && x <= x1 + WALL_CHECK_DELTA)
 		{
 			if (y >= y1 && y <= y2)
 			{
 				result = 1;
 			}
 		}
-		else if (y > y1 && y < y2 && x > x1 && x < x2)
+	}
+	else// if (y > y1 && y < y2 && x > x1 && x < x2)
+	{
+		for (coord = wall->coords; coord[0] != 127; coord += 2)
 		{
-			for (coord = wall->coords; coord[0] != 127; coord += 2)
+			if (y > coord[0] - WALL_CHECK_DELTA && y < coord[0] + WALL_CHECK_DELTA &&
+				x > coord[1] - WALL_CHECK_DELTA && x < coord[1] + WALL_CHECK_DELTA)
 			{
-				if (y > coord[0] - WALL_CHECK_DELTA &&
-				    y < coord[0] + WALL_CHECK_DELTA &&
-				    x > coord[1] - WALL_CHECK_DELTA &&
-				    x < coord[1] + WALL_CHECK_DELTA)
-				{
-					result = 1;
-					break;
-				}
+				result = 1;
+				break;
 			}
 		}
 	}

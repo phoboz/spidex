@@ -53,7 +53,7 @@ int main(void)
 	init_random(5, 27, 3, 19);
 	init_game();
 ////DEBUG
-	//game_wave.wave_index = 6;
+	//game_wave.wave_index = 3;
 ////END DEBUG
 	while(1)
 	{
@@ -200,6 +200,7 @@ int main(void)
 		{
 			if (game_state == GAME_STATE_WAVE_DONE || game_state == GAME_STATE_FINNISH)
 			{
+				close_wave(&game_wave);
 				game_state = GAME_STATE_NORMAL;
 			}
 		}
@@ -212,6 +213,9 @@ int main(void)
 			Intensity_a(game_flashing_intensity << 1);
 			drawWeb();
 			dp_VIA_t1_cnt_lo = 0x80;
+
+			Intensity_5F();
+			draw_walls();
 
 			Intensity_a(0x6f);
 			draw_player_1();

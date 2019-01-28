@@ -543,20 +543,23 @@ void interaction_projectiles_player_1(void)
 	struct projectile *proj;
 	struct projectile *rem_proj = 0;
 
-	proj = (struct projectile *) projectile_list;
-	while (proj != 0)
+	if (player_1.state == PLAYER_STATE_NORMAL)
 	{
-		if (hit_object(&player_1.ch.obj, &proj->obj))
+		proj = (struct projectile *) projectile_list;
+		while (proj != 0)
 		{
-			rem_proj = proj;
-			set_state_player(&player_1, PLAYER_STATE_DYING);
-		}
-		proj = (struct projectile *) proj->obj.next;
+			if (hit_object(&player_1.ch.obj, &proj->obj))
+			{
+				rem_proj = proj;
+				set_state_player(&player_1, PLAYER_STATE_DYING);
+			}
+			proj = (struct projectile *) proj->obj.next;
 
-		if (rem_proj != 0)
-		{
-			deinit_projectile(rem_proj);
-			rem_proj = 0;
+			if (rem_proj != 0)
+			{
+				deinit_projectile(rem_proj);
+				rem_proj = 0;
+			}
 		}
 	}
 }

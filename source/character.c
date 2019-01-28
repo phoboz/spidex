@@ -214,38 +214,35 @@ unsigned int quick_check_wall_character(
 	signed int h_2, w_2;
 	unsigned int result = 0;
 
-	if (wall->obj.active)
+	y = ch->obj.y + ch->dy;
+	x = ch->obj.x + ch->dx;
+
+	h_2 = ch->obj.h_2;
+	w_2 = ch->obj.w_2;
+
+	y1 = wall->obj.y;
+	x1 = wall->obj.x;
+
+	y2 = wall->y2;
+	x2 = wall->x2;
+
+	if (y1 == y2 && y >= y1 - h_2 && y <= y1 + h_2)
 	{
-		y = ch->obj.y + ch->dy;
-		x = ch->obj.x + ch->dx;
-
-		h_2 = ch->obj.h_2;
-		w_2 = ch->obj.w_2;
-
-		y1 = wall->obj.y;
-		x1 = wall->obj.x;
-
-		y2 = wall->y2;
-		x2 = wall->x2;
-
-		if (y1 == y2 && y >= y1 - h_2 && y <= y1 + h_2)
+		if (x >= x1 && x <= x2)
 		{
-			if (x >= x1 && x <= x2)
-			{
-				result = 1;
-			} 
-		}
-		else if (x1 == x2 && x >= x1 - w_2 && x <= x1 + w_2)
-		{
-			if (y >= y1 && y <= y2)
-			{
-				result = 1;
-			}
-		}
-		else if (y > y1 - h_2 && y < y2 + h_2 && x > x1 - w_2 && x < x2 + w_2)
+			result = 1;
+		} 
+	}
+	else if (x1 == x2 && x >= x1 - w_2 && x <= x1 + w_2)
+	{
+		if (y >= y1 && y <= y2)
 		{
 			result = 1;
 		}
+	}
+	else if (y > y1 - h_2 && y < y2 + h_2 && x > x1 - w_2 && x < x2 + w_2)
+	{
+		result = 1;
 	}
 
 	return result;
