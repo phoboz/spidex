@@ -197,57 +197,57 @@ const struct enemy_path circular_spath_1[] =
 
 	/* stop and shoot right */
 	{	0,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
-	{	10,			DIR_NONE,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_RIGHT,		ENEMY_ACTION_SHOOT	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_RIGHT,		ENEMY_ACTION_SHOOT	},
 
 	{	28,			DIR_DOWN_RIGHT,	ENEMY_ACTION_MOVE	},
 
 	/* stop and shoot up */
 	{	0,			DIR_UP,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_NONE,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_UP,			ENEMY_ACTION_SHOOT	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_UP,			ENEMY_ACTION_SHOOT	},
 
 	{	28,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
 
 	/* stop and shoot up */
 	{	0,			DIR_UP,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_NONE,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_UP,			ENEMY_ACTION_SHOOT	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_UP,			ENEMY_ACTION_SHOOT	},
 
 	{	28,			DIR_UP_RIGHT,		ENEMY_ACTION_MOVE	},
 
 	/* stop and shoot left */
 	{	0,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_NONE,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_LEFT,			ENEMY_ACTION_SHOOT	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_LEFT,			ENEMY_ACTION_SHOOT	},
 
 	{	28,			DIR_UP,			ENEMY_ACTION_MOVE	},
 
 	/* stop and shoot left */
 	{	0,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_NONE,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_LEFT,			ENEMY_ACTION_SHOOT	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_LEFT,			ENEMY_ACTION_SHOOT	},
 
 	{	28,			DIR_UP_LEFT,		ENEMY_ACTION_MOVE	},
 
 	/* stop and shoot down */
 	{	0,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_NONE,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_DOWN,			ENEMY_ACTION_SHOOT	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_DOWN,			ENEMY_ACTION_SHOOT	},
 
 	{	28,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
 
 	/* stop and shoot down */
 	{	0,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_NONE,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_DOWN,			ENEMY_ACTION_SHOOT	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_DOWN,			ENEMY_ACTION_SHOOT	},
 
 	{	28,			DIR_DOWN_LEFT,	ENEMY_ACTION_MOVE	},
 
 	/* stop and shoot right */
 	{	0,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
-	{	10,			DIR_NONE,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_RIGHT,		ENEMY_ACTION_SHOOT	}
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_RIGHT,		ENEMY_ACTION_SHOOT	}
 };
 
 const struct enemy_path circular_spath_2[] =
@@ -257,64 +257,64 @@ const struct enemy_path circular_spath_2[] =
 
 	/* stop and shoot right */
 	{	0,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
-	{	10,			DIR_NONE,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_RIGHT,		ENEMY_ACTION_SHOOT	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_RIGHT,		ENEMY_ACTION_SHOOT	},
 
 	{	14,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
 	{	14,			DIR_DOWN_RIGHT,	ENEMY_ACTION_MOVE	},
 
 	/* stop and shoot up right */
 	{	0,			DIR_UP_RIGHT,		ENEMY_ACTION_MOVE	},
-	{	10,			DIR_NONE,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_UP_RIGHT,		ENEMY_ACTION_SHOOT	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_UP_RIGHT,		ENEMY_ACTION_SHOOT	},
 
 	{	14,			DIR_DOWN_RIGHT,	ENEMY_ACTION_MOVE	},
 	{	14,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
 
 	/* stop and shoot up */
 	{	0,			DIR_UP,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_NONE,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_UP,			ENEMY_ACTION_SHOOT	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_UP,			ENEMY_ACTION_SHOOT	},
 
 	{	14,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
 	{	14,			DIR_UP_RIGHT,		ENEMY_ACTION_MOVE	},
 
 	/* stop and shoot up left */
 	{	0,			DIR_UP_LEFT,		ENEMY_ACTION_MOVE	},
-	{	10,			DIR_NONE,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_UP_LEFT,		ENEMY_ACTION_SHOOT	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_UP_LEFT,		ENEMY_ACTION_SHOOT	},
 
 	{	14,			DIR_UP_RIGHT,		ENEMY_ACTION_MOVE	},
 	{	14,			DIR_UP,			ENEMY_ACTION_MOVE	},
 
 	/* stop and shoot left */
 	{	0,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_NONE,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_LEFT,			ENEMY_ACTION_SHOOT	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_LEFT,			ENEMY_ACTION_SHOOT	},
 
 	{	14,			DIR_UP,			ENEMY_ACTION_MOVE	},
 	{	14,			DIR_UP_LEFT,		ENEMY_ACTION_MOVE	},
 
 	/* stop and shoot down left */
 	{	0,			DIR_DOWN_LEFT,	ENEMY_ACTION_MOVE	},
-	{	10,			DIR_NONE,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_DOWN_LEFT,	ENEMY_ACTION_SHOOT	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_DOWN_LEFT,	ENEMY_ACTION_SHOOT	},
 
 	{	14,			DIR_UP_LEFT,		ENEMY_ACTION_MOVE	},
 	{	14,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
 
 	/* stop and shoot down */
 	{	0,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_NONE,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_DOWN,			ENEMY_ACTION_SHOOT	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_DOWN,			ENEMY_ACTION_SHOOT	},
 
 	{	14,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
 	{	14,			DIR_DOWN_LEFT,	ENEMY_ACTION_MOVE	},
 
 	/* stop and shoot down right */
 	{	0,			DIR_DOWN_RIGHT,	ENEMY_ACTION_MOVE	},
-	{	10,			DIR_NONE,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_DOWN_RIGHT,	ENEMY_ACTION_SHOOT	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_DOWN_RIGHT,	ENEMY_ACTION_SHOOT	},
 
 	{	14,			DIR_DOWN_LEFT,	ENEMY_ACTION_MOVE	}
 };
@@ -326,57 +326,57 @@ const struct enemy_path circular_spath_3[] =
 
 	/* stop and shoot left */
 	{	0,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_NONE,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_LEFT,			ENEMY_ACTION_SHOOT	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_LEFT,			ENEMY_ACTION_SHOOT	},
 
 	{	16,			DIR_DOWN_RIGHT,	ENEMY_ACTION_MOVE	},
 
 	/* stop and shoot down */
 	{	0,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_NONE,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_DOWN,			ENEMY_ACTION_SHOOT	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_DOWN,			ENEMY_ACTION_SHOOT	},
 
 	{	16,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
 
 	/* stop and shoot down */
 	{	0,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_NONE,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_DOWN,			ENEMY_ACTION_SHOOT	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_DOWN,			ENEMY_ACTION_SHOOT	},
 
 	{	16,			DIR_UP_RIGHT,		ENEMY_ACTION_MOVE	},
 
 	/* stop and shoot right */
 	{	0,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
-	{	10,			DIR_NONE,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_RIGHT,		ENEMY_ACTION_SHOOT	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_RIGHT,		ENEMY_ACTION_SHOOT	},
 
 	{	16,			DIR_UP,			ENEMY_ACTION_MOVE	},
 
 	/* stop and shoot right */
 	{	0,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
-	{	10,			DIR_NONE,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_RIGHT,		ENEMY_ACTION_SHOOT	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_RIGHT,		ENEMY_ACTION_SHOOT	},
 
 	{	16,			DIR_UP_LEFT,		ENEMY_ACTION_MOVE	},
 
 	/* stop and shoot up */
 	{	0,			DIR_UP,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_NONE,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_UP,			ENEMY_ACTION_SHOOT	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_UP,			ENEMY_ACTION_SHOOT	},
 
 	{	16,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
 
 	/* stop and shoot up */
 	{	0,			DIR_UP,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_NONE,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_UP,			ENEMY_ACTION_SHOOT	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_UP,			ENEMY_ACTION_SHOOT	},
 
 	{	16,			DIR_DOWN_LEFT,	ENEMY_ACTION_MOVE	},
 
 	/* stop and shoot left */
 	{	0,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_NONE,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_LEFT,			ENEMY_ACTION_SHOOT	}
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_LEFT,			ENEMY_ACTION_SHOOT	}
 };
 
 const struct enemy_path circular_spath_4[] =
@@ -386,64 +386,64 @@ const struct enemy_path circular_spath_4[] =
 
 	/* stop and shoot left */
 	{	0,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_NONE,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_LEFT,			ENEMY_ACTION_SHOOT	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_LEFT,			ENEMY_ACTION_SHOOT	},
 
 	{	7,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
 	{	7,			DIR_DOWN_RIGHT,	ENEMY_ACTION_MOVE	},
 
 	/* stop and shoot down left */
 	{	0,			DIR_DOWN_LEFT,	ENEMY_ACTION_MOVE	},
-	{	10,			DIR_NONE,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_DOWN_LEFT,	ENEMY_ACTION_SHOOT	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_DOWN_LEFT,	ENEMY_ACTION_SHOOT	},
 
 	{	7,			DIR_DOWN_RIGHT,	ENEMY_ACTION_MOVE	},
 	{	7,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
 
 	/* stop and shoot down */
 	{	0,			DIR_DOWN,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_NONE,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_DOWN,			ENEMY_ACTION_SHOOT	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_DOWN,			ENEMY_ACTION_SHOOT	},
 
 	{	7,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
 	{	7,			DIR_UP_RIGHT,		ENEMY_ACTION_MOVE	},
 
 	/* stop and shoot down right */
 	{	0,			DIR_DOWN_RIGHT,	ENEMY_ACTION_MOVE	},
-	{	10,			DIR_NONE,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_DOWN_RIGHT,	ENEMY_ACTION_SHOOT	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_DOWN_RIGHT,	ENEMY_ACTION_SHOOT	},
 
 	{	7,			DIR_UP_RIGHT,		ENEMY_ACTION_MOVE	},
 	{	7,			DIR_UP,			ENEMY_ACTION_MOVE	},
 
 	/* stop and shoot right */
 	{	0,			DIR_RIGHT,		ENEMY_ACTION_MOVE	},
-	{	10,			DIR_NONE,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_RIGHT,		ENEMY_ACTION_SHOOT	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_RIGHT,		ENEMY_ACTION_SHOOT	},
 
 	{	7,			DIR_UP,			ENEMY_ACTION_MOVE	},
 	{	7,			DIR_UP_LEFT,		ENEMY_ACTION_MOVE	},
 
 	/* stop and shoot up right */
 	{	0,			DIR_UP_RIGHT,		ENEMY_ACTION_MOVE	},
-	{	10,			DIR_NONE,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_UP_RIGHT,		ENEMY_ACTION_SHOOT	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_UP_RIGHT,		ENEMY_ACTION_SHOOT	},
 
 	{	7,			DIR_UP_LEFT,		ENEMY_ACTION_MOVE	},
 	{	7,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
 
 	/* stop and shoot up */
 	{	0,			DIR_UP,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_NONE,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_UP,			ENEMY_ACTION_SHOOT	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_UP,			ENEMY_ACTION_SHOOT	},
 
 	{	7,			DIR_LEFT,			ENEMY_ACTION_MOVE	},
 	{	7,			DIR_DOWN_LEFT,	ENEMY_ACTION_MOVE	},
 
 	/* stop and shoot up left */
 	{	0,			DIR_UP_LEFT,		ENEMY_ACTION_MOVE	},
-	{	10,			DIR_NONE,			ENEMY_ACTION_MOVE	},
-	{	10,			DIR_UP_LEFT,		ENEMY_ACTION_SHOOT	},
+	{	5,			DIR_NONE,			ENEMY_ACTION_MOVE	},
+	{	5,			DIR_UP_LEFT,		ENEMY_ACTION_SHOOT	},
 
 	{	7,			DIR_DOWN_LEFT,	ENEMY_ACTION_MOVE	}
 };
