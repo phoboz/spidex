@@ -40,8 +40,8 @@ const struct enemy_race enemy_races[] =
 	{	12,	12,	0x40/10,	ENEMY_TYPE_RANDOM,		2,		12,		ENEMY_SPECIAL_NONE,	2,		dragonfly	},
 	{	24,	24,	0x80/10,	ENEMY_TYPE_RANDOM,		4,		25,		ENEMY_SPECIAL_NONE,	2,		dragonfly	},
 	{	14,	14,	0x40/10,	ENEMY_TYPE_HOMING,		1,		10,		ENEMY_SPECIAL_NONE,	2,		ant		},
-	{	10,	10,	0x30/10,	ENEMY_TYPE_PATH,		2,		6,		ENEMY_SPECIAL_NONE,	2,		ant		},
-	{	12,	12,	0x40/10,	ENEMY_TYPE_PATH,		3,		3,		ENEMY_SPECIAL_NONE,	10,		swallow	},
+	{	10,	10,	0x30/10,	ENEMY_TYPE_PATH,		2,		7,		ENEMY_SPECIAL_NONE,	2,		ant		},
+	{	10,	10,	0x40/10,	ENEMY_TYPE_PATH,		3,		2,		ENEMY_SPECIAL_NONE,	10,		swallow	},
 	{	12,	12,	0x40/10,	ENEMY_TYPE_RANDOM,		3,		1,		ENEMY_SPECIAL_EXPLODE,	4,		spikey	},
 	{	40,	40,	0x80/10,	ENEMY_TYPE_PATH,		1,		127,		ENEMY_SPECIAL_HEAVY,	10,		stump	}
 };
@@ -297,6 +297,7 @@ void move_enemies(void)
 									ENEMY_PROJECTILE_SCALE/10,
 									spike
 									);
+								enemy_status |= ENEMY_STATUS_PROJECTILE;
 							}
 						}
 					}

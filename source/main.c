@@ -24,6 +24,7 @@
 #include "eat_snd.h"
 #include "explosion_snd.h"
 #include "hit_snd.h"
+#include "proj_snd.h"
 
 extern const signed char web[];
 extern const signed char web1[];
@@ -53,7 +54,7 @@ int main(void)
 	init_random(5, 27, 3, 19);
 	init_game();
 ////DEBUG
-	//game_wave.wave_index = 3;
+	//game_wave.wave_index = 11;
 ////END DEBUG
 	while(1)
 	{
@@ -131,6 +132,11 @@ int main(void)
 					if ((enemy_status & ENEMY_STATUS_EXPLODE) == ENEMY_STATUS_EXPLODE)
 					{
 						sfx_pointer_1 = (long unsigned int) (&explosion_snd_data);
+						sfx_status_1 = 1;
+					}
+					else if ((enemy_status & ENEMY_STATUS_PROJECTILE) == ENEMY_STATUS_PROJECTILE)
+					{
+						sfx_pointer_1 = (long unsigned int) (&proj_snd_data);
 						sfx_status_1 = 1;
 					}
 					else if ((enemy_status & ENEMY_STATUS_HIT) == ENEMY_STATUS_HIT)
