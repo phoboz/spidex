@@ -59,8 +59,8 @@ __INLINE void draw_synced_list_c(
         
         // move to "location"
         dp_VIA_port_a = y;            // y pos to dac
-        dp_VIA_cntl = (unsigned int)0xce;    // disable zero, disable all blank
         dp_VIA_port_b = 0;            // mux enable, dac to -> integrator y (and x)
+        dp_VIA_cntl = (unsigned int)0xce;    // disable zero, disable all blank
         dp_VIA_port_b = 1;            // mux disable, dac only to x
         dp_VIA_port_a = x;            // dac -> x
         dp_VIA_t1_cnt_hi=0;        // start timer
@@ -77,8 +77,8 @@ __INLINE void draw_synced_list_c(
             
             // internal moveTo
             dp_VIA_port_a = *(u-2);    // y pos to dac
-            dp_VIA_cntl = (unsigned int)0xce;    // disable zero, disable all blank
             dp_VIA_port_b = 0;            // mux enable, dac to -> integrator y (and x)
+            dp_VIA_cntl = (unsigned int)0xce;    // disable zero, disable all blank
             dp_VIA_port_b = 1;            // mux disable, dac only to x
             dp_VIA_port_a = *(u-1);    // dac -> x
             dp_VIA_t1_cnt_hi=0;        // start timer
@@ -96,6 +96,7 @@ __INLINE void draw_synced_list_c(
                 // draw a vector
                 dp_VIA_port_a = *(1+u);        // y pos to dac
                 dp_VIA_port_b = 0;                // mux enable, dac to -> integrator y (and x)
+ asm ("nop");
                 dp_VIA_port_b=1;                // mux disable, dac only to x
                 dp_VIA_port_a = *(2+u);        // dac -> x
                 if (scaleList>0)
